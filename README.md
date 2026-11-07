@@ -1,6 +1,8 @@
-# SRM AP Campus Navigator 🗺️📍
-
-A production-grade, offline-first native Android navigation application for **SRM University–AP, Andhra Pradesh**, built using **Kotlin**, **Jetpack Compose**, **Material 3**, **MapTiler Cloud**, and **Room Database**.
+<div align="center">
+  <img src="docs/images/app_logo.png" alt="SRM AP Campus Navigator Logo" width="160" />
+  <h1>SRM AP Campus Navigator</h1>
+  <p><strong>A production-grade, offline-first native Android navigation application for SRM University–AP</strong></p>
+</div>
 
 ---
 
