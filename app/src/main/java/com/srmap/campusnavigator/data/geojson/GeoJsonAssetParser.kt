@@ -143,7 +143,6 @@ class GeoJsonAssetParser(private val context: Context) {
         val name = props.optString("name", "").lowercase()
         val tourism = props.optString("tourism", "").lowercase()
         val amenity = props.optString("amenity", "").lowercase()
-        val building = props.optString("building", "").lowercase()
         val leisure = props.optString("leisure", "").lowercase()
 
         return when {

@@ -91,6 +91,7 @@ class CampusLocationClient(private val context: Context) {
                 Log.d("LocationClient", "Native fix: ${loc.latitude}, ${loc.longitude} (acc=${loc.accuracy})")
                 trySend(UserLocationState(GeoPoint(loc.latitude, loc.longitude), loc.accuracy, loc.provider ?: "gps"))
             }
+            @Deprecated("Deprecated in Java")
             override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
             override fun onProviderEnabled(provider: String) {}
             override fun onProviderDisabled(provider: String) {}

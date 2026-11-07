@@ -125,7 +125,7 @@ fun InteractiveCampusCanvasMap(
 
     // Camera animation when focusTarget changes (e.g. from search selection)
     LaunchedEffect(focusTarget) {
-        focusTarget?.let { target ->
+        focusTarget?.let { _ ->
             offsetX = 0f
             offsetY = 0f
         }

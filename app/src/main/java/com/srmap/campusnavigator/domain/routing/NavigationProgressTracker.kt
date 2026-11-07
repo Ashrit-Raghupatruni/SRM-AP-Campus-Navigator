@@ -91,7 +91,6 @@ class NavigationProgressTracker(
         // 2. Find nearest point along the remaining route geometry
         var closestDist = Double.MAX_VALUE
         var bestSegment = currentSegmentIndex
-        var bestFraction = 0.0
         var bestProjected = currentPoint
 
         // Search from current segment forward to prevent backwards jumping
@@ -101,11 +100,10 @@ class NavigationProgressTracker(
         for (i in searchStart..searchEnd) {
             val p1 = fullPath[i]
             val p2 = fullPath[i + 1]
-            val (proj, frac, dist) = PedestrianMapMatcher.projectPointOnSegment(currentPoint, p1, p2)
+            val (proj, _, dist) = PedestrianMapMatcher.projectPointOnSegment(currentPoint, p1, p2)
             if (dist < closestDist) {
                 closestDist = dist
                 bestSegment = i
-                bestFraction = frac
                 bestProjected = proj
             }
         }

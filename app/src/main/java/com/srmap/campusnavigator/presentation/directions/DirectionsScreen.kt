@@ -60,10 +60,7 @@ fun DirectionsScreen(
         buildings.filter { it.name.isNotBlank() && !it.name.startsWith("Facility (") }
     }
 
-    var startExpanded by remember { mutableStateOf(false) }
     var destExpanded by remember { mutableStateOf(false) }
-
-    var selectedStartName by remember { mutableStateOf("My Current Location") }
     var selectedStartPoint by remember { mutableStateOf<GeoPoint?>(userLocation) }
 
     var selectedDestBuilding by remember { mutableStateOf<CampusBuilding?>(validBuildings.firstOrNull()) }
