@@ -40,6 +40,8 @@ import com.srmap.campusnavigator.domain.models.LocationCategory
 import com.srmap.campusnavigator.data.maptiler.maps.MapTilerStyle
 import com.srmap.campusnavigator.domain.models.PedestrianRoute
 
+import com.srmap.campusnavigator.domain.routing.DynamicRouteProgress
+
 @Composable
 fun InteractiveCampusCanvasMap(
     modifier: Modifier = Modifier,
@@ -47,6 +49,7 @@ fun InteractiveCampusCanvasMap(
     features: List<CampusFeature>,
     selectedBuilding: CampusBuilding?,
     route: PedestrianRoute?,
+    routeProgress: DynamicRouteProgress? = null,
     userLocation: UserLocationState?,
     mapStyle: MapTilerStyle = MapTilerStyle.STREETS,
     zoomLevel: Float = 1.0f,
@@ -372,39 +375,57 @@ fun InteractiveCampusCanvasMap(
             }
         }
 
-        // 7. Draw Active Pedestrian Navigation Route (Reserved Vibrant Cyan/Blue)
-        route?.let { r ->
-            if (r.path.size >= 2) {
-                val routePath = Path()
-                val first = project(r.path[0], w, h)
-                routePath.moveTo(first.x, first.y)
-                for (i in 1 until r.path.size) {
-                    val pt = project(r.path[i], w, h)
-                    routePath.lineTo(pt.x, pt.y)
-                }
+        // 7. Draw Dynamic Pedestrian Navigation Route (Completed Muted Slate + Remaining Vibrant Blue)
+        val activeRemaining = routeProgress?.remainingPath ?: route?.path
+        val activeCompleted = routeProgress?.completedPath
 
-                // Vibrant cyan glow
-                drawPath(
-                    path = routePath,
-                    color = Color(0x660284C7),
-                    style = Stroke(width = 16f * scale, cap = StrokeCap.Round, join = StrokeJoin.Round)
-                )
-                // Vibrant route line
-                drawPath(
-                    path = routePath,
-                    color = Color(0xFF0284C7),
-                    style = Stroke(width = 7f * scale, cap = StrokeCap.Round, join = StrokeJoin.Round)
-                )
-
-                // Start Marker (Green circle)
-                drawCircle(color = SrmWalkingGreen, radius = 10f * scale, center = first)
-                drawCircle(color = Color.White, radius = 5f * scale, center = first)
-
-                // Destination Marker (Crimson circle)
-                val dest = project(r.path.last(), w, h)
-                drawCircle(color = SrmCrimson, radius = 12f * scale, center = dest)
-                drawCircle(color = Color.White, radius = 6f * scale, center = dest)
+        // A. Draw Completed Traveled Route (Muted Slate Grey with soft dash)
+        if (activeCompleted != null && activeCompleted.size >= 2) {
+            val compPath = Path()
+            val first = project(activeCompleted[0], w, h)
+            compPath.moveTo(first.x, first.y)
+            for (i in 1 until activeCompleted.size) {
+                val pt = project(activeCompleted[i], w, h)
+                compPath.lineTo(pt.x, pt.y)
             }
+            drawPath(
+                path = compPath,
+                color = Color(0xFF64748B).copy(alpha = 0.65f),
+                style = Stroke(width = 6f * scale, cap = StrokeCap.Round, join = StrokeJoin.Round)
+            )
+        }
+
+        // B. Draw Remaining Navigation Route (Vibrant Cyan / Blue)
+        if (activeRemaining != null && activeRemaining.size >= 2) {
+            val routePath = Path()
+            val first = project(activeRemaining[0], w, h)
+            routePath.moveTo(first.x, first.y)
+            for (i in 1 until activeRemaining.size) {
+                val pt = project(activeRemaining[i], w, h)
+                routePath.lineTo(pt.x, pt.y)
+            }
+
+            // Vibrant cyan glow
+            drawPath(
+                path = routePath,
+                color = Color(0x660284C7),
+                style = Stroke(width = 16f * scale, cap = StrokeCap.Round, join = StrokeJoin.Round)
+            )
+            // Vibrant electric blue route line
+            drawPath(
+                path = routePath,
+                color = Color(0xFF0284C7),
+                style = Stroke(width = 7.5f * scale, cap = StrokeCap.Round, join = StrokeJoin.Round)
+            )
+
+            // Start Marker (Green circle)
+            drawCircle(color = SrmWalkingGreen, radius = 9f * scale, center = first)
+            drawCircle(color = Color.White, radius = 4.5f * scale, center = first)
+
+            // Destination Marker (Crimson circle)
+            val dest = project(activeRemaining.last(), w, h)
+            drawCircle(color = SrmCrimson, radius = 12f * scale, center = dest)
+            drawCircle(color = Color.White, radius = 6f * scale, center = dest)
         }
 
         // 8. Draw Live GPS User Dot with Real Accuracy Circle

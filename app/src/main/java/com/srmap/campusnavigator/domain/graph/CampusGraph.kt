@@ -47,4 +47,8 @@ class CampusGraph {
         if (_nodes.isEmpty()) return null
         return _nodes.values.minByOrNull { it.point.distanceTo(point) }
     }
+
+    fun getAllEdges(): List<GraphEdge> {
+        return _edges.values.flatten()
+    }
 }

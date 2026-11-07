@@ -90,6 +90,7 @@ fun CampusNavigatorMainScreen(
     val parser = remember { GeoJsonAssetParser(context) }
     val locationClient = remember { CampusLocationClient(context) }
     val geocodingClient = remember { com.srmap.campusnavigator.data.maptiler.geocoding.MapTilerGeocodingClient() }
+    val gpsFilter = remember { com.srmap.campusnavigator.core.location.GpsFilterEngine() }
 
     var currentTab by remember { mutableStateOf(CampusTab.MAP) }
 
@@ -97,8 +98,15 @@ fun CampusNavigatorMainScreen(
     var features by remember { mutableStateOf<List<CampusFeature>>(emptyList()) }
     var graph by remember { mutableStateOf<CampusGraph?>(null) }
 
+    var mapMatcher by remember { mutableStateOf<com.srmap.campusnavigator.domain.routing.PedestrianMapMatcher?>(null) }
+    var progressTracker by remember { mutableStateOf<com.srmap.campusnavigator.domain.routing.NavigationProgressTracker?>(null) }
+
     var selectedBuilding by remember { mutableStateOf<CampusBuilding?>(null) }
     var activeRoute by remember { mutableStateOf<PedestrianRoute?>(null) }
+    var activeDestination by remember { mutableStateOf<GeoPoint?>(null) }
+    var activeDestinationName by remember { mutableStateOf("") }
+    var dynamicProgress by remember { mutableStateOf<com.srmap.campusnavigator.domain.routing.DynamicRouteProgress?>(null) }
+
     var userLocation by remember { mutableStateOf<UserLocationState?>(null) }
     var focusTarget by remember { mutableStateOf<GeoPoint?>(null) }
     var mapZoomLevel by remember { mutableFloatStateOf(1.0f) }
@@ -110,6 +118,36 @@ fun CampusNavigatorMainScreen(
     var favoriteIds by remember { mutableStateOf<Set<String>>(emptySet()) }
     var searchJob by remember { mutableStateOf<kotlinx.coroutines.Job?>(null) }
 
+    // Helper to process location updates through GPS Filter + Map Matcher + Dynamic Route Progress
+    fun onNewRawLocation(rawState: UserLocationState) {
+        if (!locationClient.isLocationEnabled()) {
+            userLocation = null
+            return
+        }
+        val smoothed = gpsFilter.filterAndSmooth(rawState) ?: return
+
+        // Snap to pedestrian graph if matcher initialized
+        val snapped = mapMatcher?.matchLocation(smoothed.point)
+        val finalPoint = snapped?.snappedPoint ?: smoothed.point
+
+        userLocation = UserLocationState(
+            point = finalPoint,
+            accuracyMeters = smoothed.accuracyMeters,
+            provider = smoothed.provider
+        )
+
+        // Update dynamic route progress if currently navigating
+        if (activeRoute != null) {
+            val prog = progressTracker?.updateProgress(finalPoint)
+            if (prog != null) {
+                dynamicProgress = prog
+                if (prog.status == com.srmap.campusnavigator.domain.routing.NavigationStatus.ARRIVED) {
+                    Toast.makeText(context, "You have reached $activeDestinationName!", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
     // Location Permission Launcher
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestMultiplePermissions()
@@ -119,12 +157,7 @@ fun CampusNavigatorMainScreen(
         if (fineGranted || coarseGranted) {
             scope.launch {
                 locationClient.getLocationUpdates().collectLatest { state ->
-                    // Only display blue dot if location is enabled on device and coordinate fix is legitimate
-                    if (locationClient.isLocationEnabled() && state.point.latitude != 0.0 && state.point.longitude != 0.0) {
-                        userLocation = state
-                    } else {
-                        userLocation = null
-                    }
+                    onNewRawLocation(state)
                 }
             }
         }
@@ -139,11 +172,7 @@ fun CampusNavigatorMainScreen(
         } else {
             scope.launch {
                 locationClient.getLocationUpdates().collectLatest { state ->
-                    if (locationClient.isLocationEnabled() && state.point.latitude != 0.0 && state.point.longitude != 0.0) {
-                        userLocation = state
-                    } else {
-                        userLocation = null
-                    }
+                    onNewRawLocation(state)
                 }
             }
         }
@@ -157,6 +186,8 @@ fun CampusNavigatorMainScreen(
                 buildings = bldgs
                 features = feats
                 graph = g
+                mapMatcher = com.srmap.campusnavigator.domain.routing.PedestrianMapMatcher(g)
+                progressTracker = com.srmap.campusnavigator.domain.routing.NavigationProgressTracker(g)
             }
 
             val entities = bldgs.map {
@@ -263,6 +294,7 @@ fun CampusNavigatorMainScreen(
                                 features = features,
                                 selectedBuilding = selectedBuilding,
                                 route = activeRoute,
+                                routeProgress = dynamicProgress,
                                 userLocation = userLocation,
                                 mapStyle = currentMapStyle,
                                 zoomLevel = mapZoomLevel,
@@ -271,6 +303,7 @@ fun CampusNavigatorMainScreen(
                                     selectedBuilding = bldg
                                     focusTarget = bldg.centroid
                                     activeRoute = null
+                                    dynamicProgress = null
                                 }
                             )
 
@@ -285,10 +318,12 @@ fun CampusNavigatorMainScreen(
                                             selectedBuilding = res.building
                                             focusTarget = res.building.centroid
                                             activeRoute = null
+                                            dynamicProgress = null
                                         }
                                         is com.srmap.campusnavigator.domain.models.UnifiedSearchResult.MapTilerPlaceResult -> {
                                             focusTarget = res.point
                                             activeRoute = null
+                                            dynamicProgress = null
                                         }
                                     }
                                 },
@@ -338,6 +373,10 @@ fun CampusNavigatorMainScreen(
                                         val r = RoutingEngine.findAStarPath(currentGraph, start, destination.centroid)
                                         if (r != null) {
                                             activeRoute = r
+                                            activeDestination = destination.centroid
+                                            activeDestinationName = destination.name
+                                            progressTracker?.startNavigation(r, destination.centroid)
+                                            dynamicProgress = progressTracker?.updateProgress(start)
                                         }
                                     }
                                     selectedBuilding = null
@@ -355,8 +394,15 @@ fun CampusNavigatorMainScreen(
                             // Route Guidance Bottom Sheet
                             RouteNavigationSheet(
                                 route = activeRoute,
-                                destinationName = activeRoute?.let { "Destination" } ?: "",
-                                onEndNavigation = { activeRoute = null },
+                                routeProgress = dynamicProgress,
+                                destinationName = activeDestinationName.ifBlank { "Destination" },
+                                onEndNavigation = {
+                                    activeRoute = null
+                                    activeDestination = null
+                                    activeDestinationName = ""
+                                    dynamicProgress = null
+                                    progressTracker?.stopNavigation()
+                                },
                                 modifier = Modifier.align(Alignment.BottomCenter)
                             )
 
@@ -379,6 +425,12 @@ fun CampusNavigatorMainScreen(
                                 graph?.let { g ->
                                     val r = RoutingEngine.findAStarPath(g, start, dest)
                                     activeRoute = r
+                                    activeDestination = dest
+                                    activeDestinationName = destName
+                                    if (r != null) {
+                                        progressTracker?.startNavigation(r, dest)
+                                        dynamicProgress = progressTracker?.updateProgress(start)
+                                    }
                                     currentTab = CampusTab.MAP
                                 }
                             }
@@ -398,6 +450,12 @@ fun CampusNavigatorMainScreen(
                                 graph?.let { g ->
                                     val r = RoutingEngine.findAStarPath(g, start, bldg.centroid)
                                     activeRoute = r
+                                    activeDestination = bldg.centroid
+                                    activeDestinationName = bldg.name
+                                    if (r != null) {
+                                        progressTracker?.startNavigation(r, bldg.centroid)
+                                        dynamicProgress = progressTracker?.updateProgress(start)
+                                    }
                                     currentTab = CampusTab.MAP
                                 }
                             }

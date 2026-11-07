@@ -28,6 +28,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
@@ -43,6 +44,8 @@ import androidx.compose.ui.unit.sp
 import com.srmap.campusnavigator.core.designsystem.SrmCrimson
 import com.srmap.campusnavigator.domain.models.CampusBuilding
 import com.srmap.campusnavigator.domain.models.PedestrianRoute
+import com.srmap.campusnavigator.domain.routing.DynamicRouteProgress
+import com.srmap.campusnavigator.domain.routing.NavigationStatus
 import com.srmap.campusnavigator.presentation.components.getCategoryColor
 
 @Composable
@@ -158,6 +161,7 @@ fun BuildingDetailsSheet(
 @Composable
 fun RouteNavigationSheet(
     route: PedestrianRoute?,
+    routeProgress: DynamicRouteProgress? = null,
     destinationName: String,
     onEndNavigation: () -> Unit,
     modifier: Modifier = Modifier
@@ -169,6 +173,13 @@ fun RouteNavigationSheet(
         modifier = modifier
     ) {
         if (route != null) {
+            val remainingMeters = routeProgress?.remainingDistanceMeters ?: route.totalDistanceMeters
+            val remainingSec = routeProgress?.estimatedRemainingSeconds ?: route.estimatedTimeSeconds
+            val minutes = (remainingSec / 60).coerceAtLeast(1)
+            val progressFrac = routeProgress?.progressFraction ?: 0.0f
+            val status = routeProgress?.status ?: NavigationStatus.NAVIGATING
+            val instruction = routeProgress?.nextInstruction ?: route.steps.firstOrNull()?.instruction ?: "Proceed along route"
+
             Surface(
                 shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
                 shadowElevation = 20.dp,
@@ -197,17 +208,16 @@ fun RouteNavigationSheet(
                     ) {
                         Column {
                             Text(
-                                text = "Navigating to $destinationName",
+                                text = if (status == NavigationStatus.ARRIVED) "Arrived at $destinationName" else "Navigating to $destinationName",
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.onSurface
                             )
-                            val minutes = (route.estimatedTimeSeconds / 60).coerceAtLeast(1)
                             Text(
-                                text = "%.0f m  •  approx. %d min walk".format(route.totalDistanceMeters, minutes),
+                                text = if (status == NavigationStatus.ARRIVED) "You have reached your destination" else "%.0f m remaining  •  approx. %d min walk".format(remainingMeters, minutes),
                                 fontSize = 14.sp,
                                 fontWeight = FontWeight.Medium,
-                                color = SrmCrimson
+                                color = if (status == NavigationStatus.ARRIVED) Color(0xFF10B981) else SrmCrimson
                             )
                         }
 
@@ -216,10 +226,22 @@ fun RouteNavigationSheet(
                         }
                     }
 
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    // Progress bar
+                    LinearProgressIndicator(
+                        progress = progressFrac,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(6.dp)
+                            .clip(RoundedCornerShape(3.dp)),
+                        color = Color(0xFF0284C7),
+                        trackColor = Color(0xFFE2E8F0)
+                    )
+
                     Spacer(modifier = Modifier.height(12.dp))
 
-                    // First instruction step
-                    val firstStep = route.steps.firstOrNull()?.instruction ?: "Proceed along route"
+                    // Instruction Step Card
                     Card(
                         shape = RoundedCornerShape(12.dp),
                         colors = CardDefaults.cardColors(containerColor = Color(0xFFF1F5F9)),
@@ -237,7 +259,7 @@ fun RouteNavigationSheet(
                             )
                             Spacer(modifier = Modifier.width(12.dp))
                             Text(
-                                text = firstStep,
+                                text = instruction,
                                 fontSize = 15.sp,
                                 fontWeight = FontWeight.SemiBold,
                                 color = Color(0xFF0F172A)
@@ -253,7 +275,7 @@ fun RouteNavigationSheet(
                         shape = RoundedCornerShape(12.dp),
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text("End Navigation")
+                        Text(if (status == NavigationStatus.ARRIVED) "Done" else "End Navigation")
                     }
                 }
             }

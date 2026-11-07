@@ -131,4 +131,63 @@ class ComprehensiveAuditTest {
             assertTrue("Building ${b.first} centroid snap distance (${dist}m) must be under 120m", dist < 120.0)
         }
     }
+
+    @Test
+    fun audit4_hostelAndAcademicBlockRoutingBenchmarks() {
+        val buildingMap = buildings.toMap()
+        
+        val kaveri = buildingMap["Kaveri"]
+        val godavari = buildingMap["Godavari"]
+        val krishna = buildingMap["Krishna"]
+        val yamuna = buildingMap["Yamuna"]
+        val narmada = buildingMap["Narmada"]
+        val mess = buildingMap["Annapurna Mess"]
+        val sarabhai = buildingMap["Vikram Sarabhai Block"]
+        val bhabha = buildingMap["Homi J. Bhabha Block"]
+
+        assertNotNull("Kaveri should be present", kaveri)
+        assertNotNull("Godavari should be present", godavari)
+        assertNotNull("Krishna should be present", krishna)
+        assertNotNull("Yamuna should be present", yamuna)
+        assertNotNull("Narmada should be present", narmada)
+        assertNotNull("Annapurna Mess should be present", mess)
+        assertNotNull("Vikram Sarabhai Block should be present", sarabhai)
+        assertNotNull("Homi J. Bhabha Block should be present", bhabha)
+
+        // 1. Kaveri -> Annapurna Mess
+        val routeKaveriMess = RoutingEngine.findAStarPath(graph, kaveri!!, mess!!)
+        assertNotNull("Route Kaveri -> Annapurna Mess must exist", routeKaveriMess)
+        println("BENCHMARK: Kaveri -> Mess: %.1fm in %ds".format(routeKaveriMess!!.totalDistanceMeters, routeKaveriMess.estimatedTimeSeconds))
+        assertTrue("Kaveri -> Mess should be direct via Hostel Avenue (~178m total)", routeKaveriMess.totalDistanceMeters in 150.0..200.0)
+
+        // 2. Godavari -> Annapurna Mess
+        val routeGodavariMess = RoutingEngine.findAStarPath(graph, godavari!!, mess)
+        assertNotNull("Route Godavari -> Annapurna Mess must exist", routeGodavariMess)
+        println("BENCHMARK: Godavari -> Mess: %.1fm in %ds".format(routeGodavariMess!!.totalDistanceMeters, routeGodavariMess.estimatedTimeSeconds))
+        assertTrue("Godavari -> Mess should be ~141m total", routeGodavariMess.totalDistanceMeters in 120.0..160.0)
+
+        // 3. Krishna -> Annapurna Mess
+        val routeKrishnaMess = RoutingEngine.findAStarPath(graph, krishna!!, mess)
+        assertNotNull("Route Krishna -> Annapurna Mess must exist", routeKrishnaMess)
+        println("BENCHMARK: Krishna -> Mess: %.1fm in %ds".format(routeKrishnaMess!!.totalDistanceMeters, routeKrishnaMess.estimatedTimeSeconds))
+        assertTrue("Krishna -> Mess should be ~105m total", routeKrishnaMess.totalDistanceMeters in 85.0..125.0)
+
+        // 4. Yamuna -> Annapurna Mess
+        val routeYamunaMess = RoutingEngine.findAStarPath(graph, yamuna!!, mess)
+        assertNotNull("Route Yamuna -> Annapurna Mess must exist", routeYamunaMess)
+        println("BENCHMARK: Yamuna -> Mess: %.1fm in %ds".format(routeYamunaMess!!.totalDistanceMeters, routeYamunaMess.estimatedTimeSeconds))
+        assertTrue("Yamuna -> Mess should be ~165m total", routeYamunaMess.totalDistanceMeters in 140.0..190.0)
+
+        // 5. Narmada -> Annapurna Mess
+        val routeNarmadaMess = RoutingEngine.findAStarPath(graph, narmada!!, mess)
+        assertNotNull("Route Narmada -> Annapurna Mess must exist", routeNarmadaMess)
+        println("BENCHMARK: Narmada -> Mess: %.1fm in %ds".format(routeNarmadaMess!!.totalDistanceMeters, routeNarmadaMess.estimatedTimeSeconds))
+        assertTrue("Narmada -> Mess should be ~146m total", routeNarmadaMess.totalDistanceMeters in 120.0..170.0)
+
+        // 6. Vikram Sarabhai Block -> Homi J. Bhabha Block (Traversing Academic Central Passage)
+        val routeSarabhaiBhabha = RoutingEngine.findAStarPath(graph, sarabhai!!, bhabha!!)
+        assertNotNull("Route Vikram Sarabhai -> Homi J. Bhabha must exist", routeSarabhaiBhabha)
+        println("BENCHMARK: Sarabhai -> Bhabha: %.1fm in %ds".format(routeSarabhaiBhabha!!.totalDistanceMeters, routeSarabhaiBhabha.estimatedTimeSeconds))
+        assertTrue("Academic Central Passage route should be ~81m total", routeSarabhaiBhabha.totalDistanceMeters in 60.0..105.0)
+    }
 }
