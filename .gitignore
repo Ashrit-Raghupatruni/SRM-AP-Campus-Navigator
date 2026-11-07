@@ -47,6 +47,8 @@ local.properties
 Thumbs.db
 
 # Documentation temporary screenshot captures
-*.png
-docs/*.png
 sdcard/
+
+# Allow app logo and launcher icon pngs
+!docs/images/*.png
+!app/src/main/res/**/*.png
