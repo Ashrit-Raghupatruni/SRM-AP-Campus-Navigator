@@ -1,0 +1,23 @@
+{
+  "source": "export.geojson (user-provided OpenStreetMap Overpass Turbo export)",
+  "source_feature_count": 87,
+  "campus_boundary_found": true,
+  "filter": "Features intersecting the mapped SRM University AP boundary or a 30 metre buffer around it, using UTM zone 44N for the buffer.",
+  "counts": {
+    "campus_boundary.geojson": 1,
+    "buildings.geojson": 20,
+    "roads.geojson": 9,
+    "paths.geojson": 12,
+    "facilities.geojson": 6,
+    "sports.geojson": 6,
+    "grounds.geojson": 18,
+    "campus_all.geojson": 69
+  },
+  "notes": [
+    "Original export is not modified.",
+    "Features are classified by their existing OpenStreetMap tags.",
+    "Some features intentionally occur in more than one thematic layer.",
+    "This is not yet a validated pedestrian routing graph; road/path connectivity and access need checking.",
+    "Only mapped OSM features are included; missing buildings and paths must be surveyed or added."
+  ]
+}
