@@ -46,32 +46,6 @@ A production-grade, offline-first native Android navigation application for **SR
 
 ---
 
-## 🏗️ Architecture & Tech Stack
-
-```text
-app/src/main/java/com/srmap/campusnavigator/
-├── core/
-│   ├── designsystem/          # Material 3 colors, typography, shapes, and motion
-│   └── location/              # CampusLocationClient & GpsFilterEngine (Kalman smoothing)
-├── data/
-│   ├── geojson/               # GeoJSON parser for buildings, boundaries, paths & roads
-│   ├── local/                 # Room database, DAOs, and Bookmark entities
-│   └── maptiler/              # MapTiler Cloud styles, geocoding & tile client
-├── domain/
-│   ├── graph/                 # Campus pedestrian network graph (111 nodes, 125+ segments)
-│   ├── models/                # CampusBuilding, GeoPoint, and NavigationState models
-│   └── routing/               # A*, Dijkstra, PedestrianMapMatcher & NavigationProgressTracker
-└── presentation/
-    ├── bottomsheet/           # Building details, layer switcher & dynamic navigation sheets
-    ├── components/            # Search bar, floating map controls, navigation bar
-    ├── directions/            # Origin-destination route planner screen
-    ├── explore/               # Campus category directory screen
-    ├── layers/                # MapTiler style selector bottom sheet
-    ├── map/                   # Interactive Canvas Map with dual route polylines
-    ├── profile/               # Settings, offline data status, theme switcher
-    └── saved/                 # Bookmarked locations screen
-```
-
 - **Language:** Kotlin 1.9.24
 - **UI Toolkit:** Jetpack Compose (BOM 2024.04.01) + Material 3
 - **Local Database:** Room 2.6.1
@@ -94,40 +68,6 @@ Verified in automated unit test suite (`ComprehensiveAuditTest.kt`):
 | **Yamuna** | **Annapurna Mess** | 165.7 m | 127 s | Direct south via East Concourse |
 | **Narmada** | **Annapurna Mess** | 145.9 m | 112 s | Direct south via East Concourse |
 | **Vikram Sarabhai Block** | **Homi J. Bhabha Block** | 81.5 m | 62 s | Via Academic Central Passage |
-
----
-
-## 🚀 Building & Running
-
-### Prerequisites
-1. Android Studio (Koala, Ladybug, or newer) with Android SDK 34.
-2. JDK 17 or JDK 21 (e.g., Android Studio JBR).
-3. A connected Android device with USB debugging enabled.
-
-### Configuration
-Create or edit `local.properties` in the project root:
-```properties
-sdk.dir=C\:\\Users\\<YourUsername>\\AppData\\Local\\Android\\Sdk
-MAPTILER_API_KEY=your_maptiler_api_key_here
-```
-
-### Build Commands
-Compile debug APK:
-```powershell
-.\gradlew.bat assembleDebug --no-daemon
-```
-
-Run test suite (routing algorithms, Kalman filter, map-matching & benchmarks):
-```powershell
-.\gradlew.bat testDebugUnitTest --no-daemon
-```
-
-### Deploy to Connected Device
-```powershell
-adb devices
-adb install -r -d app/build/outputs/apk/debug/app-debug.apk
-adb shell monkey -p com.srmap.campusnavigator 1
-```
 
 ---
 
