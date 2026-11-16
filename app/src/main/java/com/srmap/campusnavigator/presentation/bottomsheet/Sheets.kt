@@ -443,6 +443,9 @@ fun RouteNavigationSheet(
     route: PedestrianRoute?,
     routeProgress: DynamicRouteProgress? = null,
     destinationName: String,
+    targetBlockName: String? = null,
+    targetFloor: Int? = null,
+    targetRoomNo: String? = null,
     onEndNavigation: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -486,13 +489,47 @@ fun RouteNavigationSheet(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Column {
+                        Column(modifier = Modifier.weight(1f)) {
                             Text(
                                 text = if (status == NavigationStatus.ARRIVED) "Arrived at $destinationName" else "Navigating to $destinationName",
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.onSurface
                             )
+                            if (targetFloor != null || !targetBlockName.isNullOrBlank()) {
+                                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 2.dp)) {
+                                    if (!targetBlockName.isNullOrBlank()) {
+                                        Surface(
+                                            shape = RoundedCornerShape(6.dp),
+                                            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)
+                                        ) {
+                                            Text(
+                                                text = targetBlockName,
+                                                fontSize = 11.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = MaterialTheme.colorScheme.primary,
+                                                modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                                            )
+                                        }
+                                        Spacer(modifier = Modifier.width(6.dp))
+                                    }
+                                    if (targetFloor != null) {
+                                        Surface(
+                                            shape = RoundedCornerShape(6.dp),
+                                            color = Color(0xFF0284C7).copy(alpha = 0.15f)
+                                        ) {
+                                            Text(
+                                                text = "Floor $targetFloor",
+                                                fontSize = 11.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = Color(0xFF0284C7),
+                                                modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                            Spacer(modifier = Modifier.height(2.dp))
                             Text(
                                 text = if (status == NavigationStatus.ARRIVED) "You have reached your destination" else "%.0f m remaining  •  approx. %d min walk".format(remainingMeters, minutes),
                                 fontSize = 14.sp,
@@ -510,7 +547,7 @@ fun RouteNavigationSheet(
 
                     // Progress bar
                     LinearProgressIndicator(
-                        progress = progressFrac,
+                        progress = { progressFrac },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(6.dp)
@@ -538,12 +575,23 @@ fun RouteNavigationSheet(
                                 modifier = Modifier.size(24.dp)
                             )
                             Spacer(modifier = Modifier.width(12.dp))
-                            Text(
-                                text = instruction,
-                                fontSize = 15.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                color = Color(0xFF0F172A)
-                            )
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(
+                                    text = instruction,
+                                    fontSize = 15.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = Color(0xFF0F172A)
+                                )
+                                if (targetFloor != null && targetFloor > 1 && instruction.contains("arrive", ignoreCase = true)) {
+                                    Text(
+                                        text = "Proceed inside to Floor $targetFloor for ${targetRoomNo ?: destinationName}",
+                                        fontSize = 12.sp,
+                                        fontWeight = FontWeight.Medium,
+                                        color = Color(0xFF0284C7),
+                                        modifier = Modifier.padding(top = 2.dp)
+                                    )
+                                }
+                            }
                         }
                     }
 
@@ -602,11 +650,26 @@ fun RoomDetailsSheet(
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurface
                         )
-                        Text(
-                            text = "Floor ${room.floor} • ${room.roomType}",
-                            fontSize = 14.sp,
-                            color = Color.Gray
-                        )
+                        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 2.dp)) {
+                            Surface(
+                                shape = RoundedCornerShape(6.dp),
+                                color = Color(0xFF0284C7).copy(alpha = 0.15f)
+                            ) {
+                                Text(
+                                    text = "Floor ${room.floor}",
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color(0xFF0284C7),
+                                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp)
+                                )
+                            }
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                text = room.roomType,
+                                fontSize = 14.sp,
+                                color = Color.Gray
+                            )
+                        }
                     }
                     IconButton(onClick = onClose) {
                         Icon(imageVector = Icons.Default.Close, contentDescription = "Close")
@@ -654,7 +717,7 @@ fun RoomDetailsSheet(
                 ) {
                     Icon(imageVector = Icons.Default.DirectionsWalk, contentDescription = null)
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text("Navigate to Room Door")
+                    Text("Directions to ${room.blockId} (Floor ${room.floor})")
                 }
             }
         }

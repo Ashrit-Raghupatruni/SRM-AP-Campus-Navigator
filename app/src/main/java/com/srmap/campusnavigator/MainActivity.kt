@@ -106,6 +106,9 @@ fun CampusNavigatorMainScreen(
     var activeRoute by remember { mutableStateOf<PedestrianRoute?>(null) }
     var activeDestination by remember { mutableStateOf<GeoPoint?>(null) }
     var activeDestinationName by remember { mutableStateOf("") }
+    var navTargetBlockName by remember { mutableStateOf<String?>(null) }
+    var navTargetFloor by remember { mutableStateOf<Int?>(null) }
+    var navTargetRoomNo by remember { mutableStateOf<String?>(null) }
     var dynamicProgress by remember { mutableStateOf<com.srmap.campusnavigator.domain.routing.DynamicRouteProgress?>(null) }
 
     var userLocation by remember { mutableStateOf<UserLocationState?>(null) }
@@ -579,11 +582,21 @@ fun CampusNavigatorMainScreen(
                                     onNavigate = {
                                         val start = userLocation?.point ?: GeoPoint(16.4632311, 80.5064108)
                                         graph?.let { g ->
-                                            val r = RoutingEngine.findAStarPath(g, start, room.point)
+                                            val r = RoutingEngine.findAStarPath(
+                                                graph = g,
+                                                startPoint = start,
+                                                endPoint = room.point,
+                                                targetBlockName = "${room.blockId} Block",
+                                                targetFloor = room.floor,
+                                                targetRoomNo = room.roomNo
+                                            )
                                             if (r != null) {
                                                 activeRoute = r
                                                 activeDestination = room.point
-                                                activeDestinationName = "${room.blockId} Room ${room.roomNo}"
+                                                activeDestinationName = "${room.blockId} - Room ${room.roomNo}"
+                                                navTargetBlockName = "${room.blockId} Block"
+                                                navTargetFloor = room.floor
+                                                navTargetRoomNo = room.roomNo
                                                 progressTracker?.startNavigation(r, room.point)
                                                 dynamicProgress = progressTracker?.updateProgress(start)
                                             }
@@ -605,11 +618,20 @@ fun CampusNavigatorMainScreen(
                                     val start = userLocation?.point ?: GeoPoint(16.4632311, 80.5064108)
                                     val currentGraph = graph
                                     if (currentGraph != null) {
-                                        val r = RoutingEngine.findAStarPath(currentGraph, start, destination.centroid)
+                                        val r = RoutingEngine.findAStarPath(
+                                            graph = currentGraph,
+                                            startPoint = start,
+                                            endPoint = destination.centroid,
+                                            targetBlockName = destination.name,
+                                            targetFloor = 1
+                                        )
                                         if (r != null) {
                                             activeRoute = r
                                             activeDestination = destination.centroid
                                             activeDestinationName = destination.name
+                                            navTargetBlockName = destination.name
+                                            navTargetFloor = 1
+                                            navTargetRoomNo = null
                                             progressTracker?.startNavigation(r, destination.centroid)
                                             dynamicProgress = progressTracker?.updateProgress(start)
                                         }
@@ -646,10 +668,16 @@ fun CampusNavigatorMainScreen(
                                 route = activeRoute,
                                 routeProgress = dynamicProgress,
                                 destinationName = activeDestinationName.ifBlank { "Destination" },
+                                targetBlockName = navTargetBlockName,
+                                targetFloor = navTargetFloor,
+                                targetRoomNo = navTargetRoomNo,
                                 onEndNavigation = {
                                     activeRoute = null
                                     activeDestination = null
                                     activeDestinationName = ""
+                                    navTargetBlockName = null
+                                    navTargetFloor = null
+                                    navTargetRoomNo = null
                                     dynamicProgress = null
                                     progressTracker?.stopNavigation()
                                 },
@@ -735,12 +763,29 @@ fun CampusNavigatorMainScreen(
                             onNavigateResult = { res ->
                                 val pt = res.point
                                 val start = userLocation?.point ?: GeoPoint(16.4632311, 80.5064108)
+                                val (bName, flr, rNo) = when (res) {
+                                    is com.srmap.campusnavigator.domain.models.UnifiedSearchResult.RoomResult -> Triple("${res.blockId} Block", res.floor, res.roomNo)
+                                    is com.srmap.campusnavigator.domain.models.UnifiedSearchResult.FacultyResult -> Triple("${res.blockId} Block", res.floor, res.roomNo)
+                                    is com.srmap.campusnavigator.domain.models.UnifiedSearchResult.EquipmentResult -> Triple("${res.blockId} Block", res.floor, res.roomNo)
+                                    is com.srmap.campusnavigator.domain.models.UnifiedSearchResult.CampusBuildingResult -> Triple(res.building.name, 1, null)
+                                    else -> Triple(null, null, null)
+                                }
                                 graph?.let { g ->
-                                    val r = RoutingEngine.findAStarPath(g, start, pt)
+                                    val r = RoutingEngine.findAStarPath(
+                                        graph = g,
+                                        startPoint = start,
+                                        endPoint = pt,
+                                        targetBlockName = bName,
+                                        targetFloor = flr,
+                                        targetRoomNo = rNo
+                                    )
                                     if (r != null) {
                                         activeRoute = r
                                         activeDestination = pt
                                         activeDestinationName = res.title
+                                        navTargetBlockName = bName
+                                        navTargetFloor = flr
+                                        navTargetRoomNo = rNo
                                         progressTracker?.startNavigation(r, pt)
                                         dynamicProgress = progressTracker?.updateProgress(start)
                                     }

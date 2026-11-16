@@ -14,7 +14,10 @@ object RoutingEngine {
     fun findAStarPath(
         graph: CampusGraph,
         startPoint: GeoPoint,
-        endPoint: GeoPoint
+        endPoint: GeoPoint,
+        targetBlockName: String? = null,
+        targetFloor: Int? = null,
+        targetRoomNo: String? = null
     ): PedestrianRoute? {
         val startNode = graph.findNearestNode(startPoint) ?: return null
         val endNode = graph.findNearestNode(endPoint) ?: return null
@@ -22,11 +25,22 @@ object RoutingEngine {
         if (startNode.id == endNode.id) {
             val path = listOf(startPoint, startNode.point, endPoint)
             val dist = startPoint.distanceTo(startNode.point) + startNode.point.distanceTo(endPoint)
+            val steps = mutableListOf<RouteStep>()
+            steps.add(RouteStep("Walk to building entrance", dist, startPoint, endPoint))
+            if (targetFloor != null && targetFloor > 1) {
+                steps.add(RouteStep("Enter ${targetBlockName ?: "Block"} & take elevator or stairs to Floor $targetFloor", 0.0, endPoint, endPoint))
+            }
+            if (!targetRoomNo.isNullOrBlank()) {
+                val floorText = if (targetFloor != null) "on Floor $targetFloor" else ""
+                steps.add(RouteStep("Walk along hallway to Room $targetRoomNo $floorText", 0.0, endPoint, endPoint))
+            } else {
+                steps.add(RouteStep("Arrive at your destination", 0.0, endPoint, endPoint))
+            }
             return PedestrianRoute(
                 path = path,
                 totalDistanceMeters = dist,
                 estimatedTimeSeconds = (dist / WALKING_SPEED_METERS_PER_SEC).toInt().coerceAtLeast(10),
-                steps = listOf(RouteStep("Arrive at destination", dist, startPoint, endPoint))
+                steps = steps
             )
         }
 
@@ -43,7 +57,7 @@ object RoutingEngine {
             val currentId = current.nodeId
 
             if (currentId == endNode.id) {
-                return reconstructRoute(graph, cameFrom, currentId, startPoint, endPoint)
+                return reconstructRoute(graph, cameFrom, currentId, startPoint, endPoint, targetBlockName, targetFloor, targetRoomNo)
             }
 
             closedSet.add(currentId)
@@ -112,7 +126,10 @@ object RoutingEngine {
         cameFrom: Map<String, String>,
         endNodeId: String,
         startPoint: GeoPoint,
-        endPoint: GeoPoint
+        endPoint: GeoPoint,
+        targetBlockName: String? = null,
+        targetFloor: Int? = null,
+        targetRoomNo: String? = null
     ): PedestrianRoute {
         val nodePath = mutableListOf<String>()
         var curr: String? = endNodeId
@@ -134,7 +151,7 @@ object RoutingEngine {
             totalDist += points[i].distanceTo(points[i + 1])
         }
 
-        val steps = generateTurnInstructions(points)
+        val steps = generateTurnInstructions(points, targetBlockName, targetFloor, targetRoomNo)
         val estimatedTime = (totalDist / WALKING_SPEED_METERS_PER_SEC).toInt().coerceAtLeast(15)
 
         return PedestrianRoute(
@@ -145,43 +162,64 @@ object RoutingEngine {
         )
     }
 
-    private fun generateTurnInstructions(points: List<GeoPoint>): List<RouteStep> {
+    private fun generateTurnInstructions(
+        points: List<GeoPoint>,
+        targetBlockName: String? = null,
+        targetFloor: Int? = null,
+        targetRoomNo: String? = null
+    ): List<RouteStep> {
         if (points.size < 2) return emptyList()
         val steps = mutableListOf<RouteStep>()
 
         if (points.size == 2) {
             val d = points[0].distanceTo(points[1])
-            return listOf(RouteStep("Walk straight to destination", d, points[0], points[1]))
-        }
+            steps.add(RouteStep("Walk straight to ${targetBlockName ?: "destination entrance"}", d, points[0], points[1]))
+        } else {
+            val firstDist = points[0].distanceTo(points[1])
+            steps.add(RouteStep("Start along campus walkway toward ${targetBlockName ?: "destination"}", firstDist, points[0], points[1]))
 
-        val firstDist = points[0].distanceTo(points[1])
-        steps.add(RouteStep("Start along campus walkway", firstDist, points[0], points[1]))
+            for (i in 1 until points.size - 1) {
+                val pPrev = points[i - 1]
+                val pCurr = points[i]
+                val pNext = points[i + 1]
 
-        for (i in 1 until points.size - 1) {
-            val pPrev = points[i - 1]
-            val pCurr = points[i]
-            val pNext = points[i + 1]
+                val b1 = pPrev.bearingTo(pCurr)
+                val b2 = pCurr.bearingTo(pNext)
+                var delta = (b2 - b1)
+                while (delta > 180) delta -= 360
+                while (delta < -180) delta += 360
 
-            val b1 = pPrev.bearingTo(pCurr)
-            val b2 = pCurr.bearingTo(pNext)
-            var delta = (b2 - b1)
-            while (delta > 180) delta -= 360
-            while (delta < -180) delta += 360
-
-            val dist = pCurr.distanceTo(pNext)
-            val instruction = when {
-                delta > 35.0 && delta < 135.0 -> "Turn right onto walkway"
-                delta >= 135.0 -> "Turn sharp right"
-                delta < -35.0 && delta > -135.0 -> "Turn left onto walkway"
-                delta <= -135.0 -> "Turn sharp left"
-                else -> "Continue straight"
+                val dist = pCurr.distanceTo(pNext)
+                val instruction = when {
+                    delta > 35.0 && delta < 135.0 -> "Turn right onto walkway"
+                    delta >= 135.0 -> "Turn sharp right"
+                    delta < -35.0 && delta > -135.0 -> "Turn left onto walkway"
+                    delta <= -135.0 -> "Turn sharp left"
+                    else -> "Continue straight"
+                }
+                steps.add(RouteStep(instruction, dist, pCurr, pNext))
             }
-            steps.add(RouteStep(instruction, dist, pCurr, pNext))
+
+            val lastIdx = points.size - 1
+            val lastDist = points[lastIdx - 1].distanceTo(points[lastIdx])
+            val entranceText = if (!targetBlockName.isNullOrBlank()) "Arrive at $targetBlockName entrance" else "Arrive at entrance"
+            steps.add(RouteStep(entranceText, lastDist, points[lastIdx - 1], points[lastIdx]))
         }
 
-        val lastIdx = points.size - 1
-        val lastDist = points[lastIdx - 1].distanceTo(points[lastIdx])
-        steps.add(RouteStep("Arrive at your campus destination", lastDist, points[lastIdx - 1], points[lastIdx]))
+        // Add indoor multi-floor vertical transitions
+        val lastPoint = points.last()
+        if (targetFloor != null) {
+            if (targetFloor == 1 || targetFloor == 0) {
+                steps.add(RouteStep("Enter through main doors on Ground Floor", 0.0, lastPoint, lastPoint))
+            } else {
+                steps.add(RouteStep("Enter building & take elevator / stairs up to Floor $targetFloor", 0.0, lastPoint, lastPoint))
+            }
+        }
+
+        if (!targetRoomNo.isNullOrBlank()) {
+            val floorSuffix = if (targetFloor != null) "on Floor $targetFloor" else ""
+            steps.add(RouteStep("Follow corridor to Room $targetRoomNo $floorSuffix", 0.0, lastPoint, lastPoint))
+        }
 
         return steps
     }
