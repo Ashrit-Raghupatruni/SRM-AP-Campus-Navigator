@@ -8,17 +8,29 @@
 
 ## 📱 Features
 
-### 🏢 Room-Level Spatial Intelligence & Multi-Floor Navigation
+### 🏢 Room-Level Spatial Intelligence & Block-Level Breakdown
 - **Precise QGIS Point Ingestion:** Over **580 verified spatial door coordinates** extracted directly from QGIS point shapefiles for academic buildings:
   - **SR1 / OE1 Block:** Classrooms (e.g., `S201`, `S203`), faculty cabins (`C21`–`C29`, `C2 10`–`C2 24`), and the Dean Academic Office.
   - **V-Block:** Classrooms, lecture halls, Quantum Open & Closed Research Laboratories.
   - **X-Lab Complex:** AI & Machine Learning labs, Mechanical prototyping/fabrication facilities, and main auditorium `AUD-1`.
   - **CV Raman Block:** 10-story high-rise academic tower lecture halls and faculty suites.
   - **Homi J. Bhabha Block:** Advanced science and research facilities across 5 levels.
-- **Interactive Map Floor Selector:** Dedicated vertical floor level selector (`ALL`, `F1`, `F2`, `F3`, `F4`, `F5`, `F10`) on the map canvas to dynamically filter and render room door markers on demand.
+- **Interactive Block-Level Inspection:** Tapping any building polygon on the map opens an interactive categorized bottom sheet displaying:
+  - **Overview (All):** Complete summary count of facilities in the block.
+  - **Classrooms:** Classrooms with room numbers, floor indicators, capacity, and descriptions.
+  - **Faculty:** Faculty members residing in the block, showing designations, departments, and email contacts.
+  - **Labs & Equipment:** Specialized research facilities and instrument listings.
+  - **Locate on Map:** Tap any item in the block list to immediately zoom in and highlight its exact spatial door pin.
 - **Pulsing Room Pins & Labels:** Highlighting selected search results with animated pulse rings, color-coded badges, and anti-collision text labels.
 
-### 🔍 Unified Search Engine (Rooms, Faculty & Equipment)
+### 🔍 Unified Search & Directory (Rooms, Faculty & Equipment)
+- **Default Category-Wise Directory:** When the search query is blank, browse the campus directory categorized under:
+  - **ALL:** Sample previews across Classrooms, Faculty, and Equipment.
+  - **ROOMS:** Comprehensive list of classrooms with floor and capacity tags.
+  - **FACULTY:** Complete directory of university faculty with designations and cabin locations.
+  - **LABS:** Specialized research laboratories.
+  - **EQUIPMENT:** Direct catalog of instruments with associated laboratory and in-charge metadata.
+- **Recent Searches:** Persisted offline search queries displayed at the top with 1-tap re-search and a clear history action.
 - **Room Number Search:** Instantly locate any classroom, seminar hall, or auditorium (e.g., `S203`, `V101`, `X101`, `210`).
 - **Faculty Directory Search:** Search faculty cabins by name, designation, and department (e.g., `Dr. Ramesh Kumar`, `Computer Science`, `Dean`).
 - **Laboratory Equipment Search:** Search for research instruments and equipment (e.g., `Microscope`, `Electron Microscope`, `Spectrometer`, `Smart Board`) to pinpoint the exact laboratory room.
@@ -75,10 +87,13 @@
 
 ## 💻 CLI & GIS Ingestion Pipeline
 
-To reproduce or update campus room data with a new master CSV:
+To reproduce or update campus room data using the 3 individual datasets:
 
-1. **Place CSV file:** Save classrooms, faculty, and equipment metadata into `data/master_campus_rooms.csv`.
-2. **Process GIS Shapefiles & Match CSV:**
+1. **Place CSV files:** Update or place the respective CSV files directly into `data/`:
+   - `data/classrooms.csv`: `block,floor,room_no,room_type,capacity,description`
+   - `data/faculty.csv`: `name,designation,department,cabin_no,block,floor,email`
+   - `data/equipment.csv`: `equipment_name,category,lab_name,room_no,block,floor,specifications`
+2. **Process GIS Shapefiles & Match Multi-CSVs:**
    ```powershell
    & "C:\Program Files\QGIS 3.44.12\bin\python-qgis-ltr.bat" scripts/process_blocks_with_csv.py
    ```
@@ -86,7 +101,12 @@ To reproduce or update campus room data with a new master CSV:
    ```powershell
    python scripts/build_sql_database.py
    ```
-4. **Test Search from Terminal:**
+4. **Deploy Assets to App:**
+   ```powershell
+   Copy-Item 'data/processed/srmap_rooms_all.geojson' 'app/src/main/assets/srmap_rooms_all.geojson' -Force
+   Copy-Item 'data/processed/srmap_blocks.db' 'app/src/main/assets/srmap_blocks.db' -Force
+   ```
+5. **Test Search from Terminal:**
    ```powershell
    python scripts/search_campus.py --room S203
    python scripts/search_campus.py --faculty Kumar
