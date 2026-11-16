@@ -189,6 +189,17 @@ fun CampusNavigatorMainScreen(
             ) { tab ->
                 when (tab) {
                     CampusTab.EXPLORE -> {
+                        if (navState.is3DMode && navState.activeRoute != null) {
+                            com.srmap.campusnavigator.presentation.navigation3d.FirstPersonNavigationScreen(
+                                buildings = campusState.buildings,
+                                graph = navigationViewModel.getGraph(),
+                                selectedBuilding = campusState.selectedBuilding,
+                                route = navState.activeRoute,
+                                userLocation = navState.userLocation,
+                                onSwitchTo2D = { navigationViewModel.set3DMode(false) },
+                                onEndNavigation = { navigationViewModel.endNavigation() }
+                            )
+                        } else {
                         Box(modifier = Modifier.fillMaxSize()) {
                             // Interactive Canvas Map
                             InteractiveCampusCanvasMap(
@@ -392,6 +403,9 @@ fun CampusNavigatorMainScreen(
                                 onEndNavigation = {
                                     navigationViewModel.endNavigation()
                                 },
+                                onSwitchTo3D = {
+                                    navigationViewModel.set3DMode(true)
+                                },
                                 modifier = Modifier.align(Alignment.BottomCenter)
                             )
 
@@ -403,6 +417,7 @@ fun CampusNavigatorMainScreen(
                                     onDismiss = { campusViewModel.setShowLayersSheet(false) }
                                 )
                             }
+                        }
                         }
                     }
 

@@ -407,6 +407,7 @@ fun RouteNavigationSheet(
     targetFloor: Int? = null,
     targetRoomNo: String? = null,
     onEndNavigation: () -> Unit,
+    onSwitchTo3D: (() -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
     AnimatedVisibility(
@@ -557,12 +558,26 @@ fun RouteNavigationSheet(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    CampusPrimaryButton(
-                        text = if (status == NavigationStatus.ARRIVED) "Done" else "End Navigation",
-                        onClick = onEndNavigation,
-                        containerColor = MidnightNavy,
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        if (onSwitchTo3D != null) {
+                            CampusSecondaryButton(
+                                text = "3D View",
+                                icon = Icons.Default.Navigation,
+                                onClick = onSwitchTo3D,
+                                modifier = Modifier.weight(1f)
+                            )
+                        }
+
+                        CampusPrimaryButton(
+                            text = if (status == NavigationStatus.ARRIVED) "Done" else "End Navigation",
+                            onClick = onEndNavigation,
+                            containerColor = MidnightNavy,
+                            modifier = Modifier.weight(if (onSwitchTo3D != null) 1.4f else 1f)
+                        )
+                    }
                 }
             }
         }

@@ -22,7 +22,8 @@ data class NavigationUiState(
     val navTargetRoomNo: String? = null,
     val dynamicProgress: DynamicRouteProgress? = null,
     val userLocation: UserLocationState? = null,
-    val isNavigating: Boolean = false
+    val isNavigating: Boolean = false,
+    val is3DMode: Boolean = false
 )
 
 class NavigationViewModel : ViewModel() {
@@ -39,6 +40,8 @@ class NavigationViewModel : ViewModel() {
         progressTracker = NavigationProgressTracker(graph)
         mapMatcher = PedestrianMapMatcher(graph)
     }
+
+    fun getGraph(): CampusGraph? = campusGraph
 
     fun startNavigation(
         startPoint: GeoPoint,
@@ -85,6 +88,14 @@ class NavigationViewModel : ViewModel() {
         }
     }
 
+    fun toggle3DMode() {
+        _uiState.value = _uiState.value.copy(is3DMode = !_uiState.value.is3DMode)
+    }
+
+    fun set3DMode(enabled: Boolean) {
+        _uiState.value = _uiState.value.copy(is3DMode = enabled)
+    }
+
     fun endNavigation() {
         progressTracker?.stopNavigation()
         _uiState.value = _uiState.value.copy(
@@ -95,7 +106,8 @@ class NavigationViewModel : ViewModel() {
             navTargetFloor = null,
             navTargetRoomNo = null,
             dynamicProgress = null,
-            isNavigating = false
+            isNavigating = false,
+            is3DMode = false
         )
     }
 }

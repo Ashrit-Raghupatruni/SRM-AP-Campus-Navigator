@@ -48,7 +48,7 @@ class SearchAndRepositoryTest {
     fun setUp() {
         staticSource = StaticCampusDataSource
         val fakeDao = FakeCampusDao()
-        val campusRepo = CampusRepositoryImpl(fakeDao, staticSource)
+        val campusRepo = CampusRepositoryImpl(fakeDao, geoJsonParser = null, staticSource = staticSource)
         searchRepository = SearchRepositoryImpl(campusRepo, fakeDao)
     }
 
