@@ -1,28 +1,49 @@
 <div align="center">
   <img src="./docs/images/app_logo.png" alt="SRM AP Campus Navigator Logo" width="160" />
   <h1>SRM AP Campus Navigator</h1>
-  <p><strong>A production-grade, offline-first pedestrian navigation, room-level spatial intelligence, and 3D campus discovery application for SRM University–AP</strong></p>
+  <p><strong>A production-grade, offline-first native Android navigation, room-level spatial intelligence, and First-Person 3D campus navigation platform for SRM University–AP</strong></p>
 </div>
 
 ---
 
 ## 🌟 Overview
 
-**SRM AP Campus Navigator** is a native Android application built with **Jetpack Compose**, **Compose Canvas**, **Room (SQLite FTS5)**, and **Material 3**. Designed specifically for students, faculty, staff, and campus visitors, it delivers offline-first university campus navigation, multi-floor indoor wayfinding, and directory search down to individual room doors, faculty cabins, and laboratory equipment.
+**SRM AP Campus Navigator** is a native Android application built with **Kotlin**, **Jetpack Compose**, **OpenGL ES 3.0**, **Room (SQLite FTS5)**, and **Material 3**. Designed specifically for students, faculty, staff, and campus visitors, it delivers offline-first university campus navigation, multi-floor indoor wayfinding, directory search down to individual room doors, and an immersive **First-Person 3D Street-Level Navigation Mode**.
 
 ---
 
 ## 📱 Key Features
 
-### 🏢 Selective Isometric 3D Building Highlight (V1)
-- **Focused Elevation:** When you select a destination building or start navigation, **only that destination building** visually elevates into a 3D isometric structure.
-- **Directional Shading & Lighting:** Side walls are shaded dynamically according to their spatial orientation and surface normals relative to overhead lighting.
-- **Contact Drop Shadow & Outlines:** Realistic contact shadow cast beneath the raised structure with high-contrast boundary contours.
-- **Pure Vector & Native Compose:** Zero external 3D engines (no Mapbox 3D, Unity, Blender, or GLTF runtimes). Rendered using custom vector math and Compose `Canvas`.
-- **2D Context Preservation:** Surrounding campus blocks retain clean, flat 2D vector geometry to avoid visual distraction.
+### 🎮 Offline First-Person 3D Campus Navigation
+- **Immersive 3D Street-Level Experience:** Navigates the campus from a genuine first-person eye height of **1.6 metres** above ground.
+- **Procedural 3D Environment:** Converts real-world vector GIS geometry into a 3D campus model in real time:
+  - **Buildings:** Procedurally extruded walls ($H = \text{levels} \times 3.8\text{m}$) with ear-clipping triangulated roofs and architectural shading.
+  - **Walkways & Roads:** Smooth 3D path ribbons ($W = 3.2\text{m}$) generated from topological routing graph edges, slightly elevated above ground to prevent Z-fighting.
+  - **Ground Plane:** Seamless campus terrain spanning the entire campus core ($1.2\text{km} \times 1.2\text{km}$).
+  - **3D Navigation Ribbon:** Active A* route polyline projected as an electric blue chevron strip directly on the 3D walkway ahead of the user.
+- **Dynamic Camera Synchronization:**
+  - **GPS Tracking:** Camera smoothly tracks user GPS fixes using positional linear interpolation (`lerp`).
+  - **Route-Aware Heading:** Camera auto-orients along the forward walking direction of the active navigation segment.
+  - **Manual Look-Around & Recenter:** Touch drag gestures allow inspecting surroundings with an automatic 3.5s realign timer snapping back to the walking heading.
+- **Zero External 3D Run-times:** Completely offline, powered by native Android OpenGL ES 3.0 shaders with zero external rendering API keys or cloud dependencies.
+- **Seamless 2D $\leftrightarrow$ 3D Mode Switching:** Switch between the 2D overview map and the first-person 3D viewport with 1 tap, preserving active route calculation, progress, and destination highlight.
+
+### 🏢 Room-Level Spatial Intelligence & Block-Level Inspection
+- **Precise QGIS Point Ingestion:** Over **580 verified spatial door coordinates** extracted directly from QGIS point shapefiles for academic buildings:
+  - **SR1 / OE1 Block:** Classrooms (e.g., `S201`, `S203`), faculty cabins (`C21`–`C29`, `C2 10`–`C2 24`), and the Dean Academic Office.
+  - **V-Block:** Classrooms, lecture halls, Quantum Open & Closed Research Laboratories.
+  - **X-Lab Complex:** AI & Machine Learning labs, Mechanical prototyping/fabrication facilities, and main auditorium `AUD-1`.
+  - **CV Raman Block:** 10-story high-rise academic tower lecture halls and faculty suites.
+  - **Homi J. Bhabha Block:** Advanced science and research facilities across 5 levels.
+- **Interactive Block Inspection:** Tapping any building polygon opens an interactive categorized bottom sheet:
+  - **Overview (All):** Complete summary count of facilities in the block.
+  - **Classrooms:** Classrooms with room numbers, floor indicators, capacity, and descriptions.
+  - **Faculty:** Faculty members residing in the block, showing designations, departments, and email contacts.
+  - **Labs & Equipment:** Specialized research facilities and instrument listings.
+  - **Locate on Map:** Tap any item in the block list to immediately zoom in and highlight its exact spatial door pin.
 
 ### 🧭 Multi-Floor Indoor Wayfinding & Floor Explorer
-- **Interactive Floor Explorer:** Dedicated floor-by-floor browser supporting blocks up to 10 floors (e.g. CV Raman Academic Tower, SR Block, V-Block, X-Lab, Homi J. Bhabha).
+- **Interactive Floor Explorer:** Dedicated floor-by-floor browser supporting blocks up to 10 floors (CV Raman Tower, SR Block, V-Block, X-Lab, Homi J. Bhabha).
 - **Floor-Level Search Badges:** Search results display clear floor chips (e.g., `Floor 2`, `Floor 4`).
 - **Vertical Step Navigation:** Navigating to an indoor location guides the user from their outdoor GPS coordinates to the block entrance, followed by explicit vertical instructions (staircase/elevator and floor door).
 
@@ -49,11 +70,6 @@
 - **Turn-by-Turn Bottom Sheet:** Displays remaining distance, estimated walking time, and live step cues.
 - **Auto-Recalculation & Arrival:** Automatically re-routes if the user deviates >25 meters, and signals arrival when within 12 meters.
 
-### 📡 GNSS Quality Checking, Kalman Filtering & Map Matching
-- **Hardware Sensor Validation:** Filters out inaccurate or stale GPS readings (>35m uncertainty).
-- **1D Adaptive Kalman Filter:** Eliminates urban canyon jitter around multi-story academic buildings.
-- **Topological Map Matching:** Snaps coordinates to the nearest walkway with +14m sticky hysteresis to prevent oscillating between adjacent paths.
-
 ---
 
 ## 🎨 Material 3 Design System
@@ -79,7 +95,10 @@ The project follows Clean Architecture and MVVM patterns:
 com.srmap.campusnavigator/
 ├── core/
 │   ├── designsystem/          # Material 3 colors, typography, theme, and reusable components
-│   └── location/              # CampusLocationClient, GpsFilterEngine, Kalman filter
+│   ├── geometry3d/            # LocalCoordinateConverter (ENU), PolygonTriangulator, MeshData
+│   │                          # BuildingMeshGenerator, RoadMeshGenerator, GroundMeshGenerator
+│   ├── location/              # CampusLocationClient, GpsFilterEngine, Kalman filter
+│   └── rendering3d/           # Campus3DRenderer (OpenGL ES 3.0), GpuMesh, Shaders
 ├── data/
 │   ├── datasource/            # StaticCampusDataSource (centralized offline seed provider)
 │   ├── geojson/               # GeoJsonAssetParser (real-world vector boundaries)
@@ -89,14 +108,14 @@ com.srmap.campusnavigator/
 ├── domain/
 │   ├── graph/                 # CampusGraph, GraphNode, GraphEdge
 │   ├── models/                # CampusBuilding, GeoPoint, UnifiedSearchResult, PedestrianRoute
+│   ├── navigation3d/          # FirstPersonCameraController, CameraPose
 │   └── routing/               # PedestrianRoutingEngine (A*), PedestrianMapMatcher
 └── presentation/
     ├── bottomsheet/           # BuildingDetailsSheet, RoomDetailsSheet, RouteNavigationSheet
     ├── components/            # ExploreTopBar, SearchBar, CategoryChips, SearchResultCards
     ├── floorexplorer/         # FloorExplorerSheet (F1–F10 multi-floor viewer)
-    ├── map/                   # InteractiveCampusCanvasMap
-    │   ├── model/             # ExtrusionConfig, ExtrudedBuildingFaces
-    │   └── renderer/          # SelectedBuilding3DRenderer, Building2DRenderer, GeometryUtils
+    ├── map/                   # InteractiveCampusCanvasMap (2D Viewport)
+    ├── navigation3d/          # FirstPersonNavigationScreen (3D Viewport & HUD)
     ├── search/                # SearchScreen, CategoryFilter, SearchHistory
     └── viewmodel/             # CampusViewModel, SearchViewModel, NavigationViewModel
 ```
@@ -106,10 +125,10 @@ com.srmap.campusnavigator/
 ## 🛠️ Tech Stack & Requirements
 
 - **Language:** Kotlin 1.9.24
-- **UI Toolkit:** Jetpack Compose (BOM 2024.04.01) + Material 3
+- **UI Toolkit:** Jetpack Compose (BOM 2024.05.00) + Material 3
+- **3D Graphics:** Native Android OpenGL ES 3.0
 - **Local Persistence:** Room 2.6.1 + SQLite FTS5
 - **Location Services:** Google Play Services Location 21.2.0
-- **Vector Graphics:** Native Android Graphics + Compose Canvas
 - **Build System:** Gradle 8.7 (Kotlin DSL) with OpenJDK 17/21
 - **Target SDK:** Android 14/15/16 (API 34)
 - **Minimum SDK:** Android 8.0 Oreo (API 26)
@@ -158,7 +177,7 @@ Verified in automated unit test suite (`ComprehensiveAuditTest.kt`):
 ## 📚 Technical Documentation & Reports
 
 Detailed technical specifications and GIS audit reports:
-- [Architecture & Engineering Specification](docs/ARCHITECTURE_AND_FEATURES.md)
+- [First-Person 3D Navigation Architecture & Specification](docs/ARCHITECTURE_AND_FEATURES.md)
 - [Room-Level Search Architecture & Ingestion Guide](docs/ROOM_LEVEL_SEARCH_ARCHITECTURE.md)
 - [GIS Dataset Profiling & Audit Report](artifacts/gis_dataset_audit.md)
 - [Campus Geometry & Pedestrian Network Report](docs/CAMPUS_GEOMETRY_AND_PEDESTRIAN_NETWORK_REPORT.md)
