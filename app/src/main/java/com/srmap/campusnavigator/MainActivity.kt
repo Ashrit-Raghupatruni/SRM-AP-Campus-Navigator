@@ -92,7 +92,7 @@ fun CampusNavigatorMainScreen(
     val geocodingClient = remember { com.srmap.campusnavigator.data.maptiler.geocoding.MapTilerGeocodingClient() }
     val gpsFilter = remember { com.srmap.campusnavigator.core.location.GpsFilterEngine() }
 
-    var currentTab by remember { mutableStateOf(CampusTab.MAP) }
+    var currentTab by remember { mutableStateOf(CampusTab.EXPLORE) }
 
     var buildings by remember { mutableStateOf<List<CampusBuilding>>(emptyList()) }
     var features by remember { mutableStateOf<List<CampusFeature>>(emptyList()) }
@@ -102,6 +102,7 @@ fun CampusNavigatorMainScreen(
     var progressTracker by remember { mutableStateOf<com.srmap.campusnavigator.domain.routing.NavigationProgressTracker?>(null) }
 
     var selectedBuilding by remember { mutableStateOf<CampusBuilding?>(null) }
+    var selectedRoom by remember { mutableStateOf<com.srmap.campusnavigator.domain.models.UnifiedSearchResult.RoomResult?>(null) }
     var activeRoute by remember { mutableStateOf<PedestrianRoute?>(null) }
     var activeDestination by remember { mutableStateOf<GeoPoint?>(null) }
     var activeDestinationName by remember { mutableStateOf("") }
@@ -114,7 +115,16 @@ fun CampusNavigatorMainScreen(
     var showLayersSheet by remember { mutableStateOf(false) }
 
     var searchQuery by remember { mutableStateOf("") }
+    var selectedSearchFilter by remember { mutableStateOf(com.srmap.campusnavigator.presentation.components.SearchCategoryFilter.ALL) }
+    var activeFloorFilter by remember { mutableStateOf<Int?>(null) }
+    var roomsOnActiveFloor by remember { mutableStateOf<List<com.srmap.campusnavigator.data.local.entities.RoomEntity>>(emptyList()) }
     var searchResults by remember { mutableStateOf<List<com.srmap.campusnavigator.domain.models.UnifiedSearchResult>>(emptyList()) }
+    var defaultRooms by remember { mutableStateOf<List<com.srmap.campusnavigator.domain.models.UnifiedSearchResult.RoomResult>>(emptyList()) }
+    var defaultFaculty by remember { mutableStateOf<List<com.srmap.campusnavigator.domain.models.UnifiedSearchResult.FacultyResult>>(emptyList()) }
+    var defaultEquipment by remember { mutableStateOf<List<com.srmap.campusnavigator.domain.models.UnifiedSearchResult.EquipmentResult>>(emptyList()) }
+    var buildingRooms by remember { mutableStateOf<List<com.srmap.campusnavigator.data.local.entities.RoomEntity>>(emptyList()) }
+    var buildingFaculty by remember { mutableStateOf<List<com.srmap.campusnavigator.data.local.entities.FacultyEntity>>(emptyList()) }
+    var buildingEquipment by remember { mutableStateOf<List<com.srmap.campusnavigator.data.local.entities.EquipmentEntity>>(emptyList()) }
     var favoriteIds by remember { mutableStateOf<Set<String>>(emptySet()) }
     var searchJob by remember { mutableStateOf<kotlinx.coroutines.Job?>(null) }
 
@@ -201,10 +211,142 @@ fun CampusNavigatorMainScreen(
                 )
             }
             dao.insertLocations(entities)
+
+            // Auto-ingest rooms, faculty, and equipment from enriched GeoJSON
+            val blockEntities = listOf(
+                com.srmap.campusnavigator.data.local.entities.BlockEntity("SR1", "SR1 Academic Block", "SR1", 3, "Academic & Faculty Cabins"),
+                com.srmap.campusnavigator.data.local.entities.BlockEntity("V", "V-Block", "V", 3, "Research & Quantum Labs"),
+                com.srmap.campusnavigator.data.local.entities.BlockEntity("X-LAB", "X-Lab Complex", "X-LAB", 3, "Engineering Labs & Auditorium"),
+                com.srmap.campusnavigator.data.local.entities.BlockEntity("CV", "CV Raman Block", "CV", 10, "Academic Tower"),
+                com.srmap.campusnavigator.data.local.entities.BlockEntity("HOMI", "Homi J Bhabha Block", "HOMI", 5, "Science & Research Block")
+            )
+            dao.insertBlocks(blockEntities)
+            val enrichedData = parser.loadAllEnrichedData()
+            dao.insertRooms(enrichedData.rooms)
+            dao.insertFaculty(enrichedData.faculty)
+            dao.insertEquipment(enrichedData.equipment)
+
+            // Pre-populate default directory lists for categorized search view
+            val defRooms = dao.searchCampusRoomsUnified("").mapNotNull { r ->
+                if (r.latitude != null && r.longitude != null) {
+                    com.srmap.campusnavigator.domain.models.UnifiedSearchResult.RoomResult(
+                        roomId = r.roomId,
+                        blockId = r.blockId,
+                        floor = r.floor,
+                        roomNo = r.roomNo,
+                        roomType = r.roomType,
+                        point = GeoPoint(r.latitude, r.longitude),
+                        facultyName = r.facultyName,
+                        department = r.facultyDepartment,
+                        equipmentList = r.equipmentList,
+                        locationStatus = r.locationStatus
+                    )
+                } else null
+            }
+            val defFaculty = dao.getAllFaculty().mapNotNull { f ->
+                val associatedRoom = enrichedData.rooms.firstOrNull { it.roomId == f.roomId }
+                if (associatedRoom?.latitude != null && associatedRoom.longitude != null) {
+                    com.srmap.campusnavigator.domain.models.UnifiedSearchResult.FacultyResult(
+                        facultyName = f.name,
+                        designation = f.designation ?: "Faculty",
+                        department = f.department ?: "Academic",
+                        blockId = associatedRoom.blockId,
+                        floor = associatedRoom.floor,
+                        roomNo = associatedRoom.roomNo,
+                        point = GeoPoint(associatedRoom.latitude, associatedRoom.longitude)
+                    )
+                } else null
+            }
+            val defEquipment = dao.getAllEquipment().mapNotNull { eq ->
+                val associatedRoom = enrichedData.rooms.firstOrNull { it.roomId == eq.roomId }
+                if (associatedRoom?.latitude != null && associatedRoom.longitude != null) {
+                    com.srmap.campusnavigator.domain.models.UnifiedSearchResult.EquipmentResult(
+                        equipmentName = eq.name,
+                        blockId = associatedRoom.blockId,
+                        floor = associatedRoom.floor,
+                        roomNo = associatedRoom.roomNo,
+                        labInCharge = associatedRoom.roomType,
+                        point = GeoPoint(associatedRoom.latitude, associatedRoom.longitude)
+                    )
+                } else null
+            }
+
+            withContext(Dispatchers.Main) {
+                defaultRooms = defRooms
+                defaultFaculty = defFaculty
+                defaultEquipment = defEquipment
+            }
         }
     }
 
-    // Observe Favorites from Room
+    // Update building rooms, faculty, and equipment when selectedBuilding changes
+    LaunchedEffect(selectedBuilding) {
+        val bldg = selectedBuilding
+        if (bldg != null) {
+            val canonicalBlockId = when {
+                bldg.name.contains("SR", ignoreCase = true) -> "SR1"
+                bldg.name.contains("CV", ignoreCase = true) || bldg.name.contains("Raman", ignoreCase = true) -> "CV"
+                bldg.name.contains("V Block", ignoreCase = true) || bldg.name.equals("V", ignoreCase = true) -> "V"
+                bldg.name.contains("X Lab", ignoreCase = true) || bldg.name.contains("X-Lab", ignoreCase = true) -> "X-LAB"
+                bldg.name.contains("Homi", ignoreCase = true) -> "HOMI"
+                else -> bldg.name
+            }
+            withContext(Dispatchers.IO) {
+                val rms = dao.getRoomsForBlock(canonicalBlockId)
+                val facs = dao.getFacultyForBlock(canonicalBlockId)
+                val eqs = dao.getEquipmentForBlock(canonicalBlockId)
+                withContext(Dispatchers.Main) {
+                    buildingRooms = rms
+                    buildingFaculty = facs
+                    buildingEquipment = eqs
+                }
+            }
+        } else {
+            buildingRooms = emptyList()
+            buildingFaculty = emptyList()
+            buildingEquipment = emptyList()
+        }
+    }
+    LaunchedEffect(activeFloorFilter) {
+        val flr = activeFloorFilter
+        if (flr != null) {
+            withContext(Dispatchers.IO) {
+                val rms = dao.searchCampusRoomsUnified("").filter { it.floor == flr }.map { r ->
+                    com.srmap.campusnavigator.data.local.entities.RoomEntity(
+                        roomId = r.roomId,
+                        blockId = r.blockId,
+                        roomNo = r.roomNo,
+                        normalizedRoomNo = r.normalizedRoomNo,
+                        floor = r.floor,
+                        roomType = r.roomType,
+                        latitude = r.latitude,
+                        longitude = r.longitude,
+                        locationStatus = r.locationStatus,
+                        sourceDataset = null,
+                        description = r.description,
+                        capacity = r.capacity
+                    )
+                }
+                withContext(Dispatchers.Main) {
+                    roomsOnActiveFloor = rms
+                }
+            }
+        } else {
+            roomsOnActiveFloor = emptyList()
+        }
+    }
+    var recentSearchesList by remember { mutableStateOf<List<String>>(emptyList()) }
+
+    // Load recent searches from DB
+    LaunchedEffect(Unit) {
+        withContext(Dispatchers.IO) {
+            val recents = dao.getRecentSearches()
+            withContext(Dispatchers.Main) {
+                recentSearchesList = recents
+            }
+        }
+    }
+
     LaunchedEffect(Unit) {
         dao.getFavoriteLocations().collectLatest { favList ->
             favoriteIds = favList.map { it.id }.toSet()
@@ -222,7 +364,27 @@ fun CampusNavigatorMainScreen(
                         it.category.name.contains(q, ignoreCase = true)
             }.map { com.srmap.campusnavigator.domain.models.UnifiedSearchResult.CampusBuildingResult(it) }
 
-            searchResults = campusMatches
+            // Query Offline Room Database for Room / Faculty / Equipment matches
+            val roomMatches = withContext(Dispatchers.IO) {
+                dao.searchCampusRoomsUnified(q).mapNotNull { r ->
+                    if (r.latitude != null && r.longitude != null) {
+                        com.srmap.campusnavigator.domain.models.UnifiedSearchResult.RoomResult(
+                            roomId = r.roomId,
+                            blockId = r.blockId,
+                            floor = r.floor,
+                            roomNo = r.roomNo,
+                            roomType = r.roomType,
+                            point = GeoPoint(r.latitude, r.longitude),
+                            facultyName = r.facultyName,
+                            department = r.facultyDepartment,
+                            equipmentList = r.equipmentList,
+                            locationStatus = r.locationStatus
+                        )
+                    } else null
+                }
+            }
+
+            searchResults = roomMatches + campusMatches
 
             // Debounced external Geocoding for regional locations (Amaravati, Guntur, Vijayawada)
             searchJob?.cancel()
@@ -237,7 +399,27 @@ fun CampusNavigatorMainScreen(
                     )
                 }
                 if (q == searchQuery.trim()) {
-                    searchResults = campusMatches + maptilerMatches
+                    // Query Offline Room Database for Room / Faculty / Equipment matches
+            val roomMatches = withContext(Dispatchers.IO) {
+                dao.searchCampusRoomsUnified(q).mapNotNull { r ->
+                    if (r.latitude != null && r.longitude != null) {
+                        com.srmap.campusnavigator.domain.models.UnifiedSearchResult.RoomResult(
+                            roomId = r.roomId,
+                            blockId = r.blockId,
+                            floor = r.floor,
+                            roomNo = r.roomNo,
+                            roomType = r.roomType,
+                            point = GeoPoint(r.latitude, r.longitude),
+                            facultyName = r.facultyName,
+                            department = r.facultyDepartment,
+                            equipmentList = r.equipmentList,
+                            locationStatus = r.locationStatus
+                        )
+                    } else null
+                }
+            }
+
+            searchResults = roomMatches + campusMatches + maptilerMatches
                 }
             }
         }
@@ -266,27 +448,6 @@ fun CampusNavigatorMainScreen(
             ) { tab ->
                 when (tab) {
                     CampusTab.EXPLORE -> {
-                        ExploreScreen(
-                            buildings = buildings,
-                            onViewOnMap = { bldg ->
-                                selectedBuilding = bldg
-                                focusTarget = bldg.centroid
-                                currentTab = CampusTab.MAP
-                            },
-                            onWalkHere = { bldg ->
-                                selectedBuilding = bldg
-                                focusTarget = bldg.centroid
-                                val start = userLocation?.point ?: GeoPoint(16.4632311, 80.5064108)
-                                graph?.let { g ->
-                                    val r = RoutingEngine.findAStarPath(g, start, bldg.centroid)
-                                    activeRoute = r
-                                }
-                                currentTab = CampusTab.MAP
-                            }
-                        )
-                    }
-
-                    CampusTab.MAP -> {
                         Box(modifier = Modifier.fillMaxSize()) {
                             // Interactive Canvas Map
                             InteractiveCampusCanvasMap(
@@ -299,29 +460,77 @@ fun CampusNavigatorMainScreen(
                                 mapStyle = currentMapStyle,
                                 zoomLevel = mapZoomLevel,
                                 focusTarget = focusTarget,
+                                highlightedRoom = selectedRoom,
+                                activeFloor = activeFloorFilter,
+                                roomsOnFloor = roomsOnActiveFloor,
                                 onBuildingSelected = { bldg ->
                                     selectedBuilding = bldg
+                                    selectedRoom = null
                                     focusTarget = bldg.centroid
                                     activeRoute = null
                                     dynamicProgress = null
                                 }
                             )
 
-                            // Floating Search Bar with Autocomplete (Campus + MapTiler)
+                            // Floating Search Bar with Autocomplete & Category Filter Chips
                             FloatingCampusSearchBar(
                                 query = searchQuery,
                                 onQueryChange = { searchQuery = it },
+                                selectedFilter = selectedSearchFilter,
+                                onFilterChange = { selectedSearchFilter = it },
                                 searchResults = searchResults,
                                 onSelectResult = { res ->
                                     when (res) {
+                                        is com.srmap.campusnavigator.domain.models.UnifiedSearchResult.RoomResult -> {
+                                            selectedRoom = res
+                                            selectedBuilding = null
+                                            focusTarget = res.point
+                                            activeRoute = null
+                                            dynamicProgress = null
+                                        }
+                                        is com.srmap.campusnavigator.domain.models.UnifiedSearchResult.FacultyResult -> {
+                                            selectedRoom = com.srmap.campusnavigator.domain.models.UnifiedSearchResult.RoomResult(
+                                                roomId = "${res.blockId}_${res.roomNo}",
+                                                blockId = res.blockId,
+                                                floor = res.floor,
+                                                roomNo = res.roomNo,
+                                                roomType = "Faculty Cabin",
+                                                point = res.point,
+                                                facultyName = res.facultyName,
+                                                department = res.department
+                                            )
+                                            selectedBuilding = null
+                                            focusTarget = res.point
+                                            activeRoute = null
+                                            dynamicProgress = null
+                                        }
+                                        is com.srmap.campusnavigator.domain.models.UnifiedSearchResult.EquipmentResult -> {
+                                            selectedRoom = com.srmap.campusnavigator.domain.models.UnifiedSearchResult.RoomResult(
+                                                roomId = "${res.blockId}_${res.roomNo}",
+                                                blockId = res.blockId,
+                                                floor = res.floor,
+                                                roomNo = res.roomNo,
+                                                roomType = "Research Lab",
+                                                point = res.point,
+                                                facultyName = res.labInCharge,
+                                                equipmentList = res.equipmentName
+                                            )
+                                            selectedBuilding = null
+                                            focusTarget = res.point
+                                            activeRoute = null
+                                            dynamicProgress = null
+                                        }
                                         is com.srmap.campusnavigator.domain.models.UnifiedSearchResult.CampusBuildingResult -> {
                                             selectedBuilding = res.building
+                                            selectedRoom = null
                                             focusTarget = res.building.centroid
                                             activeRoute = null
                                             dynamicProgress = null
                                         }
                                         is com.srmap.campusnavigator.domain.models.UnifiedSearchResult.MapTilerPlaceResult -> {
                                             focusTarget = res.point
+                                            selectedRoom = null
+                                            selectedBuilding = null
                                             activeRoute = null
                                             dynamicProgress = null
                                         }
@@ -362,10 +571,36 @@ fun CampusNavigatorMainScreen(
                                     .padding(end = 16.dp)
                             )
 
+                            // Room Details Bottom Sheet
+                            selectedRoom?.let { room ->
+                                com.srmap.campusnavigator.presentation.bottomsheet.RoomDetailsSheet(
+                                    room = room,
+                                    onClose = { selectedRoom = null },
+                                    onNavigate = {
+                                        val start = userLocation?.point ?: GeoPoint(16.4632311, 80.5064108)
+                                        graph?.let { g ->
+                                            val r = RoutingEngine.findAStarPath(g, start, room.point)
+                                            if (r != null) {
+                                                activeRoute = r
+                                                activeDestination = room.point
+                                                activeDestinationName = "${room.blockId} Room ${room.roomNo}"
+                                                progressTracker?.startNavigation(r, room.point)
+                                                dynamicProgress = progressTracker?.updateProgress(start)
+                                            }
+                                        }
+                                        selectedRoom = null
+                                    },
+                                    modifier = Modifier.align(Alignment.BottomCenter)
+                                )
+                            }
+
                             // Building Details Bottom Sheet
                             BuildingDetailsSheet(
                                 building = selectedBuilding,
                                 isFavorite = isFavorite,
+                                roomsInBlock = buildingRooms,
+                                facultyInBlock = buildingFaculty,
+                                equipmentInBlock = buildingEquipment,
                                 onNavigateClick = { destination ->
                                     val start = userLocation?.point ?: GeoPoint(16.4632311, 80.5064108)
                                     val currentGraph = graph
@@ -380,6 +615,21 @@ fun CampusNavigatorMainScreen(
                                         }
                                     }
                                     selectedBuilding = null
+                                },
+                                onSelectRoom = { rm ->
+                                    if (rm.latitude != null && rm.longitude != null) {
+                                        selectedRoom = com.srmap.campusnavigator.domain.models.UnifiedSearchResult.RoomResult(
+                                            roomId = rm.roomId,
+                                            blockId = rm.blockId,
+                                            floor = rm.floor,
+                                            roomNo = rm.roomNo,
+                                            roomType = rm.roomType,
+                                            point = GeoPoint(rm.latitude, rm.longitude),
+                                            locationStatus = rm.locationStatus
+                                        )
+                                        selectedBuilding = null
+                                        focusTarget = GeoPoint(rm.latitude, rm.longitude)
+                                    }
                                 },
                                 onToggleFavorite = { bldg ->
                                     scope.launch(Dispatchers.IO) {
@@ -417,22 +667,85 @@ fun CampusNavigatorMainScreen(
                         }
                     }
 
-                    CampusTab.DIRECTIONS -> {
-                        DirectionsScreen(
-                            buildings = buildings,
-                            userLocation = userLocation?.point,
-                            onCalculateRoute = { start, dest, destName ->
+                    CampusTab.SEARCH -> {
+                        com.srmap.campusnavigator.presentation.search.SearchScreen(
+                            query = searchQuery,
+                            onQueryChange = { searchQuery = it },
+                            selectedFilter = selectedSearchFilter,
+                            onFilterChange = { selectedSearchFilter = it },
+                            searchResults = searchResults,
+                            allRooms = defaultRooms,
+                            allFaculty = defaultFaculty,
+                            allEquipment = defaultEquipment,
+                            recentSearches = recentSearchesList,
+                            onClearRecentSearches = {
+                                scope.launch(Dispatchers.IO) {
+                                    dao.clearRecentSearches()
+                                    recentSearchesList = emptyList()
+                                }
+                            },
+                            onSelectResult = { res ->
+                                when (res) {
+                                    is com.srmap.campusnavigator.domain.models.UnifiedSearchResult.RoomResult -> {
+                                        selectedRoom = res
+                                        selectedBuilding = null
+                                        focusTarget = res.point
+                                    }
+                                    is com.srmap.campusnavigator.domain.models.UnifiedSearchResult.FacultyResult -> {
+                                        selectedRoom = com.srmap.campusnavigator.domain.models.UnifiedSearchResult.RoomResult(
+                                            roomId = "${res.blockId}_${res.roomNo}",
+                                            blockId = res.blockId,
+                                            floor = res.floor,
+                                            roomNo = res.roomNo,
+                                            roomType = "Faculty Cabin",
+                                            point = res.point,
+                                            facultyName = res.facultyName,
+                                            department = res.department
+                                        )
+                                        selectedBuilding = null
+                                        focusTarget = res.point
+                                    }
+                                    is com.srmap.campusnavigator.domain.models.UnifiedSearchResult.EquipmentResult -> {
+                                        selectedRoom = com.srmap.campusnavigator.domain.models.UnifiedSearchResult.RoomResult(
+                                            roomId = "${res.blockId}_${res.roomNo}",
+                                            blockId = res.blockId,
+                                            floor = res.floor,
+                                            roomNo = res.roomNo,
+                                            roomType = "Research Lab",
+                                            point = res.point,
+                                            facultyName = res.labInCharge,
+                                            equipmentList = res.equipmentName
+                                        )
+                                        selectedBuilding = null
+                                        focusTarget = res.point
+                                    }
+                                    is com.srmap.campusnavigator.domain.models.UnifiedSearchResult.CampusBuildingResult -> {
+                                        selectedBuilding = res.building
+                                        selectedRoom = null
+                                        focusTarget = res.building.centroid
+                                    }
+                                    is com.srmap.campusnavigator.domain.models.UnifiedSearchResult.MapTilerPlaceResult -> {
+                                        focusTarget = res.point
+                                        selectedRoom = null
+                                        selectedBuilding = null
+                                    }
+                                }
+                                currentTab = CampusTab.EXPLORE
+                            },
+                            onNavigateResult = { res ->
+                                val pt = res.point
+                                val start = userLocation?.point ?: GeoPoint(16.4632311, 80.5064108)
                                 graph?.let { g ->
-                                    val r = RoutingEngine.findAStarPath(g, start, dest)
-                                    activeRoute = r
-                                    activeDestination = dest
-                                    activeDestinationName = destName
+                                    val r = RoutingEngine.findAStarPath(g, start, pt)
                                     if (r != null) {
-                                        progressTracker?.startNavigation(r, dest)
+                                        activeRoute = r
+                                        activeDestination = pt
+                                        activeDestinationName = res.title
+                                        progressTracker?.startNavigation(r, pt)
                                         dynamicProgress = progressTracker?.updateProgress(start)
                                     }
-                                    currentTab = CampusTab.MAP
                                 }
+                                currentTab = CampusTab.EXPLORE
                             }
                         )
                     }
@@ -456,7 +769,7 @@ fun CampusNavigatorMainScreen(
                                         progressTracker?.startNavigation(r, bldg.centroid)
                                         dynamicProgress = progressTracker?.updateProgress(start)
                                     }
-                                    currentTab = CampusTab.MAP
+                                    currentTab = CampusTab.EXPLORE
                                 }
                             }
                         )

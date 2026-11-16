@@ -243,4 +243,137 @@ class GeoJsonAssetParser(private val context: Context) {
         reader.close()
         return sb.toString()
     }
+    fun loadRoomsGeoJson(): List<com.srmap.campusnavigator.data.local.entities.RoomEntity> {
+        val rooms = mutableListOf<com.srmap.campusnavigator.data.local.entities.RoomEntity>()
+        try {
+            val json = readAssetString("srmap_rooms_all.geojson")
+            val root = JSONObject(json)
+            val featArray = root.getJSONArray("features")
+
+            for (i in 0 until featArray.length()) {
+                val f = featArray.getJSONObject(i)
+                val props = f.optJSONObject("properties") ?: continue
+                val geom = f.optJSONObject("geometry") ?: continue
+                val coords = geom.getJSONArray("coordinates")
+                val lon = coords.getDouble(0)
+                val lat = coords.getDouble(1)
+
+                val stableId = props.optString("stable_id", "room_$i")
+                val block = props.optString("block", "UNKNOWN")
+                val floor = props.optString("floor", "1").toIntOrNull() ?: 1
+                val roomNo = props.optString("room_no", "")
+                val roomType = props.optString("room_type", "Room")
+                val matchStatus = props.optString("match_status", "EXACT_MATCH")
+                val desc = props.optString("description", "")
+                val cap = if (props.has("capacity") && !props.isNull("capacity")) props.getInt("capacity") else null
+
+                rooms.add(
+                    com.srmap.campusnavigator.data.local.entities.RoomEntity(
+                        roomId = stableId,
+                        blockId = block,
+                        roomNo = roomNo,
+                        normalizedRoomNo = roomNo.replace(" ", "").uppercase(),
+                        floor = floor,
+                        roomType = roomType,
+                        latitude = lat,
+                        longitude = lon,
+                        locationStatus = matchStatus,
+                        sourceDataset = props.optString("source_dataset", ""),
+                        description = desc,
+                        capacity = cap
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return rooms
+    }
+    data class EnrichedEntities(
+        val rooms: List<com.srmap.campusnavigator.data.local.entities.RoomEntity>,
+        val faculty: List<com.srmap.campusnavigator.data.local.entities.FacultyEntity>,
+        val equipment: List<com.srmap.campusnavigator.data.local.entities.EquipmentEntity>
+    )
+
+    fun loadAllEnrichedData(): EnrichedEntities {
+        val rooms = mutableListOf<com.srmap.campusnavigator.data.local.entities.RoomEntity>()
+        val facultyList = mutableListOf<com.srmap.campusnavigator.data.local.entities.FacultyEntity>()
+        val equipmentList = mutableListOf<com.srmap.campusnavigator.data.local.entities.EquipmentEntity>()
+
+        try {
+            val json = readAssetString("srmap_rooms_all.geojson")
+            val root = JSONObject(json)
+            val featArray = root.getJSONArray("features")
+
+            for (i in 0 until featArray.length()) {
+                val f = featArray.getJSONObject(i)
+                val props = f.optJSONObject("properties") ?: continue
+                val geom = f.optJSONObject("geometry") ?: continue
+                val coords = geom.getJSONArray("coordinates")
+                val lon = coords.getDouble(0)
+                val lat = coords.getDouble(1)
+
+                val stableId = props.optString("stable_id", "room_$i")
+                val block = props.optString("block", "UNKNOWN")
+                val floor = props.optString("floor", "1").toIntOrNull() ?: 1
+                val roomNo = props.optString("room_no", "")
+                val roomType = props.optString("room_type", "Room")
+                val matchStatus = props.optString("match_status", "EXACT_MATCH")
+                val desc = props.optString("description", "")
+                val cap = if (props.has("capacity") && !props.isNull("capacity")) props.getInt("capacity") else null
+
+                rooms.add(
+                    com.srmap.campusnavigator.data.local.entities.RoomEntity(
+                        roomId = stableId,
+                        blockId = block,
+                        roomNo = roomNo,
+                        normalizedRoomNo = roomNo.replace(" ", "").uppercase(),
+                        floor = floor,
+                        roomType = roomType,
+                        latitude = lat,
+                        longitude = lon,
+                        locationStatus = matchStatus,
+                        sourceDataset = props.optString("source_dataset", ""),
+                        description = desc,
+                        capacity = cap
+                    )
+                )
+
+                // Extract Faculty
+                val facName = props.optString("faculty_name", "").trim()
+                if (facName.isNotBlank() && facName != "null") {
+                    facultyList.add(
+                        com.srmap.campusnavigator.data.local.entities.FacultyEntity(
+                            roomId = stableId,
+                            name = facName,
+                            normalizedName = facName.uppercase(),
+                            designation = if (props.has("designation")) props.optString("designation") else null,
+                            department = if (props.has("department")) props.optString("department") else null
+                        )
+                    )
+                }
+
+                // Extract Equipment
+                val eqArr = props.optJSONArray("equipment")
+                if (eqArr != null) {
+                    for (k in 0 until eqArr.length()) {
+                        val eqName = eqArr.optString(k, "").trim()
+                        if (eqName.isNotBlank()) {
+                            equipmentList.add(
+                                com.srmap.campusnavigator.data.local.entities.EquipmentEntity(
+                                    roomId = stableId,
+                                    name = eqName,
+                                    normalizedName = eqName.uppercase(),
+                                    category = "EQUIPMENT"
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return EnrichedEntities(rooms, facultyList, equipmentList)
+    }
 }

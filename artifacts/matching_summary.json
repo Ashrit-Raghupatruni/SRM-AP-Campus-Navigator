@@ -1,0 +1,8 @@
+{
+  "total_spatial_points_scanned": 581,
+  "features_in_geojson": 581,
+  "total_csv_records": 18,
+  "exact_matches": 18,
+  "unmatched_spatial_features": 563,
+  "missing_spatial_points": 0
+}

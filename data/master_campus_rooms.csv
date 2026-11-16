@@ -1,0 +1,19 @@
+block,floor,room_no,room_type,faculty_name,designation,department,equipment,description,capacity
+SR1,2,S203,Classroom,,,,Projector|Smart Board|Audio System,Lecture Hall,60
+SR1,2,S202,Classroom,,,,Projector|Whiteboard,Lecture Hall,60
+SR1,2,S201,Classroom,,,,Projector|Smart Board,Lecture Hall,60
+SR1,2,C214,Faculty Cabin,Dr. Ramesh Kumar,Associate Professor,Computer Science,Desktop PC|Printer,Faculty Cabin,1
+SR1,2,C215,Faculty Cabin,Dr. Priya Sharma,Assistant Professor,Computer Science,Desktop PC,Faculty Cabin,1
+SR1,2,C216,Faculty Cabin,Dr. Amit Patel,Associate Professor,Electronics and Communication,Desktop PC|Oscilloscope,Faculty Cabin,1
+SR1,1,DeanOffice,Office,Dr. K. V. Rao,Dean,Academic Affairs,Desktop PC|Printer|Conference System,Dean Academic Office,10
+V,1,V101,Research Lab,Prof. Anita Roy,Professor,Physics,Microscope|Spectrometer|Optical Table,Advanced Research Laboratory,30
+V,1,Quantum_Open_Lab,Research Lab,Dr. S. Sundaram,Lead Scientist,Physics,Quantum Cryostat|Laser Source|Spectrometer,Quantum Computing and Optics Lab,25
+V,1,Quantum_Lab_Close,Research Lab,Dr. M. Verma,Senior Researcher,Physics,Electron Microscope|Vacuum Chamber,High Precision Quantum Lab,15
+V,2,V201,Classroom,,,,Projector|Smart Board,Seminar Hall,80
+X-LAB,1,X101,Computer Lab,Mr. Rajesh G,Lab Instructor,Computer Science,High Performance Workstations|Server Rack|Printers,AI & Machine Learning Lab,40
+X-LAB,1,X102,Research Lab,Dr. Neha Gupta,Assistant Professor,Mechanical Engineering,3D Printer|CNC Milling Machine|Laser Cutter,Prototyping & Fabrication Lab,25
+X-LAB,1,AUD-1,Auditorium,,,,Projector|Digital Audio Console|Stage Lighting,Main Auditorium,250
+CV,2,210,Classroom,,,,Projector|Smart Board,Classroom,50
+CV,2,209,Classroom,,,,Projector|Whiteboard,Classroom,50
+CV,2,c2_2,Faculty Cabin,Dr. Vikram Reddy,Associate Professor,Civil Engineering,Desktop PC,Faculty Cabin,1
+CV,3,c3_2,Faculty Cabin,Dr. Sunita Sen,Assistant Professor,Civil Engineering,Desktop PC|Printer,Faculty Cabin,1

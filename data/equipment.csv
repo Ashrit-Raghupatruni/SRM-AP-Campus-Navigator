@@ -1,0 +1,13 @@
+equipment_name,category,lab_name,room_no,block,floor,specifications
+Electron Microscope,Microscopy,Quantum Computing Lab,Quantum_Lab_Close,V Block,1,High vacuum FE-SEM
+Microscope,Optics,Advanced Research Lab,V-101,V Block,1,High resolution optical microscope
+Spectrometer,Spectroscopy,Advanced Research Lab,V-101,V Block,1,UV-Vis-NIR Spectrometer
+Quantum Cryostat,Cryogenics,Quantum Optics Lab,Quantum_Open_Lab,V Block,1,Sub-Kelvin closed cycle cryostat
+Laser Source,Photonics,Quantum Optics Lab,Quantum_Open_Lab,V Block,1,Tunable titanium sapphire laser
+3D Printer,Fabrication,Prototyping Lab,X-102,X-LAB,1,Dual extrusion industrial 3D printer
+CNC Milling Machine,Machining,Prototyping Lab,X-102,X-LAB,1,4-Axis high precision CNC router
+High Performance Workstations,Computing,AI Lab,X-101,X-LAB,1,NVIDIA A100 GPU clusters
+Digital Audio Console,Audio,Main Auditorium,AUD-1,X-LAB,1,48-Channel digital stage mixer
+Smart Board,Classroom Media,Lecture Hall,S-203,SR Block,2,75-inch 4K Interactive touch panel
+Projector,Display,Lecture Hall,S-203,SR Block,2,5000 Lumens laser projector
+Oscilloscope,Electronics,Faculty Lab,C-216,SR Block,2,4-Channel 1GHz digital phosphor oscilloscope

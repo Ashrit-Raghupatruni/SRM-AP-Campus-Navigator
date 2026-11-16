@@ -1,0 +1,9 @@
+block,floor,room_no,room_type,capacity,description
+SR Block,2,S-203,Lecture Hall,60,Smart Board equipped classroom
+SR Block,2,S-202,Classroom,60,Engineering classroom
+SR Block,2,S-201,Classroom,60,Smart Board equipped classroom
+CV Block,3,C-305,Classroom,50,Engineering Mechanics class
+CV Block,2,C-210,Classroom,50,Applied Sciences lecture room
+CV Block,2,C-209,Classroom,50,Standard tutorial classroom
+V Block,2,V-201,Seminar Hall,80,Multi-media equipped seminar room
+X-LAB,1,AUD-1,Auditorium,250,Central Campus Main Auditorium

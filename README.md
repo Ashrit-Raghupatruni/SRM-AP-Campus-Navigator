@@ -1,12 +1,29 @@
 <div align="center">
   <img src="./docs/images/app_logo.png" alt="SRM AP Campus Navigator Logo" width="160" />
   <h1>SRM AP Campus Navigator</h1>
-  <p><strong>A production-grade, offline-first native Android navigation application for SRM University–AP</strong></p>
+  <p><strong>A production-grade, offline-first native Android navigation & room-level spatial intelligence platform for SRM University–AP</strong></p>
 </div>
 
 ---
 
 ## 📱 Features
+
+### 🏢 Room-Level Spatial Intelligence & Multi-Floor Navigation
+- **Precise QGIS Point Ingestion:** Over **580 verified spatial door coordinates** extracted directly from QGIS point shapefiles for academic buildings:
+  - **SR1 / OE1 Block:** Classrooms (e.g., `S201`, `S203`), faculty cabins (`C21`–`C29`, `C2 10`–`C2 24`), and the Dean Academic Office.
+  - **V-Block:** Classrooms, lecture halls, Quantum Open & Closed Research Laboratories.
+  - **X-Lab Complex:** AI & Machine Learning labs, Mechanical prototyping/fabrication facilities, and main auditorium `AUD-1`.
+  - **CV Raman Block:** 10-story high-rise academic tower lecture halls and faculty suites.
+  - **Homi J. Bhabha Block:** Advanced science and research facilities across 5 levels.
+- **Interactive Map Floor Selector:** Dedicated vertical floor level selector (`ALL`, `F1`, `F2`, `F3`, `F4`, `F5`, `F10`) on the map canvas to dynamically filter and render room door markers on demand.
+- **Pulsing Room Pins & Labels:** Highlighting selected search results with animated pulse rings, color-coded badges, and anti-collision text labels.
+
+### 🔍 Unified Search Engine (Rooms, Faculty & Equipment)
+- **Room Number Search:** Instantly locate any classroom, seminar hall, or auditorium (e.g., `S203`, `V101`, `X101`, `210`).
+- **Faculty Directory Search:** Search faculty cabins by name, designation, and department (e.g., `Dr. Ramesh Kumar`, `Computer Science`, `Dean`).
+- **Laboratory Equipment Search:** Search for research instruments and equipment (e.g., `Microscope`, `Electron Microscope`, `Spectrometer`, `Smart Board`) to pinpoint the exact laboratory room.
+- **Category Filter Chips:** Rapid filter chips (`All`, `Rooms`, `Faculty`, `Labs`, `Equipment`) directly on the search bar.
+- **SQLite FTS5 Full-Text Search:** Sub-millisecond offline full-text search index with `unicode61` tokenizer.
 
 ### 📍 Interactive Campus Map & MapTiler Layers
 - **Custom Vector Campus Canvas:** Renders buildings, footpaths, roads, and landscape features parsed from verified OpenStreetMap GeoJSON datasets.
@@ -37,24 +54,44 @@
   - Verified 6-building layout: **Kaveri**, **Godavari**, **Krishna** on the West; **Yamuna**, **Narmada**, and **Annapurna Mess** (green-roofed) on the East.
   - Integrated **Hostel Central Avenue** (`way/1472341100_hostel_avenue`) with lateral entrance connectors to all hostel blocks, mess hall, and academic entrances.
 
-### 🔍 Unified Search & Offline Routing Engine
-- **Instant Search:** Search across all campus buildings, departments, hostels, mess halls, and amenities completely offline.
-- **Online Geocoding Fallback:** MapTiler Cloud forward/reverse geocoding debounced with Amaravati bounding box proximity.
-- **Dual Engine Verification:** A* shortest path navigation verified with 100% path parity against Dijkstra.
-
-### 💾 Persistence & Bookmarks
-- **Room Database:** Local SQLite storage persists bookmarked buildings (`isFavorite`), custom labels, and user search history across app restarts.
-- **Dedicated Saved Tab:** Instant one-tap navigation to frequently visited locations.
+### 💾 Persistence & Non-Destructive Migrations
+- **Room Database V2:** Non-destructive migration (`MIGRATION_1_2`) retaining user favorites and recent search history while introducing relational tables for `blocks`, `rooms`, `faculty`, `equipment`, and `departments`.
+- **Prepopulated Assets:** Enriched GeoJSON (`srmap_rooms_all.geojson`) and prebuilt SQLite database (`srmap_blocks.db`) packaged directly in app assets for instant offline readiness.
 
 ---
 
+## 🛠️ Tech Stack & Tooling
+
 - **Language:** Kotlin 1.9.24
 - **UI Toolkit:** Jetpack Compose (BOM 2024.04.01) + Material 3
-- **Local Database:** Room 2.6.1
+- **Local Database:** Room 2.6.1 + SQLite FTS5
+- **GIS Tools:** QGIS 3.44 (PyQGIS), GDAL / OGR, GeoPandas, Shapely
 - **Networking:** OkHttp 4.12.0
 - **Location & Sensors:** Google Play Services Location 21.2.0
-- **Build System:** Gradle 8.7 (Kotlin DSL)
+- **Build System:** Gradle 8.7 (Kotlin DSL) with OpenJDK 21 (Android Studio JBR)
 - **Min SDK:** 26 (Android 8.0) | **Target SDK:** 34 (Android 14/15/16)
+
+---
+
+## 💻 CLI & GIS Ingestion Pipeline
+
+To reproduce or update campus room data with a new master CSV:
+
+1. **Place CSV file:** Save classrooms, faculty, and equipment metadata into `data/master_campus_rooms.csv`.
+2. **Process GIS Shapefiles & Match CSV:**
+   ```powershell
+   & "C:\Program Files\QGIS 3.44.12\bin\python-qgis-ltr.bat" scripts/process_blocks_with_csv.py
+   ```
+3. **Rebuild SQLite Database & FTS5 Index:**
+   ```powershell
+   python scripts/build_sql_database.py
+   ```
+4. **Test Search from Terminal:**
+   ```powershell
+   python scripts/search_campus.py --room S203
+   python scripts/search_campus.py --faculty Kumar
+   python scripts/search_campus.py --equipment microscope
+   ```
 
 ---
 
@@ -74,7 +111,9 @@ Verified in automated unit test suite (`ComprehensiveAuditTest.kt`):
 ---
 
 ## 📚 Technical Reports & Audits
-Detailed technical audits and verification reports are available in the `docs/` folder:
+Detailed technical audits and verification reports are available in the `docs/` and `artifacts/` folders:
+- [Room-Level Search Architecture & Ingestion Guide](docs/ROOM_LEVEL_SEARCH_ARCHITECTURE.md)
+- [GIS Dataset Profiling & Audit Report](artifacts/gis_dataset_audit.md)
 - [Campus Geometry & Pedestrian Network Report](docs/CAMPUS_GEOMETRY_AND_PEDESTRIAN_NETWORK_REPORT.md)
 - [Production Readiness Audit](docs/PRODUCTION_READINESS_REPORT.md)
 - [GeoJSON Accuracy & ODbL Verification](docs/GEOJSON_ACCURACY_REPORT.md)

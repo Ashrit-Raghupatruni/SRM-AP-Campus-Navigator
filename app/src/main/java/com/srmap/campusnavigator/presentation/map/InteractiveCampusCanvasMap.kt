@@ -54,6 +54,9 @@ fun InteractiveCampusCanvasMap(
     mapStyle: MapTilerStyle = MapTilerStyle.STREETS,
     zoomLevel: Float = 1.0f,
     focusTarget: GeoPoint? = null,
+    highlightedRoom: com.srmap.campusnavigator.domain.models.UnifiedSearchResult.RoomResult? = null,
+    activeFloor: Int? = null,
+    roomsOnFloor: List<com.srmap.campusnavigator.data.local.entities.RoomEntity> = emptyList(),
     onBuildingSelected: (CampusBuilding) -> Unit
 ) {
     // Exact SRM AP Campus Core Bounds
@@ -426,6 +429,83 @@ fun InteractiveCampusCanvasMap(
             val dest = project(activeRemaining.last(), w, h)
             drawCircle(color = SrmCrimson, radius = 12f * scale, center = dest)
             drawCircle(color = Color.White, radius = 6f * scale, center = dest)
+        }
+
+        // 7.4 Draw All Rooms on Active Floor
+        if (activeFloor != null && roomsOnFloor.isNotEmpty()) {
+            for (rm in roomsOnFloor) {
+                if (rm.latitude != null && rm.longitude != null) {
+                    val rmPt = project(GeoPoint(rm.latitude, rm.longitude), w, h)
+                    val isCabin = rm.roomType.contains("Cabin", ignoreCase = true)
+                    val isLab = rm.roomType.contains("Lab", ignoreCase = true)
+                    val dotColor = if (isCabin) Color(0xFFD97706) else if (isLab) Color(0xFF059669) else Color(0xFF0284C7)
+
+                    // Draw floor room dot
+                    drawCircle(color = Color.White, radius = 5.5f * scale, center = rmPt)
+                    drawCircle(color = dotColor, radius = 4f * scale, center = rmPt)
+
+                    // Draw label if zoomed in sufficiently
+                    if (scale >= 1.6f) {
+                        val paint = Paint().apply {
+                            color = android.graphics.Color.DKGRAY
+                            textSize = 20f * scale
+                            typeface = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
+                            textAlign = Paint.Align.CENTER
+                        }
+                        drawContext.canvas.nativeCanvas.drawText(rm.roomNo, rmPt.x, rmPt.y - (7f * scale), paint)
+                    }
+                }
+            }
+        }
+
+        // 7.5 Draw Highlighted Room Pin (from Search)
+        highlightedRoom?.let { room ->
+            val roomPx = project(room.point, w, h)
+            val roomColor = when (room.roomType.lowercase()) {
+                "faculty cabin" -> Color(0xFFD97706)
+                "research lab", "computer lab" -> Color(0xFF059669)
+                else -> Color(0xFF0284C7)
+            }
+
+            // Glow / Pulse circle
+            drawCircle(
+                color = roomColor.copy(alpha = 0.25f),
+                radius = 24f * scale * pulseScale,
+                center = roomPx
+            )
+            // Outer marker ring
+            drawCircle(
+                color = Color.White,
+                radius = 12f * scale,
+                center = roomPx
+            )
+            // Pin core
+            drawCircle(
+                color = roomColor,
+                radius = 9f * scale,
+                center = roomPx
+            )
+            // Inner dot
+            drawCircle(
+                color = Color.White,
+                radius = 3.5f * scale,
+                center = roomPx
+            )
+
+            // Room Label
+            val roomText = "${room.blockId} ${room.roomNo}"
+            val paint = Paint().apply {
+                color = android.graphics.Color.BLACK
+                textSize = 32f * scale
+                typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+                textAlign = Paint.Align.CENTER
+            }
+            drawContext.canvas.nativeCanvas.drawText(
+                roomText,
+                roomPx.x,
+                roomPx.y - (18f * scale),
+                paint
+            )
         }
 
         // 8. Draw Live GPS User Dot with Real Accuracy Circle

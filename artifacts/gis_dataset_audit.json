@@ -1,0 +1,1213 @@
+{
+  "source_directory": "C:\\Users\\ashri\\Downloads\\Remote Sensing and GIS\\Blocks",
+  "total_datasets_found": 19,
+  "datasets": [
+    {
+      "relative_path": "ALL\\LEVEL 1.shp",
+      "filename": "LEVEL 1.shp",
+      "feature_count": 9,
+      "geometry_type": 1,
+      "geometry_name": "Point",
+      "crs": {
+        "name": "UNKNOWN",
+        "epsg": "UNKNOWN",
+        "is_geographic": false
+      },
+      "sidecars": {
+        ".shp": true,
+        ".shx": true,
+        ".dbf": false,
+        ".prj": false,
+        ".cpg": false
+      },
+      "fields": [],
+      "extent_lon_lat": [
+        80.50808082134387,
+        80.50844934853508,
+        16.46458046361783,
+        16.465086252629686
+      ],
+      "invalid_geometries": 0,
+      "rooms_found": 0,
+      "null_rooms": 9,
+      "duplicate_room_codes": {},
+      "samples": [
+        {
+          "id": 0,
+          "attributes": {},
+          "point": [
+            80.50808082134387,
+            16.464838349462692
+          ]
+        },
+        {
+          "id": 1,
+          "attributes": {},
+          "point": [
+            80.50824303985918,
+            16.464839181352513
+          ]
+        },
+        {
+          "id": 2,
+          "attributes": {},
+          "point": [
+            80.50844851664526,
+            16.465026356562493
+          ]
+        }
+      ]
+    },
+    {
+      "relative_path": "ALL\\LEVEL 2.shp",
+      "filename": "LEVEL 2.shp",
+      "feature_count": 34,
+      "geometry_type": 1,
+      "geometry_name": "Point",
+      "crs": {
+        "name": "UNKNOWN",
+        "epsg": "UNKNOWN",
+        "is_geographic": false
+      },
+      "sidecars": {
+        ".shp": true,
+        ".shx": true,
+        ".dbf": false,
+        ".prj": false,
+        ".cpg": false
+      },
+      "fields": [],
+      "extent_lon_lat": [
+        80.50808082134387,
+        80.50844602097578,
+        16.464560082317185,
+        16.465087500464417
+      ],
+      "invalid_geometries": 0,
+      "rooms_found": 0,
+      "null_rooms": 34,
+      "duplicate_room_codes": {},
+      "samples": [
+        {
+          "id": 0,
+          "attributes": {},
+          "point": [
+            80.50808082134387,
+            16.46508583668477
+          ]
+        },
+        {
+          "id": 1,
+          "attributes": {},
+          "point": [
+            80.50809080402173,
+            16.465086668574596
+          ]
+        },
+        {
+          "id": 2,
+          "attributes": {},
+          "point": [
+            80.50811160126729,
+            16.46508583668477
+          ]
+        }
+      ]
+    },
+    {
+      "relative_path": "ALL\\LEVEL 3.shp",
+      "filename": "LEVEL 3.shp",
+      "feature_count": 3,
+      "geometry_type": 1,
+      "geometry_name": "Point",
+      "crs": {
+        "name": "UNKNOWN",
+        "epsg": "UNKNOWN",
+        "is_geographic": false
+      },
+      "sidecars": {
+        ".shp": true,
+        ".shx": true,
+        ".dbf": false,
+        ".prj": false,
+        ".cpg": false
+      },
+      "fields": [],
+      "extent_lon_lat": [
+        80.50825635009629,
+        80.50844518908592,
+        16.46460791598196,
+        16.46504798569787
+      ],
+      "invalid_geometries": 0,
+      "rooms_found": 0,
+      "null_rooms": 3,
+      "duplicate_room_codes": {},
+      "samples": [
+        {
+          "id": 0,
+          "attributes": {},
+          "point": [
+            80.50844518908592,
+            16.464840013242338
+          ]
+        },
+        {
+          "id": 1,
+          "attributes": {},
+          "point": [
+            80.50825635009629,
+            16.46504798569787
+          ]
+        },
+        {
+          "id": 2,
+          "attributes": {},
+          "point": [
+            80.50827465167238,
+            16.46460791598196
+          ]
+        }
+      ]
+    },
+    {
+      "relative_path": "ALL\\LEVEL 4.shp",
+      "filename": "LEVEL 4.shp",
+      "feature_count": 16,
+      "geometry_type": 1,
+      "geometry_name": "Point",
+      "crs": {
+        "name": "UNKNOWN",
+        "epsg": "UNKNOWN",
+        "is_geographic": false
+      },
+      "sidecars": {
+        ".shp": true,
+        ".shx": true,
+        ".dbf": false,
+        ".prj": false,
+        ".cpg": false
+      },
+      "fields": [],
+      "extent_lon_lat": [
+        80.50809329969115,
+        80.50836699144263,
+        16.464590446295695,
+        16.46506711916378
+      ],
+      "invalid_geometries": 0,
+      "rooms_found": 0,
+      "null_rooms": 16,
+      "duplicate_room_codes": {},
+      "samples": [
+        {
+          "id": 0,
+          "attributes": {},
+          "point": [
+            80.50809329969115,
+            16.46506711916378
+          ]
+        },
+        {
+          "id": 1,
+          "attributes": {},
+          "point": [
+            80.50820310914767,
+            16.46506379160449
+          ]
+        },
+        {
+          "id": 2,
+          "attributes": {},
+          "point": [
+            80.50835700876476,
+            16.464988089630676
+          ]
+        }
+      ]
+    },
+    {
+      "relative_path": "ALL\\LEVEL 5.shp",
+      "filename": "LEVEL 5.shp",
+      "feature_count": 2,
+      "geometry_type": 1,
+      "geometry_name": "Point",
+      "crs": {
+        "name": "UNKNOWN",
+        "epsg": "UNKNOWN",
+        "is_geographic": false
+      },
+      "sidecars": {
+        ".shp": true,
+        ".shx": true,
+        ".dbf": false,
+        ".prj": false,
+        ".cpg": false
+      },
+      "fields": [],
+      "extent_lon_lat": [
+        80.50824470363878,
+        80.5082679965538,
+        16.464588782516053,
+        16.46505214514698
+      ],
+      "invalid_geometries": 0,
+      "rooms_found": 0,
+      "null_rooms": 2,
+      "duplicate_room_codes": {},
+      "samples": [
+        {
+          "id": 0,
+          "attributes": {},
+          "point": [
+            80.50824470363878,
+            16.46505214514698
+          ]
+        },
+        {
+          "id": 1,
+          "attributes": {},
+          "point": [
+            80.5082679965538,
+            16.464588782516053
+          ]
+        }
+      ]
+    },
+    {
+      "relative_path": "ALL\\Sr1_block.shp",
+      "filename": "Sr1_block.shp",
+      "feature_count": 219,
+      "geometry_type": 1,
+      "geometry_name": "Point",
+      "crs": {
+        "name": "WGS 84",
+        "epsg": "4326",
+        "is_geographic": true
+      },
+      "sidecars": {
+        ".shp": true,
+        ".shx": true,
+        ".dbf": true,
+        ".prj": true,
+        ".cpg": true
+      },
+      "fields": [
+        "id",
+        "name",
+        "room_num"
+      ],
+      "extent_lon_lat": [
+        80.5063754241783,
+        80.50688750778542,
+        16.4619990720216,
+        16.462987119795674
+      ],
+      "invalid_geometries": 0,
+      "rooms_found": 219,
+      "null_rooms": 0,
+      "duplicate_room_codes": {
+        "S402": 2
+      },
+      "samples": [
+        {
+          "id": 0,
+          "attributes": {
+            "id": 1,
+            "name": "SR_block",
+            "room_num": "s203"
+          },
+          "point": [
+            80.50686758146739,
+            16.462006565806472
+          ]
+        },
+        {
+          "id": 1,
+          "attributes": {
+            "id": 2,
+            "name": "SR_block",
+            "room_num": "s202"
+          },
+          "point": [
+            80.50688290940434,
+            16.46204641844255
+          ]
+        },
+        {
+          "id": 2,
+          "attributes": {
+            "id": 3,
+            "name": "SR_block",
+            "room_num": "s201"
+          },
+          "point": [
+            80.50688597499173,
+            16.462303927783353
+          ]
+        }
+      ]
+    },
+    {
+      "relative_path": "ALL\\VBlock.shp",
+      "filename": "VBlock.shp",
+      "feature_count": 44,
+      "geometry_type": 1,
+      "geometry_name": "Point",
+      "crs": {
+        "name": "WGS 84",
+        "epsg": "4326",
+        "is_geographic": true
+      },
+      "sidecars": {
+        ".shp": true,
+        ".shx": true,
+        ".dbf": true,
+        ".prj": true,
+        ".cpg": true
+      },
+      "fields": [
+        "id",
+        "Name",
+        "Room_No"
+      ],
+      "extent_lon_lat": [
+        80.50725689736214,
+        80.50786526744801,
+        16.464583993151265,
+        16.46506471953522
+      ],
+      "invalid_geometries": 0,
+      "rooms_found": 42,
+      "null_rooms": 2,
+      "duplicate_room_codes": {},
+      "samples": [
+        {
+          "id": 0,
+          "attributes": {
+            "id": 1,
+            "Name": "V_Block",
+            "Room_No": "V - 101"
+          },
+          "point": [
+            80.50786526744801,
+            16.46461238250465
+          ]
+        },
+        {
+          "id": 1,
+          "attributes": {
+            "id": 2,
+            "Name": "Quantum_Open_Lab",
+            "Room_No": null
+          },
+          "point": [
+            80.50729748038036,
+            16.464606704633972
+          ]
+        },
+        {
+          "id": 2,
+          "attributes": {
+            "id": 3,
+            "Name": "Quantum_Lab_Close",
+            "Room_No": null
+          },
+          "point": [
+            80.50768357558637,
+            16.46460859725753
+          ]
+        }
+      ]
+    },
+    {
+      "relative_path": "ALL\\X-LAB_1to3.shp",
+      "filename": "X-LAB_1to3.shp",
+      "feature_count": 42,
+      "geometry_type": 1,
+      "geometry_name": "Point",
+      "crs": {
+        "name": "WGS 84",
+        "epsg": "4326",
+        "is_geographic": true
+      },
+      "sidecars": {
+        ".shp": true,
+        ".shx": true,
+        ".dbf": true,
+        ".prj": true,
+        ".cpg": true
+      },
+      "fields": [
+        "id",
+        "Name",
+        "Room_No"
+      ],
+      "extent_lon_lat": [
+        80.50723844061339,
+        80.50757586683044,
+        16.46350034401922,
+        16.464182997696906
+      ],
+      "invalid_geometries": 0,
+      "rooms_found": 42,
+      "null_rooms": 0,
+      "duplicate_room_codes": {
+        "X-113": 2,
+        "AUD-1": 3,
+        "X-201": 2,
+        "LIFT": 2,
+        "X-204": 2,
+        "X-205": 2
+      },
+      "samples": [
+        {
+          "id": 0,
+          "attributes": {
+            "id": 1,
+            "Name": "X-Lab",
+            "Room_No": "X-101"
+          },
+          "point": [
+            80.50748876177157,
+            16.463520099407294
+          ]
+        },
+        {
+          "id": 1,
+          "attributes": {
+            "id": 2,
+            "Name": "X-Lab",
+            "Room_No": "X-102"
+          },
+          "point": [
+            80.50740696562445,
+            16.46351858466383
+          ]
+        },
+        {
+          "id": 2,
+          "attributes": {
+            "id": 3,
+            "Name": "X-Lab",
+            "Room_No": "X-103"
+          },
+          "point": [
+            80.5073100220427,
+            16.4635155551769
+          ]
+        }
+      ]
+    },
+    {
+      "relative_path": "ALL\\buildings_srmap.shp",
+      "filename": "buildings_srmap.shp",
+      "feature_count": 21,
+      "geometry_type": 3,
+      "geometry_name": "Polygon",
+      "crs": {
+        "name": "WGS 84",
+        "epsg": "4326",
+        "is_geographic": true
+      },
+      "sidecars": {
+        ".shp": true,
+        ".shx": true,
+        ".dbf": true,
+        ".prj": true,
+        ".cpg": true
+      },
+      "fields": [
+        "Id",
+        "Building N"
+      ],
+      "extent_lon_lat": [
+        80.5052733,
+        80.5084925,
+        16.4616739,
+        16.4664846
+      ],
+      "invalid_geometries": 0,
+      "rooms_found": 0,
+      "null_rooms": 21,
+      "duplicate_room_codes": {},
+      "samples": [
+        {
+          "id": 0,
+          "attributes": {
+            "Id": 1,
+            "Building N": "Narmadha"
+          },
+          "point": null
+        },
+        {
+          "id": 1,
+          "attributes": {
+            "Id": 2,
+            "Building N": "Yamuna"
+          },
+          "point": null
+        },
+        {
+          "id": 2,
+          "attributes": {
+            "Id": 3,
+            "Building N": "Yamuna"
+          },
+          "point": null
+        }
+      ]
+    },
+    {
+      "relative_path": "ALL\\cv_block.shp",
+      "filename": "cv_block.shp",
+      "feature_count": 212,
+      "geometry_type": 1,
+      "geometry_name": "Point",
+      "crs": {
+        "name": "WGS 84",
+        "epsg": "4326",
+        "is_geographic": true
+      },
+      "sidecars": {
+        ".shp": true,
+        ".shx": true,
+        ".dbf": true,
+        ".prj": true,
+        ".cpg": true
+      },
+      "fields": [
+        "id",
+        "Name",
+        "Room_no"
+      ],
+      "extent_lon_lat": [
+        80.50537423925957,
+        80.5060529864629,
+        16.46168282575819,
+        16.461971845408517
+      ],
+      "invalid_geometries": 0,
+      "rooms_found": 212,
+      "null_rooms": 0,
+      "duplicate_room_codes": {
+        "207": 2,
+        "c16_2": 2,
+        "c13_7": 2,
+        "809": 3
+      },
+      "samples": [
+        {
+          "id": 0,
+          "attributes": {
+            "id": 1,
+            "Name": "cv",
+            "Room_no": "210"
+          },
+          "point": [
+            80.5059614622246,
+            16.46194854915985
+          ]
+        },
+        {
+          "id": 1,
+          "attributes": {
+            "id": 2,
+            "Name": "cv",
+            "Room_no": "209"
+          },
+          "point": [
+            80.50589370572864,
+            16.46194854915985
+          ]
+        },
+        {
+          "id": 2,
+          "attributes": {
+            "id": 3,
+            "Name": "cv",
+            "Room_no": "207"
+          },
+          "point": [
+            80.50582800245982,
+            16.4619464959327
+          ]
+        }
+      ]
+    },
+    {
+      "relative_path": "CV_block\\cv_block\\cv_block.shp",
+      "filename": "cv_block.shp",
+      "feature_count": 212,
+      "geometry_type": 1,
+      "geometry_name": "Point",
+      "crs": {
+        "name": "WGS 84",
+        "epsg": "4326",
+        "is_geographic": true
+      },
+      "sidecars": {
+        ".shp": true,
+        ".shx": true,
+        ".dbf": true,
+        ".prj": true,
+        ".cpg": true
+      },
+      "fields": [
+        "id",
+        "Name",
+        "Room_no"
+      ],
+      "extent_lon_lat": [
+        80.50537423925957,
+        80.5060529864629,
+        16.46168282575819,
+        16.461971845408517
+      ],
+      "invalid_geometries": 0,
+      "rooms_found": 212,
+      "null_rooms": 0,
+      "duplicate_room_codes": {
+        "207": 2,
+        "c16_2": 2,
+        "c13_7": 2,
+        "809": 3
+      },
+      "samples": [
+        {
+          "id": 0,
+          "attributes": {
+            "id": 1,
+            "Name": "cv",
+            "Room_no": "210"
+          },
+          "point": [
+            80.5059614622246,
+            16.46194854915985
+          ]
+        },
+        {
+          "id": 1,
+          "attributes": {
+            "id": 2,
+            "Name": "cv",
+            "Room_no": "209"
+          },
+          "point": [
+            80.50589370572864,
+            16.46194854915985
+          ]
+        },
+        {
+          "id": 2,
+          "attributes": {
+            "id": 3,
+            "Name": "cv",
+            "Room_no": "207"
+          },
+          "point": [
+            80.50582800245982,
+            16.4619464959327
+          ]
+        }
+      ]
+    },
+    {
+      "relative_path": "HOMI J BHABHA\\HOMI J BHABHA\\LEVEL 1.shp",
+      "filename": "LEVEL 1.shp",
+      "feature_count": 9,
+      "geometry_type": 1,
+      "geometry_name": "Point",
+      "crs": {
+        "name": "UNKNOWN",
+        "epsg": "UNKNOWN",
+        "is_geographic": false
+      },
+      "sidecars": {
+        ".shp": true,
+        ".shx": true,
+        ".dbf": false,
+        ".prj": false,
+        ".cpg": false
+      },
+      "fields": [],
+      "extent_lon_lat": [
+        80.50808082134387,
+        80.50844934853508,
+        16.46458046361783,
+        16.465086252629686
+      ],
+      "invalid_geometries": 0,
+      "rooms_found": 0,
+      "null_rooms": 9,
+      "duplicate_room_codes": {},
+      "samples": [
+        {
+          "id": 0,
+          "attributes": {},
+          "point": [
+            80.50808082134387,
+            16.464838349462692
+          ]
+        },
+        {
+          "id": 1,
+          "attributes": {},
+          "point": [
+            80.50824303985918,
+            16.464839181352513
+          ]
+        },
+        {
+          "id": 2,
+          "attributes": {},
+          "point": [
+            80.50844851664526,
+            16.465026356562493
+          ]
+        }
+      ]
+    },
+    {
+      "relative_path": "HOMI J BHABHA\\HOMI J BHABHA\\LEVEL 2.shp",
+      "filename": "LEVEL 2.shp",
+      "feature_count": 34,
+      "geometry_type": 1,
+      "geometry_name": "Point",
+      "crs": {
+        "name": "UNKNOWN",
+        "epsg": "UNKNOWN",
+        "is_geographic": false
+      },
+      "sidecars": {
+        ".shp": true,
+        ".shx": true,
+        ".dbf": false,
+        ".prj": false,
+        ".cpg": false
+      },
+      "fields": [],
+      "extent_lon_lat": [
+        80.50808082134387,
+        80.50844602097578,
+        16.464560082317185,
+        16.465087500464417
+      ],
+      "invalid_geometries": 0,
+      "rooms_found": 0,
+      "null_rooms": 34,
+      "duplicate_room_codes": {},
+      "samples": [
+        {
+          "id": 0,
+          "attributes": {},
+          "point": [
+            80.50808082134387,
+            16.46508583668477
+          ]
+        },
+        {
+          "id": 1,
+          "attributes": {},
+          "point": [
+            80.50809080402173,
+            16.465086668574596
+          ]
+        },
+        {
+          "id": 2,
+          "attributes": {},
+          "point": [
+            80.50811160126729,
+            16.46508583668477
+          ]
+        }
+      ]
+    },
+    {
+      "relative_path": "HOMI J BHABHA\\HOMI J BHABHA\\LEVEL 3.shp",
+      "filename": "LEVEL 3.shp",
+      "feature_count": 3,
+      "geometry_type": 1,
+      "geometry_name": "Point",
+      "crs": {
+        "name": "UNKNOWN",
+        "epsg": "UNKNOWN",
+        "is_geographic": false
+      },
+      "sidecars": {
+        ".shp": true,
+        ".shx": true,
+        ".dbf": false,
+        ".prj": false,
+        ".cpg": false
+      },
+      "fields": [],
+      "extent_lon_lat": [
+        80.50825635009629,
+        80.50844518908592,
+        16.46460791598196,
+        16.46504798569787
+      ],
+      "invalid_geometries": 0,
+      "rooms_found": 0,
+      "null_rooms": 3,
+      "duplicate_room_codes": {},
+      "samples": [
+        {
+          "id": 0,
+          "attributes": {},
+          "point": [
+            80.50844518908592,
+            16.464840013242338
+          ]
+        },
+        {
+          "id": 1,
+          "attributes": {},
+          "point": [
+            80.50825635009629,
+            16.46504798569787
+          ]
+        },
+        {
+          "id": 2,
+          "attributes": {},
+          "point": [
+            80.50827465167238,
+            16.46460791598196
+          ]
+        }
+      ]
+    },
+    {
+      "relative_path": "HOMI J BHABHA\\HOMI J BHABHA\\LEVEL 4.shp",
+      "filename": "LEVEL 4.shp",
+      "feature_count": 16,
+      "geometry_type": 1,
+      "geometry_name": "Point",
+      "crs": {
+        "name": "UNKNOWN",
+        "epsg": "UNKNOWN",
+        "is_geographic": false
+      },
+      "sidecars": {
+        ".shp": true,
+        ".shx": true,
+        ".dbf": false,
+        ".prj": false,
+        ".cpg": false
+      },
+      "fields": [],
+      "extent_lon_lat": [
+        80.50809329969115,
+        80.50836699144263,
+        16.464590446295695,
+        16.46506711916378
+      ],
+      "invalid_geometries": 0,
+      "rooms_found": 0,
+      "null_rooms": 16,
+      "duplicate_room_codes": {},
+      "samples": [
+        {
+          "id": 0,
+          "attributes": {},
+          "point": [
+            80.50809329969115,
+            16.46506711916378
+          ]
+        },
+        {
+          "id": 1,
+          "attributes": {},
+          "point": [
+            80.50820310914767,
+            16.46506379160449
+          ]
+        },
+        {
+          "id": 2,
+          "attributes": {},
+          "point": [
+            80.50835700876476,
+            16.464988089630676
+          ]
+        }
+      ]
+    },
+    {
+      "relative_path": "HOMI J BHABHA\\HOMI J BHABHA\\LEVEL 5.shp",
+      "filename": "LEVEL 5.shp",
+      "feature_count": 2,
+      "geometry_type": 1,
+      "geometry_name": "Point",
+      "crs": {
+        "name": "UNKNOWN",
+        "epsg": "UNKNOWN",
+        "is_geographic": false
+      },
+      "sidecars": {
+        ".shp": true,
+        ".shx": true,
+        ".dbf": false,
+        ".prj": false,
+        ".cpg": false
+      },
+      "fields": [],
+      "extent_lon_lat": [
+        80.50824470363878,
+        80.5082679965538,
+        16.464588782516053,
+        16.46505214514698
+      ],
+      "invalid_geometries": 0,
+      "rooms_found": 0,
+      "null_rooms": 2,
+      "duplicate_room_codes": {},
+      "samples": [
+        {
+          "id": 0,
+          "attributes": {},
+          "point": [
+            80.50824470363878,
+            16.46505214514698
+          ]
+        },
+        {
+          "id": 1,
+          "attributes": {},
+          "point": [
+            80.5082679965538,
+            16.464588782516053
+          ]
+        }
+      ]
+    },
+    {
+      "relative_path": "OE1\\OE1\\Sr1_block.shp",
+      "filename": "Sr1_block.shp",
+      "feature_count": 219,
+      "geometry_type": 1,
+      "geometry_name": "Point",
+      "crs": {
+        "name": "WGS 84",
+        "epsg": "4326",
+        "is_geographic": true
+      },
+      "sidecars": {
+        ".shp": true,
+        ".shx": true,
+        ".dbf": true,
+        ".prj": true,
+        ".cpg": true
+      },
+      "fields": [
+        "id",
+        "name",
+        "room_num"
+      ],
+      "extent_lon_lat": [
+        80.5063754241783,
+        80.50688750778542,
+        16.4619990720216,
+        16.462987119795674
+      ],
+      "invalid_geometries": 0,
+      "rooms_found": 219,
+      "null_rooms": 0,
+      "duplicate_room_codes": {
+        "S402": 2
+      },
+      "samples": [
+        {
+          "id": 0,
+          "attributes": {
+            "id": 1,
+            "name": "SR_block",
+            "room_num": "s203"
+          },
+          "point": [
+            80.50686758146739,
+            16.462006565806472
+          ]
+        },
+        {
+          "id": 1,
+          "attributes": {
+            "id": 2,
+            "name": "SR_block",
+            "room_num": "s202"
+          },
+          "point": [
+            80.50688290940434,
+            16.46204641844255
+          ]
+        },
+        {
+          "id": 2,
+          "attributes": {
+            "id": 3,
+            "name": "SR_block",
+            "room_num": "s201"
+          },
+          "point": [
+            80.50688597499173,
+            16.462303927783353
+          ]
+        }
+      ]
+    },
+    {
+      "relative_path": "VBlock\\VBlock\\VBlock.shp",
+      "filename": "VBlock.shp",
+      "feature_count": 44,
+      "geometry_type": 1,
+      "geometry_name": "Point",
+      "crs": {
+        "name": "WGS 84",
+        "epsg": "4326",
+        "is_geographic": true
+      },
+      "sidecars": {
+        ".shp": true,
+        ".shx": true,
+        ".dbf": true,
+        ".prj": true,
+        ".cpg": true
+      },
+      "fields": [
+        "id",
+        "Name",
+        "Room_No"
+      ],
+      "extent_lon_lat": [
+        80.50725689736214,
+        80.50786526744801,
+        16.464583993151265,
+        16.46506471953522
+      ],
+      "invalid_geometries": 0,
+      "rooms_found": 42,
+      "null_rooms": 2,
+      "duplicate_room_codes": {},
+      "samples": [
+        {
+          "id": 0,
+          "attributes": {
+            "id": 1,
+            "Name": "V_Block",
+            "Room_No": "V - 101"
+          },
+          "point": [
+            80.50786526744801,
+            16.46461238250465
+          ]
+        },
+        {
+          "id": 1,
+          "attributes": {
+            "id": 2,
+            "Name": "Quantum_Open_Lab",
+            "Room_No": null
+          },
+          "point": [
+            80.50729748038036,
+            16.464606704633972
+          ]
+        },
+        {
+          "id": 2,
+          "attributes": {
+            "id": 3,
+            "Name": "Quantum_Lab_Close",
+            "Room_No": null
+          },
+          "point": [
+            80.50768357558637,
+            16.46460859725753
+          ]
+        }
+      ]
+    },
+    {
+      "relative_path": "x-lab_1to3\\x-lab_1to3\\X-LAB_1to3.shp",
+      "filename": "X-LAB_1to3.shp",
+      "feature_count": 42,
+      "geometry_type": 1,
+      "geometry_name": "Point",
+      "crs": {
+        "name": "WGS 84",
+        "epsg": "4326",
+        "is_geographic": true
+      },
+      "sidecars": {
+        ".shp": true,
+        ".shx": true,
+        ".dbf": true,
+        ".prj": true,
+        ".cpg": true
+      },
+      "fields": [
+        "id",
+        "Name",
+        "Room_No"
+      ],
+      "extent_lon_lat": [
+        80.50723844061339,
+        80.50757586683044,
+        16.46350034401922,
+        16.464182997696906
+      ],
+      "invalid_geometries": 0,
+      "rooms_found": 42,
+      "null_rooms": 0,
+      "duplicate_room_codes": {
+        "X-113": 2,
+        "AUD-1": 3,
+        "X-201": 2,
+        "LIFT": 2,
+        "X-204": 2,
+        "X-205": 2
+      },
+      "samples": [
+        {
+          "id": 0,
+          "attributes": {
+            "id": 1,
+            "Name": "X-Lab",
+            "Room_No": "X-101"
+          },
+          "point": [
+            80.50748876177157,
+            16.463520099407294
+          ]
+        },
+        {
+          "id": 1,
+          "attributes": {
+            "id": 2,
+            "Name": "X-Lab",
+            "Room_No": "X-102"
+          },
+          "point": [
+            80.50740696562445,
+            16.46351858466383
+          ]
+        },
+        {
+          "id": 2,
+          "attributes": {
+            "id": 3,
+            "Name": "X-Lab",
+            "Room_No": "X-103"
+          },
+          "point": [
+            80.5073100220427,
+            16.4635155551769
+          ]
+        }
+      ]
+    }
+  ]
+}

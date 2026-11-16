@@ -5,33 +5,19 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.DirectionsWalk
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.MeetingRoom
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Science
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,17 +27,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.srmap.campusnavigator.core.designsystem.SrmCrimson
-import com.srmap.campusnavigator.domain.models.CampusBuilding
 import com.srmap.campusnavigator.domain.models.LocationCategory
-
-import androidx.compose.material.icons.filled.Place
-import androidx.compose.material.icons.filled.Public
 import com.srmap.campusnavigator.domain.models.UnifiedSearchResult
 
 @Composable
 fun FloatingCampusSearchBar(
     query: String,
     onQueryChange: (String) -> Unit,
+    selectedFilter: SearchCategoryFilter,
+    onFilterChange: (SearchCategoryFilter) -> Unit,
     searchResults: List<UnifiedSearchResult>,
     onSelectResult: (UnifiedSearchResult) -> Unit,
     modifier: Modifier = Modifier
@@ -62,100 +46,151 @@ fun FloatingCampusSearchBar(
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
         Surface(
-            shape = RoundedCornerShape(28.dp),
-            shadowElevation = 6.dp,
+            shape = RoundedCornerShape(24.dp),
+            shadowElevation = 8.dp,
             color = MaterialTheme.colorScheme.surface,
             modifier = Modifier.fillMaxWidth()
         ) {
-            OutlinedTextField(
-                value = query,
-                onValueChange = onQueryChange,
-                modifier = Modifier.fillMaxWidth(),
-                placeholder = { Text("Search buildings or Amaravati region...") },
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Default.Search,
-                        contentDescription = "Search",
-                        tint = SrmCrimson
-                    )
-                },
-                trailingIcon = {
-                    if (query.isNotEmpty()) {
-                        IconButton(onClick = { onQueryChange("") }) {
-                            Icon(Icons.Default.Close, contentDescription = "Clear")
+            Column(modifier = Modifier.padding(bottom = 6.dp)) {
+                OutlinedTextField(
+                    value = query,
+                    onValueChange = onQueryChange,
+                    modifier = Modifier.fillMaxWidth(),
+                    placeholder = { 
+                        Text(
+                            text = "Search rooms, faculty, labs, equipment...",
+                            fontSize = 14.sp
+                        ) 
+                    },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = "Search",
+                            tint = SrmCrimson
+                        )
+                    },
+                    trailingIcon = {
+                        if (query.isNotEmpty()) {
+                            IconButton(onClick = { onQueryChange("") }) {
+                                Icon(Icons.Default.Close, contentDescription = "Clear")
+                            }
                         }
-                    }
-                },
-                singleLine = true,
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color.Transparent,
-                    unfocusedBorderColor = Color.Transparent
+                    },
+                    singleLine = true,
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = Color.Transparent,
+                        unfocusedBorderColor = Color.Transparent
+                    )
                 )
-            )
+
+                // Category Filter Chips Row
+                SearchCategoryChipsRow(
+                    selectedFilter = selectedFilter,
+                    onFilterSelected = onFilterChange,
+                    modifier = Modifier.padding(horizontal = 10.dp)
+                )
+            }
+        }
+
+        // Filtered Results Dropdown
+        val filteredResults = searchResults.filter { res ->
+            when (selectedFilter) {
+                SearchCategoryFilter.ALL -> true
+                SearchCategoryFilter.ROOMS -> res is UnifiedSearchResult.RoomResult && res.roomType.contains("Classroom", ignoreCase = true)
+                SearchCategoryFilter.FACULTY -> res is UnifiedSearchResult.FacultyResult || (res is UnifiedSearchResult.RoomResult && !res.facultyName.isNullOrBlank())
+                SearchCategoryFilter.LABS -> (res is UnifiedSearchResult.RoomResult && (res.roomType.contains("Lab", ignoreCase = true) || res.roomNo.contains("Lab", ignoreCase = true)))
+                SearchCategoryFilter.EQUIPMENT -> res is UnifiedSearchResult.EquipmentResult || (res is UnifiedSearchResult.RoomResult && !res.equipmentList.isNullOrBlank())
+            }
         }
 
         AnimatedVisibility(
-            visible = query.isNotBlank() && searchResults.isNotEmpty(),
+            visible = query.isNotBlank() && filteredResults.isNotEmpty(),
             enter = fadeIn(),
             exit = fadeOut()
         ) {
             Card(
                 shape = RoundedCornerShape(16.dp),
-                elevation = CardDefaults.cardElevation(8.dp),
+                elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp)
+                    .heightIn(max = 320.dp)
             ) {
-                LazyColumn(modifier = Modifier.fillMaxWidth().height(260.dp)) {
-                    items(searchResults) { result ->
+                LazyColumn {
+                    items(filteredResults) { result ->
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clickable {
-                                    onSelectResult(result)
-                                    onQueryChange("")
-                                }
+                                .clickable { onSelectResult(result) }
                                 .padding(horizontal = 16.dp, vertical = 12.dp)
                         ) {
-                            val isCampus = result is UnifiedSearchResult.CampusBuildingResult
+                            val (iconVector, iconColor, badgeText) = when (result) {
+                                is UnifiedSearchResult.CampusBuildingResult -> {
+                                    Triple(Icons.Default.LocationOn, getCategoryColor(result.building.category), "Building")
+                                }
+                                is UnifiedSearchResult.RoomResult -> {
+                                    val isLab = result.roomType.contains("Lab", ignoreCase = true)
+                                    val isCabin = result.roomType.contains("Cabin", ignoreCase = true)
+                                    if (isLab) Triple(Icons.Default.Science, Color(0xFF059669), "Lab")
+                                    else if (isCabin) Triple(Icons.Default.Person, Color(0xFFD97706), "Cabin")
+                                    else Triple(Icons.Default.MeetingRoom, Color(0xFF0284C7), "Room")
+                                }
+                                is UnifiedSearchResult.FacultyResult -> {
+                                    Triple(Icons.Default.Person, Color(0xFFD97706), "Faculty")
+                                }
+                                is UnifiedSearchResult.EquipmentResult -> {
+                                    Triple(Icons.Default.Science, Color(0xFF059669), "Equipment")
+                                }
+                                else -> {
+                                    Triple(Icons.Default.LocationOn, Color(0xFF6B7280), "Place")
+                                }
+                            }
+
                             Box(
                                 modifier = Modifier
-                                    .size(36.dp)
+                                    .size(38.dp)
                                     .clip(CircleShape)
-                                    .background(
-                                        if (isCampus) {
-                                            getCategoryColor((result as UnifiedSearchResult.CampusBuildingResult).building.category).copy(alpha = 0.15f)
-                                        } else {
-                                            Color(0xFF0284C7).copy(alpha = 0.12f)
-                                        }
-                                    ),
+                                    .background(iconColor.copy(alpha = 0.15f)),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Icon(
-                                    imageVector = if (isCampus) Icons.Default.LocationOn else Icons.Default.Public,
+                                    imageVector = iconVector,
                                     contentDescription = null,
-                                    tint = if (isCampus) {
-                                        getCategoryColor((result as UnifiedSearchResult.CampusBuildingResult).building.category)
-                                    } else {
-                                        Color(0xFF0284C7)
-                                    },
+                                    tint = iconColor,
                                     modifier = Modifier.size(20.dp)
                                 )
                             }
                             Spacer(modifier = Modifier.width(12.dp))
                             Column(modifier = Modifier.weight(1f)) {
-                                Text(
-                                    text = result.title,
-                                    fontWeight = FontWeight.SemiBold,
-                                    fontSize = 15.sp,
-                                    color = MaterialTheme.colorScheme.onSurface
-                                )
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Text(
+                                        text = result.title,
+                                        fontWeight = FontWeight.SemiBold,
+                                        fontSize = 15.sp,
+                                        color = MaterialTheme.colorScheme.onSurface,
+                                        modifier = Modifier.weight(1f, fill = false)
+                                    )
+                                    Spacer(modifier = Modifier.width(6.dp))
+                                    Surface(
+                                        shape = RoundedCornerShape(8.dp),
+                                        color = iconColor.copy(alpha = 0.12f)
+                                    ) {
+                                        Text(
+                                            text = badgeText,
+                                            fontSize = 10.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            color = iconColor,
+                                            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                                        )
+                                    }
+                                }
                                 Text(
                                     text = result.subtitle,
                                     fontSize = 12.sp,
-                                    color = Color.Gray
+                                    color = Color.Gray,
+                                    maxLines = 1
                                 )
                             }
                         }

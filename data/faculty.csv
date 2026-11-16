@@ -1,0 +1,12 @@
+name,designation,department,cabin_no,block,floor,email
+Dr. Ramesh Kumar,Associate Professor,Computer Science,C-214,SR Block,2,ramesh.k@srmap.edu.in
+Dr. Priya Sharma,Assistant Professor,Computer Science,C-215,SR Block,2,priya.s@srmap.edu.in
+Dr. Amit Patel,Associate Professor,Electronics and Communication,C-216,SR Block,2,amit.p@srmap.edu.in
+Dr. K. V. Rao,Dean,Academic Affairs,DeanOffice,SR Block,1,dean.acad@srmap.edu.in
+Prof. Anita Roy,Professor,Physics,V-101,V Block,1,anita.r@srmap.edu.in
+Dr. S. Sundaram,Lead Scientist,Physics,Quantum_Open_Lab,V Block,1,sundaram.s@srmap.edu.in
+Dr. M. Verma,Senior Researcher,Physics,Quantum_Lab_Close,V Block,1,verma.m@srmap.edu.in
+Mr. Rajesh G,Lab Instructor,Computer Science,X-101,X-LAB,1,rajesh.g@srmap.edu.in
+Dr. Neha Gupta,Assistant Professor,Mechanical Engineering,X-102,X-LAB,1,neha.g@srmap.edu.in
+Dr. Vikram Reddy,Associate Professor,Civil Engineering,c-2_2,CV Block,2,vikram.r@srmap.edu.in
+Dr. Sunita Sen,Assistant Professor,Civil Engineering,c-3_2,CV Block,3,sunita.s@srmap.edu.in
