@@ -83,8 +83,10 @@ fun CampusNavigatorMainScreen(
     val app = context.applicationContext as CampusApplication
     val dao = app.database.campusDao()
 
+    val parser = remember { GeoJsonAssetParser(context) }
+
     // Architecture: Instantiate Repositories
-    val campusRepository = remember { CampusRepositoryImpl(dao) }
+    val campusRepository = remember { CampusRepositoryImpl(dao, parser) }
     val searchRepository = remember { SearchRepositoryImpl(campusRepository, dao) }
 
     // Architecture: Instantiate ViewModels
@@ -96,7 +98,6 @@ fun CampusNavigatorMainScreen(
     val searchState by searchViewModel.uiState.collectAsState()
     val navState by navigationViewModel.uiState.collectAsState()
 
-    val parser = remember { GeoJsonAssetParser(context) }
     val locationClient = remember { CampusLocationClient(context) }
     val gpsFilter = remember { GpsFilterEngine() }
 

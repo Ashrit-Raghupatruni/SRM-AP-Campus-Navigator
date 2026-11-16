@@ -25,10 +25,18 @@ interface CampusRepository {
 
 class CampusRepositoryImpl(
     private val dao: CampusDao,
+    private val geoJsonParser: com.srmap.campusnavigator.data.geojson.GeoJsonAssetParser? = null,
     private val staticSource: StaticCampusDataSource = StaticCampusDataSource
 ) : CampusRepository {
 
-    override fun getBuildings(): Flow<List<CampusBuilding>> = staticSource.getBuildings()
+    override fun getBuildings(): Flow<List<CampusBuilding>> = kotlinx.coroutines.flow.flow {
+        val parsed = geoJsonParser?.loadBuildings() ?: emptyList()
+        if (parsed.isNotEmpty()) {
+            emit(parsed)
+        } else {
+            staticSource.getBuildings().collect { emit(it) }
+        }
+    }
 
     override suspend fun getAllBlocks(): List<BlockEntity> = staticSource.getBlocks()
 
