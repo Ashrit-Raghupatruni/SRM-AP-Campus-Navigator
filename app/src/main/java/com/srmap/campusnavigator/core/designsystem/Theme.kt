@@ -1,7 +1,6 @@
 package com.srmap.campusnavigator.core.designsystem
 
 import android.app.Activity
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -14,27 +13,35 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-    primary = SrmCrimsonLight,
-    onPrimary = Color.White,
-    secondary = SrmAccentCyan,
+    primary = TealAccent,
+    onPrimary = DarkBackground,
+    primaryContainer = DeepTeal,
+    onPrimaryContainer = Color.White,
+    secondary = SrmCrimsonLight,
     onSecondary = Color.White,
-    tertiary = SrmWalkingGreen,
-    background = CampusNavy,
-    surface = CampusSlate,
-    onBackground = Color.White,
-    onSurface = Color.White
+    background = DarkBackground,
+    surface = DarkSurface,
+    surfaceVariant = DarkSurfaceElevated,
+    onBackground = DarkTextPrimary,
+    onSurface = DarkTextPrimary,
+    onSurfaceVariant = DarkTextSecondary,
+    outline = SlateGrey
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = SrmCrimson,
-    onPrimary = Color.White,
-    secondary = SrmAccentCyan,
-    onSecondary = Color.White,
-    tertiary = SrmWalkingGreen,
-    background = CampusSurfaceLight,
-    surface = Color.White,
-    onBackground = CampusNavy,
-    onSurface = CampusSlate
+    onPrimary = PureWhite,
+    primaryContainer = SrmCrimsonLight,
+    onPrimaryContainer = PureWhite,
+    secondary = DeepTeal,
+    onSecondary = PureWhite,
+    background = CloudWhite,
+    surface = PureWhite,
+    surfaceVariant = Color(0xFFF1F5F9),
+    onBackground = MidnightNavy,
+    onSurface = MidnightNavy,
+    onSurfaceVariant = SlateGrey,
+    outline = BorderGrey
 )
 
 @Composable
@@ -47,7 +54,7 @@ fun SrmCampusTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.background.toArgb()
+            window.statusBarColor = colorScheme.surface.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
     }

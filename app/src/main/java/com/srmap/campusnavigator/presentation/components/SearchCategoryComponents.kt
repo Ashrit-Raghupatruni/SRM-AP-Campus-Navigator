@@ -17,14 +17,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.srmap.campusnavigator.core.designsystem.SrmCrimson
 
-enum class SearchCategoryFilter(val label: String) {
-    ALL("All"),
-    ROOMS("Rooms"),
-    FACULTY("Faculty"),
-    LABS("Labs"),
-    EQUIPMENT("Equipment")
-}
-
 @Composable
 fun SearchCategoryChipsRow(
     selectedFilter: SearchCategoryFilter,

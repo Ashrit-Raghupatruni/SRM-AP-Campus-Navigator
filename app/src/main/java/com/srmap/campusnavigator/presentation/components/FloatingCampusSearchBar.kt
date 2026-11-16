@@ -96,6 +96,7 @@ fun FloatingCampusSearchBar(
         val filteredResults = searchResults.filter { res ->
             when (selectedFilter) {
                 SearchCategoryFilter.ALL -> true
+                SearchCategoryFilter.BUILDINGS -> res is UnifiedSearchResult.CampusBuildingResult
                 SearchCategoryFilter.ROOMS -> res is UnifiedSearchResult.RoomResult && res.roomType.contains("Classroom", ignoreCase = true)
                 SearchCategoryFilter.FACULTY -> res is UnifiedSearchResult.FacultyResult || (res is UnifiedSearchResult.RoomResult && !res.facultyName.isNullOrBlank())
                 SearchCategoryFilter.LABS -> (res is UnifiedSearchResult.RoomResult && (res.roomType.contains("Lab", ignoreCase = true) || res.roomNo.contains("Lab", ignoreCase = true)))

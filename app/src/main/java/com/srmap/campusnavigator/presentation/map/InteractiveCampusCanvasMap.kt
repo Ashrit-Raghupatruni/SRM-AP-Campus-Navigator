@@ -98,6 +98,20 @@ fun InteractiveCampusCanvasMap(
         label = "pulse_alpha"
     )
 
+    // 3D Isometric Extrusion Animation for selected building
+    val extrusionAnimatable = remember { androidx.compose.animation.core.Animatable(0f) }
+    LaunchedEffect(selectedBuilding?.id) {
+        if (selectedBuilding != null) {
+            extrusionAnimatable.snapTo(0f)
+            extrusionAnimatable.animateTo(
+                targetValue = 1f,
+                animationSpec = tween(durationMillis = 350, easing = androidx.compose.animation.core.FastOutSlowInEasing)
+            )
+        } else {
+            extrusionAnimatable.snapTo(0f)
+        }
+    }
+
     // Compute projection scales dynamically tailored to screen resolution
     fun getProjectionScales(w: Float, h: Float): Pair<Float, Float> {
         val latSpan = (campusMaxLat - campusMinLat).toFloat()
@@ -292,46 +306,32 @@ fun InteractiveCampusCanvasMap(
             }
         }
 
-        // 5. Draw Buildings with Category Colors
+        // 5. Draw Buildings: Unselected buildings remain flat 2D; Only selected building elevates to 3D
         for (bldg in buildings) {
             val isSelected = bldg.id == selectedBuilding?.id
-            if (bldg.polygon.size >= 3) {
-                val bPath = Path()
-                val first = project(bldg.polygon[0], w, h)
-                bPath.moveTo(first.x, first.y)
-                for (i in 1 until bldg.polygon.size) {
-                    val pt = project(bldg.polygon[i], w, h)
-                    bPath.lineTo(pt.x, pt.y)
-                }
-                bPath.close()
-
-                val fillColor = when {
-                    isSelected -> SrmCrimson.copy(alpha = 0.5f)
-                    isSatelliteOrDark -> when (bldg.category) {
-                        LocationCategory.ACADEMIC -> Color(0xFF334155).copy(alpha = 0.9f)
-                        LocationCategory.HOSTEL -> Color(0xFF4C1D95).copy(alpha = 0.85f)
-                        LocationCategory.DINING -> Color(0xFF854D0E).copy(alpha = 0.85f)
-                        LocationCategory.SPORTS -> Color(0xFF065F46).copy(alpha = 0.85f)
-                        else -> Color(0xFF1E293B).copy(alpha = 0.85f)
-                    }
-                    bldg.category == LocationCategory.ACADEMIC -> Color(0xFFE2E8F0)
-                    bldg.category == LocationCategory.HOSTEL -> Color(0xFFEDE9FE)
-                    bldg.category == LocationCategory.DINING -> Color(0xFFFEF08A)
-                    else -> Color(0xFFF1F5F9)
-                }
-                val strokeColor = when {
-                    isSelected -> SrmCrimson
-                    isSatelliteOrDark -> Color(0xFF94A3B8)
-                    else -> Color(0xFF475569)
-                }
-
-                drawPath(path = bPath, color = fillColor, style = Fill)
-                drawPath(
-                    path = bPath,
-                    color = strokeColor,
-                    style = Stroke(width = if (isSelected) 5.5f * scale else 2f * scale, join = StrokeJoin.Round)
+            if (!isSelected && bldg.polygon.size >= 3) {
+                val pts = bldg.polygon.map { project(it, w, h) }
+                com.srmap.campusnavigator.presentation.map.renderer.Building2DRenderer.draw2DBuilding(
+                    drawScope = this,
+                    building = bldg,
+                    projectedPoints = pts,
+                    scale = scale,
+                    isSatelliteOrDark = isSatelliteOrDark
                 )
             }
+        }
+
+        // Draw Selected Building in Raised Isometric 3D
+        if (selectedBuilding != null && selectedBuilding.polygon.size >= 3) {
+            val pts = selectedBuilding.polygon.map { project(it, w, h) }
+            val animProgress = extrusionAnimatable.value
+            com.srmap.campusnavigator.presentation.map.renderer.SelectedBuilding3DRenderer.draw3DSelectedBuilding(
+                drawScope = this,
+                building = selectedBuilding,
+                projectedPoints = pts,
+                scale = scale,
+                animationProgress = animProgress
+            )
         }
 
         // 6. Draw Building Labels with Collision Prevention (Show ALL named buildings)
@@ -422,7 +422,7 @@ fun InteractiveCampusCanvasMap(
             )
 
             // Start Marker (Green circle)
-            drawCircle(color = SrmWalkingGreen, radius = 9f * scale, center = first)
+            drawCircle(color = Color(0xFF10B981), radius = 9f * scale, center = first)
             drawCircle(color = Color.White, radius = 4.5f * scale, center = first)
 
             // Destination Marker (Crimson circle)
