@@ -1,117 +1,142 @@
 <div align="center">
   <img src="./docs/images/app_logo.png" alt="SRM AP Campus Navigator Logo" width="160" />
   <h1>SRM AP Campus Navigator</h1>
-  <p><strong>A production-grade, offline-first native Android navigation & room-level spatial intelligence platform for SRM University–AP</strong></p>
+  <p><strong>A production-grade, offline-first pedestrian navigation, room-level spatial intelligence, and 3D campus discovery application for SRM University–AP</strong></p>
 </div>
 
 ---
 
-## 📱 Features
+## 🌟 Overview
 
-### 🏢 Room-Level Spatial Intelligence & Block-Level Breakdown
-- **Precise QGIS Point Ingestion:** Over **580 verified spatial door coordinates** extracted directly from QGIS point shapefiles for academic buildings:
-  - **SR1 / OE1 Block:** Classrooms (e.g., `S201`, `S203`), faculty cabins (`C21`–`C29`, `C2 10`–`C2 24`), and the Dean Academic Office.
-  - **V-Block:** Classrooms, lecture halls, Quantum Open & Closed Research Laboratories.
-  - **X-Lab Complex:** AI & Machine Learning labs, Mechanical prototyping/fabrication facilities, and main auditorium `AUD-1`.
-  - **CV Raman Block:** 10-story high-rise academic tower lecture halls and faculty suites.
-  - **Homi J. Bhabha Block:** Advanced science and research facilities across 5 levels.
-- **Interactive Block-Level Inspection:** Tapping any building polygon on the map opens an interactive categorized bottom sheet displaying:
-  - **Overview (All):** Complete summary count of facilities in the block.
-  - **Classrooms:** Classrooms with room numbers, floor indicators, capacity, and descriptions.
-  - **Faculty:** Faculty members residing in the block, showing designations, departments, and email contacts.
-  - **Labs & Equipment:** Specialized research facilities and instrument listings.
-  - **Locate on Map:** Tap any item in the block list to immediately zoom in and highlight its exact spatial door pin.
-- **Pulsing Room Pins & Labels:** Highlighting selected search results with animated pulse rings, color-coded badges, and anti-collision text labels.
-
-### 🔍 Unified Search & Directory (Rooms, Faculty & Equipment)
-- **Default Category-Wise Directory:** When the search query is blank, browse the campus directory categorized under:
-  - **ALL:** Sample previews across Classrooms, Faculty, and Equipment.
-  - **ROOMS:** Comprehensive list of classrooms with floor and capacity tags.
-  - **FACULTY:** Complete directory of university faculty with designations and cabin locations.
-  - **LABS:** Specialized research laboratories.
-  - **EQUIPMENT:** Direct catalog of instruments with associated laboratory and in-charge metadata.
-- **Recent Searches:** Persisted offline search queries displayed at the top with 1-tap re-search and a clear history action.
-- **Room Number Search:** Instantly locate any classroom, seminar hall, or auditorium (e.g., `S203`, `V101`, `X101`, `210`).
-- **Faculty Directory Search:** Search faculty cabins by name, designation, and department (e.g., `Dr. Ramesh Kumar`, `Computer Science`, `Dean`).
-- **Laboratory Equipment Search:** Search for research instruments and equipment (e.g., `Microscope`, `Electron Microscope`, `Spectrometer`, `Smart Board`) to pinpoint the exact laboratory room.
-- **Category Filter Chips:** Rapid filter chips (`All`, `Rooms`, `Faculty`, `Labs`, `Equipment`) directly on the search bar.
-- **SQLite FTS5 Full-Text Search:** Sub-millisecond offline full-text search index with `unicode61` tokenizer.
-
-### 📍 Interactive Campus Map & MapTiler Layers
-- **Custom Vector Campus Canvas:** Renders buildings, footpaths, roads, and landscape features parsed from verified OpenStreetMap GeoJSON datasets.
-- **5 MapTiler Styles:** Seamlessly switch between **Default Vector**, **Satellite**, **Hybrid**, **Topographic**, and **Outdoor** basemaps.
-- **Fluid Camera & Canvas Controls:** Responsive multi-touch zoom, pan, floating `+` and `-` zoom triggers, compass north reset, and camera recentering with smooth animations.
-- **Anti-Collision Label Rendering:** Building titles and room codes render with high-contrast background halos, automatically preventing label overlapping.
-
-### 🧭 Live GPS Tracking, Kalman Filtering & Map Matching
-- **Hardware-Level Sensor Checks:** Validates real GNSS provider fixes (`GPS_PROVIDER` vs. coarse network), rejecting stale, high-uncertainty (>35m), or anomalous jumps.
-- **Adaptive 1D Kalman Smoothing:** Smooths raw GPS coordinates using speed and bearing models, mitigating urban canyon jitter and space-frame canopy interference.
-- **Topological Map Matching with Hysteresis:** Snaps user coordinates to the nearest pedestrian walkway. Employs a +14m sticky hysteresis buffer on the active edge to eliminate jumping between adjacent parallel pathways.
-
-### 🚶 Dynamic Route Progress Visualization
-- **Dual-State Route Slicing:** As the user navigates:
-  - **Completed Portion:** Rendered as a muted slate line (`#64748B`), dynamically extending behind the user.
-  - **Remaining Portion:** Rendered as a prominent electric blue polyline (`#0284C7`), shrinking as progress is made.
-- **Live Progress & Distance Tracker:** Computes remaining meters and walking seconds in real time, updating the Material 3 navigation bottom sheet and linear progress bar.
-- **Arrival Detection & Off-Route Correction:**
-  - Automatically signals destination arrival when within 12 meters.
-  - Triggers automatic A* route recalculation if the user deviates >25 meters from the planned route for 3 consecutive GPS fixes.
-
-### 🏛️ Verified Campus Geometry & Pedestrian Concourse
-- **Academic Complex Separation:** Replaced monolithic building footprint with two verified independent 5-story blocks:
-  - **Vikram Sarabhai Block** (West Wing, `way/1472341023`)
-  - **Homi J. Bhabha Block** (East Wing, `way/1472341098_bhabha`)
-- **Academic Central Passage:** 13-meter open pedestrian concourse (`way/1472341099_passage`) directly beneath the central canopy, connecting the south plaza to the north tree court.
-- **Hostel Zone Courtyard Avenue:**
-  - Verified 6-building layout: **Kaveri**, **Godavari**, **Krishna** on the West; **Yamuna**, **Narmada**, and **Annapurna Mess** (green-roofed) on the East.
-  - Integrated **Hostel Central Avenue** (`way/1472341100_hostel_avenue`) with lateral entrance connectors to all hostel blocks, mess hall, and academic entrances.
-
-### 💾 Persistence & Non-Destructive Migrations
-- **Room Database V2:** Non-destructive migration (`MIGRATION_1_2`) retaining user favorites and recent search history while introducing relational tables for `blocks`, `rooms`, `faculty`, `equipment`, and `departments`.
-- **Prepopulated Assets:** Enriched GeoJSON (`srmap_rooms_all.geojson`) and prebuilt SQLite database (`srmap_blocks.db`) packaged directly in app assets for instant offline readiness.
+**SRM AP Campus Navigator** is a native Android application built with **Jetpack Compose**, **Compose Canvas**, **Room (SQLite FTS5)**, and **Material 3**. Designed specifically for students, faculty, staff, and campus visitors, it delivers offline-first university campus navigation, multi-floor indoor wayfinding, and directory search down to individual room doors, faculty cabins, and laboratory equipment.
 
 ---
 
-## 🛠️ Tech Stack & Tooling
+## 📱 Key Features
+
+### 🏢 Selective Isometric 3D Building Highlight (V1)
+- **Focused Elevation:** When you select a destination building or start navigation, **only that destination building** visually elevates into a 3D isometric structure.
+- **Directional Shading & Lighting:** Side walls are shaded dynamically according to their spatial orientation and surface normals relative to overhead lighting.
+- **Contact Drop Shadow & Outlines:** Realistic contact shadow cast beneath the raised structure with high-contrast boundary contours.
+- **Pure Vector & Native Compose:** Zero external 3D engines (no Mapbox 3D, Unity, Blender, or GLTF runtimes). Rendered using custom vector math and Compose `Canvas`.
+- **2D Context Preservation:** Surrounding campus blocks retain clean, flat 2D vector geometry to avoid visual distraction.
+
+### 🧭 Multi-Floor Indoor Wayfinding & Floor Explorer
+- **Interactive Floor Explorer:** Dedicated floor-by-floor browser supporting blocks up to 10 floors (e.g. CV Raman Academic Tower, SR Block, V-Block, X-Lab, Homi J. Bhabha).
+- **Floor-Level Search Badges:** Search results display clear floor chips (e.g., `Floor 2`, `Floor 4`).
+- **Vertical Step Navigation:** Navigating to an indoor location guides the user from their outdoor GPS coordinates to the block entrance, followed by explicit vertical instructions (staircase/elevator and floor door).
+
+### 🔍 Universal Campus Directory & FTS5 Search
+- **Instant Default Directory:** When the search bar is empty, browse categorized campus listings:
+  - **ALL:** Highlights across classrooms, faculty, and research equipment.
+  - **ROOMS:** High-capacity lecture halls, smart classrooms, and tutorial rooms with capacities.
+  - **FACULTY:** Directory of professors, assistant professors, and heads of department with cabin locations and emails.
+  - **LABS:** Specialized research centers, computing labs, and cleanrooms.
+  - **EQUIPMENT:** Direct catalog of instruments (electron microscopes, GPU servers, laser benches, 3D printers) and their housing labs.
+- **Recent Searches:** Offline history with 1-tap re-search and clear history options.
+- **Sub-Millisecond Search:** Powered by SQLite `FTS5` with exact-match prioritization.
+
+### 🗺️ High-Precision Campus Map & MapTiler Basemaps
+- **Real-World GIS Boundaries:** Direct vector rendering of verified university GIS polygons (`buildings.geojson`, `paths.geojson`, `roads.geojson`).
+- **5 Basemap Styles:** One-tap toggle between **Vector Default**, **Satellite**, **Hybrid**, **Topographic**, and **Outdoor** MapTiler layers.
+- **Fluid Camera Interaction:** Multi-touch pinch-to-zoom, pan, floating zoom buttons, compass north re-alignment, and recenter-to-user triggers.
+
+### 🚶 A* Pedestrian Navigation & Dynamic Progress Slicing
+- **Topological Pedestrian Routing:** A* algorithm routed exclusively along surveyed pedestrian footpaths and roads.
+- **Dual-State Dynamic Polyline:**
+  - **Traversed Route:** Rendered in muted slate grey (`#64748B`) behind user.
+  - **Remaining Route:** Rendered in vivid electric blue (`#0284C7`) ahead of user.
+- **Turn-by-Turn Bottom Sheet:** Displays remaining distance, estimated walking time, and live step cues.
+- **Auto-Recalculation & Arrival:** Automatically re-routes if the user deviates >25 meters, and signals arrival when within 12 meters.
+
+### 📡 GNSS Quality Checking, Kalman Filtering & Map Matching
+- **Hardware Sensor Validation:** Filters out inaccurate or stale GPS readings (>35m uncertainty).
+- **1D Adaptive Kalman Filter:** Eliminates urban canyon jitter around multi-story academic buildings.
+- **Topological Map Matching:** Snaps coordinates to the nearest walkway with +14m sticky hysteresis to prevent oscillating between adjacent paths.
+
+---
+
+## 🎨 Material 3 Design System
+
+Built strictly following modern Material 3 guidelines and a custom SRM AP color palette:
+
+| Token Name | Light Hex | Dark Hex | Role |
+|---|---|---|---|
+| **Midnight Navy** | `#172B4D` | `#111C2E` | Primary App Bar & Header Elements |
+| **Deep Teal** | `#0F766E` | `#5EEAD4` | Primary Actions & Brand Accents |
+| **SRM Crimson** | `#A61B35` | `#E11D48` | Action Highlights & University Accent |
+| **Cloud White / Slate** | `#F5F7FA` | `#0B1220` | Surface & Scaffold Backgrounds |
+| **Slate Grey** | `#64748B` | `#94A3B8` | Secondary Text & Traversed Routes |
+| **Border Grey** | `#E2E8F0` | `#1E293B` | Card Outlines & Dividers |
+
+---
+
+## 🏗️ Architecture & Project Structure
+
+The project follows Clean Architecture and MVVM patterns:
+
+```
+com.srmap.campusnavigator/
+├── core/
+│   ├── designsystem/          # Material 3 colors, typography, theme, and reusable components
+│   └── location/              # CampusLocationClient, GpsFilterEngine, Kalman filter
+├── data/
+│   ├── datasource/            # StaticCampusDataSource (centralized offline seed provider)
+│   ├── geojson/               # GeoJsonAssetParser (real-world vector boundaries)
+│   ├── local/                 # Room Database, DAOs, Entities, FTS5 Search Index
+│   ├── maptiler/              # MapTiler API and Style configuration
+│   └── repository/            # CampusRepository, SearchRepository implementations
+├── domain/
+│   ├── graph/                 # CampusGraph, GraphNode, GraphEdge
+│   ├── models/                # CampusBuilding, GeoPoint, UnifiedSearchResult, PedestrianRoute
+│   └── routing/               # PedestrianRoutingEngine (A*), PedestrianMapMatcher
+└── presentation/
+    ├── bottomsheet/           # BuildingDetailsSheet, RoomDetailsSheet, RouteNavigationSheet
+    ├── components/            # ExploreTopBar, SearchBar, CategoryChips, SearchResultCards
+    ├── floorexplorer/         # FloorExplorerSheet (F1–F10 multi-floor viewer)
+    ├── map/                   # InteractiveCampusCanvasMap
+    │   ├── model/             # ExtrusionConfig, ExtrudedBuildingFaces
+    │   └── renderer/          # SelectedBuilding3DRenderer, Building2DRenderer, GeometryUtils
+    ├── search/                # SearchScreen, CategoryFilter, SearchHistory
+    └── viewmodel/             # CampusViewModel, SearchViewModel, NavigationViewModel
+```
+
+---
+
+## 🛠️ Tech Stack & Requirements
 
 - **Language:** Kotlin 1.9.24
 - **UI Toolkit:** Jetpack Compose (BOM 2024.04.01) + Material 3
-- **Local Database:** Room 2.6.1 + SQLite FTS5
-- **GIS Tools:** QGIS 3.44 (PyQGIS), GDAL / OGR, GeoPandas, Shapely
-- **Networking:** OkHttp 4.12.0
-- **Location & Sensors:** Google Play Services Location 21.2.0
-- **Build System:** Gradle 8.7 (Kotlin DSL) with OpenJDK 21 (Android Studio JBR)
-- **Min SDK:** 26 (Android 8.0) | **Target SDK:** 34 (Android 14/15/16)
+- **Local Persistence:** Room 2.6.1 + SQLite FTS5
+- **Location Services:** Google Play Services Location 21.2.0
+- **Vector Graphics:** Native Android Graphics + Compose Canvas
+- **Build System:** Gradle 8.7 (Kotlin DSL) with OpenJDK 17/21
+- **Target SDK:** Android 14/15/16 (API 34)
+- **Minimum SDK:** Android 8.0 Oreo (API 26)
 
 ---
 
-## 💻 CLI & GIS Ingestion Pipeline
+## 🚀 Building & Running
 
-To reproduce or update campus room data using the 3 individual datasets:
+### Prerequisites
+- Android Studio Iguana / Jellyfish / Ladybug or newer.
+- Android SDK 34 installed.
+- (Optional) Connected physical device with USB debugging enabled.
 
-1. **Place CSV files:** Update or place the respective CSV files directly into `data/`:
-   - `data/classrooms.csv`: `block,floor,room_no,room_type,capacity,description`
-   - `data/faculty.csv`: `name,designation,department,cabin_no,block,floor,email`
-   - `data/equipment.csv`: `equipment_name,category,lab_name,room_no,block,floor,specifications`
-2. **Process GIS Shapefiles & Match Multi-CSVs:**
-   ```powershell
-   & "C:\Program Files\QGIS 3.44.12\bin\python-qgis-ltr.bat" scripts/process_blocks_with_csv.py
-   ```
-3. **Rebuild SQLite Database & FTS5 Index:**
-   ```powershell
-   python scripts/build_sql_database.py
-   ```
-4. **Deploy Assets to App:**
-   ```powershell
-   Copy-Item 'data/processed/srmap_rooms_all.geojson' 'app/src/main/assets/srmap_rooms_all.geojson' -Force
-   Copy-Item 'data/processed/srmap_blocks.db' 'app/src/main/assets/srmap_blocks.db' -Force
-   ```
-5. **Test Search from Terminal:**
-   ```powershell
-   python scripts/search_campus.py --room S203
-   python scripts/search_campus.py --faculty Kumar
-   python scripts/search_campus.py --equipment microscope
-   ```
+### Build via Command Line
+```powershell
+# 1. Run unit tests
+.\gradlew testDebugUnitTest
+
+# 2. Compile Kotlin sources
+.\gradlew compileDebugKotlin
+
+# 3. Assemble Debug APK
+.\gradlew assembleDebug
+
+# 4. Install onto connected Android device
+adb install -r app/build/outputs/apk/debug/app-debug.apk
+```
 
 ---
 
@@ -119,29 +144,30 @@ To reproduce or update campus room data using the 3 individual datasets:
 
 Verified in automated unit test suite (`ComprehensiveAuditTest.kt`):
 
-| Origin | Destination | Total Route Distance | Estimated Time | Routing Path |
+| Origin | Destination | Route Distance | Estimated Time | Routing Path |
 |---|---|---|---|---|
 | **Kaveri** | **Annapurna Mess** | 178.7 m | 137 s | Direct south via Hostel Central Avenue |
 | **Godavari** | **Annapurna Mess** | 141.2 m | 108 s | Direct south via Hostel Central Avenue |
 | **Krishna** | **Annapurna Mess** | 105.0 m | 80 s | Direct via South Courtyard |
 | **Yamuna** | **Annapurna Mess** | 165.7 m | 127 s | Direct south via East Concourse |
 | **Narmada** | **Annapurna Mess** | 145.9 m | 112 s | Direct south via East Concourse |
-| **Vikram Sarabhai Block** | **Homi J. Bhabha Block** | 81.5 m | 62 s | Via Academic Central Passage |
+| **SR Block** | **Homi J. Bhabha Block** | ~270 m | 208 s | Via Campus Core Walkway |
 
 ---
 
-## 📚 Technical Reports & Audits
-Detailed technical audits and verification reports are available in the `docs/` and `artifacts/` folders:
+## 📚 Technical Documentation & Reports
+
+Detailed technical specifications and GIS audit reports:
+- [Architecture & Engineering Specification](docs/ARCHITECTURE_AND_FEATURES.md)
 - [Room-Level Search Architecture & Ingestion Guide](docs/ROOM_LEVEL_SEARCH_ARCHITECTURE.md)
 - [GIS Dataset Profiling & Audit Report](artifacts/gis_dataset_audit.md)
 - [Campus Geometry & Pedestrian Network Report](docs/CAMPUS_GEOMETRY_AND_PEDESTRIAN_NETWORK_REPORT.md)
 - [Production Readiness Audit](docs/PRODUCTION_READINESS_REPORT.md)
-- [GeoJSON Accuracy & ODbL Verification](docs/GEOJSON_ACCURACY_REPORT.md)
 - [Routing Validation & Algorithm Parity](docs/ROUTING_VALIDATION_REPORT.md)
 
 ---
 
 ## 📄 License & Attribution
-- Designed and developed for **SRM University–AP, Andhra Pradesh**.
-- Map data © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors (ODbL).
-- Map styles and geocoding powered by [MapTiler Cloud](https://www.maptiler.com/).
+- Developed for **SRM University–AP, Andhra Pradesh**.
+- Map geometry & pedestrian vectors © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors (ODbL).
+- Basemap styles powered by [MapTiler Cloud](https://www.maptiler.com/).
