@@ -30,11 +30,14 @@ fun FirstPersonNavigationScreen(
     features: List<com.srmap.campusnavigator.domain.models.CampusFeature> = emptyList(),
     selectedBuilding: CampusBuilding?,
     route: PedestrianRoute?,
+    routeProgress: com.srmap.campusnavigator.domain.routing.DynamicRouteProgress? = null,
     userLocation: UserLocationState?,
     onSwitchTo2D: () -> Unit,
     onEndNavigation: () -> Unit
 ) {
     val context = LocalContext.current
+    val lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current
+
     val glView = remember(buildings, graph, features) {
         val r = Campus3DRenderer(context, buildings, graph, features)
         GLSurfaceView(context).apply {
@@ -43,11 +46,29 @@ fun FirstPersonNavigationScreen(
             renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY
         } to r
     }
+    val surfaceView = glView.first
     val renderer = glView.second
 
+    // Lifecycle-aware GLSurfaceView management (onPause / onResume)
+    DisposableEffect(lifecycleOwner, surfaceView) {
+        val observer = androidx.lifecycle.LifecycleEventObserver { _, event ->
+            when (event) {
+                androidx.lifecycle.Lifecycle.Event.ON_RESUME -> surfaceView.onResume()
+                androidx.lifecycle.Lifecycle.Event.ON_PAUSE -> surfaceView.onPause()
+                else -> {}
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+            surfaceView.onPause()
+        }
+    }
+
     // Keep 3D engine state in sync with ViewModel navigation state
-    LaunchedEffect(selectedBuilding, route, userLocation) {
-        renderer.updateNavigationState(selectedBuilding, route, userLocation)
+    LaunchedEffect(selectedBuilding, route, userLocation, routeProgress) {
+        val segIdx = routeProgress?.currentSegmentIndex ?: 0
+        renderer.updateNavigationState(selectedBuilding, route, userLocation, segIdx)
     }
 
     Box(modifier = modifier.fillMaxSize()) {

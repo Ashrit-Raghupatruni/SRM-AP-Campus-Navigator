@@ -43,9 +43,10 @@
       "properties": {
         "@id": "way/1472341017",
         "building": "hostel",
-        "building:levels": "0",
-        "name": "Kaveri",
-        "tourism": "hostel"
+        "building:levels": "9",
+        "name": "Kaveri Faculty Residence",
+        "tourism": "hostel",
+        "category": "FACILITY"
       },
       "geometry": {
         "type": "Polygon",
@@ -93,8 +94,10 @@
       "properties": {
         "@id": "way/1472341018",
         "building": "hostel",
-        "name": "Godavari",
-        "tourism": "hostel"
+        "name": "Godavari Hostel",
+        "tourism": "hostel",
+        "building:levels": "9",
+        "category": "HOSTEL"
       },
       "geometry": {
         "type": "Polygon",
@@ -138,8 +141,10 @@
       "properties": {
         "@id": "way/1472341019",
         "building": "hostel",
-        "name": "Krishna",
-        "tourism": "hostel"
+        "name": "Krishna Hostel",
+        "tourism": "hostel",
+        "building:levels": "9",
+        "category": "HOSTEL"
       },
       "geometry": {
         "type": "Polygon",
@@ -183,8 +188,10 @@
       "properties": {
         "@id": "way/1472341020",
         "building": "hostel",
-        "name": "Yamuna",
-        "tourism": "hostel"
+        "name": "Yamuna Hostel",
+        "tourism": "hostel",
+        "building:levels": "9",
+        "category": "HOSTEL"
       },
       "geometry": {
         "type": "Polygon",
@@ -228,8 +235,10 @@
       "properties": {
         "@id": "way/1472341021",
         "building": "hostel",
-        "name": "Narmada",
-        "tourism": "hostel"
+        "name": "Narmada Hostel",
+        "tourism": "hostel",
+        "building:levels": "9",
+        "category": "HOSTEL"
       },
       "geometry": {
         "type": "Polygon",
@@ -273,7 +282,9 @@
       "properties": {
         "@id": "way/1472341022",
         "building": "yes",
-        "name": "Annapurna Mess"
+        "name": "Annapurna Mess",
+        "building:levels": "2",
+        "category": "DINING"
       },
       "geometry": {
         "type": "Polygon",
@@ -325,8 +336,9 @@
       "properties": {
         "@id": "way/1472341023",
         "building": "university",
-        "building:levels": "5",
-        "name": "Vikram Sarabhai Block"
+        "building:levels": "7",
+        "name": "Vikram Sarabhai Block",
+        "category": "ACADEMIC"
       },
       "geometry": {
         "type": "Polygon",
@@ -362,8 +374,9 @@
       "properties": {
         "@id": "way/1472341098_bhabha",
         "building": "university",
-        "building:levels": "5",
-        "name": "Homi J. Bhabha Block"
+        "building:levels": "7",
+        "name": "Homi J. Bhabha Block",
+        "category": "ACADEMIC"
       },
       "geometry": {
         "type": "Polygon",
@@ -403,8 +416,10 @@
       "properties": {
         "@id": "way/1472341024",
         "building": "hostel",
-        "name": "Vedavathi",
-        "tourism": "hostel"
+        "name": "Vedavathi Boys' Hostel",
+        "tourism": "hostel",
+        "building:levels": "15",
+        "category": "HOSTEL"
       },
       "geometry": {
         "type": "Polygon",
@@ -465,8 +480,10 @@
         "@id": "way/1472341025",
         "building": "hostel",
         "layer": "1",
-        "name": "Ganga",
-        "tourism": "hostel"
+        "name": "Ganga Boys' Hostel",
+        "tourism": "hostel",
+        "building:levels": "26",
+        "category": "HOSTEL"
       },
       "geometry": {
         "type": "Polygon",
@@ -546,7 +563,9 @@
       "properties": {
         "@id": "way/1472341027",
         "building": "university",
-        "name": "JC Bose"
+        "name": "JC Bose Block",
+        "building:levels": "5",
+        "category": "ACADEMIC"
       },
       "geometry": {
         "type": "Polygon",
@@ -582,7 +601,9 @@
       "properties": {
         "@id": "way/1472341028",
         "building": "university",
-        "name": "X - lab"
+        "name": "X-Lab",
+        "building:levels": "3",
+        "category": "ACADEMIC"
       },
       "geometry": {
         "type": "Polygon",
@@ -618,7 +639,9 @@
       "properties": {
         "@id": "way/1472341029",
         "building": "university",
-        "name": "SR Block"
+        "name": "SR Block",
+        "building:levels": "7",
+        "category": "ACADEMIC"
       },
       "geometry": {
         "type": "Polygon",
@@ -769,7 +792,9 @@
       "properties": {
         "@id": "way/1472341040",
         "building": "university",
-        "name": "CV Raman Block"
+        "name": "CV Raman Block",
+        "building:levels": "12",
+        "category": "ACADEMIC"
       },
       "geometry": {
         "type": "Polygon",

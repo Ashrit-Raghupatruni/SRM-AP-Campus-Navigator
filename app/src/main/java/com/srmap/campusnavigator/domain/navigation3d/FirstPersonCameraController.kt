@@ -34,14 +34,17 @@ class FirstPersonCameraController {
     fun updateTarget(
         userLocation: UserLocationState?,
         route: PedestrianRoute?,
-        routeSegmentIndex: Int = 0
+        routeSegmentIndex: Int = 0,
+        mapMatchedBearing: Float? = null
     ) {
         val userGeo = userLocation?.point ?: route?.path?.firstOrNull() ?: return
         val local3D = LocalCoordinateConverter.toLocal3D(userGeo, altitude = EYE_HEIGHT_METERS)
         targetPosition = local3D
 
-        // Determine forward walking heading from upcoming route segment
-        if (route != null && route.path.size > routeSegmentIndex + 1) {
+        // Determine forward walking heading
+        if (mapMatchedBearing != null) {
+            targetYaw = mapMatchedBearing
+        } else if (route != null && route.path.size > routeSegmentIndex + 1) {
             val p1 = route.path[routeSegmentIndex]
             val p2 = route.path[routeSegmentIndex + 1]
             val v1 = LocalCoordinateConverter.toLocal3D(p1)
@@ -50,7 +53,7 @@ class FirstPersonCameraController {
             val dz = v2.z - v1.z
             // In ENU where +Z is South, -Z is North:
             val angleRad = kotlin.math.atan2(dx.toDouble(), -dz.toDouble())
-            targetYaw = Math.toDegrees(angleRad).toFloat()
+            targetYaw = ((Math.toDegrees(angleRad).toFloat() % 360f) + 360f) % 360f
         }
     }
 

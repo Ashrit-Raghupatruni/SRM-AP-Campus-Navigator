@@ -66,14 +66,14 @@ class SearchAndRepositoryTest {
 
         val cvRooms = staticSource.getRoomsByBlock("CV")
         val cvFloors = cvRooms.map { it.floor }.distinct().sorted()
-        assertEquals("CV Raman Block should have 10 floors", 10, cvFloors.size)
+        assertEquals("CV Raman Block should have 12 floors", 12, cvFloors.size)
     }
 
     @Test
     fun testSearchExactMatchPrioritization() = runBlocking {
         val results = searchRepository.searchCampus("S-201", SearchCategoryFilter.ALL)
         assertTrue("Search for S-201 should return matches", results.isNotEmpty())
-        assertEquals("Exact room match should be ranked first", "SR1 - S-201 (Lecture Hall)", results.first().title)
+        assertEquals("Exact room match should be ranked first", "SR - S-201 (Lecture Hall)", results.first().title)
     }
 
     @Test

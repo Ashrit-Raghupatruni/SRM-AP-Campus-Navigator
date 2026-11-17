@@ -64,10 +64,13 @@ class CampusLocationClient(private val context: Context) {
             Log.w("LocationClient", "Error reading last location: ${e.message}")
         }
 
-        // Fused Location Provider listener
+        var fusedActive = false
+
+        // Primary: Fused Location Provider listener
         val fusedCallback = object : LocationCallback() {
             override fun onLocationResult(result: LocationResult) {
                 result.lastLocation?.let { loc ->
+                    fusedActive = true
                     Log.d("LocationClient", "Fused fix: ${loc.latitude}, ${loc.longitude} (acc=${loc.accuracy})")
                     trySend(UserLocationState(GeoPoint(loc.latitude, loc.longitude), loc.accuracy, "fused"))
                 }
@@ -81,15 +84,17 @@ class CampusLocationClient(private val context: Context) {
 
         try {
             fusedClient.requestLocationUpdates(request, fusedCallback, Looper.getMainLooper())
-        } catch (e: SecurityException) {
-            Log.e("LocationClient", "SecurityException requesting fused updates", e)
+        } catch (e: Exception) {
+            Log.e("LocationClient", "Exception requesting fused updates", e)
         }
 
-        // Hardware GPS & Network fallback listener
+        // Controlled fallback: Only use native GPS if fused location is unavailable
         val nativeListener = object : LocationListener {
             override fun onLocationChanged(loc: Location) {
-                Log.d("LocationClient", "Native fix: ${loc.latitude}, ${loc.longitude} (acc=${loc.accuracy})")
-                trySend(UserLocationState(GeoPoint(loc.latitude, loc.longitude), loc.accuracy, loc.provider ?: "gps"))
+                if (!fusedActive) {
+                    Log.d("LocationClient", "Native fallback fix: ${loc.latitude}, ${loc.longitude} (acc=${loc.accuracy})")
+                    trySend(UserLocationState(GeoPoint(loc.latitude, loc.longitude), loc.accuracy, loc.provider ?: "gps"))
+                }
             }
             @Deprecated("Deprecated in Java")
             override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
@@ -101,11 +106,8 @@ class CampusLocationClient(private val context: Context) {
             if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, intervalMs, 0f, nativeListener, Looper.getMainLooper())
             }
-            if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, intervalMs, 0f, nativeListener, Looper.getMainLooper())
-            }
-        } catch (e: SecurityException) {
-            Log.e("LocationClient", "SecurityException requesting native location", e)
+        } catch (e: Exception) {
+            Log.e("LocationClient", "Exception requesting native location fallback", e)
         }
 
         awaitClose {

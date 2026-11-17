@@ -3,13 +3,14 @@ package com.srmap.campusnavigator.core.designsystem
 import androidx.compose.ui.graphics.Color
 
 // ==========================================
-// SRM AP Master Palette (Material 3 Compliant)
+// Campus Horizon Master Palette (Material 3 Compliant)
 // ==========================================
 
-// Primary Brand Palette
-val MidnightNavy = Color(0xFF172B4D)
-val DeepTeal = Color(0xFF0F766E)
-val SrmCrimson = Color(0xFFA61B35)
+// Primary Brand Palette (Campus Horizon)
+val MidnightNavy = Color(0xFF14243B) // Horizon Deep Navy
+val DeepTeal = Color(0xFF087E83)     // Horizon Teal Accent
+val MintAccent = Color(0xFF35C6B0)   // Horizon Crisp Mint Highlight
+val SrmCrimson = Color(0xFFA61B35)   // SRM Crimson Landmark Token
 val SrmCrimsonDark = Color(0xFF781824)
 val SrmCrimsonLight = Color(0xFFC93B54)
 
@@ -20,13 +21,13 @@ val SlateGrey = Color(0xFF64748B)
 val BorderGrey = Color(0xFFE2E8F0)
 val CardSurfaceLight = Color(0xFFFFFFFF)
 
-// Dark Mode Palette
-val DarkBackground = Color(0xFF0B1220)
+// Dark Mode Palette (Campus Horizon Dark)
+val DarkBackground = Color(0xFF0B1422) // Horizon Night Sky
 val DarkSurface = Color(0xFF111C2E)
 val DarkSurfaceElevated = Color(0xFF18263A)
 val DarkTextPrimary = Color(0xFFE5EDF7)
 val DarkTextSecondary = Color(0xFF94A3B8)
-val TealAccent = Color(0xFF5EEAD4)
+val TealAccent = Color(0xFF35C6B0)
 
 // Functional Category Accents
 val AccentAcademic = Color(0xFF0284C7)

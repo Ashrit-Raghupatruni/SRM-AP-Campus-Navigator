@@ -31,29 +31,29 @@ object StaticCampusDataSource : CampusDataSource {
 
     private val staticBlocks = listOf(
         BlockEntity(
-            blockId = "SR1",
-            blockName = "SR1 Academic Block",
-            canonicalName = "SR1",
-            floorCount = 3,
-            description = "Main academic complex housing engineering lecture halls, faculty offices, and academic administration."
+            blockId = "SR",
+            blockName = "SR Block",
+            canonicalName = "SR",
+            floorCount = 7,
+            description = "Academic Block II housing lecture halls, computing facilities, and Campus University Theatre."
         ),
         BlockEntity(
             blockId = "CV",
             blockName = "CV Raman Block",
             canonicalName = "CV",
-            floorCount = 10,
-            description = "10-storey landmark academic tower featuring high-capacity computing labs, faculty suites, and seminar halls."
+            floorCount = 12,
+            description = "12-storey landmark tower containing classrooms, faculty suites, Wellness Centre, Gymnasium, and Central University Library (12th floor)."
         ),
         BlockEntity(
             blockId = "V",
             blockName = "V-Block",
             canonicalName = "V",
-            floorCount = 3,
-            description = "Dedicated science and quantum research facility with advanced computational physics laboratories."
+            floorCount = 7,
+            description = "Vikram Sarabhai Academic Block I across 7 levels."
         ),
         BlockEntity(
             blockId = "X-LAB",
-            blockName = "X-Lab Complex",
+            blockName = "X-Lab",
             canonicalName = "X-LAB",
             floorCount = 3,
             description = "Multi-disciplinary engineering innovation center with fabrication labs, robotics bays, and auditorium AUD-1."
@@ -62,16 +62,79 @@ object StaticCampusDataSource : CampusDataSource {
             blockId = "HOMI",
             blockName = "Homi J. Bhabha Block",
             canonicalName = "HOMI",
+            floorCount = 7,
+            description = "Administrative & Advanced Science Block across 7 levels."
+        ),
+        BlockEntity(
+            blockId = "GANGA",
+            blockName = "Ganga Boys' Hostel",
+            canonicalName = "GANGA",
+            floorCount = 26,
+            description = "26-storey iconic landmark high-rise residence for male students."
+        ),
+        BlockEntity(
+            blockId = "VEDAVATHI",
+            blockName = "Vedavathi Boys' Hostel",
+            canonicalName = "VEDAVATHI",
+            floorCount = 15,
+            description = "15-storey modern mid-rise boys' residence."
+        ),
+        BlockEntity(
+            blockId = "KRISHNA",
+            blockName = "Krishna Hostel",
+            canonicalName = "KRISHNA",
+            floorCount = 9,
+            description = "9-storey girls' residence tower."
+        ),
+        BlockEntity(
+            blockId = "GODAVARI",
+            blockName = "Godavari Hostel",
+            canonicalName = "GODAVARI",
+            floorCount = 9,
+            description = "9-storey girls' residence tower."
+        ),
+        BlockEntity(
+            blockId = "NARMADA",
+            blockName = "Narmada Hostel",
+            canonicalName = "NARMADA",
+            floorCount = 9,
+            description = "9-storey girls' residence tower."
+        ),
+        BlockEntity(
+            blockId = "YAMUNA",
+            blockName = "Yamuna Hostel",
+            canonicalName = "YAMUNA",
+            floorCount = 9,
+            description = "9-storey girls' residence tower."
+        ),
+        BlockEntity(
+            blockId = "KAVERI",
+            blockName = "Kaveri Faculty Residence",
+            canonicalName = "KAVERI",
+            floorCount = 9,
+            description = "9-storey faculty apartment residence."
+        ),
+        BlockEntity(
+            blockId = "ANNAPURNA",
+            blockName = "Annapurna Mess",
+            canonicalName = "ANNAPURNA",
+            floorCount = 2,
+            description = "2-storey central dining facility."
+        ),
+        BlockEntity(
+            blockId = "JC_BOSE",
+            blockName = "JC Bose Block",
+            canonicalName = "JC_BOSE",
             floorCount = 5,
-            description = "Advanced research center for interdisciplinary sciences and graduate faculty suites."
+            description = "5-storey research and laboratory facility."
         )
     )
 
     private val staticRooms: List<RoomEntity> = run {
         val list = mutableListOf<RoomEntity>()
 
-        // SR1 Block (Floors 1-3)
-        for (flr in 1..3) {
+        // SR Block (Floors 1-7)
+        for (flr in 1..7) {
             for (r in 1..6) {
                 val roomNo = "S-$flr" + String.format("%02d", r)
                 val type = when (r) {
@@ -82,14 +145,14 @@ object StaticCampusDataSource : CampusDataSource {
                 }
                 list.add(
                     RoomEntity(
-                        roomId = "SR1_F${flr}_$roomNo",
-                        blockId = "SR1",
+                        roomId = "SR_F${flr}_$roomNo",
+                        blockId = "SR",
                         roomNo = roomNo,
                         normalizedRoomNo = roomNo.replace("-", "").uppercase(),
                         floor = flr,
                         roomType = type,
-                        latitude = 16.46305 + (flr * 0.00008) + (r * 0.00004),
-                        longitude = 80.50740 + (r * 0.00005),
+                        latitude = 16.46250 + (flr * 0.00004) + (r * 0.00002),
+                        longitude = 80.50655 + (r * 0.00003),
                         locationStatus = "VERIFIED_DEMO",
                         sourceDataset = "StaticCampusDataSource",
                         description = if (r <= 2) "Equipped with dual projectors and surround audio" else "Standard smart board room",
@@ -99,11 +162,31 @@ object StaticCampusDataSource : CampusDataSource {
             }
         }
 
-        // CV Raman Block (Floors 1-10)
-        for (flr in 1..10) {
+        // Campus University Theatre on Ground / Floor 1 in SR Block
+        list.add(
+            RoomEntity(
+                roomId = "SR_F1_THEATRE",
+                blockId = "SR",
+                roomNo = "THEATRE-1",
+                normalizedRoomNo = "THEATRE1",
+                floor = 1,
+                roomType = "Auditorium / Theatre",
+                latitude = 16.46255,
+                longitude = 80.50660,
+                locationStatus = "VERIFIED_DEMO",
+                sourceDataset = "StaticCampusDataSource",
+                description = "Campus University Theatre for performing arts, cultural productions, and guest lectures.",
+                capacity = 250
+            )
+        )
+
+        // CV Raman Block (Floors 1-12)
+        for (flr in 1..12) {
             for (r in 1..8) {
                 val roomNo = "C-$flr" + String.format("%02d", r)
                 val type = when {
+                    flr == 12 -> "Central University Library"
+                    flr == 11 -> "Teaching & Learning Centre (TLC)"
                     r <= 3 -> "High-Capacity Classroom"
                     r in 4..6 -> "Computing Laboratory"
                     else -> "Faculty Suite"
@@ -120,12 +203,74 @@ object StaticCampusDataSource : CampusDataSource {
                         longitude = 80.50550 + (r * 0.00006),
                         locationStatus = "VERIFIED_DEMO",
                         sourceDataset = "StaticCampusDataSource",
-                        description = if (type.contains("Computing")) "Workstation cluster with Gigabit LAN" else "Tiered lecture space",
-                        capacity = if (type.contains("Computing")) 60 else 100
+                        description = when {
+                            flr == 12 -> "Central University Library with digital media labs and research reading pods"
+                            flr == 11 -> "TLC faculty development and pedagogical incubation suite"
+                            type.contains("Computing") -> "Workstation cluster with Gigabit LAN"
+                            else -> "Tiered lecture space"
+                        },
+                        capacity = when {
+                            flr == 12 -> 300
+                            flr == 11 -> 80
+                            type.contains("Computing") -> 60
+                            else -> 100
+                        }
                     )
                 )
             }
         }
+
+        // Central Library (Floor 12, CV Raman Block)
+        list.add(
+            RoomEntity(
+                roomId = "CV_F12_LIB",
+                blockId = "CV",
+                roomNo = "LIB-12",
+                normalizedRoomNo = "LIB12",
+                floor = 12,
+                roomType = "Central Library",
+                latitude = 16.46210,
+                longitude = 80.50570,
+                locationStatus = "VERIFIED_DEMO",
+                sourceDataset = "StaticCampusDataSource",
+                description = "Central University Library featuring comprehensive digital catalog, quiet archives, and group discussion rooms.",
+                capacity = 350
+            )
+        )
+
+        // Wellness Centre & Gymnasium (CV Raman Block)
+        list.add(
+            RoomEntity(
+                roomId = "CV_F1_WELLNESS",
+                blockId = "CV",
+                roomNo = "WELLNESS-1",
+                normalizedRoomNo = "WELLNESS1",
+                floor = 1,
+                roomType = "Wellness Centre",
+                latitude = 16.46200,
+                longitude = 80.50580,
+                locationStatus = "VERIFIED_DEMO",
+                sourceDataset = "StaticCampusDataSource",
+                description = "University Wellness Centre & Student Health Services.",
+                capacity = 40
+            )
+        )
+        list.add(
+            RoomEntity(
+                roomId = "CV_F1_GYM",
+                blockId = "CV",
+                roomNo = "GYM-1",
+                normalizedRoomNo = "GYM1",
+                floor = 1,
+                roomType = "Gymnasium",
+                latitude = 16.46190,
+                longitude = 80.50590,
+                locationStatus = "VERIFIED_DEMO",
+                sourceDataset = "StaticCampusDataSource",
+                description = "University Gymnasium & Athletics Center with cardio and strength conditioning equipment.",
+                capacity = 100
+            )
+        )
 
         // V-Block (Floors 1-3)
         for (flr in 1..3) {
@@ -194,8 +339,8 @@ object StaticCampusDataSource : CampusDataSource {
     }
 
     private val staticFaculty = listOf(
-        FacultyEntity(facultyId = 1, roomId = "SR1_F2_S-205", name = "Dr. Ramesh Kumar", normalizedName = "DR RAMESH KUMAR", designation = "Associate Professor", department = "Computer Science & Engineering", email = "ramesh.k@srmap.edu.in"),
-        FacultyEntity(facultyId = 2, roomId = "SR1_F2_S-206", name = "Dr. Priya Sharma", normalizedName = "DR PRIYA SHARMA", designation = "Assistant Professor", department = "Electronics & Communication", email = "priya.s@srmap.edu.in"),
+        FacultyEntity(facultyId = 1, roomId = "SR_F2_S-205", name = "Dr. Ramesh Kumar", normalizedName = "DR RAMESH KUMAR", designation = "Associate Professor", department = "Computer Science & Engineering", email = "ramesh.k@srmap.edu.in"),
+        FacultyEntity(facultyId = 2, roomId = "SR_F2_S-206", name = "Dr. Priya Sharma", normalizedName = "DR PRIYA SHARMA", designation = "Assistant Professor", department = "Electronics & Communication", email = "priya.s@srmap.edu.in"),
         FacultyEntity(facultyId = 3, roomId = "CV_F3_C-307", name = "Prof. Anita Roy", normalizedName = "PROF ANITA ROY", designation = "Professor & Head", department = "Computer Science & Engineering", email = "anita.r@srmap.edu.in"),
         FacultyEntity(facultyId = 4, roomId = "CV_F4_C-408", name = "Dr. Vikram Seth", normalizedName = "DR VIKRAM SETH", designation = "Associate Professor", department = "Data Science & AI", email = "vikram.s@srmap.edu.in"),
         FacultyEntity(facultyId = 5, roomId = "V_F1_V-103", name = "Dr. K. S. Rao", normalizedName = "DR K S RAO", designation = "Senior Professor", department = "Physics & Quantum Sciences", email = "ksrao@srmap.edu.in"),
@@ -227,11 +372,11 @@ object StaticCampusDataSource : CampusDataSource {
                         GeoPoint(16.46290, 80.50780),
                         GeoPoint(16.46290, 80.50720)
                     ),
-                    levels = "3"
+                    levels = "7"
                 ),
                 CampusBuilding(
                     id = "srmap_bldg_20",
-                    name = "CV Raman",
+                    name = "CV Raman Block",
                     category = LocationCategory.ACADEMIC,
                     centroid = GeoPoint(16.46250, 80.50560),
                     polygon = listOf(
@@ -240,11 +385,11 @@ object StaticCampusDataSource : CampusDataSource {
                         GeoPoint(16.46230, 80.50590),
                         GeoPoint(16.46230, 80.50530)
                     ),
-                    levels = "10"
+                    levels = "12"
                 ),
                 CampusBuilding(
                     id = "srmap_bldg_9",
-                    name = "V Block",
+                    name = "Vikram Sarabhai Block",
                     category = LocationCategory.ACADEMIC,
                     centroid = GeoPoint(16.46390, 80.50620),
                     polygon = listOf(
@@ -253,11 +398,11 @@ object StaticCampusDataSource : CampusDataSource {
                         GeoPoint(16.46370, 80.50650),
                         GeoPoint(16.46370, 80.50590)
                     ),
-                    levels = "3"
+                    levels = "7"
                 ),
                 CampusBuilding(
                     id = "srmap_bldg_11",
-                    name = "X Lab",
+                    name = "X-Lab",
                     category = LocationCategory.ACADEMIC,
                     centroid = GeoPoint(16.46475, 80.50725),
                     polygon = listOf(
@@ -270,7 +415,7 @@ object StaticCampusDataSource : CampusDataSource {
                 ),
                 CampusBuilding(
                     id = "srmap_bldg_30",
-                    name = "Homi J Baba Block",
+                    name = "Homi J. Bhabha Block",
                     category = LocationCategory.ACADEMIC,
                     centroid = GeoPoint(16.46190, 80.50670),
                     polygon = listOf(
@@ -279,7 +424,7 @@ object StaticCampusDataSource : CampusDataSource {
                         GeoPoint(16.46170, 80.50700),
                         GeoPoint(16.46170, 80.50640)
                     ),
-                    levels = "5"
+                    levels = "7"
                 ),
                 CampusBuilding(
                     id = "srmap_bldg_8",
@@ -296,8 +441,8 @@ object StaticCampusDataSource : CampusDataSource {
                 ),
                 CampusBuilding(
                     id = "srmap_bldg_6",
-                    name = "Kaveri Hostel",
-                    category = LocationCategory.HOSTEL,
+                    name = "Kaveri Faculty Residence",
+                    category = LocationCategory.FACILITY,
                     centroid = GeoPoint(16.46080, 80.50720),
                     polygon = listOf(
                         GeoPoint(16.46100, 80.50700),
@@ -305,7 +450,7 @@ object StaticCampusDataSource : CampusDataSource {
                         GeoPoint(16.46060, 80.50740),
                         GeoPoint(16.46060, 80.50700)
                     ),
-                    levels = "8"
+                    levels = "9"
                 ),
                 CampusBuilding(
                     id = "srmap_bldg_4",
@@ -318,7 +463,33 @@ object StaticCampusDataSource : CampusDataSource {
                         GeoPoint(16.46020, 80.50750),
                         GeoPoint(16.46020, 80.50710)
                     ),
-                    levels = "8"
+                    levels = "9"
+                ),
+                CampusBuilding(
+                    id = "srmap_bldg_14",
+                    name = "Vedavathi Boys' Hostel",
+                    category = LocationCategory.HOSTEL,
+                    centroid = GeoPoint(16.46430, 80.50650),
+                    polygon = listOf(
+                        GeoPoint(16.46450, 80.50630),
+                        GeoPoint(16.46450, 80.50670),
+                        GeoPoint(16.46410, 80.50670),
+                        GeoPoint(16.46410, 80.50630)
+                    ),
+                    levels = "15"
+                ),
+                CampusBuilding(
+                    id = "srmap_bldg_15",
+                    name = "Ganga Boys' Hostel",
+                    category = LocationCategory.HOSTEL,
+                    centroid = GeoPoint(16.46370, 80.50650),
+                    polygon = listOf(
+                        GeoPoint(16.46390, 80.50630),
+                        GeoPoint(16.46390, 80.50670),
+                        GeoPoint(16.46350, 80.50670),
+                        GeoPoint(16.46350, 80.50630)
+                    ),
+                    levels = "26"
                 )
             )
         )

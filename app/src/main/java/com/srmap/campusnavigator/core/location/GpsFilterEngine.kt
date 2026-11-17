@@ -51,23 +51,27 @@ class GpsFilterEngine(
             }
         }
 
-        // 5. Adaptive Kalman Smoothing based on reported accuracy
-        val measurementVariance = (rawState.accuracyMeters / 111320.0).let { it * it }.coerceAtLeast(1e-10)
+        // 5. Adaptive Kalman Smoothing based on reported accuracy with longitude scaling at campus latitude
+        val latRad = Math.toRadians(pt.latitude)
+        val metersPerDegLon = 111320.0 * kotlin.math.cos(latRad)
+        val measurementVarianceLat = (rawState.accuracyMeters / 110650.0).let { it * it }.coerceAtLeast(1e-10)
+        val measurementVarianceLon = (rawState.accuracyMeters / metersPerDegLon).let { it * it }.coerceAtLeast(1e-10)
 
         val smoothedPoint = if (latEstimate == null || lonEstimate == null) {
             latEstimate = pt.latitude
             lonEstimate = pt.longitude
-            varianceEstimate = measurementVariance
+            varianceEstimate = measurementVarianceLat
             pt
         } else {
             // Predict
             val pPred = varianceEstimate + processNoise
 
             // Update
-            val kalmanGain = pPred / (pPred + measurementVariance)
-            latEstimate = latEstimate!! + kalmanGain * (pt.latitude - latEstimate!!)
-            lonEstimate = lonEstimate!! + kalmanGain * (pt.longitude - lonEstimate!!)
-            varianceEstimate = (1.0 - kalmanGain) * pPred
+            val kalmanGainLat = pPred / (pPred + measurementVarianceLat)
+            val kalmanGainLon = pPred / (pPred + measurementVarianceLon)
+            latEstimate = latEstimate!! + kalmanGainLat * (pt.latitude - latEstimate!!)
+            lonEstimate = lonEstimate!! + kalmanGainLon * (pt.longitude - lonEstimate!!)
+            varianceEstimate = (1.0 - kalmanGainLat) * pPred
 
             GeoPoint(latEstimate!!, lonEstimate!!)
         }

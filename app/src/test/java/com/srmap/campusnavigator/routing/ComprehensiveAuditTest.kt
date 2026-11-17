@@ -136,14 +136,14 @@ class ComprehensiveAuditTest {
     fun audit4_hostelAndAcademicBlockRoutingBenchmarks() {
         val buildingMap = buildings.toMap()
         
-        val kaveri = buildingMap["Kaveri"]
-        val godavari = buildingMap["Godavari"]
-        val krishna = buildingMap["Krishna"]
-        val yamuna = buildingMap["Yamuna"]
-        val narmada = buildingMap["Narmada"] ?: buildingMap["Narmadha"]
+        val kaveri = buildingMap["Kaveri"] ?: buildingMap["Kaveri Faculty Residence"]
+        val godavari = buildingMap["Godavari"] ?: buildingMap["Godavari Hostel"]
+        val krishna = buildingMap["Krishna"] ?: buildingMap["Krishna Hostel"]
+        val yamuna = buildingMap["Yamuna"] ?: buildingMap["Yamuna Hostel"]
+        val narmada = buildingMap["Narmada"] ?: buildingMap["Narmadha"] ?: buildingMap["Narmada Hostel"]
         val mess = buildingMap["Annapurna Mess"]
-        val sarabhai = buildingMap["Vikram Sarabhai Block"] ?: buildingMap["SR Block"]
-        val bhabha = buildingMap["Homi J. Bhabha Block"] ?: buildingMap["Homi J Baba Block"]
+        val sarabhai = buildingMap["Vikram Sarabhai Block"] ?: buildingMap["SR Block"] ?: buildingMap["SR Academic Block"]
+        val bhabha = buildingMap["Homi J. Bhabha Block"] ?: buildingMap["Homi J Baba Block"] ?: buildingMap["Homi J Bhabha Block"]
 
         assertNotNull("Kaveri should be present", kaveri)
         assertNotNull("Godavari should be present", godavari)

@@ -196,6 +196,7 @@ fun CampusNavigatorMainScreen(
                                 features = features,
                                 selectedBuilding = campusState.selectedBuilding,
                                 route = navState.activeRoute,
+                                routeProgress = navState.dynamicProgress,
                                 userLocation = navState.userLocation,
                                 onSwitchTo2D = { navigationViewModel.set3DMode(false) },
                                 onEndNavigation = { navigationViewModel.endNavigation() }

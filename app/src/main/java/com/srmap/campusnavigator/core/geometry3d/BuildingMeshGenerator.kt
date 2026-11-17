@@ -6,7 +6,7 @@ import com.srmap.campusnavigator.domain.models.LocationCategory
 
 object BuildingMeshGenerator {
 
-    private const val DEFAULT_FLOOR_HEIGHT_METERS = 3.8f
+    private const val DEFAULT_FLOOR_HEIGHT_METERS = 3.0f
 
     fun generateBuildingMesh(
         building: CampusBuilding,
@@ -17,8 +17,8 @@ object BuildingMeshGenerator {
 
         val localBasePoints = polygon.map { LocalCoordinateConverter.toLocal3D(it, altitude = 0f) }
         val levels = building.levels?.toIntOrNull() ?: when (building.category) {
-            LocationCategory.ACADEMIC -> 4
-            LocationCategory.HOSTEL -> 5
+            LocationCategory.ACADEMIC -> 7
+            LocationCategory.HOSTEL -> 9
             LocationCategory.DINING -> 2
             else -> 3
         }

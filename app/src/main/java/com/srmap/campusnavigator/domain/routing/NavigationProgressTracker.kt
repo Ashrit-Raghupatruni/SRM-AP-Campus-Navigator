@@ -24,7 +24,8 @@ data class DynamicRouteProgress(
     val progressFraction: Float,
     val estimatedRemainingSeconds: Int,
     val nextInstruction: String,
-    val distanceToNextTurnMeters: Double
+    val distanceToNextTurnMeters: Double,
+    val currentSegmentIndex: Int = 0
 )
 
 /**
@@ -182,7 +183,8 @@ class NavigationProgressTracker(
             progressFraction = progressFraction,
             estimatedRemainingSeconds = remainingSeconds,
             nextInstruction = instruction,
-            distanceToNextTurnMeters = distToTurn
+            distanceToNextTurnMeters = distToTurn,
+            currentSegmentIndex = bestSegment
         )
     }
 }

@@ -59,20 +59,37 @@ class Campus3DRenderer(
     private val buildingGpuMeshes = mutableListOf<Pair<String, GpuMesh>>()
     private var routeGpuMesh: GpuMesh? = null
 
+    private var previousSelectedBuildingId: String? = null
+    private var previousRoute: PedestrianRoute? = null
+
     @Volatile
     private var needsRouteMeshRebuild = false
+    @Volatile
+    private var needsBuildingMeshRebuild = false
 
     fun updateNavigationState(
         selectedBuilding: CampusBuilding?,
         route: PedestrianRoute?,
-        userLoc: UserLocationState?
+        userLoc: UserLocationState?,
+        currentSegmentIndex: Int = 0,
+        mapMatchedBearing: Float? = null
     ) {
+        val bldgChanged = (selectedBuilding?.id != this.selectedBuildingId)
+        val routeChanged = (route != this.previousRoute)
+
         this.selectedBuildingId = selectedBuilding?.id
         this.activeRoute = route
         this.userLocation = userLoc
-        this.needsRouteMeshRebuild = true
 
-        cameraController.updateTarget(userLoc, route)
+        if (bldgChanged) {
+            this.needsBuildingMeshRebuild = true
+        }
+        if (routeChanged) {
+            this.needsRouteMeshRebuild = true
+            this.previousRoute = route
+        }
+
+        cameraController.updateTarget(userLoc, route, currentSegmentIndex, mapMatchedBearing)
     }
 
     override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
@@ -97,6 +114,10 @@ class Campus3DRenderer(
         if (needsRouteMeshRebuild) {
             rebuildRouteMesh()
             needsRouteMeshRebuild = false
+        }
+        if (needsBuildingMeshRebuild) {
+            rebuildBuildingMeshes()
+            needsBuildingMeshRebuild = false
         }
 
         // Update First-Person Camera Pose
@@ -217,6 +238,16 @@ class Campus3DRenderer(
         }
     }
 
+    private fun rebuildBuildingMeshes() {
+        buildingGpuMeshes.clear()
+        for (bldg in buildings) {
+            val isHighlighted = (bldg.id == selectedBuildingId)
+            val meshData = BuildingMeshGenerator.generateBuildingMesh(bldg, isHighlighted) ?: continue
+            val gpuMesh = uploadToGpu(meshData)
+            buildingGpuMeshes.add(Pair(bldg.id, gpuMesh))
+        }
+    }
+
     private fun rebuildRouteMesh() {
         val pts = activeRoute?.path ?: emptyList()
         val meshData = RoadMeshGenerator.generateRoutePolylineMesh(pts)
@@ -273,10 +304,18 @@ class Campus3DRenderer(
         val vs = loadShader(GLES30.GL_VERTEX_SHADER, vertexShaderCode)
         val fs = loadShader(GLES30.GL_FRAGMENT_SHADER, fragmentShaderCode)
 
-        programId = GLES30.glCreateProgram().also {
-            GLES30.glAttachShader(it, vs)
-            GLES30.glAttachShader(it, fs)
-            GLES30.glLinkProgram(it)
+        programId = GLES30.glCreateProgram().also { prog ->
+            GLES30.glAttachShader(prog, vs)
+            GLES30.glAttachShader(prog, fs)
+            GLES30.glLinkProgram(prog)
+
+            val linkStatus = IntArray(1)
+            GLES30.glGetProgramiv(prog, GLES30.GL_LINK_STATUS, linkStatus, 0)
+            if (linkStatus[0] == 0) {
+                val errorLog = GLES30.glGetProgramInfoLog(prog)
+                android.util.Log.e("Campus3DRenderer", "OpenGL Program Link Error: $errorLog")
+                GLES30.glDeleteProgram(prog)
+            }
         }
 
         uMVPMatrixHandle = GLES30.glGetUniformLocation(programId, "uMVPMatrix")
@@ -290,6 +329,14 @@ class Campus3DRenderer(
         return GLES30.glCreateShader(type).also { shader ->
             GLES30.glShaderSource(shader, shaderCode)
             GLES30.glCompileShader(shader)
+
+            val compileStatus = IntArray(1)
+            GLES30.glGetShaderiv(shader, GLES30.GL_COMPILE_STATUS, compileStatus, 0)
+            if (compileStatus[0] == 0) {
+                val errorLog = GLES30.glGetShaderInfoLog(shader)
+                android.util.Log.e("Campus3DRenderer", "OpenGL Shader Compile Error ($type): $errorLog")
+                GLES30.glDeleteShader(shader)
+            }
         }
     }
 }

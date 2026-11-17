@@ -13,10 +13,11 @@
       "id": "srmap_bldg_1",
       "properties": {
         "@id": "srmap_bldg_1",
-        "name": "Narmadha",
+        "name": "Narmada Hostel",
         "building": "yes",
         "building:category": "HOSTEL",
-        "building:levels": "5"
+        "building:levels": "9",
+        "category": "HOSTEL"
       },
       "geometry": {
         "type": "Polygon",
@@ -67,10 +68,11 @@
       "id": "srmap_bldg_2",
       "properties": {
         "@id": "srmap_bldg_2",
-        "name": "Yamuna",
+        "name": "Yamuna Hostel",
         "building": "yes",
         "building:category": "HOSTEL",
-        "building:levels": "5"
+        "building:levels": "9",
+        "category": "HOSTEL"
       },
       "geometry": {
         "type": "Polygon",
@@ -121,10 +123,11 @@
       "id": "srmap_bldg_3",
       "properties": {
         "@id": "srmap_bldg_3",
-        "name": "Yamuna",
+        "name": "Yamuna Hostel",
         "building": "yes",
         "building:category": "HOSTEL",
-        "building:levels": "5"
+        "building:levels": "9",
+        "category": "HOSTEL"
       },
       "geometry": {
         "type": "Polygon",
@@ -175,10 +178,11 @@
       "id": "srmap_bldg_4",
       "properties": {
         "@id": "srmap_bldg_4",
-        "name": "Godavari",
+        "name": "Godavari Hostel",
         "building": "yes",
         "building:category": "HOSTEL",
-        "building:levels": "5"
+        "building:levels": "9",
+        "category": "HOSTEL"
       },
       "geometry": {
         "type": "Polygon",
@@ -229,10 +233,11 @@
       "id": "srmap_bldg_5",
       "properties": {
         "@id": "srmap_bldg_5",
-        "name": "Krishna",
+        "name": "Krishna Hostel",
         "building": "yes",
         "building:category": "HOSTEL",
-        "building:levels": "5"
+        "building:levels": "9",
+        "category": "HOSTEL"
       },
       "geometry": {
         "type": "Polygon",
@@ -283,10 +288,11 @@
       "id": "srmap_bldg_6",
       "properties": {
         "@id": "srmap_bldg_6",
-        "name": "Kaveri",
+        "name": "Kaveri Faculty Residence",
         "building": "yes",
         "building:category": "HOSTEL",
-        "building:levels": "5"
+        "building:levels": "9",
+        "category": "FACILITY"
       },
       "geometry": {
         "type": "Polygon",
@@ -382,7 +388,8 @@
         "name": "Annapurna Mess",
         "building": "yes",
         "building:category": "DINING",
-        "building:levels": "5"
+        "building:levels": "2",
+        "category": "DINING"
       },
       "geometry": {
         "type": "Polygon",
@@ -527,10 +534,11 @@
       "id": "srmap_bldg_10",
       "properties": {
         "@id": "srmap_bldg_10",
-        "name": "JC BOSE Block",
+        "name": "JC Bose Block",
         "building": "yes",
         "building:category": "ACADEMIC",
-        "building:levels": "5"
+        "building:levels": "5",
+        "category": "ACADEMIC"
       },
       "geometry": {
         "type": "Polygon",
@@ -585,10 +593,11 @@
       "id": "srmap_bldg_11",
       "properties": {
         "@id": "srmap_bldg_11",
-        "name": "X Lab",
+        "name": "X-Lab",
         "building": "yes",
         "building:category": "ACADEMIC",
-        "building:levels": "5"
+        "building:levels": "3",
+        "category": "ACADEMIC"
       },
       "geometry": {
         "type": "Polygon",
@@ -799,10 +808,11 @@
       "id": "srmap_bldg_14",
       "properties": {
         "@id": "srmap_bldg_14",
-        "name": "Vedavathi",
+        "name": "Vedavathi Boys' Hostel",
         "building": "yes",
         "building:category": "HOSTEL",
-        "building:levels": "5"
+        "building:levels": "15",
+        "category": "HOSTEL"
       },
       "geometry": {
         "type": "Polygon",
@@ -865,10 +875,11 @@
       "id": "srmap_bldg_15",
       "properties": {
         "@id": "srmap_bldg_15",
-        "name": "Ganga",
+        "name": "Ganga Boys' Hostel",
         "building": "yes",
         "building:category": "HOSTEL",
-        "building:levels": "5"
+        "building:levels": "26",
+        "category": "HOSTEL"
       },
       "geometry": {
         "type": "Polygon",
@@ -930,7 +941,8 @@
         "name": "SR Block",
         "building": "yes",
         "building:category": "ACADEMIC",
-        "building:levels": "5"
+        "building:levels": "7",
+        "category": "ACADEMIC"
       },
       "geometry": {
         "type": "Polygon",
@@ -1061,10 +1073,11 @@
       "id": "srmap_bldg_20",
       "properties": {
         "@id": "srmap_bldg_20",
-        "name": "CV Raman",
+        "name": "CV Raman Block",
         "building": "yes",
         "building:category": "ACADEMIC",
-        "building:levels": "10"
+        "building:levels": "12",
+        "category": "ACADEMIC"
       },
       "geometry": {
         "type": "Polygon",
@@ -1103,10 +1116,11 @@
       "id": "srmap_bldg_30",
       "properties": {
         "@id": "srmap_bldg_30",
-        "name": "Homi J Baba Block",
+        "name": "Homi J Bhabha Block",
         "building": "yes",
         "building:category": "ACADEMIC",
-        "building:levels": "5"
+        "building:levels": "7",
+        "category": "ACADEMIC"
       },
       "geometry": {
         "type": "Polygon",

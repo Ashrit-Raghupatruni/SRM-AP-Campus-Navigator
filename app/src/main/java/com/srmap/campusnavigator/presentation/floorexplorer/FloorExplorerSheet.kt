@@ -47,7 +47,7 @@ fun FloorExplorerSheet(
 
     val currentBuilding = selectedBuilding ?: buildings.firstOrNull { it.name.contains("SR", ignoreCase = true) } ?: buildings.firstOrNull()
 
-    val maxFloors = (currentBuilding?.levels?.toIntOrNull() ?: 3).coerceIn(1, 10)
+    val maxFloors = (currentBuilding?.levels?.toIntOrNull() ?: 3).coerceIn(1, 26)
 
     val floorRooms = rooms.filter { it.floor == selectedFloor }
     val filteredRooms = if (selectedRoomTypeFilter == "All") {
@@ -113,13 +113,13 @@ fun FloorExplorerSheet(
                 Spacer(modifier = Modifier.height(14.dp))
 
                 // Building Selector Pills
-                Text("Select Academic Block", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = SlateGrey)
+                Text("Select Campus Block", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = SlateGrey)
                 Spacer(modifier = Modifier.height(6.dp))
                 LazyRow(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    items(buildings.filter { it.category == com.srmap.campusnavigator.domain.models.LocationCategory.ACADEMIC }) { bldg ->
+                    items(buildings) { bldg ->
                         val isSelected = bldg.id == currentBuilding?.id
                         Surface(
                             shape = RoundedCornerShape(12.dp),
@@ -174,12 +174,12 @@ fun FloorExplorerSheet(
 
                 Spacer(modifier = Modifier.height(14.dp))
 
-                // Room Type Filters: All, Classrooms, Cabins, Labs
-                Row(
+                // Room Type Filters: All, Classrooms, Cabins, Labs, Special
+                LazyRow(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    listOf("All", "Classroom", "Cabin", "Lab").forEach { filter ->
+                    items(listOf("All", "Classroom", "Cabin", "Lab", "Library", "Theatre", "Wellness", "Gym")) { filter ->
                         val isSel = filter == selectedRoomTypeFilter
                         Surface(
                             shape = RoundedCornerShape(16.dp),

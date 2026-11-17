@@ -73,11 +73,20 @@ class CampusViewModel(
 
     private fun loadBuildingDetails(building: CampusBuilding) {
         val canonicalBlockId = when {
-            building.name.contains("SR", ignoreCase = true) -> "SR1"
+            building.name.contains("SR", ignoreCase = true) -> "SR"
             building.name.contains("CV", ignoreCase = true) || building.name.contains("Raman", ignoreCase = true) -> "CV"
             building.name.contains("V Block", ignoreCase = true) || building.name.equals("V", ignoreCase = true) -> "V"
             building.name.contains("X Lab", ignoreCase = true) || building.name.contains("X-Lab", ignoreCase = true) -> "X-LAB"
             building.name.contains("Homi", ignoreCase = true) -> "HOMI"
+            building.name.contains("Ganga", ignoreCase = true) -> "GANGA"
+            building.name.contains("Vedavathi", ignoreCase = true) -> "VEDAVATHI"
+            building.name.contains("Krishna", ignoreCase = true) -> "KRISHNA"
+            building.name.contains("Godavari", ignoreCase = true) -> "GODAVARI"
+            building.name.contains("Narmada", ignoreCase = true) || building.name.contains("Narmadha", ignoreCase = true) -> "NARMADA"
+            building.name.contains("Yamuna", ignoreCase = true) -> "YAMUNA"
+            building.name.contains("Kaveri", ignoreCase = true) -> "KAVERI"
+            building.name.contains("Annapurna", ignoreCase = true) -> "ANNAPURNA"
+            building.name.contains("JC Bose", ignoreCase = true) || building.name.contains("JC BOSE", ignoreCase = true) -> "JC_BOSE"
             else -> building.name
         }
         viewModelScope.launch(Dispatchers.IO) {
