@@ -193,6 +193,7 @@ fun CampusNavigatorMainScreen(
                             com.srmap.campusnavigator.presentation.navigation3d.FirstPersonNavigationScreen(
                                 buildings = campusState.buildings,
                                 graph = navigationViewModel.getGraph(),
+                                features = features,
                                 selectedBuilding = campusState.selectedBuilding,
                                 route = navState.activeRoute,
                                 userLocation = navState.userLocation,

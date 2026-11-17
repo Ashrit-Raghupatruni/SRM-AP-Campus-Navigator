@@ -27,6 +27,7 @@ fun FirstPersonNavigationScreen(
     modifier: Modifier = Modifier,
     buildings: List<CampusBuilding>,
     graph: CampusGraph?,
+    features: List<com.srmap.campusnavigator.domain.models.CampusFeature> = emptyList(),
     selectedBuilding: CampusBuilding?,
     route: PedestrianRoute?,
     userLocation: UserLocationState?,
@@ -34,8 +35,8 @@ fun FirstPersonNavigationScreen(
     onEndNavigation: () -> Unit
 ) {
     val context = LocalContext.current
-    val glView = remember(buildings, graph) {
-        val r = Campus3DRenderer(context, buildings, graph)
+    val glView = remember(buildings, graph, features) {
+        val r = Campus3DRenderer(context, buildings, graph, features)
         GLSurfaceView(context).apply {
             setEGLContextClientVersion(3)
             setRenderer(r)

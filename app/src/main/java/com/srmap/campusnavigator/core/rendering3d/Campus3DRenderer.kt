@@ -19,7 +19,8 @@ import javax.microedition.khronos.opengles.GL10
 class Campus3DRenderer(
     private val context: Context,
     private val buildings: List<CampusBuilding>,
-    private val graph: CampusGraph?
+    private val graph: CampusGraph?,
+    private val features: List<com.srmap.campusnavigator.domain.models.CampusFeature> = emptyList()
 ) : GLSurfaceView.Renderer {
 
     val cameraController = FirstPersonCameraController()
@@ -52,7 +53,9 @@ class Campus3DRenderer(
     )
 
     private var groundGpuMesh: GpuMesh? = null
+    private var sportsGpuMesh: GpuMesh? = null
     private var walkwaysGpuMesh: GpuMesh? = null
+    private var treesGpuMesh: GpuMesh? = null
     private val buildingGpuMeshes = mutableListOf<Pair<String, GpuMesh>>()
     private var routeGpuMesh: GpuMesh? = null
 
@@ -108,14 +111,20 @@ class Campus3DRenderer(
         // 1. Draw Ground
         groundGpuMesh?.let { drawMesh(it) }
 
-        // 2. Draw Walkways
+        // 2. Draw Sports Grounds (Cricket, Soccer, Track, Courts)
+        sportsGpuMesh?.let { drawMesh(it) }
+
+        // 3. Draw Walkways
         walkwaysGpuMesh?.let { drawMesh(it) }
 
-        // 3. Draw Active Route Chevron Strip
+        // 4. Draw Procedural 3D Trees
+        treesGpuMesh?.let { drawMesh(it) }
+
+        // 5. Draw Active Route Chevron Strip
         routeGpuMesh?.let { drawMesh(it) }
 
-        // 4. Draw Buildings
-        for ((bldgId, mesh) in buildingGpuMeshes) {
+        // 6. Draw Buildings
+        for ((_, mesh) in buildingGpuMeshes) {
             drawMesh(mesh)
         }
     }
@@ -174,10 +183,28 @@ class Campus3DRenderer(
         val groundData = GroundMeshGenerator.generateGroundMesh()
         groundGpuMesh = uploadToGpu(groundData)
 
+        // Sports Grounds (Cricket Oval, Soccer Field, Running Track, Courts)
+        if (features.isNotEmpty()) {
+            SportsGroundMeshGenerator.generateSportsMesh(features)?.let {
+                sportsGpuMesh = uploadToGpu(it)
+            }
+        }
+
         // Walkways
         graph?.let {
             val walkwayData = RoadMeshGenerator.generateWalkwayMesh(it)
             walkwaysGpuMesh = uploadToGpu(walkwayData)
+        }
+
+        // Procedural 3D Trees in forest & landscaped areas
+        if (features.isNotEmpty()) {
+            val pathPolylines = activeRoute?.path?.let { route ->
+                listOf(route.map { LocalCoordinateConverter.toLocal3D(it) })
+            } ?: emptyList()
+
+            TreeMeshGenerator.generateTreesMesh(features, pathPolylines)?.let {
+                treesGpuMesh = uploadToGpu(it)
+            }
         }
 
         // Buildings
