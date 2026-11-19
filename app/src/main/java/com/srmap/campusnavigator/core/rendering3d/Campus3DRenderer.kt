@@ -56,6 +56,7 @@ class Campus3DRenderer(
     private var sportsGpuMesh: GpuMesh? = null
     private var walkwaysGpuMesh: GpuMesh? = null
     private var treesGpuMesh: GpuMesh? = null
+    private var avatarGpuMesh: GpuMesh? = null
     private val buildingGpuMeshes = mutableListOf<Pair<String, GpuMesh>>()
     private var routeGpuMesh: GpuMesh? = null
 
@@ -120,8 +121,8 @@ class Campus3DRenderer(
             needsBuildingMeshRebuild = false
         }
 
-        // Update First-Person Camera Pose
-        val pose = cameraController.tick()
+        // Update Camera Pose (supports 1st-person and 3rd-person with smooth transition)
+        val pose = cameraController.tick(buildings)
         setupViewMatrix(pose)
 
         GLES30.glUseProgram(programId)
@@ -144,36 +145,79 @@ class Campus3DRenderer(
         // 5. Draw Active Route Chevron Strip
         routeGpuMesh?.let { drawMesh(it) }
 
-        // 6. Draw Buildings
+        // 6. Draw 3D User Avatar & Ground Beacon (visible in 3rd person or during transition)
+        if (pose.transitionProgress > 0.05f && avatarGpuMesh != null) {
+            drawAvatar(avatarGpuMesh!!, pose)
+        }
+
+        // 7. Draw Buildings
         for ((_, mesh) in buildingGpuMeshes) {
             drawMesh(mesh)
         }
     }
 
     private fun setupViewMatrix(pose: CameraPose) {
-        val eyeX = pose.position.x
-        val eyeY = pose.position.y
-        val eyeZ = pose.position.z
+        val eyeX = pose.eyePosition.x
+        val eyeY = pose.eyePosition.y
+        val eyeZ = pose.eyePosition.z
 
-        // Convert yaw & pitch into forward look vector
-        val yawRad = Math.toRadians(pose.yawDegrees.toDouble())
-        val pitchRad = Math.toRadians(pose.pitchDegrees.toDouble())
+        val targetX: Float
+        val targetY: Float
+        val targetZ: Float
 
-        // In our ENU: Forward along 0 yaw is North (-Z)
-        val dirX = (kotlin.math.sin(yawRad) * kotlin.math.cos(pitchRad)).toFloat()
-        val dirY = kotlin.math.sin(pitchRad).toFloat()
-        val dirZ = (-kotlin.math.cos(yawRad) * kotlin.math.cos(pitchRad)).toFloat()
+        if (pose.viewMode == com.srmap.campusnavigator.domain.navigation3d.CameraViewMode.THIRD_PERSON || pose.transitionProgress > 0.1f) {
+            // In 3rd-person, the camera looks directly at the user's focus target
+            targetX = pose.targetPosition.x
+            targetY = pose.targetPosition.y
+            targetZ = pose.targetPosition.z
+        } else {
+            // In 1st-person, the camera looks forward along the look vector from the eye
+            val yawRad = Math.toRadians(pose.yawDegrees.toDouble())
+            val pitchRad = Math.toRadians(pose.pitchDegrees.toDouble())
 
-        val centerX = eyeX + dirX
-        val centerY = eyeY + dirY
-        val centerZ = eyeZ + dirZ
+            val dirX = (kotlin.math.sin(yawRad) * kotlin.math.cos(pitchRad)).toFloat()
+            val dirY = kotlin.math.sin(pitchRad).toFloat()
+            val dirZ = (-kotlin.math.cos(yawRad) * kotlin.math.cos(pitchRad)).toFloat()
+
+            targetX = eyeX + dirX
+            targetY = eyeY + dirY
+            targetZ = eyeZ + dirZ
+        }
 
         Matrix.setLookAtM(
             viewMatrix, 0,
             eyeX, eyeY, eyeZ,
-            centerX, centerY, centerZ,
+            targetX, targetY, targetZ,
             0f, 1f, 0f // Up vector
         )
+    }
+
+    private fun drawAvatar(mesh: GpuMesh, pose: CameraPose) {
+        Matrix.setIdentityM(modelMatrix, 0)
+        // Position at ground target
+        Matrix.translateM(modelMatrix, 0, pose.targetPosition.x, 0f, pose.targetPosition.z)
+        // Rotate avatar strictly along walking heading
+        Matrix.rotateM(modelMatrix, 0, -pose.walkingHeadingDegrees, 0f, 1f, 0f)
+
+        Matrix.multiplyMM(mvpMatrix, 0, projectionMatrix, 0, viewMatrix, 0)
+        Matrix.multiplyMM(mvpMatrix, 0, mvpMatrix, 0, modelMatrix, 0)
+
+        GLES30.glUniformMatrix4fv(uMVPMatrixHandle, 1, false, mvpMatrix, 0)
+
+        GLES30.glEnableVertexAttribArray(aPositionHandle)
+        GLES30.glVertexAttribPointer(aPositionHandle, 3, GLES30.GL_FLOAT, false, 0, mesh.vertexBuffer)
+
+        GLES30.glEnableVertexAttribArray(aNormalHandle)
+        GLES30.glVertexAttribPointer(aNormalHandle, 3, GLES30.GL_FLOAT, false, 0, mesh.normalBuffer)
+
+        GLES30.glEnableVertexAttribArray(aColorHandle)
+        GLES30.glVertexAttribPointer(aColorHandle, 4, GLES30.GL_FLOAT, false, 0, mesh.colorBuffer)
+
+        GLES30.glDrawElements(GLES30.GL_TRIANGLES, mesh.indexCount, GLES30.GL_UNSIGNED_SHORT, mesh.indexBuffer)
+
+        GLES30.glDisableVertexAttribArray(aPositionHandle)
+        GLES30.glDisableVertexAttribArray(aNormalHandle)
+        GLES30.glDisableVertexAttribArray(aColorHandle)
     }
 
     private fun drawMesh(mesh: GpuMesh) {
@@ -227,6 +271,10 @@ class Campus3DRenderer(
                 treesGpuMesh = uploadToGpu(it)
             }
         }
+
+        // 3D Third-Person Navigation Avatar & Ground Beacon
+        val avatarData = com.srmap.campusnavigator.core.geometry3d.UserAvatarMeshGenerator.generateAvatarMesh()
+        avatarGpuMesh = uploadToGpu(avatarData)
 
         // Buildings
         buildingGpuMeshes.clear()

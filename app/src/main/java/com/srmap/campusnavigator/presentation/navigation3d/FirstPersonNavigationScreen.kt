@@ -1,26 +1,35 @@
 package com.srmap.campusnavigator.presentation.navigation3d
 
 import android.opengl.GLSurfaceView
-import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.srmap.campusnavigator.core.designsystem.DeepTeal
 import com.srmap.campusnavigator.core.designsystem.MidnightNavy
+import com.srmap.campusnavigator.core.designsystem.MintAccent
 import com.srmap.campusnavigator.core.location.UserLocationState
 import com.srmap.campusnavigator.core.rendering3d.Campus3DRenderer
 import com.srmap.campusnavigator.domain.graph.CampusGraph
 import com.srmap.campusnavigator.domain.models.CampusBuilding
 import com.srmap.campusnavigator.domain.models.PedestrianRoute
+import com.srmap.campusnavigator.domain.navigation3d.CameraViewMode
 
 @Composable
 fun FirstPersonNavigationScreen(
@@ -37,6 +46,8 @@ fun FirstPersonNavigationScreen(
 ) {
     val context = LocalContext.current
     val lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current
+
+    var currentViewMode by remember { mutableStateOf(CameraViewMode.FIRST_PERSON) }
 
     val glView = remember(buildings, graph, features) {
         val r = Campus3DRenderer(context, buildings, graph, features)
@@ -72,16 +83,19 @@ fun FirstPersonNavigationScreen(
     }
 
     Box(modifier = modifier.fillMaxSize()) {
-        // Native OpenGL ES 3.0 Surface View with horizontal look gesture
+        // Native OpenGL ES 3.0 Surface View with Multi-Touch Gestures (Pan, Orbit, Tilt, Zoom)
         AndroidView(
             factory = { glView.first },
             modifier = Modifier
                 .fillMaxSize()
-                .pointerInput(Unit) {
-                    detectDragGestures { change, dragAmount ->
-                        change.consume()
-                        // Sensitivity: 0.25 deg per pixel drag
-                        renderer.cameraController.onUserDragRotate(-dragAmount.x * 0.25f)
+                .pointerInput(currentViewMode) {
+                    detectTransformGestures { _, pan, zoom, _ ->
+                        if (pan.x != 0f || pan.y != 0f) {
+                            renderer.cameraController.onUserDrag(pan.x, pan.y)
+                        }
+                        if (zoom != 1f) {
+                            renderer.cameraController.onUserZoom(zoom)
+                        }
                     }
                 }
         )
@@ -126,11 +140,69 @@ fun FirstPersonNavigationScreen(
             }
         }
 
-        // Floating Action Buttons (Recenter & 2D Mode Switch)
+        // Camera POV Mode Switcher Pill (| 1st POV | 3rd POV |) positioned under the top HUD
+        Surface(
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(top = 110.dp),
+            shape = RoundedCornerShape(24.dp),
+            color = MidnightNavy.copy(alpha = 0.92f),
+            shadowElevation = 6.dp
+        ) {
+            Row(
+                modifier = Modifier.padding(4.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                val is1st = currentViewMode == CameraViewMode.FIRST_PERSON
+                // 1st POV Segment
+                Box(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(20.dp))
+                        .background(if (is1st) MintAccent else Color.Transparent)
+                        .clickable {
+                            currentViewMode = CameraViewMode.FIRST_PERSON
+                            renderer.cameraController.setMode(CameraViewMode.FIRST_PERSON)
+                        }
+                        .padding(horizontal = 14.dp, vertical = 7.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "1st POV",
+                        fontSize = 12.sp,
+                        fontWeight = if (is1st) FontWeight.Bold else FontWeight.Medium,
+                        color = if (is1st) MidnightNavy else Color.White
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(2.dp))
+
+                // 3rd POV Segment
+                Box(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(20.dp))
+                        .background(if (!is1st) MintAccent else Color.Transparent)
+                        .clickable {
+                            currentViewMode = CameraViewMode.THIRD_PERSON
+                            renderer.cameraController.setMode(CameraViewMode.THIRD_PERSON)
+                        }
+                        .padding(horizontal = 14.dp, vertical = 7.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "3rd POV",
+                        fontSize = 12.sp,
+                        fontWeight = if (!is1st) FontWeight.Bold else FontWeight.Medium,
+                        color = if (!is1st) MidnightNavy else Color.White
+                    )
+                }
+            }
+        }
+
+        // Floating Action Buttons (Recenter Heading & 2D Mode Switch)
         Column(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(end = 16.dp, bottom = 100.dp),
+                .padding(end = 16.dp, bottom = 105.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             FloatingActionButton(
@@ -138,7 +210,7 @@ fun FirstPersonNavigationScreen(
                 containerColor = Color.White,
                 contentColor = MidnightNavy
             ) {
-                Icon(Icons.Default.Explore, contentDescription = "Recenter Heading")
+                Icon(Icons.Default.Explore, contentDescription = "Recenter Orbit / Heading")
             }
 
             FloatingActionButton(
@@ -174,7 +246,11 @@ fun FirstPersonNavigationScreen(
                         color = MidnightNavy
                     )
                     Text(
-                        text = "1.6m First-Person Eye Level",
+                        text = if (currentViewMode == CameraViewMode.FIRST_PERSON) {
+                            "1.6m First-Person Eye Level"
+                        } else {
+                            "3rd-Person Chase & 360° Orbit View"
+                        },
                         style = MaterialTheme.typography.bodySmall,
                         color = Color(0xFF64748B)
                     )
@@ -190,3 +266,4 @@ fun FirstPersonNavigationScreen(
         }
     }
 }
+

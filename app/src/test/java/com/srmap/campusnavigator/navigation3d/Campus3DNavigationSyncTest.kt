@@ -57,6 +57,38 @@ class Campus3DNavigationSyncTest {
     }
 
     @Test
+    fun testThirdPersonCameraPoseAndOrbit() {
+        val controller = FirstPersonCameraController()
+        val p = GeoPoint(16.46300, 80.5064108)
+        val route = PedestrianRoute(
+            path = listOf(p, GeoPoint(16.46350, 80.5064108)),
+            totalDistanceMeters = 50.0,
+            estimatedTimeSeconds = 35,
+            steps = emptyList()
+        )
+
+        controller.updateTarget(UserLocationState(p, 3f, "test"), route, 0)
+        controller.setMode(com.srmap.campusnavigator.domain.navigation3d.CameraViewMode.THIRD_PERSON)
+
+        // Let transition progress converge
+        for (i in 0 until 40) {
+            controller.tick()
+        }
+        val pose = controller.tick()
+
+        assertEquals(com.srmap.campusnavigator.domain.navigation3d.CameraViewMode.THIRD_PERSON, pose.viewMode)
+        assertTrue("Transition progress should reach near 1.0", pose.transitionProgress > 0.9f)
+        assertTrue("Camera eye should be elevated above ground (>2.0m)", pose.eyePosition.y > 2.0f)
+
+        // Test horizontal drag orbit
+        controller.onUserDrag(deltaX = 100f, deltaY = 0f)
+        val poseAfterOrbit = controller.tick()
+        assertNotEquals(pose.yawDegrees, poseAfterOrbit.yawDegrees, 1.0f)
+        // Walking heading should remain unchanged
+        assertEquals(pose.walkingHeadingDegrees, poseAfterOrbit.walkingHeadingDegrees, 0.5f)
+    }
+
+    @Test
     fun testGpsFilterEngineCosineScaling() {
         val filter = GpsFilterEngine()
         val loc1 = UserLocationState(GeoPoint(16.46300, 80.50640), 6f, "gps")
