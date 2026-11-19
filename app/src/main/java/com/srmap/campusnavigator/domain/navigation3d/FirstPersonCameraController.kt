@@ -14,12 +14,6 @@ enum class CameraViewMode {
     THIRD_PERSON
 }
 
-enum class CameraPreset(val distance: Float, val pitch: Float) {
-    CLOSE_CHASE(4.0f, 20.0f),
-    TACTICAL_OVERHEAD(13.0f, 52.0f),
-    CINEMATIC_ORBIT(8.5f, 28.0f)
-}
-
 data class CameraPose(
     val eyePosition: Vector3,
     val targetPosition: Vector3,
@@ -140,13 +134,6 @@ class FirstPersonCameraController {
         if (viewMode == CameraViewMode.THIRD_PERSON) {
             targetDistance = (targetDistance / zoomFactor).coerceIn(MIN_DISTANCE, MAX_DISTANCE)
         }
-    }
-
-    fun applyPreset(preset: CameraPreset) {
-        viewMode = CameraViewMode.THIRD_PERSON
-        targetDistance = preset.distance
-        orbitPitch = preset.pitch
-        lastManualInteractionTime = System.currentTimeMillis()
     }
 
     fun resetOrientation() {

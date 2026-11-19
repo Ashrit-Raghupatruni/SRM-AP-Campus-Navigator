@@ -196,38 +196,6 @@ fun FirstPersonNavigationScreen(
                         color = if (!is1st) MidnightNavy else Color.White
                     )
                 }
-
-                if (!is1st) {
-                    Spacer(modifier = Modifier.width(6.dp))
-                    // Presets
-                    Text(
-                        text = "Chase",
-                        fontSize = 11.sp,
-                        color = Color.White.copy(alpha = 0.8f),
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(12.dp))
-                            .clickable { renderer.cameraController.applyPreset(com.srmap.campusnavigator.domain.navigation3d.CameraPreset.CLOSE_CHASE) }
-                            .padding(horizontal = 6.dp, vertical = 4.dp)
-                    )
-                    Text(
-                        text = "Overhead",
-                        fontSize = 11.sp,
-                        color = Color.White.copy(alpha = 0.8f),
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(12.dp))
-                            .clickable { renderer.cameraController.applyPreset(com.srmap.campusnavigator.domain.navigation3d.CameraPreset.TACTICAL_OVERHEAD) }
-                            .padding(horizontal = 6.dp, vertical = 4.dp)
-                    )
-                    Text(
-                        text = "Orbit",
-                        fontSize = 11.sp,
-                        color = Color.White.copy(alpha = 0.8f),
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(12.dp))
-                            .clickable { renderer.cameraController.applyPreset(com.srmap.campusnavigator.domain.navigation3d.CameraPreset.CINEMATIC_ORBIT) }
-                            .padding(horizontal = 6.dp, vertical = 4.dp)
-                    )
-                }
             }
         }
 
