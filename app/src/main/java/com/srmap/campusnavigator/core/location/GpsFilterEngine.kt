@@ -14,13 +14,15 @@ class GpsFilterEngine(
     private var lastValidFix: UserLocationState? = null
     private var lastFixTimestampMs: Long = 0L
 
-    // Simple 1D Kalman estimates for latitude & longitude
+    // Independent 1D Kalman estimates and variances for latitude & longitude
     private var latEstimate: Double? = null
     private var lonEstimate: Double? = null
-    private var varianceEstimate: Double = 1.0
+    private var varianceLat: Double = 1.0
+    private var varianceLon: Double = 1.0
 
-    // Process noise variance for human pedestrian movement (~1.5 m/s)
-    private val processNoise = 0.000005
+    // Process noise variance for pedestrian movement (~1.5 m/s) in degrees squared
+    private val processNoiseLat = 0.0000000005
+    private val processNoiseLon = 0.0000000005
 
     fun filterAndSmooth(rawState: UserLocationState, timestampMs: Long = System.currentTimeMillis()): UserLocationState? {
         val pt = rawState.point
@@ -38,6 +40,8 @@ class GpsFilterEngine(
             // Reset filter on stale gap
             latEstimate = null
             lonEstimate = null
+            varianceLat = 1.0
+            varianceLon = 1.0
         }
 
         // 4. Speed anomaly check
@@ -51,27 +55,32 @@ class GpsFilterEngine(
             }
         }
 
-        // 5. Adaptive Kalman Smoothing based on reported accuracy with longitude scaling at campus latitude
+        // 5. Adaptive Dual-Covariance Kalman Smoothing based on reported accuracy with longitude scaling at campus latitude
         val latRad = Math.toRadians(pt.latitude)
         val metersPerDegLon = 111320.0 * kotlin.math.cos(latRad)
-        val measurementVarianceLat = (rawState.accuracyMeters / 110650.0).let { it * it }.coerceAtLeast(1e-10)
-        val measurementVarianceLon = (rawState.accuracyMeters / metersPerDegLon).let { it * it }.coerceAtLeast(1e-10)
+        val measurementVarianceLat = (rawState.accuracyMeters / 110650.0).let { it * it }.coerceAtLeast(1e-12)
+        val measurementVarianceLon = (rawState.accuracyMeters / metersPerDegLon).let { it * it }.coerceAtLeast(1e-12)
 
         val smoothedPoint = if (latEstimate == null || lonEstimate == null) {
             latEstimate = pt.latitude
             lonEstimate = pt.longitude
-            varianceEstimate = measurementVarianceLat
+            varianceLat = measurementVarianceLat
+            varianceLon = measurementVarianceLon
             pt
         } else {
-            // Predict
-            val pPred = varianceEstimate + processNoise
+            // Predict step with independent process noises
+            val pPredLat = varianceLat + processNoiseLat
+            val pPredLon = varianceLon + processNoiseLon
 
-            // Update
-            val kalmanGainLat = pPred / (pPred + measurementVarianceLat)
-            val kalmanGainLon = pPred / (pPred + measurementVarianceLon)
+            // Update step with independent Kalman gains
+            val kalmanGainLat = pPredLat / (pPredLat + measurementVarianceLat)
+            val kalmanGainLon = pPredLon / (pPredLon + measurementVarianceLon)
+
             latEstimate = latEstimate!! + kalmanGainLat * (pt.latitude - latEstimate!!)
             lonEstimate = lonEstimate!! + kalmanGainLon * (pt.longitude - lonEstimate!!)
-            varianceEstimate = (1.0 - kalmanGainLat) * pPred
+
+            varianceLat = (1.0 - kalmanGainLat) * pPredLat
+            varianceLon = (1.0 - kalmanGainLon) * pPredLon
 
             GeoPoint(latEstimate!!, lonEstimate!!)
         }
@@ -92,6 +101,7 @@ class GpsFilterEngine(
         lastFixTimestampMs = 0L
         latEstimate = null
         lonEstimate = null
-        varianceEstimate = 1.0
+        varianceLat = 1.0
+        varianceLon = 1.0
     }
 }

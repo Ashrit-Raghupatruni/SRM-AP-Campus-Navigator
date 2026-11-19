@@ -71,7 +71,33 @@ object RoadMeshGenerator {
         )
     }
 
-    fun generateRoutePolylineMesh(routePoints: List<GeoPoint>): MeshData? {
+    fun generateSplitRouteMesh(
+        routePoints: List<GeoPoint>,
+        currentSegmentIndex: Int = 0
+    ): Pair<MeshData?, MeshData?> {
+        if (routePoints.size < 2) return null to null
+
+        val splitIdx = currentSegmentIndex.coerceIn(0, routePoints.size - 1)
+        val completedPts = if (splitIdx > 0) routePoints.subList(0, splitIdx + 1) else emptyList()
+        val remainingPts = routePoints.subList(splitIdx, routePoints.size)
+
+        val completedMesh = if (completedPts.size >= 2) {
+            generateRoutePolylineMesh(completedPts, Color(0x6664748B), routeWidth = 1.3f, elevOffset = 0.02f)
+        } else null
+
+        val remainingMesh = if (remainingPts.size >= 2) {
+            generateRoutePolylineMesh(remainingPts, Color(0xFF00E5FF), routeWidth = 1.6f, elevOffset = 0.05f)
+        } else null
+
+        return completedMesh to remainingMesh
+    }
+
+    fun generateRoutePolylineMesh(
+        routePoints: List<GeoPoint>,
+        routeColor: Color = Color(0xFF00E5FF),
+        routeWidth: Float = 1.6f,
+        elevOffset: Float = 0.04f
+    ): MeshData? {
         if (routePoints.size < 2) return null
 
         val positions = mutableListOf<Float>()
@@ -79,9 +105,7 @@ object RoadMeshGenerator {
         val colors = mutableListOf<Float>()
         val indices = mutableListOf<Short>()
 
-        val routeColor = Color(0xFF0284C7) // Vivid Electric Blue navigation chevron
-        val routeWidth = 1.6f
-        val routeElev = ROAD_ELEVATION_Y + 0.04f
+        val routeElev = ROAD_ELEVATION_Y + elevOffset
 
         val pts3D = routePoints.map { LocalCoordinateConverter.toLocal3D(it, altitude = routeElev) }
         var currentIndex: Short = 0

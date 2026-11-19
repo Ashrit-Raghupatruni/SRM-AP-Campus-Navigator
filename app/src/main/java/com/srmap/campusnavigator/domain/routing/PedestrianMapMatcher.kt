@@ -1,5 +1,7 @@
 package com.srmap.campusnavigator.domain.routing
 
+import com.srmap.campusnavigator.core.geometry3d.LocalCoordinateConverter
+import com.srmap.campusnavigator.core.geometry3d.Vector3
 import com.srmap.campusnavigator.domain.graph.CampusGraph
 import com.srmap.campusnavigator.domain.graph.GraphEdge
 import com.srmap.campusnavigator.domain.models.GeoPoint
@@ -8,13 +10,14 @@ data class SnappedPosition(
     val snappedPoint: GeoPoint,
     val matchedEdge: GraphEdge,
     val perpendicularDistanceMeters: Double,
-    val segmentFraction: Double
+    val segmentFraction: Double,
+    val edgeBearingDegrees: Float
 )
 
 /**
- * Pedestrian Map-Matching Engine with Hysteresis.
- * Prevents blue dot jumping between parallel pathways by introducing sticky edge weighting
- * and topological graph continuity.
+ * Pedestrian Map-Matching Engine with Metric Coordinate Projection & Hysteresis.
+ * Prevents blue dot jumping between parallel pathways by introducing sticky edge weighting,
+ * metric Euclidean segment projection, and topological graph continuity.
  */
 class PedestrianMapMatcher(
     private val graph: CampusGraph,
@@ -24,7 +27,7 @@ class PedestrianMapMatcher(
     private var lastMatchedEdge: GraphEdge? = null
 
     /**
-     * Map matches GPS coordinate onto the campus pedestrian graph.
+     * Map matches GPS coordinate onto the campus pedestrian graph using local metric coordinates.
      */
     fun matchLocation(
         rawPoint: GeoPoint,
@@ -41,7 +44,7 @@ class PedestrianMapMatcher(
             val fromNode = graph.nodes[edge.fromNodeId] ?: continue
             val toNode = graph.nodes[edge.toNodeId] ?: continue
 
-            val (projectedPt, fraction, rawDist) = projectPointOnSegment(rawPoint, fromNode.point, toNode.point)
+            val (projectedPt, fraction, rawDist) = projectPointOnSegmentMetric(rawPoint, fromNode.point, toNode.point)
 
             if (rawDist > maxSnapDistanceMeters) continue
 
@@ -63,9 +66,10 @@ class PedestrianMapMatcher(
                 penaltyOrBonus += (parallelPathHysteresisBonusMeters * 0.5)
             }
 
+                val edgeBearing = fromNode.point.bearingTo(toNode.point).toFloat()
+
             // 4. Heading alignment bonus if walking with verified bearing
             if (userHeadingDeg != null && userSpeedMps != null && userSpeedMps > 0.8f) {
-                val edgeBearing = fromNode.point.bearingTo(toNode.point)
                 val diff = Math.abs(userHeadingDeg - edgeBearing).let { if (it > 180) 360 - it else it }
                 if (diff < 35.0 || diff > 145.0) {
                     penaltyOrBonus -= 4.0 // Edge aligns with user movement direction
@@ -77,7 +81,7 @@ class PedestrianMapMatcher(
             val score = rawDist + penaltyOrBonus
             if (score < minAdjustedDistance) {
                 minAdjustedDistance = score
-                bestMatch = SnappedPosition(projectedPt, edge, rawDist, fraction)
+                bestMatch = SnappedPosition(projectedPt, edge, rawDist, fraction, edgeBearing)
             }
         }
 
@@ -94,28 +98,31 @@ class PedestrianMapMatcher(
 
     companion object {
         /**
-         * Projects point P onto line segment (A, B).
-         * Returns (Projected Point, Segment Fraction [0..1], Perpendicular Distance in meters)
+         * Projects point P onto line segment (A, B) using metric Cartesian tangent coordinates (meters).
+         * Eliminates latitude-longitude degree compression distortion.
+         * Returns (Projected GeoPoint, Segment Fraction [0..1], Perpendicular Distance in meters)
          */
-        fun projectPointOnSegment(p: GeoPoint, a: GeoPoint, b: GeoPoint): Triple<GeoPoint, Double, Double> {
-            val dLat = b.latitude - a.latitude
-            val dLon = b.longitude - a.longitude
-            val lengthSq = dLat * dLat + dLon * dLon
+        fun projectPointOnSegmentMetric(p: GeoPoint, a: GeoPoint, b: GeoPoint): Triple<GeoPoint, Double, Double> {
+            val vP = LocalCoordinateConverter.toLocal3D(p)
+            val vA = LocalCoordinateConverter.toLocal3D(a)
+            val vB = LocalCoordinateConverter.toLocal3D(b)
 
-            if (lengthSq < 1e-12) {
+            val dX = (vB.x - vA.x).toDouble()
+            val dZ = (vB.z - vA.z).toDouble()
+            val lenSq = dX * dX + dZ * dZ
+
+            if (lenSq < 1e-6) {
                 return Triple(a, 0.0, p.distanceTo(a))
             }
 
-            // Vector dot product
-            val t = (((p.latitude - a.latitude) * dLat + (p.longitude - a.longitude) * dLon) / lengthSq)
-                .coerceIn(0.0, 1.0)
+            val t = (((vP.x - vA.x) * dX + (vP.z - vA.z) * dZ) / lenSq).coerceIn(0.0, 1.0)
 
-            val projLat = a.latitude + t * dLat
-            val projLon = a.longitude + t * dLon
+            val projLat = a.latitude + t * (b.latitude - a.latitude)
+            val projLon = a.longitude + t * (b.longitude - a.longitude)
             val projectedPoint = GeoPoint(projLat, projLon)
 
-            val distance = p.distanceTo(projectedPoint)
-            return Triple(projectedPoint, t, distance)
+            val dist = p.distanceTo(projectedPoint)
+            return Triple(projectedPoint, t, dist)
         }
     }
 }

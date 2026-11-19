@@ -41,6 +41,7 @@ fun FirstPersonNavigationScreen(
     route: PedestrianRoute?,
     routeProgress: com.srmap.campusnavigator.domain.routing.DynamicRouteProgress? = null,
     userLocation: UserLocationState?,
+    mapMatchedBearing: Float? = null,
     onSwitchTo2D: () -> Unit,
     onEndNavigation: () -> Unit
 ) {
@@ -77,9 +78,9 @@ fun FirstPersonNavigationScreen(
     }
 
     // Keep 3D engine state in sync with ViewModel navigation state
-    LaunchedEffect(selectedBuilding, route, userLocation, routeProgress) {
+    LaunchedEffect(selectedBuilding, route, userLocation, routeProgress, mapMatchedBearing) {
         val segIdx = routeProgress?.currentSegmentIndex ?: 0
-        renderer.updateNavigationState(selectedBuilding, route, userLocation, segIdx)
+        renderer.updateNavigationState(selectedBuilding, route, userLocation, segIdx, mapMatchedBearing)
     }
 
     Box(modifier = modifier.fillMaxSize()) {
@@ -193,6 +194,38 @@ fun FirstPersonNavigationScreen(
                         fontSize = 12.sp,
                         fontWeight = if (!is1st) FontWeight.Bold else FontWeight.Medium,
                         color = if (!is1st) MidnightNavy else Color.White
+                    )
+                }
+
+                if (!is1st) {
+                    Spacer(modifier = Modifier.width(6.dp))
+                    // Presets
+                    Text(
+                        text = "Chase",
+                        fontSize = 11.sp,
+                        color = Color.White.copy(alpha = 0.8f),
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(12.dp))
+                            .clickable { renderer.cameraController.applyPreset(com.srmap.campusnavigator.domain.navigation3d.CameraPreset.CLOSE_CHASE) }
+                            .padding(horizontal = 6.dp, vertical = 4.dp)
+                    )
+                    Text(
+                        text = "Overhead",
+                        fontSize = 11.sp,
+                        color = Color.White.copy(alpha = 0.8f),
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(12.dp))
+                            .clickable { renderer.cameraController.applyPreset(com.srmap.campusnavigator.domain.navigation3d.CameraPreset.TACTICAL_OVERHEAD) }
+                            .padding(horizontal = 6.dp, vertical = 4.dp)
+                    )
+                    Text(
+                        text = "Orbit",
+                        fontSize = 11.sp,
+                        color = Color.White.copy(alpha = 0.8f),
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(12.dp))
+                            .clickable { renderer.cameraController.applyPreset(com.srmap.campusnavigator.domain.navigation3d.CameraPreset.CINEMATIC_ORBIT) }
+                            .padding(horizontal = 6.dp, vertical = 4.dp)
                     )
                 }
             }

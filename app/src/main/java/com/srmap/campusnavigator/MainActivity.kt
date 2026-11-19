@@ -189,7 +189,7 @@ fun CampusNavigatorMainScreen(
             ) { tab ->
                 when (tab) {
                     CampusTab.EXPLORE -> {
-                        if (navState.is3DMode && navState.activeRoute != null) {
+                        if (navState.is3DMode) {
                             com.srmap.campusnavigator.presentation.navigation3d.FirstPersonNavigationScreen(
                                 buildings = campusState.buildings,
                                 graph = navigationViewModel.getGraph(),
@@ -198,6 +198,7 @@ fun CampusNavigatorMainScreen(
                                 route = navState.activeRoute,
                                 routeProgress = navState.dynamicProgress,
                                 userLocation = navState.userLocation,
+                                mapMatchedBearing = navState.mapMatchedBearing,
                                 onSwitchTo2D = { navigationViewModel.set3DMode(false) },
                                 onEndNavigation = { navigationViewModel.endNavigation() }
                             )
@@ -278,6 +279,9 @@ fun CampusNavigatorMainScreen(
                                 onResetNorth = {
                                     mapZoomLevel = 1.0f
                                     focusTarget = GeoPoint(16.4632311, 80.5064108)
+                                },
+                                onToggle3D = {
+                                    navigationViewModel.set3DMode(true)
                                 },
                                 modifier = Modifier
                                     .align(Alignment.CenterEnd)

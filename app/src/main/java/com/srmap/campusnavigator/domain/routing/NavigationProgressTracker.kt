@@ -101,7 +101,7 @@ class NavigationProgressTracker(
         for (i in searchStart..searchEnd) {
             val p1 = fullPath[i]
             val p2 = fullPath[i + 1]
-            val (proj, _, dist) = PedestrianMapMatcher.projectPointOnSegment(currentPoint, p1, p2)
+            val (proj, _, dist) = PedestrianMapMatcher.projectPointOnSegmentMetric(currentPoint, p1, p2)
             if (dist < closestDist) {
                 closestDist = dist
                 bestSegment = i

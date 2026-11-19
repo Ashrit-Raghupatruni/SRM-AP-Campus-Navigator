@@ -22,7 +22,9 @@ import kotlinx.coroutines.flow.callbackFlow
 data class UserLocationState(
     val point: GeoPoint,
     val accuracyMeters: Float = 10f,
-    val provider: String = "gps"
+    val provider: String = "gps",
+    val bearingDeg: Float? = null,
+    val speedMps: Float? = null
 )
 
 class CampusLocationClient(private val context: Context) {
@@ -58,7 +60,15 @@ class CampusLocationClient(private val context: Context) {
             }
             if (best != null) {
                 Log.d("LocationClient", "Initial location: ${best.latitude}, ${best.longitude} (acc=${best.accuracy})")
-                trySend(UserLocationState(GeoPoint(best.latitude, best.longitude), best.accuracy, best.provider ?: "cache"))
+                trySend(
+                    UserLocationState(
+                        point = GeoPoint(best.latitude, best.longitude),
+                        accuracyMeters = best.accuracy,
+                        provider = best.provider ?: "cache",
+                        bearingDeg = if (best.hasBearing()) best.bearing else null,
+                        speedMps = if (best.hasSpeed()) best.speed else null
+                    )
+                )
             }
         } catch (e: Exception) {
             Log.w("LocationClient", "Error reading last location: ${e.message}")
@@ -72,7 +82,15 @@ class CampusLocationClient(private val context: Context) {
                 result.lastLocation?.let { loc ->
                     fusedActive = true
                     Log.d("LocationClient", "Fused fix: ${loc.latitude}, ${loc.longitude} (acc=${loc.accuracy})")
-                    trySend(UserLocationState(GeoPoint(loc.latitude, loc.longitude), loc.accuracy, "fused"))
+                    trySend(
+                        UserLocationState(
+                            point = GeoPoint(loc.latitude, loc.longitude),
+                            accuracyMeters = loc.accuracy,
+                            provider = "fused",
+                            bearingDeg = if (loc.hasBearing()) loc.bearing else null,
+                            speedMps = if (loc.hasSpeed()) loc.speed else null
+                        )
+                    )
                 }
             }
         }
@@ -93,7 +111,15 @@ class CampusLocationClient(private val context: Context) {
             override fun onLocationChanged(loc: Location) {
                 if (!fusedActive) {
                     Log.d("LocationClient", "Native fallback fix: ${loc.latitude}, ${loc.longitude} (acc=${loc.accuracy})")
-                    trySend(UserLocationState(GeoPoint(loc.latitude, loc.longitude), loc.accuracy, loc.provider ?: "gps"))
+                    trySend(
+                        UserLocationState(
+                            point = GeoPoint(loc.latitude, loc.longitude),
+                            accuracyMeters = loc.accuracy,
+                            provider = loc.provider ?: "gps",
+                            bearingDeg = if (loc.hasBearing()) loc.bearing else null,
+                            speedMps = if (loc.hasSpeed()) loc.speed else null
+                        )
+                    )
                 }
             }
             @Deprecated("Deprecated in Java")

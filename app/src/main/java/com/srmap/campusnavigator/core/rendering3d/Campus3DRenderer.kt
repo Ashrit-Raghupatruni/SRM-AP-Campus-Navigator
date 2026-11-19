@@ -58,10 +58,16 @@ class Campus3DRenderer(
     private var treesGpuMesh: GpuMesh? = null
     private var avatarGpuMesh: GpuMesh? = null
     private val buildingGpuMeshes = mutableListOf<Pair<String, GpuMesh>>()
-    private var routeGpuMesh: GpuMesh? = null
+    private var completedRouteGpuMesh: GpuMesh? = null
+    private var remainingRouteGpuMesh: GpuMesh? = null
 
     private var previousSelectedBuildingId: String? = null
     private var previousRoute: PedestrianRoute? = null
+    private var activeSegmentIndex: Int = 0
+
+    // Animated gait cycle
+    private var gaitPhase: Float = 0f
+    private var lastFrameTimeMs: Long = 0L
 
     @Volatile
     private var needsRouteMeshRebuild = false
@@ -77,15 +83,17 @@ class Campus3DRenderer(
     ) {
         val bldgChanged = (selectedBuilding?.id != this.selectedBuildingId)
         val routeChanged = (route != this.previousRoute)
+        val segChanged = (currentSegmentIndex != this.activeSegmentIndex)
 
         this.selectedBuildingId = selectedBuilding?.id
         this.activeRoute = route
         this.userLocation = userLoc
+        this.activeSegmentIndex = currentSegmentIndex
 
         if (bldgChanged) {
             this.needsBuildingMeshRebuild = true
         }
-        if (routeChanged) {
+        if (routeChanged || segChanged) {
             this.needsRouteMeshRebuild = true
             this.previousRoute = route
         }
@@ -142,12 +150,24 @@ class Campus3DRenderer(
         // 4. Draw Procedural 3D Trees
         treesGpuMesh?.let { drawMesh(it) }
 
-        // 5. Draw Active Route Chevron Strip
-        routeGpuMesh?.let { drawMesh(it) }
+        // 5. Draw Dynamic Split Route: Completed (Muted Grey) & Remaining (Glowing Cyan)
+        completedRouteGpuMesh?.let { drawMesh(it) }
+        remainingRouteGpuMesh?.let { drawMesh(it) }
 
-        // 6. Draw 3D User Avatar & Ground Beacon (visible in 3rd person or during transition)
-        if (pose.transitionProgress > 0.05f && avatarGpuMesh != null) {
-            drawAvatar(avatarGpuMesh!!, pose)
+        // 6. Draw Animated 3D User Avatar & Ground Beacon
+        val now = System.currentTimeMillis()
+        val dt = if (lastFrameTimeMs > 0L) ((now - lastFrameTimeMs) / 1000f).coerceIn(0.001f, 0.1f) else 0.016f
+        lastFrameTimeMs = now
+
+        val speed = userLocation?.speedMps ?: 0f
+        val isWalking = speed > 0.4f || activeRoute != null
+        val gaitSpeed = if (isWalking) (speed.coerceAtLeast(1.2f) * 4.2f) else 1.8f
+        gaitPhase = (gaitPhase + gaitSpeed * dt) % (2f * Math.PI.toFloat())
+
+        if (pose.transitionProgress > 0.05f) {
+            val animMesh = com.srmap.campusnavigator.core.geometry3d.UserAvatarMeshGenerator.generateAvatarMesh(gaitPhase, isWalking)
+            val tempGpu = uploadToGpu(animMesh)
+            drawAvatar(tempGpu, pose)
         }
 
         // 7. Draw Buildings
@@ -298,8 +318,9 @@ class Campus3DRenderer(
 
     private fun rebuildRouteMesh() {
         val pts = activeRoute?.path ?: emptyList()
-        val meshData = RoadMeshGenerator.generateRoutePolylineMesh(pts)
-        routeGpuMesh = if (meshData != null) uploadToGpu(meshData) else null
+        val (completedData, remainingData) = RoadMeshGenerator.generateSplitRouteMesh(pts, activeSegmentIndex)
+        completedRouteGpuMesh = if (completedData != null) uploadToGpu(completedData) else null
+        remainingRouteGpuMesh = if (remainingData != null) uploadToGpu(remainingData) else null
     }
 
     private fun uploadToGpu(data: MeshData): GpuMesh {

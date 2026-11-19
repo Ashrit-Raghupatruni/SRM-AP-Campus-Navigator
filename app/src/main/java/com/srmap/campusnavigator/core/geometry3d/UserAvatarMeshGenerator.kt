@@ -13,7 +13,7 @@ import kotlin.math.sin
  */
 object UserAvatarMeshGenerator {
 
-    fun generateAvatarMesh(): MeshData {
+    fun generateAvatarMesh(gaitPhase: Float = 0f, isMoving: Boolean = false): MeshData {
         val positions = mutableListOf<Float>()
         val normals = mutableListOf<Float>()
         val colors = mutableListOf<Float>()
@@ -131,40 +131,52 @@ object UserAvatarMeshGenerator {
 
         // --- ASSEMBLE 3D STICKMAN HUMAN BODY ---
 
+        // Animated gait variables
+        val (armSwing, legSwing, bounceY) = if (isMoving) {
+            val arm = (sin(gaitPhase.toDouble()) * 0.28).toFloat()
+            val leg = (sin(gaitPhase.toDouble()) * 0.24).toFloat()
+            val bounce = (kotlin.math.abs(sin(gaitPhase.toDouble())) * 0.04).toFloat()
+            Triple(arm, leg, bounce)
+        } else {
+            // Gentle idle breathing
+            val breath = (sin(gaitPhase.toDouble() * 0.5) * 0.015).toFloat()
+            Triple(0f, 0f, breath)
+        }
+
         // A. Head (Smooth rounded sphere at Y = 1.62m, radius 0.16m)
-        val headPos = Vector3(0f, 1.60f, 0f)
+        val headPos = Vector3(0f, 1.60f + bounceY, 0f)
         addSmoothSphere(headPos, 0.16f, rings = 8, sectors = 12, mintHead)
 
         // B. Torso (Vertical capsule from neck Y = 1.40m down to pelvis Y = 0.95m, radius 0.13m)
-        val neckPos = Vector3(0f, 1.40f, 0f)
-        val pelvisPos = Vector3(0f, 0.95f, 0f)
+        val neckPos = Vector3(0f, 1.40f + bounceY, 0f)
+        val pelvisPos = Vector3(0f, 0.95f + bounceY, 0f)
         addSmoothCapsule(pelvisPos, neckPos, radius = 0.12f, segments = 8, navyBody)
 
-        // C. Left Arm (Swung slightly forward -Z in mid-walking stride)
-        val leftShoulder = Vector3(-0.20f, 1.34f, 0f)
-        val leftElbow = Vector3(-0.25f, 1.12f, -0.10f)
-        val leftHand = Vector3(-0.28f, 0.90f, -0.22f)
+        // C. Left Arm (Animated swing)
+        val leftShoulder = Vector3(-0.20f, 1.34f + bounceY, 0f)
+        val leftElbow = Vector3(-0.25f, 1.12f + bounceY, -armSwing * 0.6f)
+        val leftHand = Vector3(-0.28f, 0.90f + bounceY, -armSwing)
         addSmoothCapsule(leftShoulder, leftElbow, radius = 0.05f, segments = 6, tealJoints)
         addSmoothCapsule(leftElbow, leftHand, radius = 0.045f, segments = 6, mintHead)
 
-        // D. Right Arm (Swung slightly backward +Z in mid-walking stride)
-        val rightShoulder = Vector3(0.20f, 1.34f, 0f)
-        val rightElbow = Vector3(0.25f, 1.12f, 0.10f)
-        val rightHand = Vector3(0.28f, 0.90f, 0.22f)
+        // D. Right Arm (Opposite swing)
+        val rightShoulder = Vector3(0.20f, 1.34f + bounceY, 0f)
+        val rightElbow = Vector3(0.25f, 1.12f + bounceY, armSwing * 0.6f)
+        val rightHand = Vector3(0.28f, 0.90f + bounceY, armSwing)
         addSmoothCapsule(rightShoulder, rightElbow, radius = 0.05f, segments = 6, tealJoints)
         addSmoothCapsule(rightElbow, rightHand, radius = 0.045f, segments = 6, mintHead)
 
-        // E. Left Leg (Stepping forward -Z, natural 15° stride)
-        val leftHip = Vector3(-0.10f, 0.94f, 0f)
-        val leftKnee = Vector3(-0.11f, 0.52f, -0.12f)
-        val leftFoot = Vector3(-0.12f, 0.08f, -0.22f)
+        // E. Left Leg (Stepping forward with legSwing)
+        val leftHip = Vector3(-0.10f, 0.94f + bounceY, 0f)
+        val leftKnee = Vector3(-0.11f, 0.52f, -legSwing * 0.5f)
+        val leftFoot = Vector3(-0.12f, 0.08f, -legSwing)
         addSmoothCapsule(leftHip, leftKnee, radius = 0.06f, segments = 6, navyBody)
         addSmoothCapsule(leftKnee, leftFoot, radius = 0.055f, segments = 6, tealJoints)
 
-        // F. Right Leg (Trailing backward +Z in walking motion)
-        val rightHip = Vector3(0.10f, 0.94f, 0f)
-        val rightKnee = Vector3(0.11f, 0.52f, 0.12f)
-        val rightFoot = Vector3(0.12f, 0.08f, 0.22f)
+        // F. Right Leg (Trailing backward)
+        val rightHip = Vector3(0.10f, 0.94f + bounceY, 0f)
+        val rightKnee = Vector3(0.11f, 0.52f, legSwing * 0.5f)
+        val rightFoot = Vector3(0.12f, 0.08f, legSwing)
         addSmoothCapsule(rightHip, rightKnee, radius = 0.06f, segments = 6, navyBody)
         addSmoothCapsule(rightKnee, rightFoot, radius = 0.055f, segments = 6, tealJoints)
 

@@ -22,6 +22,7 @@ data class NavigationUiState(
     val navTargetRoomNo: String? = null,
     val dynamicProgress: DynamicRouteProgress? = null,
     val userLocation: UserLocationState? = null,
+    val mapMatchedBearing: Float? = null,
     val isNavigating: Boolean = false,
     val is3DMode: Boolean = false
 )
@@ -78,10 +79,29 @@ class NavigationViewModel : ViewModel() {
     }
 
     fun updateLocation(location: UserLocationState) {
-        _uiState.value = _uiState.value.copy(userLocation = location)
+        var matchedBearing: Float? = null
+
+        // 1. Perform map matching with metric alignment
+        val match = mapMatcher?.matchLocation(
+            rawPoint = location.point,
+            userHeadingDeg = location.bearingDeg,
+            userSpeedMps = location.speedMps
+        )
+
+        val effectiveLocation = if (match != null && match.perpendicularDistanceMeters <= 25.0) {
+            matchedBearing = match.edgeBearingDegrees
+            location.copy(point = match.snappedPoint)
+        } else {
+            location
+        }
+
+        _uiState.value = _uiState.value.copy(
+            userLocation = effectiveLocation,
+            mapMatchedBearing = matchedBearing
+        )
 
         if (_uiState.value.isNavigating && progressTracker != null) {
-            val progress = progressTracker?.updateProgress(location.point)
+            val progress = progressTracker?.updateProgress(effectiveLocation.point)
             if (progress != null) {
                 _uiState.value = _uiState.value.copy(dynamicProgress = progress)
             }

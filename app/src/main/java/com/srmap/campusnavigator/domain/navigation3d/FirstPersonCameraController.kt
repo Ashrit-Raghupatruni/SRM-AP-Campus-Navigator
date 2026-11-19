@@ -14,6 +14,12 @@ enum class CameraViewMode {
     THIRD_PERSON
 }
 
+enum class CameraPreset(val distance: Float, val pitch: Float) {
+    CLOSE_CHASE(4.0f, 20.0f),
+    TACTICAL_OVERHEAD(13.0f, 52.0f),
+    CINEMATIC_ORBIT(8.5f, 28.0f)
+}
+
 data class CameraPose(
     val eyePosition: Vector3,
     val targetPosition: Vector3,
@@ -136,6 +142,13 @@ class FirstPersonCameraController {
         }
     }
 
+    fun applyPreset(preset: CameraPreset) {
+        viewMode = CameraViewMode.THIRD_PERSON
+        targetDistance = preset.distance
+        orbitPitch = preset.pitch
+        lastManualInteractionTime = System.currentTimeMillis()
+    }
+
     fun resetOrientation() {
         orbitYawOffset = 0f
         orbitPitch = DEFAULT_THIRD_PERSON_PITCH
@@ -215,7 +228,8 @@ class FirstPersonCameraController {
     }
 
     /**
-     * Prevents the 3rd person camera from passing through building walls.
+     * Prevents the 3rd person camera from passing through building walls or roofs (SpringArm3D).
+     * Tests ray from character target point toward desired eye position against 3D building bounds.
      */
     private fun clampDistanceForBuildingCollisions(
         target: Vector3,
@@ -226,27 +240,63 @@ class FirstPersonCameraController {
     ): Float {
         var clampedDist = maxDist
         val eyeDirX = (-sin(yawRad) * cos(pitchRad)).toFloat()
+        val eyeDirY = (sin(pitchRad)).toFloat()
         val eyeDirZ = (cos(yawRad) * cos(pitchRad)).toFloat()
 
         for (bldg in buildings) {
             val poly = bldg.polygon
             if (poly.size < 3) continue
             val bldgCentroid = LocalCoordinateConverter.toLocal3D(bldg.centroid)
-            // Fast bounding sphere check (40m radius)
+            // Fast 3D sphere check (60m radius)
             val dToCentroidSq = (target.x - bldgCentroid.x) * (target.x - bldgCentroid.x) + (target.z - bldgCentroid.z) * (target.z - bldgCentroid.z)
             if (dToCentroidSq > 3600f) continue // > 60m away, skip detailed test
 
+            val parsedLevels = bldg.levels?.toFloatOrNull() ?: 2.0f
+            val bldgHeight = (parsedLevels * 3.0f).coerceAtLeast(6.0f)
             val localPoly = poly.map { LocalCoordinateConverter.toLocal3D(it) }
+
+            // 1. Check vertical wall faces
             for (i in localPoly.indices) {
                 val p1 = localPoly[i]
                 val p2 = localPoly[(i + 1) % localPoly.size]
                 val hitDist = raySegmentIntersection(target.x, target.z, eyeDirX, eyeDirZ, p1.x, p1.z, p2.x, p2.z)
-                if (hitDist != null && hitDist > 0.5f && hitDist < clampedDist) {
-                    clampedDist = (hitDist - 0.8f).coerceAtLeast(MIN_DISTANCE)
+                if (hitDist != null && hitDist > 0.4f && hitDist < clampedDist) {
+                    val hitY = target.y + hitDist * eyeDirY
+                    // Only clamp if the ray hit occurs below the building's roof height
+                    if (hitY in 0f..bldgHeight) {
+                        clampedDist = (hitDist - 0.7f).coerceAtLeast(MIN_DISTANCE)
+                    }
+                }
+            }
+
+            // 2. Check roof plane collision if camera is elevated above roof
+            if (eyeDirY > 0.05f) {
+                val tRoof = (bldgHeight - target.y) / eyeDirY
+                if (tRoof > 0.4f && tRoof < clampedDist) {
+                    val roofX = target.x + tRoof * eyeDirX
+                    val roofZ = target.z + tRoof * eyeDirZ
+                    if (isPointInsidePolygon(roofX, roofZ, localPoly)) {
+                        clampedDist = (tRoof - 0.7f).coerceAtLeast(MIN_DISTANCE)
+                    }
                 }
             }
         }
         return clampedDist
+    }
+
+    private fun isPointInsidePolygon(x: Float, z: Float, poly: List<Vector3>): Boolean {
+        var inside = false
+        var j = poly.size - 1
+        for (i in poly.indices) {
+            val pi = poly[i]
+            val pj = poly[j]
+            if ((pi.z > z) != (pj.z > z) &&
+                (x < (pj.x - pi.x) * (z - pi.z) / (pj.z - pi.z + 1e-6f) + pi.x)) {
+                inside = !inside
+            }
+            j = i
+        }
+        return inside
     }
 
     private fun raySegmentIntersection(

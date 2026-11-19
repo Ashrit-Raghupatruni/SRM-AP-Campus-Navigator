@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.Layers
 import androidx.compose.material.icons.filled.MyLocation
 import androidx.compose.material.icons.filled.Navigation
 import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material.icons.filled.ViewInAr
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,6 +32,7 @@ fun MapFloatingControls(
     onRecenter: () -> Unit,
     onToggleLayers: () -> Unit,
     onResetNorth: () -> Unit,
+    onToggle3D: (() -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -38,6 +40,18 @@ fun MapFloatingControls(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
+        // 3D Campus Mode Button
+        if (onToggle3D != null) {
+            Surface(
+                shape = RoundedCornerShape(16.dp),
+                shadowElevation = 6.dp,
+                color = Color(0xFF0F172A)
+            ) {
+                IconButton(onClick = onToggle3D, modifier = Modifier.size(44.dp)) {
+                    Icon(Icons.Default.ViewInAr, contentDescription = "3D Campus Exploration", tint = Color(0xFF35C6B0))
+                }
+            }
+        }
         // Zoom In / Out Stack
         Surface(
             shape = RoundedCornerShape(16.dp),
