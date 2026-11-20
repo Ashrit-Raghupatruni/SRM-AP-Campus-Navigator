@@ -22,6 +22,11 @@ object BuildingMeshGenerator {
             return HomiBhabhaBlockMeshGenerator.generateMesh()
         }
 
+        // High-Fidelity Evidence-Driven Architectural Reconstruction for SR Block (Sarvepalli Radhakrishnan Block)
+        if (!isHighlighted && (building.id == "srmap_bldg_16" || building.name.contains("SR Block", ignoreCase = true) || building.name.contains("Radhakrishnan", ignoreCase = true))) {
+            return SRBlockMeshGenerator.generateMesh()
+        }
+
         val polygon = building.polygon
         if (polygon.size < 3) return null
 

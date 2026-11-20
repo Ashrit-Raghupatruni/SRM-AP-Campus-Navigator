@@ -199,12 +199,9 @@ fun FirstPersonNavigationScreen(
             }
         }
 
-        // Academic Mega-Complex Viewpoint Inspection Bar (Visible when V Block or Homi Bhabha is selected or in free-roam)
-        val isComplexTarget = selectedBuilding?.id in listOf("srmap_bldg_9", "srmap_bldg_30") ||
-                selectedBuilding?.name?.contains("Vikram", ignoreCase = true) == true ||
-                selectedBuilding?.name?.contains("Homi", ignoreCase = true) == true ||
-                selectedBuilding?.name?.equals("V Block", ignoreCase = true) == true
-        if (isComplexTarget) {
+        // SR Block Viewpoint Inspection Bar (Visible when SR Block is selected)
+        val isSRBlockTarget = selectedBuilding?.id == "srmap_bldg_16" || selectedBuilding?.name?.contains("SR Block", ignoreCase = true) == true
+        if (isSRBlockTarget) {
             Surface(
                 modifier = Modifier
                     .align(Alignment.TopCenter)
@@ -218,15 +215,15 @@ fun FirstPersonNavigationScreen(
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    val viewpoints = remember { com.srmap.campusnavigator.domain.building3d.AcademicComplexSpec.getComplexViewpoints() }
+                    val viewpoints = remember { com.srmap.campusnavigator.domain.building3d.SRBlockSpec.getSRBlockViewpoints() }
                     viewpoints.forEach { vp ->
                         val shortLabel = when (vp.id) {
-                            "photo1_front_perspective" -> "Photo 1"
-                            "photo2_aerial_complex" -> "Aerial"
-                            "breezeway_highway" -> "Breezeway"
-                            "vblock_front" -> "V Block"
-                            "homi_front" -> "Homi"
-                            "tree_court_view" -> "Tree Court"
+                            "photo1_sunset_sports" -> "Sunset"
+                            "photo2_corner_ribbon" -> "Corner"
+                            "photo3_aerial_master" -> "Aerial"
+                            "sr_main_entrance" -> "Entrance"
+                            "east_elevation_courts" -> "Courts"
+                            "top_down_roof" -> "Roof"
                             else -> vp.name
                         }
                         Box(
