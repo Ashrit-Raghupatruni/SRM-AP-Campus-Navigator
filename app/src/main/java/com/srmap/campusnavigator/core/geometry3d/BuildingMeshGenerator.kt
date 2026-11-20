@@ -17,6 +17,11 @@ object BuildingMeshGenerator {
             return VikramSarabhaiBlockMeshGenerator.generateMesh()
         }
 
+        // High-Fidelity Evidence-Driven Architectural Reconstruction for Homi J. Bhabha Block (Academic Block II)
+        if (!isHighlighted && (building.id == "srmap_bldg_30" || building.name.contains("Homi", ignoreCase = true) || building.name.contains("Bhabha", ignoreCase = true))) {
+            return HomiBhabhaBlockMeshGenerator.generateMesh()
+        }
+
         val polygon = building.polygon
         if (polygon.size < 3) return null
 

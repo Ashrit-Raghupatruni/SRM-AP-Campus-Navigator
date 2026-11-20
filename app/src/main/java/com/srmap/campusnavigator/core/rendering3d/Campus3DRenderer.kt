@@ -57,6 +57,8 @@ class Campus3DRenderer(
     private var walkwaysGpuMesh: GpuMesh? = null
     private var treesGpuMesh: GpuMesh? = null
     private var avatarGpuMesh: GpuMesh? = null
+    private var complexCanopyGpuMesh: GpuMesh? = null
+    private var centralBreezewayGpuMesh: GpuMesh? = null
     private val buildingGpuMeshes = mutableListOf<Pair<String, GpuMesh>>()
     private var completedRouteGpuMesh: GpuMesh? = null
     private var remainingRouteGpuMesh: GpuMesh? = null
@@ -144,8 +146,9 @@ class Campus3DRenderer(
         // 2. Draw Sports Grounds (Cricket, Soccer, Track, Courts)
         sportsGpuMesh?.let { drawMesh(it) }
 
-        // 3. Draw Walkways
+        // 3. Draw Walkways & Central Breezeway Spine
         walkwaysGpuMesh?.let { drawMesh(it) }
+        centralBreezewayGpuMesh?.let { drawMesh(it) }
 
         // 4. Draw Procedural 3D Trees
         treesGpuMesh?.let { drawMesh(it) }
@@ -170,10 +173,13 @@ class Campus3DRenderer(
             drawAvatar(tempGpu, pose)
         }
 
-        // 7. Draw Buildings
+        // 7. Draw Buildings (Vikram Sarabhai Block, Homi J Bhabha Block, etc.)
         for ((_, mesh) in buildingGpuMeshes) {
             drawMesh(mesh)
         }
+
+        // 8. Draw Monumental Space-Frame Umbrella Canopy & Tree Columns (Overarching V Block & Homi J Bhabha)
+        complexCanopyGpuMesh?.let { drawMesh(it) }
     }
 
     private fun setupViewMatrix(pose: CameraPose) {
@@ -295,6 +301,14 @@ class Campus3DRenderer(
         // 3D Third-Person Navigation Avatar & Ground Beacon
         val avatarData = com.srmap.campusnavigator.core.geometry3d.UserAvatarMeshGenerator.generateAvatarMesh()
         avatarGpuMesh = uploadToGpu(avatarData)
+
+        // Central Breezeway Pedestrian Spine & Elevated Skywalk Bridges
+        val breezewayData = com.srmap.campusnavigator.core.geometry3d.CentralBreezewayGenerator.generateBreezewayMesh()
+        centralBreezewayGpuMesh = uploadToGpu(breezewayData)
+
+        // Monumental Space-Frame Umbrella Canopy & Slender Tree Columns
+        val canopyData = com.srmap.campusnavigator.core.geometry3d.AcademicComplexCanopyGenerator.generateCanopyMesh()
+        complexCanopyGpuMesh = uploadToGpu(canopyData)
 
         // Buildings
         buildingGpuMeshes.clear()

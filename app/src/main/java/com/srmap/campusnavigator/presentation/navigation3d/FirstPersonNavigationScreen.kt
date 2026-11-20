@@ -199,31 +199,34 @@ fun FirstPersonNavigationScreen(
             }
         }
 
-        // Vikram Sarabhai Block Viewpoint Inspection Bar (Visible when V Block is in view or selected)
-        val isVBlockTarget = selectedBuilding?.id == "srmap_bldg_9" || selectedBuilding?.name?.contains("Vikram", ignoreCase = true) == true || selectedBuilding?.name?.equals("V Block", ignoreCase = true) == true
-        if (isVBlockTarget) {
+        // Academic Mega-Complex Viewpoint Inspection Bar (Visible when V Block or Homi Bhabha is selected or in free-roam)
+        val isComplexTarget = selectedBuilding?.id in listOf("srmap_bldg_9", "srmap_bldg_30") ||
+                selectedBuilding?.name?.contains("Vikram", ignoreCase = true) == true ||
+                selectedBuilding?.name?.contains("Homi", ignoreCase = true) == true ||
+                selectedBuilding?.name?.equals("V Block", ignoreCase = true) == true
+        if (isComplexTarget) {
             Surface(
                 modifier = Modifier
                     .align(Alignment.TopCenter)
                     .padding(top = 165.dp),
                 shape = RoundedCornerShape(18.dp),
-                color = MidnightNavy.copy(alpha = 0.88f),
-                shadowElevation = 4.dp
+                color = MidnightNavy.copy(alpha = 0.90f),
+                shadowElevation = 5.dp
             ) {
                 Row(
                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    val viewpoints = remember { com.srmap.campusnavigator.domain.building3d.VikramSarabhaiBlockSpec.getViewpoints() }
+                    val viewpoints = remember { com.srmap.campusnavigator.domain.building3d.AcademicComplexSpec.getComplexViewpoints() }
                     viewpoints.forEach { vp ->
                         val shortLabel = when (vp.id) {
-                            "front_elevation" -> "Front"
-                            "rear_elevation" -> "Rear"
-                            "side_east" -> "East"
-                            "side_west" -> "West"
-                            "top_down" -> "Top"
-                            "main_entrance" -> "Entrance"
+                            "photo1_front_perspective" -> "Photo 1"
+                            "photo2_aerial_complex" -> "Aerial"
+                            "breezeway_highway" -> "Breezeway"
+                            "vblock_front" -> "V Block"
+                            "homi_front" -> "Homi"
+                            "tree_court_view" -> "Tree Court"
                             else -> vp.name
                         }
                         Box(

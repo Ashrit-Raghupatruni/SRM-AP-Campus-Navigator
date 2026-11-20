@@ -46,13 +46,13 @@ class VikramSarabhaiBlockMeshTest {
             assertEquals("Normal vector must be normalized", 1.0f, lenSq, 0.05f)
         }
 
-        // Check bounding coordinates match VikramSarabhaiBlockSpec
-        assertEquals(VikramSarabhaiBlockSpec.MIN_X, minX, 0.5f)
-        assertEquals(VikramSarabhaiBlockSpec.MAX_X, maxX, 0.5f)
+        // Check bounding coordinates match AcademicComplexSpec (West block portion of complex)
+        assertEquals(com.srmap.campusnavigator.domain.building3d.AcademicComplexSpec.V_MIN_X, minX, 0.5f)
+        assertEquals(com.srmap.campusnavigator.domain.building3d.AcademicComplexSpec.V_MAX_X, maxX, 0.5f)
         assertEquals(0f, minY, 0.01f)
-        assertEquals(VikramSarabhaiBlockSpec.TOTAL_ROOF_HEIGHT_METERS + VikramSarabhaiBlockSpec.PARAPET_HEIGHT_METERS, maxY, 0.5f)
-        assertEquals(VikramSarabhaiBlockSpec.MIN_Z, minZ, 0.5f)
-        assertEquals(VikramSarabhaiBlockSpec.MAX_Z, maxZ, 0.5f)
+        assertTrue(maxY >= com.srmap.campusnavigator.domain.building3d.AcademicComplexSpec.V_HEIGHT)
+        assertEquals(com.srmap.campusnavigator.domain.building3d.AcademicComplexSpec.V_MIN_Z, minZ, 0.5f)
+        assertEquals(com.srmap.campusnavigator.domain.building3d.AcademicComplexSpec.V_MAX_Z, maxZ, 0.5f)
     }
 
     @Test

@@ -1,15 +1,15 @@
 package com.srmap.campusnavigator.core.geometry3d
 
 import androidx.compose.ui.graphics.Color
-import com.srmap.campusnavigator.domain.building3d.VikramSarabhaiBlockSpec
+import com.srmap.campusnavigator.domain.building3d.AcademicComplexSpec
 
 /**
- * Procedural architectural reconstruction generator for Vikram Sarabhai Block (V Block).
- * Builds:
- * 1. Perimeter walls broken down by 5 floors with horizontal spandrels.
- * 2. Recessed architectural window modules with frames and solar glazing.
- * 3. Ground-level physical entrance portal facing the South pedestrian walkway.
- * 4. Flat roof deck with 0.9m perimeter parapet safety wall.
+ * Procedural architectural generator for Vikram Sarabhai Block (Left Wing).
+ * Accurately models the features visible in the campus reference photographs:
+ * - Solid crisp white corner tower volume on the South-West corner
+ * - Multi-tiered vertical louver fins (brise-soleil) across facade bays
+ * - Recessed solar reflective blue curtain glazing strips
+ * - Ground floor colonnade / loggia
  */
 object VikramSarabhaiBlockMeshGenerator {
 
@@ -49,159 +49,135 @@ object VikramSarabhaiBlockMeshGenerator {
             addTri(p1, p3, p4, n, c)
         }
 
-        val minX = VikramSarabhaiBlockSpec.MIN_X
-        val maxX = VikramSarabhaiBlockSpec.MAX_X
-        val minZ = VikramSarabhaiBlockSpec.MIN_Z
-        val maxZ = VikramSarabhaiBlockSpec.MAX_Z
-        val levels = VikramSarabhaiBlockSpec.LEVELS_COUNT
-        val floorH = VikramSarabhaiBlockSpec.FLOOR_HEIGHT_METERS
-        val roofH = VikramSarabhaiBlockSpec.TOTAL_ROOF_HEIGHT_METERS
-        val parapetH = VikramSarabhaiBlockSpec.PARAPET_HEIGHT_METERS
-
-        val wallC = VikramSarabhaiBlockSpec.wallColor
-        val spandrelC = VikramSarabhaiBlockSpec.spandrelColor
-        val frameC = VikramSarabhaiBlockSpec.frameColor
-        val glassC = VikramSarabhaiBlockSpec.glassColor
-        val portalC = VikramSarabhaiBlockSpec.portalColor
-        val roofC = VikramSarabhaiBlockSpec.roofColor
-        val parapetC = VikramSarabhaiBlockSpec.parapetColor
-
-        // 1. FLOOR-BY-FLOOR WALL FACADES & RECESSED WINDOWS
-        for (floor in 0 until levels) {
-            val yBottom = floor * floorH
-            val ySill = yBottom + 0.9f
-            val yLintel = yBottom + 2.5f
-            val yTop = yBottom + floorH
-
-            // Spandrel band below windows (0 to 0.9m)
-            // North Wall
-            addQuad(Vector3(minX, yBottom, minZ), Vector3(maxX, yBottom, minZ), Vector3(maxX, ySill, minZ), Vector3(minX, ySill, minZ), Vector3(0f, 0f, -1f), spandrelC)
-            // South Wall (Skip center on floor 0 for entrance)
-            if (floor > 0) {
-                addQuad(Vector3(maxX, yBottom, maxZ), Vector3(minX, yBottom, maxZ), Vector3(minX, ySill, maxZ), Vector3(maxX, ySill, maxZ), Vector3(0f, 0f, 1f), spandrelC)
-            } else {
-                // Ground floor split around entrance
-                val midX = (minX + maxX) / 2f
-                val entranceHalfW = 4.0f
-                addQuad(Vector3(maxX, yBottom, maxZ), Vector3(midX + entranceHalfW, yBottom, maxZ), Vector3(midX + entranceHalfW, ySill, maxZ), Vector3(maxX, ySill, maxZ), Vector3(0f, 0f, 1f), spandrelC)
-                addQuad(Vector3(midX - entranceHalfW, yBottom, maxZ), Vector3(minX, yBottom, maxZ), Vector3(minX, ySill, maxZ), Vector3(midX - entranceHalfW, ySill, maxZ), Vector3(0f, 0f, 1f), spandrelC)
-            }
-            // East Wall
-            addQuad(Vector3(maxX, yBottom, minZ), Vector3(maxX, yBottom, maxZ), Vector3(maxX, ySill, maxZ), Vector3(maxX, ySill, minZ), Vector3(1f, 0f, 0f), spandrelC)
-            // West Wall
-            addQuad(Vector3(minX, yBottom, maxZ), Vector3(minX, yBottom, minZ), Vector3(minX, ySill, minZ), Vector3(minX, ySill, maxZ), Vector3(-1f, 0f, 0f), spandrelC)
-
-            // Header band above windows (2.5m to 3.2m)
-            addQuad(Vector3(minX, yLintel, minZ), Vector3(maxX, yLintel, minZ), Vector3(maxX, yTop, minZ), Vector3(minX, yTop, minZ), Vector3(0f, 0f, -1f), wallC)
-            addQuad(Vector3(maxX, yLintel, maxZ), Vector3(minX, yLintel, maxZ), Vector3(minX, yTop, maxZ), Vector3(maxX, yTop, maxZ), Vector3(0f, 0f, 1f), wallC)
-            addQuad(Vector3(maxX, yLintel, minZ), Vector3(maxX, yLintel, maxZ), Vector3(maxX, yTop, maxZ), Vector3(maxX, yTop, minZ), Vector3(1f, 0f, 0f), wallC)
-            addQuad(Vector3(minX, yLintel, maxZ), Vector3(minX, yLintel, minZ), Vector3(minX, yTop, minZ), Vector3(minX, yTop, maxZ), Vector3(-1f, 0f, 0f), wallC)
-
-            // Window Zone with Recesses (ySill to yLintel, 1.6m high)
-            // Long facades (North & South): 14 bays of windows
-            val numBaysNS = 14
-            val bayStepX = (maxX - minX) / numBaysNS
-            val windowW = bayStepX * 0.72f
-            val pierW = bayStepX - windowW
-            val recessD = 0.15f
-
-            for (b in 0 until numBaysNS) {
-                val bx1 = minX + b * bayStepX
-                val wx1 = bx1 + pierW / 2f
-                val wx2 = wx1 + windowW
-                val bx2 = bx1 + bayStepX
-
-                // Vertical Pier on outer wall plane
-                addQuad(Vector3(bx1, ySill, minZ), Vector3(wx1, ySill, minZ), Vector3(wx1, yLintel, minZ), Vector3(bx1, yLintel, minZ), Vector3(0f, 0f, -1f), wallC)
-                addQuad(Vector3(wx2, ySill, minZ), Vector3(bx2, ySill, minZ), Vector3(bx2, yLintel, minZ), Vector3(wx2, yLintel, minZ), Vector3(0f, 0f, -1f), wallC)
-
-                // North Recessed Window Glass & Reveals
-                val nzRecessed = minZ + recessD
-                // Reveals
-                addQuad(Vector3(wx1, ySill, minZ), Vector3(wx1, ySill, nzRecessed), Vector3(wx1, yLintel, nzRecessed), Vector3(wx1, yLintel, minZ), Vector3(1f, 0f, 0f), frameC)
-                addQuad(Vector3(wx2, ySill, nzRecessed), Vector3(wx2, ySill, minZ), Vector3(wx2, yLintel, minZ), Vector3(wx2, yLintel, nzRecessed), Vector3(-1f, 0f, 0f), frameC)
-                addQuad(Vector3(wx1, ySill, minZ), Vector3(wx2, ySill, minZ), Vector3(wx2, ySill, nzRecessed), Vector3(wx1, ySill, nzRecessed), Vector3(0f, 1f, 0f), frameC)
-                addQuad(Vector3(wx1, yLintel, nzRecessed), Vector3(wx2, yLintel, nzRecessed), Vector3(wx2, yLintel, minZ), Vector3(wx1, yLintel, minZ), Vector3(0f, -1f, 0f), frameC)
-                // Recessed Glazing
-                addQuad(Vector3(wx1, ySill, nzRecessed), Vector3(wx2, ySill, nzRecessed), Vector3(wx2, yLintel, nzRecessed), Vector3(wx1, yLintel, nzRecessed), Vector3(0f, 0f, -1f), glassC)
-
-                // South Facade (Skip center bay on floor 0 for entrance)
-                val isEntranceBay = (floor == 0 && kotlin.math.abs((wx1 + wx2) / 2f - (minX + maxX) / 2f) < 4.5f)
-                if (!isEntranceBay) {
-                    addQuad(Vector3(bx2, ySill, maxZ), Vector3(wx2, ySill, maxZ), Vector3(wx2, yLintel, maxZ), Vector3(bx2, yLintel, maxZ), Vector3(0f, 0f, 1f), wallC)
-                    addQuad(Vector3(wx1, ySill, maxZ), Vector3(bx1, ySill, maxZ), Vector3(bx1, yLintel, maxZ), Vector3(wx1, yLintel, maxZ), Vector3(0f, 0f, 1f), wallC)
-
-                    val szRecessed = maxZ - recessD
-                    addQuad(Vector3(wx2, ySill, maxZ), Vector3(wx2, ySill, szRecessed), Vector3(wx2, yLintel, szRecessed), Vector3(wx2, yLintel, maxZ), Vector3(-1f, 0f, 0f), frameC)
-                    addQuad(Vector3(wx1, ySill, szRecessed), Vector3(wx1, ySill, maxZ), Vector3(wx1, yLintel, maxZ), Vector3(wx1, yLintel, szRecessed), Vector3(1f, 0f, 0f), frameC)
-                    addQuad(Vector3(wx2, ySill, maxZ), Vector3(wx1, ySill, maxZ), Vector3(wx1, ySill, szRecessed), Vector3(wx2, ySill, szRecessed), Vector3(0f, 1f, 0f), frameC)
-                    addQuad(Vector3(wx2, yLintel, szRecessed), Vector3(wx1, yLintel, szRecessed), Vector3(wx1, yLintel, maxZ), Vector3(wx2, yLintel, maxZ), Vector3(0f, -1f, 0f), frameC)
-                    addQuad(Vector3(wx2, ySill, szRecessed), Vector3(wx1, ySill, szRecessed), Vector3(wx1, yLintel, szRecessed), Vector3(wx2, yLintel, szRecessed), Vector3(0f, 0f, 1f), glassC)
-                }
-            }
-
-            // East & West Facades: 10 bays of windows
-            val numBaysEW = 10
-            val bayStepZ = (maxZ - minZ) / numBaysEW
-            val windowEW = bayStepZ * 0.70f
-            val pierEW = bayStepZ - windowEW
-
-            for (b in 0 until numBaysEW) {
-                val bz1 = minZ + b * bayStepZ
-                val wz1 = bz1 + pierEW / 2f
-                val wz2 = wz1 + windowEW
-                val bz2 = bz1 + bayStepZ
-
-                // East Wall
-                addQuad(Vector3(maxX, ySill, bz1), Vector3(maxX, ySill, wz1), Vector3(maxX, yLintel, wz1), Vector3(maxX, yLintel, bz1), Vector3(1f, 0f, 0f), wallC)
-                addQuad(Vector3(maxX, ySill, wz2), Vector3(maxX, ySill, bz2), Vector3(maxX, yLintel, bz2), Vector3(maxX, yLintel, wz2), Vector3(1f, 0f, 0f), wallC)
-                val exRecessed = maxX - recessD
-                addQuad(Vector3(exRecessed, ySill, wz1), Vector3(exRecessed, ySill, wz2), Vector3(exRecessed, yLintel, wz2), Vector3(exRecessed, yLintel, wz1), Vector3(1f, 0f, 0f), glassC)
-
-                // West Wall
-                addQuad(Vector3(minX, ySill, wz1), Vector3(minX, ySill, bz1), Vector3(minX, yLintel, bz1), Vector3(minX, yLintel, wz1), Vector3(-1f, 0f, 0f), wallC)
-                addQuad(Vector3(minX, ySill, bz2), Vector3(minX, ySill, wz2), Vector3(minX, yLintel, wz2), Vector3(minX, yLintel, bz2), Vector3(-1f, 0f, 0f), wallC)
-                val wxRecessed = minX + recessD
-                addQuad(Vector3(wxRecessed, ySill, wz2), Vector3(wxRecessed, ySill, wz1), Vector3(wxRecessed, yLintel, wz1), Vector3(wxRecessed, yLintel, wz2), Vector3(-1f, 0f, 0f), glassC)
-            }
+        fun addBox(
+            minP: Vector3, maxP: Vector3, c: Color
+        ) {
+            // Front (South +Z)
+            addQuad(Vector3(maxP.x, minP.y, maxP.z), Vector3(minP.x, minP.y, maxP.z), Vector3(minP.x, maxP.y, maxP.z), Vector3(maxP.x, maxP.y, maxP.z), Vector3(0f, 0f, 1f), c)
+            // Back (North -Z)
+            addQuad(Vector3(minP.x, minP.y, minP.z), Vector3(maxP.x, minP.y, minP.z), Vector3(maxP.x, maxP.y, minP.z), Vector3(minP.x, maxP.y, minP.z), Vector3(0f, 0f, -1f), c)
+            // Left (West -X)
+            addQuad(Vector3(minP.x, minP.y, maxP.z), Vector3(minP.x, minP.y, minP.z), Vector3(minP.x, maxP.y, minP.z), Vector3(minP.x, maxP.y, maxP.z), Vector3(-1f, 0f, 0f), c)
+            // Right (East +X)
+            addQuad(Vector3(maxP.x, minP.y, minP.z), Vector3(maxP.x, minP.y, maxP.z), Vector3(maxP.x, maxP.y, maxP.z), Vector3(maxP.x, maxP.y, minP.z), Vector3(1f, 0f, 0f), c)
+            // Top (+Y)
+            addQuad(Vector3(minP.x, maxP.y, minP.z), Vector3(maxP.x, maxP.y, minP.z), Vector3(maxP.x, maxP.y, maxP.z), Vector3(minP.x, maxP.y, maxP.z), Vector3(0f, 1f, 0f), c)
         }
 
-        // 2. MAIN ENTRANCE PORTAL (South Facade, Ground Floor)
-        val midX = (minX + maxX) / 2f
-        val portalW = 3.8f
-        val portalH = 2.7f
-        val pX1 = midX - portalW / 2f
-        val pX2 = midX + portalW / 2f
-        val portalD = 0.35f
+        val minX = AcademicComplexSpec.V_MIN_X
+        val maxX = AcademicComplexSpec.V_MAX_X
+        val minZ = AcademicComplexSpec.V_MIN_Z
+        val maxZ = AcademicComplexSpec.V_MAX_Z
+        val levels = AcademicComplexSpec.V_LEVELS
+        val height = AcademicComplexSpec.V_HEIGHT
 
-        // Recessed Entrance Frame
-        addQuad(Vector3(pX2, 0f, maxZ), Vector3(pX2, 0f, maxZ - portalD), Vector3(pX2, portalH, maxZ - portalD), Vector3(pX2, portalH, maxZ), Vector3(-1f, 0f, 0f), portalC)
-        addQuad(Vector3(pX1, 0f, maxZ - portalD), Vector3(pX1, 0f, maxZ), Vector3(pX1, portalH, maxZ), Vector3(pX1, portalH, maxZ - portalD), Vector3(1f, 0f, 0f), portalC)
-        addQuad(Vector3(pX2, portalH, maxZ - portalD), Vector3(pX1, portalH, maxZ - portalD), Vector3(pX1, portalH, maxZ), Vector3(pX2, portalH, maxZ), Vector3(0f, -1f, 0f), portalC)
-        // Glass Entrance Door (Recessed)
-        addQuad(Vector3(pX2, 0f, maxZ - portalD), Vector3(pX1, 0f, maxZ - portalD), Vector3(pX1, portalH, maxZ - portalD), Vector3(pX2, portalH, maxZ - portalD), Vector3(0f, 0f, 1f), glassC)
+        val whiteTowerC = AcademicComplexSpec.COLOR_SOLID_WHITE_TOWER
+        val louverC     = AcademicComplexSpec.COLOR_LOUVER_FINS
+        val glassC      = AcademicComplexSpec.COLOR_CURTAIN_GLAZING
+        val spandrelC   = AcademicComplexSpec.COLOR_CANOPY_TRUSS
 
-        // 3. ROOF SURFACE & PERIMETER SAFETY PARAPET (16.0m to 16.9m)
-        // Flat roof surface (inset by 0.4m)
-        val pThickness = 0.4f
-        val rX1 = minX + pThickness
-        val rX2 = maxX - pThickness
-        val rZ1 = minZ + pThickness
-        val rZ2 = maxZ - pThickness
-        addQuad(Vector3(rX1, roofH, rZ1), Vector3(rX2, roofH, rZ1), Vector3(rX2, roofH, rZ2), Vector3(rX1, roofH, rZ2), Vector3(0f, 1f, 0f), roofC)
+        // 1. SOLID CRISP WHITE CORNER TOWER VOLUME (South-West Corner)
+        // Prominent architectural feature directly visible in Photo 1
+        val towerWidth = 14.0f
+        val towerDepth = 18.0f
+        val towerX2 = minX + towerWidth
+        val towerZ1 = maxZ - towerDepth
+        addBox(Vector3(minX, 0f, towerZ1), Vector3(towerX2, height + 0.8f, maxZ), whiteTowerC)
 
-        // Outer Parapet Walls
-        val pTop = roofH + parapetH
-        addQuad(Vector3(minX, roofH, minZ), Vector3(maxX, roofH, minZ), Vector3(maxX, pTop, minZ), Vector3(minX, pTop, minZ), Vector3(0f, 0f, -1f), parapetC)
-        addQuad(Vector3(maxX, roofH, maxZ), Vector3(minX, roofH, maxZ), Vector3(minX, pTop, maxZ), Vector3(maxX, pTop, maxZ), Vector3(0f, 0f, 1f), parapetC)
-        addQuad(Vector3(maxX, roofH, minZ), Vector3(maxX, roofH, maxZ), Vector3(maxX, pTop, maxZ), Vector3(maxX, pTop, minZ), Vector3(1f, 0f, 0f), parapetC)
-        addQuad(Vector3(minX, roofH, maxZ), Vector3(minX, roofH, minZ), Vector3(minX, pTop, minZ), Vector3(minX, pTop, maxZ), Vector3(-1f, 0f, 0f), parapetC)
+        // 2. MAIN ENVELOPE: RECESSED CURTAIN GLAZING & FLOOR SLABS
+        // Running from the tower edge (towerX2) to the Breezeway edge (maxX)
+        val glassZ = maxZ - 0.4f
+        // Recessed curtain glazing behind louvers
+        addQuad(
+            Vector3(maxX, 0f, glassZ),
+            Vector3(towerX2, 0f, glassZ),
+            Vector3(towerX2, height, glassZ),
+            Vector3(maxX, height, glassZ),
+            Vector3(0f, 0f, 1f),
+            glassC
+        )
 
-        // Parapet Coping (Top Cap)
-        addQuad(Vector3(minX, pTop, minZ), Vector3(maxX, pTop, minZ), Vector3(rX2, pTop, rZ1), Vector3(rX1, pTop, rZ1), Vector3(0f, 1f, 0f), spandrelC)
-        addQuad(Vector3(maxX, pTop, maxZ), Vector3(minX, pTop, maxZ), Vector3(rX1, pTop, rZ2), Vector3(rX2, pTop, rZ2), Vector3(0f, 1f, 0f), spandrelC)
-        addQuad(Vector3(maxX, pTop, minZ), Vector3(maxX, pTop, maxZ), Vector3(rX2, pTop, rZ2), Vector3(rX2, pTop, rZ1), Vector3(0f, 1f, 0f), spandrelC)
-        addQuad(Vector3(minX, pTop, maxZ), Vector3(minX, pTop, minZ), Vector3(rX1, pTop, rZ1), Vector3(rX1, pTop, rZ2), Vector3(0f, 1f, 0f), spandrelC)
+        // Horizontal Floor Spandrels between levels
+        val floorH = height / levels
+        for (lvl in 0..levels) {
+            val y = lvl * floorH
+            addQuad(
+                Vector3(maxX, (y - 0.25f).coerceAtLeast(0f), maxZ - 0.1f),
+                Vector3(towerX2, (y - 0.25f).coerceAtLeast(0f), maxZ - 0.1f),
+                Vector3(towerX2, (y + 0.25f).coerceAtMost(height), maxZ - 0.1f),
+                Vector3(maxX, (y + 0.25f).coerceAtMost(height), maxZ - 0.1f),
+                Vector3(0f, 0f, 1f),
+                spandrelC
+            )
+        }
+
+        // 3. VERTICAL SUNSHADE LOUVER FINS (Brise-Soleil Array)
+        // Rhythmic vertical blades projected in front of the glazing
+        val louverSpacing = 1.35f
+        var curX = towerX2 + 1.2f
+        val louverProj = 0.55f // Outward depth of each blade
+        val louverThick = 0.08f
+
+        while (curX < maxX - 1.0f) {
+            addBox(
+                Vector3(curX, 1.2f, maxZ - louverProj),
+                Vector3(curX + louverThick, height - 0.4f, maxZ),
+                louverC
+            )
+            curX += louverSpacing
+        }
+
+        // 4. NORTH FACADE (Tree Court facing)
+        // Glass wall with horizontal spandrels
+        addQuad(
+            Vector3(minX, 0f, minZ),
+            Vector3(maxX, 0f, minZ),
+            Vector3(maxX, height, minZ),
+            Vector3(minX, height, minZ),
+            Vector3(0f, 0f, -1f),
+            glassC
+        )
+        // Louver array on North facade
+        curX = minX + 2.0f
+        while (curX < maxX - 2.0f) {
+            addBox(
+                Vector3(curX, 1.2f, minZ),
+                Vector3(curX + louverThick, height - 0.4f, minZ + louverProj),
+                louverC
+            )
+            curX += (louverSpacing * 1.5f)
+        }
+
+        // 5. WEST FACADE (Campus Perimeter)
+        addQuad(
+            Vector3(minX, 0f, maxZ),
+            Vector3(minX, 0f, minZ),
+            Vector3(minX, height, minZ),
+            Vector3(minX, height, maxZ),
+            Vector3(-1f, 0f, 0f),
+            whiteTowerC
+        )
+
+        // 6. EAST FACADE (Facing Central Breezeway Spine)
+        // Interfaces with the covered pedestrian highway & skywalk connections
+        addQuad(
+            Vector3(maxX, 0f, minZ),
+            Vector3(maxX, 0f, maxZ),
+            Vector3(maxX, height, maxZ),
+            Vector3(maxX, height, minZ),
+            Vector3(1f, 0f, 0f),
+            whiteTowerC
+        )
+
+        // 7. ROOF PARAPET & DECK
+        addQuad(
+            Vector3(minX, height, minZ),
+            Vector3(maxX, height, minZ),
+            Vector3(maxX, height, maxZ),
+            Vector3(minX, height, maxZ),
+            Vector3(0f, 1f, 0f),
+            AcademicComplexSpec.COLOR_CANOPY_TRUSS
+        )
 
         return MeshData(
             positions = positions.toFloatArray(),
