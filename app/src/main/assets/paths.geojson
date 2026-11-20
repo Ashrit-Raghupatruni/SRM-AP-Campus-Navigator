@@ -562,6 +562,122 @@
           ]
         ]
       }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/srmap_sr_east_promenade",
+        "highway": "path",
+        "foot": "yes",
+        "name": "SR Block East Promenade",
+        "surface": "paved"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            80.5069562,
+            16.4631729
+          ],
+          [
+            80.5069307,
+            16.4625574
+          ],
+          [
+            80.5069434,
+            16.4618522
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/srmap_sr_main_entrance_walk",
+        "highway": "path",
+        "foot": "yes",
+        "name": "SR Block Main Entrance Concourse",
+        "surface": "paved"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            80.5069307,
+            16.4625574
+          ],
+          [
+            80.5068979,
+            16.4625574
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/srmap_v_south_plaza_spine",
+        "highway": "path",
+        "foot": "yes",
+        "name": "Vikram Sarabhai South Plaza Walkway",
+        "surface": "paved"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            80.5070844,
+            16.4645038
+          ],
+          [
+            80.507488,
+            16.4645038
+          ],
+          [
+            80.5078,
+            16.4645038
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/srmap_tree_court_circulation",
+        "highway": "path",
+        "foot": "yes",
+        "name": "Tree Court Promenade",
+        "surface": "paved"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            80.5078,
+            16.465315
+          ],
+          [
+            80.5078814,
+            16.465315
+          ],
+          [
+            80.5078814,
+            16.4655218
+          ],
+          [
+            80.5076754,
+            16.4655218
+          ],
+          [
+            80.5076754,
+            16.465315
+          ],
+          [
+            80.5078,
+            16.465315
+          ]
+        ]
+      }
     }
   ]
 }
