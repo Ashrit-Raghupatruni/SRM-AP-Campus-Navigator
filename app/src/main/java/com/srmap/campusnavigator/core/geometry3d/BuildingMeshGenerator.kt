@@ -27,6 +27,16 @@ object BuildingMeshGenerator {
             return SRBlockMeshGenerator.generateMesh()
         }
 
+        // High-Fidelity Architectural Reconstruction for Ganga Boys' Hostel (srmap_bldg_15) - 26 Floors
+        if (!isHighlighted && (building.id == "srmap_bldg_15" || building.name.contains("Ganga", ignoreCase = true))) {
+            return GangaBlockMeshGenerator.generateMesh()
+        }
+
+        // High-Fidelity Architectural Reconstruction for Vedavathi Boys' Hostel (srmap_bldg_14) - 15 Floors U-Courtyard
+        if (!isHighlighted && (building.id == "srmap_bldg_14" || building.name.contains("Vedavathi", ignoreCase = true))) {
+            return VedavathiBlockMeshGenerator.generateMesh()
+        }
+
         val polygon = building.polygon
         if (polygon.size < 3) return null
 

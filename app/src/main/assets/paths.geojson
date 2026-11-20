@@ -184,6 +184,10 @@
             16.4631729
           ],
           [
+            80.5069622,
+            16.463797
+          ],
+          [
             80.5069674,
             16.4643277
           ],
@@ -675,6 +679,79 @@
           [
             80.5078,
             16.465315
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/srmap_hostel_central_concourse",
+        "highway": "path",
+        "foot": "yes",
+        "name": "Ganga & Vedavathi Central Concourse",
+        "surface": "paved"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            80.5069622,
+            16.463797
+          ],
+          [
+            80.5066169,
+            16.463797
+          ],
+          [
+            80.5063359,
+            16.463797
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/srmap_vedavathi_courtyard_walk",
+        "highway": "path",
+        "foot": "yes",
+        "name": "Vedavathi Courtyard Walkway",
+        "surface": "paved"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            80.5066169,
+            16.463797
+          ],
+          [
+            80.5066169,
+            16.4640414
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/srmap_ganga_lobby_walk",
+        "highway": "path",
+        "foot": "yes",
+        "name": "Ganga Boys Hostel Entrance Walk",
+        "surface": "paved"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            80.5066169,
+            16.463797
+          ],
+          [
+            80.5066169,
+            16.4637162
           ]
         ]
       }

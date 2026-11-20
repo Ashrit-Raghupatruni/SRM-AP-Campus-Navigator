@@ -59,6 +59,7 @@ class Campus3DRenderer(
     private var avatarGpuMesh: GpuMesh? = null
     private var complexCanopyGpuMesh: GpuMesh? = null
     private var centralBreezewayGpuMesh: GpuMesh? = null
+    private var hostelPlazaGpuMesh: GpuMesh? = null
     private val buildingGpuMeshes = mutableListOf<Pair<String, GpuMesh>>()
     private var completedRouteGpuMesh: GpuMesh? = null
     private var remainingRouteGpuMesh: GpuMesh? = null
@@ -149,6 +150,7 @@ class Campus3DRenderer(
         // 3. Draw Walkways & Central Breezeway Spine
         walkwaysGpuMesh?.let { drawMesh(it) }
         centralBreezewayGpuMesh?.let { drawMesh(it) }
+        hostelPlazaGpuMesh?.let { drawMesh(it) }
 
         // 4. Draw Procedural 3D Trees
         treesGpuMesh?.let { drawMesh(it) }
@@ -309,6 +311,10 @@ class Campus3DRenderer(
         // Monumental Space-Frame Umbrella Canopy & Slender Tree Columns
         val canopyData = com.srmap.campusnavigator.core.geometry3d.AcademicComplexCanopyGenerator.generateCanopyMesh()
         complexCanopyGpuMesh = uploadToGpu(canopyData)
+
+        // Central Civic Fountain Plaza & Planters between Ganga & Vedavathi
+        val hostelPlazaData = com.srmap.campusnavigator.core.geometry3d.HostelPlazaMeshGenerator.generatePlazaMesh()
+        hostelPlazaGpuMesh = uploadToGpu(hostelPlazaData)
 
         // Buildings
         buildingGpuMeshes.clear()

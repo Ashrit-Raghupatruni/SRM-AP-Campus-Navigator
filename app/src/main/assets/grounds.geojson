@@ -865,6 +865,112 @@
           ]
         ]
       }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/srmap_hostel_fountain_plaza",
+        "leisure": "park",
+        "name": "Hostel Civic Fountain Plaza"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.5065419,
+              16.463842
+            ],
+            [
+              80.5066918,
+              16.463842
+            ],
+            [
+              80.5066918,
+              16.4637521
+            ],
+            [
+              80.5065419,
+              16.4637521
+            ],
+            [
+              80.5065419,
+              16.463842
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/srmap_vedavathi_courtyard_garden",
+        "leisure": "park",
+        "landuse": "forest",
+        "name": "Vedavathi Interior Courtyard Garden"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.5065232,
+              16.4642103
+            ],
+            [
+              80.5067106,
+              16.4642103
+            ],
+            [
+              80.5067106,
+              16.4640576
+            ],
+            [
+              80.5065232,
+              16.4640576
+            ],
+            [
+              80.5065232,
+              16.4642103
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/srmap_hostel_west_tree_belt",
+        "landuse": "forest",
+        "name": "Hostels West Perimeter Green Belt"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              80.5062235,
+              16.4643989
+            ],
+            [
+              80.5063452,
+              16.4643989
+            ],
+            [
+              80.5063452,
+              16.4631862
+            ],
+            [
+              80.5062235,
+              16.4631862
+            ],
+            [
+              80.5062235,
+              16.4643989
+            ]
+          ]
+        ]
+      }
     }
   ]
 }
