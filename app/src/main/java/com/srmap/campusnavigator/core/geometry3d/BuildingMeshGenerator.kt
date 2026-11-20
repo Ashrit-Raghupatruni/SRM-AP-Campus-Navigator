@@ -12,6 +12,11 @@ object BuildingMeshGenerator {
         building: CampusBuilding,
         isHighlighted: Boolean = false
     ): MeshData? {
+        // High-Fidelity Evidence-Driven Architectural Reconstruction for Vikram Sarabhai Block (Academic Block I / V Block)
+        if (!isHighlighted && (building.id == "srmap_bldg_9" || building.name.contains("Vikram Sarabhai", ignoreCase = true) || building.name.equals("V Block", ignoreCase = true))) {
+            return VikramSarabhaiBlockMeshGenerator.generateMesh()
+        }
+
         val polygon = building.polygon
         if (polygon.size < 3) return null
 

@@ -199,6 +199,55 @@ fun FirstPersonNavigationScreen(
             }
         }
 
+        // Vikram Sarabhai Block Viewpoint Inspection Bar (Visible when V Block is in view or selected)
+        val isVBlockTarget = selectedBuilding?.id == "srmap_bldg_9" || selectedBuilding?.name?.contains("Vikram", ignoreCase = true) == true || selectedBuilding?.name?.equals("V Block", ignoreCase = true) == true
+        if (isVBlockTarget) {
+            Surface(
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .padding(top = 165.dp),
+                shape = RoundedCornerShape(18.dp),
+                color = MidnightNavy.copy(alpha = 0.88f),
+                shadowElevation = 4.dp
+            ) {
+                Row(
+                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    val viewpoints = remember { com.srmap.campusnavigator.domain.building3d.VikramSarabhaiBlockSpec.getViewpoints() }
+                    viewpoints.forEach { vp ->
+                        val shortLabel = when (vp.id) {
+                            "front_elevation" -> "Front"
+                            "rear_elevation" -> "Rear"
+                            "side_east" -> "East"
+                            "side_west" -> "West"
+                            "top_down" -> "Top"
+                            "main_entrance" -> "Entrance"
+                            else -> vp.name
+                        }
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(Color.White.copy(alpha = 0.12f))
+                                .clickable {
+                                    currentViewMode = CameraViewMode.THIRD_PERSON
+                                    renderer.cameraController.applyViewpoint(vp)
+                                }
+                                .padding(horizontal = 8.dp, vertical = 5.dp)
+                        ) {
+                            Text(
+                                text = shortLabel,
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.Medium,
+                                color = MintAccent
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
         // Floating Action Buttons (Recenter Heading & 2D Mode Switch)
         Column(
             modifier = Modifier

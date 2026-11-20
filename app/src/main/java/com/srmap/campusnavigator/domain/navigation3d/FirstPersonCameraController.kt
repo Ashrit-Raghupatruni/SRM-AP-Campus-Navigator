@@ -136,6 +136,22 @@ class FirstPersonCameraController {
         }
     }
 
+    fun applyViewpoint(viewpoint: com.srmap.campusnavigator.domain.building3d.BuildingViewpoint) {
+        viewMode = CameraViewMode.THIRD_PERSON
+        targetUserGroundPos = Vector3(viewpoint.targetPosition.x, 0f, viewpoint.targetPosition.z)
+        currentUserGroundPos = targetUserGroundPos
+        targetWalkingHeading = viewpoint.yawDegrees
+        currentWalkingHeading = viewpoint.yawDegrees
+        orbitYawOffset = 0f
+        orbitPitch = viewpoint.pitchDegrees
+        val dx = viewpoint.eyePosition.x - viewpoint.targetPosition.x
+        val dy = viewpoint.eyePosition.y - viewpoint.targetPosition.y
+        val dz = viewpoint.eyePosition.z - viewpoint.targetPosition.z
+        targetDistance = kotlin.math.sqrt(dx * dx + dy * dy + dz * dz).coerceIn(MIN_DISTANCE, 120.0f)
+        currentDistance = targetDistance
+        lastManualInteractionTime = System.currentTimeMillis()
+    }
+
     fun resetOrientation() {
         orbitYawOffset = 0f
         orbitPitch = DEFAULT_THIRD_PERSON_PITCH
