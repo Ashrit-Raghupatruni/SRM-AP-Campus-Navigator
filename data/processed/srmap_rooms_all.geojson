@@ -15712,6 +15712,1287 @@
         "match_status": "UNMATCHED_SPATIAL_FEATURE",
         "source_dataset": "LEVEL 5.shp"
       }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L1_Enterence",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "Enterence",
+        "normalizedRoomNo": "enterence",
+        "floor": 1,
+        "roomType": "FACILITY",
+        "description": "Homi j - Enterence (Level 1)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5080808,
+          16.4648383
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L1_Reception",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "Reception",
+        "normalizedRoomNo": "reception",
+        "floor": 1,
+        "roomType": "FACILITY",
+        "description": "Homi j - Reception (Level 1)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.508243,
+          16.4648392
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L1_Lift",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "Lift",
+        "normalizedRoomNo": "lift",
+        "floor": 1,
+        "roomType": "FACILITY",
+        "description": "Homi j - Lift (Level 1)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5084493,
+          16.4649889
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L1_Admin_Office",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "Admin Office",
+        "normalizedRoomNo": "adminoffice",
+        "floor": 1,
+        "roomType": "OFFICE",
+        "description": "Homi j - Admin Office (Level 1)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5082497,
+          16.4650863
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L1_Beard_Room",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "Beard Room",
+        "normalizedRoomNo": "beardroom",
+        "floor": 1,
+        "roomType": "OFFICE",
+        "description": "Homi j - Beard Room (Level 1)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5082971,
+          16.4645813
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L1_Stair_Case",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "Stair Case",
+        "normalizedRoomNo": "staircase",
+        "floor": 1,
+        "roomType": "FACILITY",
+        "description": "Homi j - Stair Case (Level 1)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5080983,
+          16.4650854
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_34",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-34",
+        "normalizedRoomNo": "c34",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-34 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5080808,
+          16.4650858
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_33",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-33",
+        "normalizedRoomNo": "c33",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-33 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5080908,
+          16.4650867
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_32",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-32",
+        "normalizedRoomNo": "c32",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-32 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5081116,
+          16.4650858
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_31",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-31",
+        "normalizedRoomNo": "c31",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-31 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5081216,
+          16.4650867
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_30",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-30",
+        "normalizedRoomNo": "c30",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-30 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5081324,
+          16.4650858
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_29",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-29",
+        "normalizedRoomNo": "c29",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-29 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5081432,
+          16.4650858
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_28",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-28",
+        "normalizedRoomNo": "c28",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-28 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5081515,
+          16.4650875
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_27",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-27",
+        "normalizedRoomNo": "c27",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-27 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5081881,
+          16.4650858
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_26",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-26",
+        "normalizedRoomNo": "c26",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-26 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5082838,
+          16.4650858
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_25",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-25",
+        "normalizedRoomNo": "c25",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-25 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.508367,
+          16.4650858
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_18",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-18",
+        "normalizedRoomNo": "c18",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-18 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5080833,
+          16.4650542
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_19",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-19",
+        "normalizedRoomNo": "c19",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-19 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5081033,
+          16.4650542
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_20",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-20",
+        "normalizedRoomNo": "c20",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-20 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5081898,
+          16.4650534
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_21",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-21",
+        "normalizedRoomNo": "c21",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-21 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5082114,
+          16.4650526
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_22",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-22",
+        "normalizedRoomNo": "c22",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-22 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5082256,
+          16.4650526
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_23",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-23",
+        "normalizedRoomNo": "c23",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-23 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5082905,
+          16.4650534
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_24",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-24",
+        "normalizedRoomNo": "c24",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-24 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5083662,
+          16.4650509
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_1",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-1",
+        "normalizedRoomNo": "c1",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-1 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5080933,
+          16.4646033
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_2",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-2",
+        "normalizedRoomNo": "c2",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-2 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5081199,
+          16.4646058
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_3",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-3",
+        "normalizedRoomNo": "c3",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-3 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.508184,
+          16.464605
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_4",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-4",
+        "normalizedRoomNo": "c4",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-4 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5082164,
+          16.4646058
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_5",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-5",
+        "normalizedRoomNo": "c5",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-5 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5082497,
+          16.4646067
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_6",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-6",
+        "normalizedRoomNo": "c6",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-6 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5083129,
+          16.4646067
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_7",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-7",
+        "normalizedRoomNo": "c7",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-7 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5083895,
+          16.4646067
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_8",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-8",
+        "normalizedRoomNo": "c8",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-8 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.508446,
+          16.4645651
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_9",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-9",
+        "normalizedRoomNo": "c9",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-9 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5084227,
+          16.4645642
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_10",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-10",
+        "normalizedRoomNo": "c10",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-10 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5084028,
+          16.4645651
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_11",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-11",
+        "normalizedRoomNo": "c11",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-11 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5083678,
+          16.4645634
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_12",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-12",
+        "normalizedRoomNo": "c12",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-12 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.508342,
+          16.4645626
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_13",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-13",
+        "normalizedRoomNo": "c13",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-13 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5082988,
+          16.4645626
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_14",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-14",
+        "normalizedRoomNo": "c14",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-14 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5082622,
+          16.4645626
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_15",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-15",
+        "normalizedRoomNo": "c15",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-15 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5082297,
+          16.4645601
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_16",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-16",
+        "normalizedRoomNo": "c16",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-16 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5081765,
+          16.4645601
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L2_C_17",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "C-17",
+        "normalizedRoomNo": "c17",
+        "floor": 2,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - C-17 (Level 2)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5081274,
+          16.4645601
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L3_Cafe",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "Cafe",
+        "normalizedRoomNo": "cafe",
+        "floor": 3,
+        "roomType": "FACILITY",
+        "description": "Homi j - Cafe (Level 3)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5084452,
+          16.46484
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L3_ALC_1",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "ALC-1",
+        "normalizedRoomNo": "alc1",
+        "floor": 3,
+        "roomType": "CLASSROOM",
+        "description": "Homi j - ALC-1 (Level 3)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5082564,
+          16.465048
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L3_Finanve",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "Finanve",
+        "normalizedRoomNo": "finanve",
+        "floor": 3,
+        "roomType": "OFFICE",
+        "description": "Homi j - Finanve (Level 3)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5082747,
+          16.4646079
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L4_Direc_IR",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "Direc-IR",
+        "normalizedRoomNo": "direcir",
+        "floor": 4,
+        "roomType": "OFFICE",
+        "description": "Homi J Bhabha - Direc-IR (Level 4)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5080933,
+          16.4650671
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L4_HB_415",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "HB-415",
+        "normalizedRoomNo": "hb415",
+        "floor": 4,
+        "roomType": "CLASSROOM",
+        "description": "Homi J Bhabha - HB-415 (Level 4)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5082031,
+          16.4650638
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L4_HB_415_B",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "HB-415-B",
+        "normalizedRoomNo": "hb415b",
+        "floor": 4,
+        "roomType": "CLASSROOM",
+        "description": "Homi J Bhabha - HB-415-B (Level 4)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.508357,
+          16.4649881
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L4_HB_416",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "HB-416",
+        "normalizedRoomNo": "hb416",
+        "floor": 4,
+        "roomType": "CLASSROOM",
+        "description": "Homi J Bhabha - HB-416 (Level 4)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5083562,
+          16.4649565
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L4_HB_417",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "HB-417",
+        "normalizedRoomNo": "hb417",
+        "floor": 4,
+        "roomType": "CLASSROOM",
+        "description": "Homi J Bhabha - HB-417 (Level 4)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5083603,
+          16.4649174
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L4_HB_418",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "HB-418",
+        "normalizedRoomNo": "hb418",
+        "floor": 4,
+        "roomType": "CLASSROOM",
+        "description": "Homi J Bhabha - HB-418 (Level 4)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5083612,
+          16.4648708
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L4_HB_419",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "HB-419",
+        "normalizedRoomNo": "hb419",
+        "floor": 4,
+        "roomType": "CLASSROOM",
+        "description": "Homi J Bhabha - HB-419 (Level 4)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.508367,
+          16.4648117
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L4_HB_420",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "HB-420",
+        "normalizedRoomNo": "hb420",
+        "floor": 4,
+        "roomType": "CLASSROOM",
+        "description": "Homi J Bhabha - HB-420 (Level 4)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5083645,
+          16.4647319
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L4_Office",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "Office",
+        "normalizedRoomNo": "office",
+        "floor": 4,
+        "roomType": "OFFICE",
+        "description": "Homi J Bhabha - Office (Level 4)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5082796,
+          16.4649814
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L4_HB_408",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "HB-408",
+        "normalizedRoomNo": "hb408",
+        "floor": 4,
+        "roomType": "CLASSROOM",
+        "description": "Homi J Bhabha - HB-408 (Level 4)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5082771,
+          16.4649107
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L4_HB_409",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "HB-409",
+        "normalizedRoomNo": "hb409",
+        "floor": 4,
+        "roomType": "CLASSROOM",
+        "description": "Homi J Bhabha - HB-409 (Level 4)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5082796,
+          16.4648758
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L4_HB_410",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "HB-410",
+        "normalizedRoomNo": "hb410",
+        "floor": 4,
+        "roomType": "CLASSROOM",
+        "description": "Homi J Bhabha - HB-410 (Level 4)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5082755,
+          16.4648425
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L4_HB_423",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "HB-423",
+        "normalizedRoomNo": "hb423",
+        "floor": 4,
+        "roomType": "CLASSROOM",
+        "description": "Homi J Bhabha - HB-423 (Level 4)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5082821,
+          16.4647943
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L4_HB_422",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "HB-422",
+        "normalizedRoomNo": "hb422",
+        "floor": 4,
+        "roomType": "CLASSROOM",
+        "description": "Homi J Bhabha - HB-422 (Level 4)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5082846,
+          16.4647585
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L4_HB_421",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "HB-421",
+        "normalizedRoomNo": "hb421",
+        "floor": 4,
+        "roomType": "CLASSROOM",
+        "description": "Homi J Bhabha - HB-421 (Level 4)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5082871,
+          16.4647144
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L4_Direct_H&D",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "Direct-H&D",
+        "normalizedRoomNo": "directh&d",
+        "floor": 4,
+        "roomType": "OFFICE",
+        "description": "Homi J Bhabha - Direct-H&D (Level 4)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5083479,
+          16.4645904
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L5_Tierd_Classroom",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "Tierd Classroom",
+        "normalizedRoomNo": "tierdclassroom",
+        "floor": 5,
+        "roomType": "CLASSROOM",
+        "description": "Homi J Bhabha - Tierd Classroom (Level 5)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.5082447,
+          16.4650521
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "roomId": "HB_L5_Acadamic_Office",
+        "blockId": "srmap_bldg_30",
+        "blockName": "Homi J. Bhabha Block",
+        "roomNo": "Acadamic Office",
+        "normalizedRoomNo": "acadamicoffice",
+        "floor": 5,
+        "roomType": "OFFICE",
+        "description": "Homi J Bhabha - Acadamic Office (Level 5)",
+        "locationStatus": "EXACT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.508268,
+          16.4645888
+        ]
+      }
     }
   ]
 }
