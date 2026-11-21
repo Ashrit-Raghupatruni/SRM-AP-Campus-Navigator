@@ -3,19 +3,21 @@ package com.srmap.campusnavigator.core.geometry3d
 import androidx.compose.ui.graphics.Color
 import com.srmap.campusnavigator.domain.models.CampusFeature
 import com.srmap.campusnavigator.domain.models.GeoPoint
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.sin
 
+/**
+ * High-performance, clean procedural 3D Tree Mesh Generator for SRM AP Campus.
+ * Creates clean, elegant canopy trees with hexagonal trunks and layered low-poly foliage crowns,
+ * strictly maintaining walkway clearances and preventing vertex/index misalignments.
+ */
 object TreeMeshGenerator {
 
-    private const val TREE_TRUNK_RADIUS = 0.22f
-    private const val TREE_TRUNK_HEIGHT = 1.8f
-    private const val TREE_CROWN_RADIUS = 1.6f
-    private const val TREE_CROWN_HEIGHT = 3.6f
-
-    // Palm / Avenue Tree Specifications (for formal boulevards like SR Block East concourse)
-    private const val PALM_TRUNK_RADIUS = 0.16f
-    private const val PALM_TRUNK_HEIGHT = 4.2f
-    private const val PALM_CROWN_RADIUS = 2.2f
-    private const val PALM_CROWN_HEIGHT = 1.2f
+    private const val TRUNK_RADIUS = 0.25f
+    private const val TRUNK_HEIGHT = 2.2f
+    private const val CROWN_RADIUS = 2.0f
+    private const val CROWN_HEIGHT = 3.2f
 
     fun generateTreesMesh(
         features: List<CampusFeature>,
@@ -28,92 +30,83 @@ object TreeMeshGenerator {
 
         var currentIndex: Short = 0
 
-        val trunkColor = Color(0xFF78350F) // Bark Brown
-        val leavesDark = Color(0xFF166534) // Forest Green
-        val leavesLight = Color(0xFF15803D) // Leaf Green
-        val palmLeafGreen = Color(0xFF22C55E) // Bright Palm Frond Green
+        val trunkColor = Color(0xFF6B4423) // Natural Bark Brown
+        val leavesDark = Color(0xFF1E6B37) // Deep Foliage Green
+        val leavesLight = Color(0xFF2D8A4E) // Lush Canopy Green
 
         // Collect all forest and tree areas
         val treePolygons = features.filter {
             val landuse = it.rawProperties["landuse"]?.toString()
             val seating = it.rawProperties["outdoor_seating"]?.toString()
             val name = it.name ?: ""
-            landuse == "forest" || seating == "outdoor_seating" || name.contains("Tree", ignoreCase = true) || name.contains("Buffer", ignoreCase = true)
+            landuse == "forest" || seating == "outdoor_seating" || name.contains("Tree", ignoreCase = true)
         }
 
-        data class TreeSpec(val pos: Vector3, val isAvenueTree: Boolean)
-        val treeLocations = mutableListOf<TreeSpec>()
+        val treeLocations = mutableListOf<Vector3>()
 
         for (feat in treePolygons) {
             val coords = feat.coordinates
             if (coords.size < 3) continue
 
             val localPoly = coords.map { LocalCoordinateConverter.toLocal3D(it) }
-            val name = feat.name ?: ""
-            val isAvenue = name.contains("Buffer", ignoreCase = true) || name.contains("Parkway", ignoreCase = true)
 
-            // Bounding box on XZ plane
             val minX = localPoly.minOf { it.x }
             val maxX = localPoly.maxOf { it.x }
             val minZ = localPoly.minOf { it.z }
             val maxZ = localPoly.maxOf { it.z }
 
-            // Deterministic grid sampling (step ~ 6.5m for lush parkways, 7.5m for standard forest)
-            val step = if (isAvenue) 6.5f else 7.5f
-            var z = minZ + 3.0f
+            // Deterministic grid sampling (step = 8.0m for natural tree spacing)
+            var z = minZ + 4.0f
             while (z < maxZ) {
-                var x = minX + 3.0f
+                var x = minX + 4.0f
                 while (x < maxX) {
                     val candidate = Vector3(x, 0f, z)
                     if (isPointInsidePolygonXZ(candidate, localPoly)) {
-                        // Check path exclusion buffer (keep walkways open)
+                        // Keep minimum 3.0m clearance from any walking path
                         val tooCloseToPath = roadPolylines.any { path ->
-                            path.any { pt -> LocalCoordinateConverter.distance(pt, candidate) < 2.0f }
+                            path.any { pt -> LocalCoordinateConverter.distance(pt, candidate) < 3.0f }
                         }
                         if (!tooCloseToPath) {
-                            treeLocations.add(TreeSpec(candidate, isAvenue))
+                            treeLocations.add(candidate)
                         }
                     }
-                    x += step
+                    x += 8.0f
                 }
-                z += step
+                z += 8.0f
             }
         }
 
-        // Limit tree count to preserve smooth 60 FPS
-        val sampledTrees = treeLocations.take(500)
+        val sampledTrees = treeLocations.take(380)
 
-        for (spec in sampledTrees) {
+        for (treeLoc in sampledTrees) {
             if (currentIndex > 31000) break
 
-            val treeLoc = spec.pos
-            val isPalm = spec.isAvenueTree
+            val segments = 6 // Hexagonal prism
 
-            val trunkRadius = if (isPalm) PALM_TRUNK_RADIUS else TREE_TRUNK_RADIUS
-            val trunkHeight = if (isPalm) PALM_TRUNK_HEIGHT else TREE_TRUNK_HEIGHT
-            val crownRadius = if (isPalm) PALM_CROWN_RADIUS else TREE_CROWN_RADIUS
-            val crownHeight = if (isPalm) PALM_CROWN_HEIGHT else TREE_CROWN_HEIGHT
-
-            // 1. Procedural Trunk (Octagonal Prism)
-            val segments = 6
+            // 1. Procedural Trunk
             for (i in 0 until segments) {
-                val angle = (i * 2 * Math.PI / segments).toFloat()
-                val nextAngle = ((i + 1) * 2 * Math.PI / segments).toFloat()
+                val a1 = (i * 2 * PI / segments).toFloat()
+                val a2 = ((i + 1) * 2 * PI / segments).toFloat()
 
-                val cos1 = kotlin.math.cos(angle)
-                val sin1 = kotlin.math.sin(angle)
-                val cos2 = kotlin.math.cos(nextAngle)
-                val sin2 = kotlin.math.sin(nextAngle)
+                val cos1 = cos(a1)
+                val sin1 = sin(a1)
+                val cos2 = cos(a2)
+                val sin2 = sin(a2)
 
-                val b1 = Vector3(treeLoc.x + cos1 * trunkRadius, 0f, treeLoc.z + sin1 * trunkRadius)
-                val b2 = Vector3(treeLoc.x + cos2 * trunkRadius, 0f, treeLoc.z + sin2 * trunkRadius)
-                val t1 = Vector3(b1.x, trunkHeight, b1.z)
-                val t2 = Vector3(b2.x, trunkHeight, b2.z)
+                val b1 = Vector3(treeLoc.x + cos1 * TRUNK_RADIUS, 0f, treeLoc.z + sin1 * TRUNK_RADIUS)
+                val b2 = Vector3(treeLoc.x + cos2 * TRUNK_RADIUS, 0f, treeLoc.z + sin2 * TRUNK_RADIUS)
+                val t1 = Vector3(b1.x, TRUNK_HEIGHT, b1.z)
+                val t2 = Vector3(b2.x, TRUNK_HEIGHT, b2.z)
+
+                // Face normal
+                val midAngle = (a1 + a2) / 2f
+                val nx = cos(midAngle)
+                val nz = sin(midAngle)
 
                 val quad = listOf(b1, b2, t2, t1)
                 for (v in quad) {
                     positions.add(v.x); positions.add(v.y); positions.add(v.z)
-                    normals.add(0f); normals.add(0f); normals.add(1f)
+                    normals.add(nx); normals.add(0f); normals.add(nz)
                     colors.add(trunkColor.red); colors.add(trunkColor.green); colors.add(trunkColor.blue); colors.add(1f)
                 }
 
@@ -128,38 +121,43 @@ object TreeMeshGenerator {
                 currentIndex = (currentIndex + 4).toShort()
             }
 
-            // 2. Procedural Crown (Cone Pyramids or Umbrella Palm Canopy)
-            val crownBaseY = trunkHeight * 0.85f
-            val crownApexY = crownBaseY + crownHeight
-            val apex = Vector3(treeLoc.x, crownApexY, treeLoc.z)
+            // 2. Procedural Clean Double-Tier Canopy
+            val tiers = 2
+            val tierHeight = CROWN_HEIGHT / tiers
 
-            for (i in 0 until segments) {
-                val angle = (i * 2 * Math.PI / segments).toFloat()
-                val nextAngle = ((i + 1) * 2 * Math.PI / segments).toFloat()
+            for (t in 0 until tiers) {
+                val baseY = TRUNK_HEIGHT + t * (tierHeight * 0.7f)
+                val apexY = baseY + tierHeight * 1.3f
+                val radius = CROWN_RADIUS * (1.0f - t * 0.25f)
+                val apex = Vector3(treeLoc.x, apexY, treeLoc.z)
 
-                val c1 = Vector3(treeLoc.x + kotlin.math.cos(angle) * crownRadius, crownBaseY, treeLoc.z + kotlin.math.sin(angle) * crownRadius)
-                val c2 = Vector3(treeLoc.x + kotlin.math.cos(nextAngle) * crownRadius, crownBaseY, treeLoc.z + kotlin.math.sin(nextAngle) * crownRadius)
+                for (i in 0 until segments) {
+                    val a1 = (i * 2 * PI / segments).toFloat()
+                    val a2 = ((i + 1) * 2 * PI / segments).toFloat()
 
-                val leafColor = if (isPalm) {
-                    if (i % 2 == 0) palmLeafGreen else leavesLight
-                } else {
-                    if (i % 2 == 0) leavesDark else leavesLight
+                    val c1 = Vector3(treeLoc.x + cos(a1) * radius, baseY, treeLoc.z + sin(a1) * radius)
+                    val c2 = Vector3(treeLoc.x + cos(a2) * radius, baseY, treeLoc.z + sin(a2) * radius)
+
+                    val leafColor = if ((i + t) % 2 == 0) leavesDark else leavesLight
+
+                    // Calculate triangle normal
+                    val edge1 = c2 - c1
+                    val edge2 = apex - c1
+                    val n = edge1.cross(edge2).normalized()
+
+                    val tri = listOf(c1, c2, apex)
+                    for (v in tri) {
+                        positions.add(v.x); positions.add(v.y); positions.add(v.z)
+                        normals.add(n.x); normals.add(n.y); normals.add(n.z)
+                        colors.add(leafColor.red); colors.add(leafColor.green); colors.add(leafColor.blue); colors.add(1f)
+                    }
+
+                    indices.add(currentIndex)
+                    indices.add((currentIndex + 1).toShort())
+                    indices.add((currentIndex + 2).toShort())
+
+                    currentIndex = (currentIndex + 3).toShort()
                 }
-
-                val tri = listOf(c1, c2, apex)
-                for (v in tri) {
-                    positions.add(v.x); positions.add(v.y); positions.add(v.z)
-                    normals.add(0f); normals.add(1f); normals.add(0f)
-                    colors.add(leafColor.red); colors.add(leafColor.green); colors.add(leafColor.blue); colors.add(1f)
-                }
-
-                indices.add(currentIndex)
-                indices.add((currentIndex + 1).toShort())
-                indices.add((currentIndex + 2).toShort())
-
-                indices.add(currentIndex)
-                indices.add((currentIndex + 2).toShort())
-                indices.add((currentIndex + 3).toShort())
             }
         }
 

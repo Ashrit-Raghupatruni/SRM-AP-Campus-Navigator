@@ -1,6 +1,5 @@
 {
   "type": "FeatureCollection",
-  "name": "SRM AP campus",
   "features": [
     {
       "type": "Feature",
@@ -861,41 +860,6 @@
             [
               80.5071414,
               16.4644708
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "@id": "way/srmap_hostel_fountain_plaza",
-        "leisure": "park",
-        "name": "Hostel Civic Fountain Plaza"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              80.5065419,
-              16.463842
-            ],
-            [
-              80.5066918,
-              16.463842
-            ],
-            [
-              80.5066918,
-              16.4637521
-            ],
-            [
-              80.5065419,
-              16.4637521
-            ],
-            [
-              80.5065419,
-              16.463842
             ]
           ]
         ]
