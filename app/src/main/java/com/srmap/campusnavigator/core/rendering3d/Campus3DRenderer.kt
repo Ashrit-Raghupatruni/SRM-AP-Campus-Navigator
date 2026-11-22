@@ -59,6 +59,7 @@ class Campus3DRenderer(
     private var avatarGpuMesh: GpuMesh? = null
     private var complexCanopyGpuMesh: GpuMesh? = null
     private var centralBreezewayGpuMesh: GpuMesh? = null
+    private var treeCourtGpuMesh: GpuMesh? = null
     private var hostelPlazaGpuMesh: GpuMesh? = null
     private val buildingGpuMeshes = mutableListOf<Pair<String, GpuMesh>>()
     private var completedRouteGpuMesh: GpuMesh? = null
@@ -181,6 +182,9 @@ class Campus3DRenderer(
 
         // 8. Draw Monumental Space-Frame Umbrella Canopy & Tree Columns (Overarching V Block & Homi J Bhabha)
         complexCanopyGpuMesh?.let { drawMesh(it) }
+
+        // 9. Draw Tree Court Real Landscape
+        treeCourtGpuMesh?.let { drawMesh(it) }
     }
 
     private fun setupViewMatrix(pose: CameraPose) {
@@ -310,6 +314,10 @@ class Campus3DRenderer(
         // Monumental Space-Frame Umbrella Canopy & Slender Tree Columns
         val canopyData = com.srmap.campusnavigator.core.geometry3d.AcademicComplexCanopyGenerator.generateCanopyMesh()
         complexCanopyGpuMesh = uploadToGpu(canopyData)
+
+        // Tree Court Mature Centerpiece Shade Tree, Planter Ring & Tiered Boxwood Hedges
+        val treeCourtData = com.srmap.campusnavigator.core.geometry3d.TreeCourtMeshGenerator.generateTreeCourtMesh()
+        treeCourtGpuMesh = uploadToGpu(treeCourtData)
 
         // Buildings
         buildingGpuMeshes.clear()

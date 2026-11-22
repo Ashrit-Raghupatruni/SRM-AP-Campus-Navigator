@@ -37,6 +37,23 @@ object BuildingMeshGenerator {
             return VedavathiBlockMeshGenerator.generateMesh()
         }
 
+        // High-Fidelity Architectural Reconstruction for Annapurna Mess (srmap_bldg_8) - 3-tier stepped dining pavilion with green roof
+        if (!isHighlighted && (building.id == "srmap_bldg_8" || building.name.contains("Annapurna", ignoreCase = true))) {
+            return AnnapurnaMessMeshGenerator.generateMesh()
+        }
+
+        // High-Fidelity Architectural Reconstruction for 9-story modular hostel blocks (Yamuna, Narmada, Godavari, Krishna, Kaveri)
+        if (!isHighlighted && (
+            building.id in listOf("srmap_bldg_1", "srmap_bldg_2", "srmap_bldg_3", "srmap_bldg_4", "srmap_bldg_5", "srmap_bldg_6") ||
+            building.name.contains("Yamuna", ignoreCase = true) ||
+            building.name.contains("Narmada", ignoreCase = true) ||
+            building.name.contains("Godavari", ignoreCase = true) ||
+            building.name.contains("Krishna", ignoreCase = true) ||
+            building.name.contains("Kaveri", ignoreCase = true)
+        )) {
+            return HostelBlockMeshGenerator.generateMesh(building)
+        }
+
         val polygon = building.polygon
         if (polygon.size < 3) return null
 
