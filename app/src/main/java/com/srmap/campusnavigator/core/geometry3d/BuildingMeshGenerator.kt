@@ -27,6 +27,11 @@ object BuildingMeshGenerator {
             return SRBlockMeshGenerator.generateMesh()
         }
 
+        // High-Fidelity Architectural Reconstruction for CV Raman Block (srmap_bldg_20) - 12 Floors Monumental Academic Monolith
+        if (!isHighlighted && (building.id == "srmap_bldg_20" || building.name.contains("CV Raman", ignoreCase = true) || building.name.contains("Raman", ignoreCase = true))) {
+            return CVRamanBlockMeshGenerator.generateMesh()
+        }
+
         // High-Fidelity Architectural Reconstruction for Ganga Boys' Hostel (srmap_bldg_15) - 26 Floors
         if (!isHighlighted && (building.id == "srmap_bldg_15" || building.name.contains("Ganga", ignoreCase = true))) {
             return GangaBlockMeshGenerator.generateMesh()

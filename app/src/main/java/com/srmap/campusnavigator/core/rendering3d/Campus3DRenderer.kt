@@ -60,6 +60,7 @@ class Campus3DRenderer(
     private var complexCanopyGpuMesh: GpuMesh? = null
     private var centralBreezewayGpuMesh: GpuMesh? = null
     private var treeCourtGpuMesh: GpuMesh? = null
+    private var gate1GpuMesh: GpuMesh? = null
     private var hostelPlazaGpuMesh: GpuMesh? = null
     private val buildingGpuMeshes = mutableListOf<Pair<String, GpuMesh>>()
     private var completedRouteGpuMesh: GpuMesh? = null
@@ -185,6 +186,9 @@ class Campus3DRenderer(
 
         // 9. Draw Tree Court Real Landscape
         treeCourtGpuMesh?.let { drawMesh(it) }
+
+        // 10. Draw Gate 1 Monumental Entrance Complex
+        gate1GpuMesh?.let { drawMesh(it) }
     }
 
     private fun setupViewMatrix(pose: CameraPose) {
@@ -318,6 +322,10 @@ class Campus3DRenderer(
         // Tree Court Mature Centerpiece Shade Tree, Planter Ring & Tiered Boxwood Hedges
         val treeCourtData = com.srmap.campusnavigator.core.geometry3d.TreeCourtMeshGenerator.generateTreeCourtMesh()
         treeCourtGpuMesh = uploadToGpu(treeCourtData)
+
+        // Gate 1 Monumental Entrance Complex: 42m Canopy, 16.5m Sculptural Fin & Security Cabin
+        val gate1Data = com.srmap.campusnavigator.core.geometry3d.Gate1EntranceMeshGenerator.generateGate1Mesh()
+        gate1GpuMesh = uploadToGpu(gate1Data)
 
         // Buildings
         buildingGpuMeshes.clear()

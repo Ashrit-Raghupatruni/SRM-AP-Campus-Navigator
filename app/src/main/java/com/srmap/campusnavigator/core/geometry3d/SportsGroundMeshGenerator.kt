@@ -25,12 +25,12 @@ object SportsGroundMeshGenerator {
             if (coords.size < 3) continue
 
             val (baseColor, isRunningTrack) = when (sport) {
-                "cricket" -> Color(0xFF4ADE80) to false // Lush Cricket Oval Green
-                "soccer" -> Color(0xFF22C55E) to false  // Football emerald turf
-                "running" -> Color(0xFFDC2626) to true  // Brick Red Running Track
-                "basketball" -> Color(0xFF38BDF8) to false // Blue Court
-                "tennis" -> Color(0xFF0284C7) to false
-                "volleyball" -> Color(0xFFF97316) to false // Orange court
+                "cricket" -> Color(0xFFB45309) to false // Authentic terracotta red clay cricket outfield
+                "soccer" -> Color(0xFF15803D) to false  // Natural green soccer infield turf
+                "running" -> Color(0xFF991B1B) to true  // All-weather red tartan running track
+                "basketball" -> Color(0xFF0284C7) to false // Synthetic Blue Court
+                "tennis" -> Color(0xFF0369A1) to false
+                "volleyball" -> Color(0xFFEA580C) to false // Orange court
                 else -> Color(0xFF86EFAC) to false
             }
 
