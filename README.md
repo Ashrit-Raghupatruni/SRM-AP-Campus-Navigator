@@ -1,21 +1,22 @@
 <div align="center">
   <img src="./docs/images/app_logo.png" alt="SRM AP Campus Navigator Logo" width="160" />
   <h1>SRM AP Campus Navigator</h1>
-  <p><strong>A production-grade, offline-first native Android navigation, room-level spatial intelligence, and First-Person 3D campus navigation platform for SRM University–AP</strong></p>
+  <p><strong>A production-grade, offline-first native Android navigation, room-level spatial intelligence, verified faculty directory, and First-Person 3D campus navigation platform for SRM University–AP</strong></p>
 </div>
 
 ---
 
 ## 🌟 Overview
 
-**SRM AP Campus Navigator** is a native Android application built with **Kotlin**, **Jetpack Compose**, **OpenGL ES 3.0**, **Room (SQLite FTS5)**, and **Material 3**. Designed specifically for students, faculty, staff, and campus visitors, it delivers offline-first university campus navigation, multi-floor indoor wayfinding, directory search down to individual room doors, and an immersive **First-Person 3D Street-Level Navigation Mode**.
+**SRM AP Campus Navigator** is a native Android application built with **Kotlin**, **Jetpack Compose**, **OpenGL ES 3.0**, **Room (SQLite FTS5)**, and **Material 3**. Designed specifically for students, faculty, staff, and campus visitors, it delivers offline-first university campus navigation, multi-floor indoor wayfinding, verified university directory search down to individual faculty cabins and door levels, campus micro-amenity discovery, deep-linkable place dossiers, and an immersive **First-Person & 90° Top-Down 3D Street-Level Navigation Mode**.
 
 ---
 
 ## 📱 Key Features
 
-### 🎮 Offline First-Person 3D Campus Navigation
+### 🎮 Offline First-Person & 90° Overhead 3D Campus Navigation
 - **Immersive 3D Street-Level Experience:** Navigates the campus from a genuine first-person eye height of **1.6 metres** above ground.
+- **90° Top-Down Overhead Plan Framing:** Direct top-down $90^\circ$ pitch camera inspection allowing users to view building layouts, academic blocks, room positions, and quad courtyards from an architectural plan angle.
 - **Procedural 3D Environment:** Converts real-world vector GIS geometry into a 3D campus model in real time:
   - **Buildings:** Procedurally extruded walls ($H = \text{levels} \times 3.8\text{m}$) with ear-clipping triangulated roofs and architectural shading.
   - **Walkways & Roads:** Smooth 3D path ribbons ($W = 3.2\text{m}$) generated from topological routing graph edges, slightly elevated above ground to prevent Z-fighting.
@@ -24,17 +25,45 @@
 - **Dynamic Camera Synchronization:**
   - **GPS Tracking:** Camera smoothly tracks user GPS fixes using positional linear interpolation (`lerp`).
   - **Route-Aware Heading:** Camera auto-orients along the forward walking direction of the active navigation segment.
-  - **Manual Look-Around & Recenter:** Touch drag gestures allow inspecting surroundings with an automatic 3.5s realign timer snapping back to the walking heading.
+  - **Manual Look-Around, Orbit & Recenter:** Touch drag gestures allow inspecting surroundings with an automatic 3.5s realign timer snapping back to the walking heading.
 - **Zero External 3D Run-times:** Completely offline, powered by native Android OpenGL ES 3.0 shaders with zero external rendering API keys or cloud dependencies.
-- **Seamless 2D $\leftrightarrow$ 3D Mode Switching:** Switch between the 2D overview map and the first-person 3D viewport with 1 tap, preserving active route calculation, progress, and destination highlight.
+- **Seamless 2D $\leftrightarrow$ 3D Mode Switching:** Switch between the 2D overview map and the 3D viewport with 1 tap, preserving active route calculation, progress, and destination highlight.
+
+---
+
+### 👨‍🏫 Verified SRM AP Faculty Directory & Realistic Place Dossiers
+- **581 Verified Faculty Profiles Ingested:** Complete university faculty profiles extracted directly from the official SRM AP portals:
+  - **SEAS Computer Science & Engineering:** 202 faculty members.
+  - **Paari School of Business (Management):** 33 faculty members.
+  - **University-Wide Disciplines:** 346 faculty members across sciences, engineering, and humanities.
+- **Door-Level Physical Dossier Sheet (`FacultyDossierSheet`):**
+  - Displays professor's full name, designation, department, PhD/academic alma mater, and official `@srmap.edu.in` email.
+  - **Physical Anchor:** Displays exact academic block (SR, CV Raman, Homi Bhabha) and floor level.
+  - **One-Tap Actions:** Direct email launcher, **Directions to Block**, and **90° Top-Down Camera View**.
+- **Shareable Campus Deep Links (`srmap://place?...`):**
+  - Every faculty profile, room, and amenity features a one-tap deep link copy button.
+  - Allows students to share locations via WhatsApp, Discord, or SMS that launch the app straight into the dossier sheet.
+
+---
+
+### 🚰 Verified Micro-Amenities Discovery
+- **Floor-by-Floor Essential Services:** Verified campus amenities cataloged and anchored to building coordinates:
+  - **Drinking Water Stations (RO Purifiers):** Per floor across Homi Bhabha (L1, L2, L3), V-Block (L1, L2), SR Block, CV Raman, and Hostels.
+  - **Food & Coffee:** Campus cafeteria, Nescafe kiosk, and night canteen.
+  - **ATMs & Banking:** On-campus ATM and student banking desks.
+  - **Reprography & Printing:** Xerox and printing centers with operating hours.
+  - **Health & Clinic:** University Health Center and 24/7 emergency response hub.
+  - **Campus Gates & Transit:** Main Entrance Gate 1, North Gate 2, and student bus pickup points.
+
+---
 
 ### 🏢 Room-Level Spatial Intelligence & Block-Level Inspection
 - **Precise QGIS Point Ingestion:** Over **580 verified spatial door coordinates** extracted directly from QGIS point shapefiles for academic buildings:
-  - **SR1 / OE1 Block:** Classrooms (e.g., `S201`, `S203`), faculty cabins (`C21`–`C29`, `C2 10`–`C2 24`), and the Dean Academic Office.
+  - **SR1 / OE1 Block:** Classrooms (e.g., `S201`, `S203`), faculty cabins (`C21`–`C29`, `C2 10`–`C2 24`), and Dean Academic Office.
   - **V-Block:** Classrooms, lecture halls, Quantum Open & Closed Research Laboratories.
   - **X-Lab Complex:** AI & Machine Learning labs, Mechanical prototyping/fabrication facilities, and main auditorium `AUD-1`.
-  - **CV Raman Block:** 10-story high-rise academic tower lecture halls and faculty suites.
-  - **Homi J. Bhabha Block:** Advanced science and research facilities across 5 levels.
+  - **CV Raman Block:** 12-storey landmark tower containing classrooms, faculty suites, Central University Library (Floor 12), and Wellness Centre.
+  - **Homi J. Bhabha Block:** Advanced science and research facilities across 7 levels.
 - **Interactive Block Inspection:** Tapping any building polygon opens an interactive categorized bottom sheet:
   - **Overview (All):** Complete summary count of facilities in the block.
   - **Classrooms:** Classrooms with room numbers, floor indicators, capacity, and descriptions.
@@ -42,25 +71,30 @@
   - **Labs & Equipment:** Specialized research facilities and instrument listings.
   - **Locate on Map:** Tap any item in the block list to immediately zoom in and highlight its exact spatial door pin.
 
+---
+
 ### 🧭 Multi-Floor Indoor Wayfinding & Floor Explorer
-- **Interactive Floor Explorer:** Dedicated floor-by-floor browser supporting blocks up to 10 floors (CV Raman Tower, SR Block, V-Block, X-Lab, Homi J. Bhabha).
+- **Interactive Floor Explorer:** Dedicated floor-by-floor browser supporting blocks up to 12 floors (CV Raman Tower, SR Block, V-Block, X-Lab, Homi J. Bhabha).
 - **Floor-Level Search Badges:** Search results display clear floor chips (e.g., `Floor 2`, `Floor 4`).
 - **Vertical Step Navigation:** Navigating to an indoor location guides the user from their outdoor GPS coordinates to the block entrance, followed by explicit vertical instructions (staircase/elevator and floor door).
 
-### 🔍 Universal Campus Directory & FTS5 Search
-- **Instant Default Directory:** When the search bar is empty, browse categorized campus listings:
-  - **ALL:** Highlights across classrooms, faculty, and research equipment.
-  - **ROOMS:** High-capacity lecture halls, smart classrooms, and tutorial rooms with capacities.
-  - **FACULTY:** Directory of professors, assistant professors, and heads of department with cabin locations and emails.
-  - **LABS:** Specialized research centers, computing labs, and cleanrooms.
-  - **EQUIPMENT:** Direct catalog of instruments (electron microscopes, GPU servers, laser benches, 3D printers) and their housing labs.
+---
+
+### 🔍 Unified Omni-Search & Filter Chips
+- **Multi-Stage Scoring Pipeline:** Blazing-fast multi-tiered search ranking (Exact matches $\rightarrow$ Prefix matches $\rightarrow$ Word-boundary tokens $\rightarrow$ Substring matches).
+- **Quick-Filter Chips:** One-tap filtering across:
+  - `ALL`, `ACADEMIC`, `HOSTELS`, `FACULTY`, `ROOMS`, `LABS`, `AMENITIES`, `WATER`, `FOOD`, `ATM`, `PRINT`.
 - **Recent Searches:** Offline history with 1-tap re-search and clear history options.
-- **Sub-Millisecond Search:** Powered by SQLite `FTS5` with exact-match prioritization.
+- **Sub-Millisecond Search:** In-memory cached index combined with SQLite `Room` persistence.
+
+---
 
 ### 🗺️ High-Precision Campus Map & MapTiler Basemaps
 - **Real-World GIS Boundaries:** Direct vector rendering of verified university GIS polygons (`buildings.geojson`, `paths.geojson`, `roads.geojson`).
 - **5 Basemap Styles:** One-tap toggle between **Vector Default**, **Satellite**, **Hybrid**, **Topographic**, and **Outdoor** MapTiler layers.
 - **Fluid Camera Interaction:** Multi-touch pinch-to-zoom, pan, floating zoom buttons, compass north re-alignment, and recenter-to-user triggers.
+
+---
 
 ### 🚶 A* Pedestrian Navigation & Dynamic Progress Slicing
 - **Topological Pedestrian Routing:** A* algorithm routed exclusively along surveyed pedestrian footpaths and roads.
@@ -81,6 +115,11 @@ Built strictly following modern Material 3 guidelines and a custom SRM AP color 
 | **Midnight Navy** | `#172B4D` | `#111C2E` | Primary App Bar & Header Elements |
 | **Deep Teal** | `#0F766E` | `#5EEAD4` | Primary Actions & Brand Accents |
 | **SRM Crimson** | `#A61B35` | `#E11D48` | Action Highlights & University Accent |
+| **Accent Water** | `#0284C7` | `#38BDF8` | Drinking water stations & RO coolers |
+| **Accent Food** | `#F59E0B` | `#FBBF24` | Cafeterias, dining stalls & coffee kiosks |
+| **Accent Health** | `#DC2626` | `#EF4444` | Health clinic & emergency facilities |
+| **Accent Print** | `#7C3AED` | `#A78BFA` | Reprography & printing centers |
+| **Accent Faculty** | `#2563EB` | `#60A5FA` | Faculty profiles & academic cabins |
 | **Cloud White / Slate** | `#F5F7FA` | `#0B1220` | Surface & Scaffold Backgrounds |
 | **Slate Grey** | `#64748B` | `#94A3B8` | Secondary Text & Traversed Routes |
 | **Border Grey** | `#E2E8F0` | `#1E293B` | Card Outlines & Dividers |
@@ -94,26 +133,27 @@ The project follows Clean Architecture and MVVM patterns:
 ```
 com.srmap.campusnavigator/
 ├── core/
-│   ├── designsystem/          # Material 3 colors, typography, theme, and reusable components
+│   ├── designsystem/          # Material 3 colors, typography, theme, and reusable buttons/cards
 │   ├── geometry3d/            # LocalCoordinateConverter (ENU), PolygonTriangulator, MeshData
 │   │                          # BuildingMeshGenerator, RoadMeshGenerator, GroundMeshGenerator
 │   ├── location/              # CampusLocationClient, GpsFilterEngine, Kalman filter
 │   └── rendering3d/           # Campus3DRenderer (OpenGL ES 3.0), GpuMesh, Shaders
 ├── data/
-│   ├── datasource/            # StaticCampusDataSource (centralized offline seed provider)
+│   ├── datasource/            # StaticCampusDataSource, VerifiedAmenitiesDataSource, VerifiedFacultyDataSource
 │   ├── geojson/               # GeoJsonAssetParser (real-world vector boundaries)
 │   ├── local/                 # Room Database, DAOs, Entities, FTS5 Search Index
 │   ├── maptiler/              # MapTiler API and Style configuration
 │   └── repository/            # CampusRepository, SearchRepository implementations
 ├── domain/
+│   ├── building3d/            # Architectural building specifications (CV Raman, SR Block, Academic Complex)
 │   ├── graph/                 # CampusGraph, GraphNode, GraphEdge
-│   ├── models/                # CampusBuilding, GeoPoint, UnifiedSearchResult, PedestrianRoute
-│   ├── navigation3d/          # FirstPersonCameraController, CameraPose
+│   ├── models/                # CampusBuilding, CampusAmenity, GeoPoint, UnifiedSearchResult, PedestrianRoute
+│   ├── navigation3d/          # FirstPersonCameraController, CameraPose (First-Person & 90° Overhead)
 │   └── routing/               # PedestrianRoutingEngine (A*), PedestrianMapMatcher
 └── presentation/
-    ├── bottomsheet/           # BuildingDetailsSheet, RoomDetailsSheet, RouteNavigationSheet
+    ├── bottomsheet/           # BuildingDetailsSheet, RoomDetailsSheet, RouteNavigationSheet, FacultyDossierSheet
     ├── components/            # ExploreTopBar, SearchBar, CategoryChips, SearchResultCards
-    ├── floorexplorer/         # FloorExplorerSheet (F1–F10 multi-floor viewer)
+    ├── floorexplorer/         # FloorExplorerSheet (F1–F12 multi-floor viewer)
     ├── map/                   # InteractiveCampusCanvasMap (2D Viewport)
     ├── navigation3d/          # FirstPersonNavigationScreen (3D Viewport & HUD)
     ├── search/                # SearchScreen, CategoryFilter, SearchHistory
@@ -140,7 +180,7 @@ com.srmap.campusnavigator/
 ### Prerequisites
 - Android Studio Iguana / Jellyfish / Ladybug or newer.
 - Android SDK 34 installed.
-- (Optional) Connected physical device with USB debugging enabled.
+- Connected Android device or emulator with USB debugging enabled.
 
 ### Build via Command Line
 ```powershell
@@ -154,7 +194,7 @@ com.srmap.campusnavigator/
 .\gradlew assembleDebug
 
 # 4. Install onto connected Android device
-adb install -r app/build/outputs/apk/debug/app-debug.apk
+.\gradlew installDebug
 ```
 
 ---
