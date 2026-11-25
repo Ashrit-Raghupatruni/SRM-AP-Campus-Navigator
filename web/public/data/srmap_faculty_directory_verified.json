@@ -1,0 +1,4650 @@
+[
+  {
+    "name": "Dr Murali Krishna Enduri",
+    "designation": "Assistant Dean (Graduate Outcomes) - SEAS",
+    "department": "Computer Science and Engineering",
+    "email": "muralikrishna.e@srmap.edu.in",
+    "education": "PhD, IIT Gandhinagar, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-murali-krishna-enduri/"
+  },
+  {
+    "name": "Prof. Jatindra Kumar Dash",
+    "designation": "Professor & Dean - Academic Affairs",
+    "department": "Computer Science and Engineering",
+    "email": "jatindrakumar.d@srmap.edu.in",
+    "education": "Ph.D. in Computer Science and Engineering, Indian Institute of Technology Kharagpur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-jatindra-kumar-dash/"
+  },
+  {
+    "name": "Prof. Niraj Upadhayaya",
+    "designation": "Professor",
+    "department": "Computer Science and Engineering",
+    "email": "niraj.u@srmap.edu.in",
+    "education": "PhD, University of West of England Bristol, UK, UK",
+    "profileUrl": "https://www.srmap.edu.in/faculty/prof-niraj-upadhayaya/"
+  },
+  {
+    "name": "Dr Krovi Raja Sekhar",
+    "designation": "Professor",
+    "department": "Computer Science and Engineering",
+    "email": "rajasekhar.k@srmap.edu.in",
+    "education": "PhD, Acharya Nagarjuna University Guntur, AP, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-krovi-raja-sekhar/"
+  },
+  {
+    "name": "Dr Priyanka",
+    "designation": "Associate Professor",
+    "department": "Computer Science and Engineering",
+    "email": "Priyanka.s@srmap.edu.in",
+    "education": "PhD, IIT (ISM) Dhanbad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-priyanka/"
+  },
+  {
+    "name": "Dr Satish Anamalamudi",
+    "designation": "Associate Professor",
+    "department": "Computer Science and Engineering",
+    "email": "Satish.a@srmap.edu.in",
+    "education": "Ph.D, Dalian University of Technology China, China",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-satish-anamalamudi/"
+  },
+  {
+    "name": "Dr Manikandan V M",
+    "designation": "Associate Professor & Head of the Department",
+    "department": "Computer Science and Engineering",
+    "email": "manikandan.v@srmap.edu.in",
+    "education": "PhD, Indian Institute of Information Technology Design and Manufacturing (IIITDM) Kancheepuram, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-manikandan-v-m/"
+  },
+  {
+    "name": "Dr Amit Kumar Mandal",
+    "designation": "Associate Professor",
+    "department": "Computer Science and Engineering",
+    "email": "amitkumar.m@srmap.edu.in",
+    "education": "PhD, National Institute of Technology, Durgapur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-amit-kumar-mandal/"
+  },
+  {
+    "name": "Dr Ravi Kant Kumar",
+    "designation": "Associate Professor",
+    "department": "Computer Science and Engineering",
+    "email": "ravikant.k@srmap.edu.in",
+    "education": "Ph.D., National Institute of Technology, Durgapur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-ravi-kant-kumar/"
+  },
+  {
+    "name": "Dr Ashu Abdul",
+    "designation": "Associate Professor",
+    "department": "Computer Science and Engineering",
+    "email": "ashu.a@srmap.edu.in",
+    "education": "PhD, Chang Gung University Taiwan, Taiwan",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-ashu-abdul/"
+  },
+  {
+    "name": "Dr Saleti Sumalatha",
+    "designation": "Associate Professor",
+    "department": "Computer Science and Engineering",
+    "email": "sumalatha.s@srmap.edu.in",
+    "education": "Ph.D., National institute of Technology, Warangal, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-saleti-sumalatha/"
+  },
+  {
+    "name": "Dr Sriramulu Bojjagani",
+    "designation": "Associate Professor",
+    "department": "Computer Science and Engineering",
+    "email": "sriramulu.b@srmap.edu.in",
+    "education": "PhD, University of Hyderabad, Hyderabad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-sriramulu-bojjagani/"
+  },
+  {
+    "name": "Dr Neeraj Kumar Sharma",
+    "designation": "Associate Professor",
+    "department": "Computer Science and Engineering",
+    "email": "neerajkumar.s@srmap.edu.in",
+    "education": "Ph.D, National Institute of Technology Karnataka, Surathkal, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-neeraj-kumar-sharma/"
+  },
+  {
+    "name": "Dr Sambit Kumar Mishra",
+    "designation": "Associate Professor",
+    "department": "Computer Science and Engineering",
+    "email": "sambitkumar.m@srmap.edu.in",
+    "education": "Ph.D. (CSE), National Institute of Technology, Rourkela, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-sambit-kumar-mishra/"
+  },
+  {
+    "name": "Dr Kshira Sagar Sahoo",
+    "designation": "Associate Professor",
+    "department": "Computer Science and Engineering",
+    "email": "kshirasagar.s@srmap.edu.in",
+    "education": "PhD, National Institute of Technology, Rourkela, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-kshira-sagar-sahoo/"
+  },
+  {
+    "name": "Dr M Mahesh Kumar",
+    "designation": "Associate Professor",
+    "department": "Computer Science and Engineering",
+    "email": "maheshkumar.m@srmap.edu.in",
+    "education": "PhD, National Institute of Technology - Warangal, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-m-mahesh-kumar/"
+  },
+  {
+    "name": "Dr Hemantha Kumar Kalluri",
+    "designation": "Associate Professor",
+    "department": "Computer Science and Engineering",
+    "email": "hemanthakumar.k@srmap.edu.in",
+    "education": "PhD, University of Hyderabad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-hemantha-kumar-kalluri/"
+  },
+  {
+    "name": "Dr Randhir Kumar",
+    "designation": "Associate Professor",
+    "department": "Computer Science and Engineering",
+    "email": "randhir.k@srmap.edu.in",
+    "education": "PhD, NIT Raipur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-randhir-kumar/"
+  },
+  {
+    "name": "Dr Ch Anil Carie",
+    "designation": "Associate Professor",
+    "department": "Computer Science and Engineering",
+    "email": "anilcarie.c@srmap.edu.in",
+    "education": "PhD, Dalian University of Technology, China",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-ch-anil-carie-2/"
+  },
+  {
+    "name": "Dr Prabhujit Mohapatra",
+    "designation": "Associate Professor",
+    "department": "Computer Science and Engineering",
+    "email": "prabhujit.m@srmap.edu.in",
+    "education": "Ph.D, NIT Silchar, Assam, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/prabhujit-mohapatra/"
+  },
+  {
+    "name": "Dr Aditya Kumar Sahu",
+    "designation": "Associate Professor",
+    "department": "Computer Science and Engineering",
+    "email": "aditya.s@srmap.edu.in",
+    "education": "PhD, Koneru Lakshmaiah Education Foundation, Andhra Pradesh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/aditya-kumar-sahu/"
+  },
+  {
+    "name": "Dr Prakash Chandra Sharma",
+    "designation": "Associate Professor",
+    "department": "Computer Science and Engineering",
+    "email": "prakashchandra.s@srmap.edu.in",
+    "education": "PhD, IIT Indore, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/prakash-chandra-sharma/"
+  },
+  {
+    "name": "Dr Rizwan Patan",
+    "designation": "Associate Professor",
+    "department": "Computer Science and Engineering",
+    "email": "rizwan.p@srmap.edu.in",
+    "education": "Post Doc",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-rizwan-patan/"
+  },
+  {
+    "name": "Dr Kartick Chandra Mondal",
+    "designation": "Associate Professor",
+    "department": "Computer Science and Engineering",
+    "email": "kartick.m@srmap.edu.in",
+    "education": "Post Doc,  University of Strasbourg, France",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-kartick-chandra-mondal/"
+  },
+  {
+    "name": "Dr T Jaya Lakshmi",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "jayalakshmi.t@srmap.edu.in",
+    "education": null,
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-t-jaya-lakshmi/"
+  },
+  {
+    "name": "Dr Manjula R",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "manjula.r@srmap.edu.in",
+    "education": "Indian Institute of Technology Kharagpur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-manjula-r/"
+  },
+  {
+    "name": "Dr Shuvendu Rana",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "shuvendu.r@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology Guwahati, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-shuvendu-rana/"
+  },
+  {
+    "name": "Dr Rajiv Senapati",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "rajiv.s@srmap.edu.in",
+    "education": "PhD, IIIT Bhubaneswar, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-rajiv-senapati/"
+  },
+  {
+    "name": "Dr Ajay Bhardwaj",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "ajay.b@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology-Mandi, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-ajay-bhardwaj/"
+  },
+  {
+    "name": "Dr Md Muzakkir Hussain",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "muzakkirhussain.m@srmap.edu.in",
+    "education": "PhD, Aligarh Muslim University, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-md-muzakkir-hussain/"
+  },
+  {
+    "name": "Dr Sanjay Kumar",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "sanjay.k@srmap.edu.in",
+    "education": "PhD, NIT Jamshedpur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-sanjay-kumar/"
+  },
+  {
+    "name": "Dr Sowkuntla Pandu",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "pandu.s@srmap.edu.in",
+    "education": "PhD, University of Hyderbad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-sowkuntla-pandu/"
+  },
+  {
+    "name": "Dr Elakkiya E",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "elakkiya.e@srmap.edu.in",
+    "education": "PhD, National Institute of Technology, Tiruchirappalli, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-elakkiya-e/"
+  },
+  {
+    "name": "Dr M Krishna Siva Prasad",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "krishnasivaprasad.m@srmap.edu.in",
+    "education": "PhD, Visvesvaraya National Institute of Technology, Maharashtra, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-m-krishna-siva-prasad/"
+  },
+  {
+    "name": "Dr Mudassir Rafi",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "mudassir.r@srmap.edu.in",
+    "education": "PhD, IIT(ISM) Dhanbad",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-mudassir-rafi/"
+  },
+  {
+    "name": "Dr Hema Kumar Yarnagula",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "hemakumar.y@srmap.edu.in",
+    "education": "PhD in Computer Science and Engineering, Indian Institute of Technology Guwahati, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-hema-kumar-yarnagula/"
+  },
+  {
+    "name": "Dr Kakumani K C Deepthi",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "deepthi.k@srmap.edu.in",
+    "education": "Ph.D, National Institute of Technology, Tiruchirappalli, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-kakumani-k-c-deepthi-2/"
+  },
+  {
+    "name": "Dr N Satya Krishna",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "satyakrishna.n@srmap.edu.in",
+    "education": "PhD, National Institute of Technology-Warangal, India, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-n-satya-krishna/"
+  },
+  {
+    "name": "Dr Prasanthi Boyapati",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "prasanthi.b@srmap.edu.in",
+    "education": "PhD, Acharya Nagarjuna University, Andhra Pradesh, Andhra Pradesh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-prasanthi-boyapati/"
+  },
+  {
+    "name": "Dr Pratik Roy",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "pratik.r@srmap.edu.in",
+    "education": "PhD, University of Calcutta, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-pratik-roy/"
+  },
+  {
+    "name": "Dr Ramesh Kumar",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "ramesh.k@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology(ISM), Dhanbad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-ramesh-kumar/"
+  },
+  {
+    "name": "Dr Debabrata Senapati",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "debabrata.s@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology Guwahati, Assam, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-debabrata-senapati/"
+  },
+  {
+    "name": "Dr Anirban Bhar",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "anirban.bh@srmap.edu.in",
+    "education": "PhD, Georg-August University, Goettingen Germany, Germany",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-anirban-bhar/"
+  },
+  {
+    "name": "Dr Basina Deepak Raj",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "deepakraj.b@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology Guwahati, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-basina-deepakraj/"
+  },
+  {
+    "name": "Dr Inturi Anitha Rani",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "anitharani.i@srmap.edu.in",
+    "education": "PhD, SRM University-AP, Amaravati, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/ms-inturi-anitha-rani/"
+  },
+  {
+    "name": "Dr Shaiju Panchikkil",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "shaiju.p@srmap.edu.in",
+    "education": "PhD, SRM University-AP, Amaravati, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-shaiju-panchikkil/"
+  },
+  {
+    "name": "Dr Anusha Nalajala",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "anusha.n@srmap.edu.in",
+    "education": "PhD, SRM University-AP, Amaravati, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/ms-anusha-nalajala/"
+  },
+  {
+    "name": "Dr Boddu L V Siva Rama Krishna",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "sivaramakrishna.b@srmap.edu.in",
+    "education": "PhD, Annamalai University,Chidambaram,TamilaNadu, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/mr-boddu-l-v-siva-rama-krishna/"
+  },
+  {
+    "name": "Dr Sawan Rai",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "sawan.r@srmap.edu.in",
+    "education": "PhD, PDPM IIITDM, Jabalpur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-sawan-rai/"
+  },
+  {
+    "name": "Dr Firoj Gazi",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "firoj.g@srmap.edu.in",
+    "education": "Ph.D, Indian Institute of Technology, Kharagpur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-firoj-gazi/"
+  },
+  {
+    "name": "Dr Sugyan Kumar Mishra",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "sugyankumar.m@srmap.edu.in",
+    "education": "PhD, National Institute of Technology Durgapur, Durgapur, West Bengal, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/mr-sugyan-kumar-mishra/"
+  },
+  {
+    "name": "Dr Tonmoya Sarmah",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "tonmoya.s@srmap.edu.in",
+    "education": "Ph.D., Tezpur University, Assam, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/tonmoya-sarmah/"
+  },
+  {
+    "name": "Dr Edukondalu Chappidi",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "edukondalu.c@srmap.edu.in",
+    "education": "PhD, University of Hyderabad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-edukondalu-chappidi/"
+  },
+  {
+    "name": "Dr Isunuri Bala Venkateswarlu",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "bala.v@srmap.edu.in",
+    "education": "PhD, IIITDM Kancheepuram, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-isunuri-bala-venkateswarlu/"
+  },
+  {
+    "name": "Dr Naga Sravanthi Puppala",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "nagasravanthi.p@srmap.edu.in",
+    "education": "PhD, Puducherry Technological University, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/ms-naga-sravanthi-puppala/"
+  },
+  {
+    "name": "Dr Roopa Tirumalasetti",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "roopa.t@srmap.edu.in",
+    "education": "Ph.D., VIT AP University",
+    "profileUrl": "https://www.srmap.edu.in/faculty/ms-roopa-tirumalasetti/"
+  },
+  {
+    "name": "Ms Sikhinam Nagamani",
+    "designation": "Assistant Professor-Ad hoc",
+    "department": "Computer Science and Engineering",
+    "email": "nagamani.s@srmap.edu.in",
+    "education": "Pursuing, Indian Institute of Information Technology, Trichy, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/sikhinam-nagamani/"
+  },
+  {
+    "name": "Mr Balvinder Singh Bondili",
+    "designation": "Assistant Professor-Ad hoc",
+    "department": "Computer Science and Engineering",
+    "email": "balvindersingh.b@srmap.edu.in",
+    "education": "Pursuing, Andhra University, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/mr-balvinder-singh-bondili/"
+  },
+  {
+    "name": "Mr L Srikanth",
+    "designation": "Assistant Professor-Ad hoc",
+    "department": "Computer Science and Engineering",
+    "email": "srikanth.l@srmap.edu.in",
+    "education": "Pursuing, Andhra University",
+    "profileUrl": "https://www.srmap.edu.in/faculty/mr-l-srikanth/"
+  },
+  {
+    "name": "Mr Gavaskar S",
+    "designation": "Assistant Professor - Ad-Hoc",
+    "department": "Computer Science and Engineering",
+    "email": "gavaskar.s@srmap.edu.in",
+    "education": null,
+    "profileUrl": "https://www.srmap.edu.in/faculty/mr-gavaskar-s/"
+  },
+  {
+    "name": "Dr Sarvani Anandarao",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "sarvani.a@srmap.edu.in",
+    "education": "PhD, VIT University, Chennai, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-sarvani-anandarao/"
+  },
+  {
+    "name": "Dr K V T K N Prashanth",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "prashanth.k@srmap.edu.in",
+    "education": "PhD, NIT Warangal",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-k-v-t-k-n-prashanth/"
+  },
+  {
+    "name": "Dr Shaik Johny Basha",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "johnybasha.s@srmap.edu.in",
+    "education": "Ph.D (Thesis Submitted), Jawaharlal Nehru Technological University Kakinada",
+    "profileUrl": "https://www.srmap.edu.in/faculty/mr-shaik-johny-basha/"
+  },
+  {
+    "name": "Dr P Udayaraju",
+    "designation": "Assistant Professor - Ad-Hoc",
+    "department": "Computer Science and Engineering",
+    "email": "udayaraju.p@srmap.edu.in",
+    "education": "Ph.D., Sathyabama Institute of Science and Technology, Chennai.",
+    "profileUrl": "https://www.srmap.edu.in/faculty/mr-p-udayaraju/"
+  },
+  {
+    "name": "Dr Bhaskara Santhosh Egala",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "bhaskarasanthosh.e@srmap.edu.in",
+    "education": "PhD, SRM University-AP, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-bhaskara-santhosh-egala/"
+  },
+  {
+    "name": "Dr Awadhesh Dixit",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "awadhesh.d@srmap.edu.in",
+    "education": "Ph.D., VIT-AP University (AP), India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/mr-awadhesh-dixit/"
+  },
+  {
+    "name": "Dr P N V Syamala Rao M",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "syamalarao.m@srmap.edu.in",
+    "education": "PhD, Gandhi Institute of Technology and Management, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/p-n-v-syamala-rao-m/"
+  },
+  {
+    "name": "Mr Ajay Dilip Kumar Marapatla",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "ajaydilipkumar.m@srmap.edu.in",
+    "education": "PhD Pursuing, Pondicherry Central University",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-ajay-dilip-kumar-marapatla/"
+  },
+  {
+    "name": "Mr M Adalf",
+    "designation": "Assistant Professor-Ad hoc",
+    "department": "Computer Science and Engineering",
+    "email": "adalf.m@srmap.edu.in",
+    "education": "Pursuing, Amrita Vishwa Vidhyapeetham AP, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/mr-m-adalf/"
+  },
+  {
+    "name": "Dr Vamshi Vijay Krishna Jeripotula",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "vamshivijaykrishna.j@srmap.edu.in",
+    "education": "Ph.D., IIT Tirupati, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/mr-vamshi-vijay-krishna-jeripotul/"
+  },
+  {
+    "name": "Dr Sasmita Rout",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "sasmita.r@srmap.edu.in",
+    "education": "PhD, IIT Guwahati India, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/ms-sasmita-rout/"
+  },
+  {
+    "name": "Dr G V Vidyalakshmi",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "vidyalakshmi.gv@srmap.edu.in",
+    "education": "Ph.D, VIT-AP University, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-g-v-vidyalakshmi/"
+  },
+  {
+    "name": "Dr Rajesh Yelchuri",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "rajesh.y@srmap.edu.in",
+    "education": "PhD, SRM University-AP, Andhra Pradesh, India, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/mr-rajesh-yelchuri/"
+  },
+  {
+    "name": "Dr Susmi Jacob",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "susmi.j@srmap.edu.in",
+    "education": "PhD, Kerala Technological University, Thiruvananthapuram, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-susmi-jacob/"
+  },
+  {
+    "name": "Dr Mallavalli Sitharam",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "sitharam.m@srmap.edu.in",
+    "education": "PhD, Andhra University, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-mallavalli-sitharam/"
+  },
+  {
+    "name": "Dr Mohammad Abdussami",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "abdussami.m@srmap.edu.in",
+    "education": "PhD, IIIT Naya Raipur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-mohammad-abdussami/"
+  },
+  {
+    "name": "Dr Kanaparthi Suresh Kumar",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "sureshkumar.k@srmap.edu.in",
+    "education": "PhD, National Institute of Technology Warangal, TG, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-kanaparthi-suresh-kumar/"
+  },
+  {
+    "name": "Dr Dilip Kumar Vallabhadas",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "dilipkumar.v@srmap.edu.in",
+    "education": "PhD, National Institute of Technology Warangal",
+    "profileUrl": "https://www.srmap.edu.in/faculty/mr-dilip-kumar-vallabhadas/"
+  },
+  {
+    "name": "Dr Md Asif Thanedar",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "asif.t@srmap.edu.in",
+    "education": "Ph.D, National Institute of Technology (NIT), Warangal",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-md-asif-thanedar/"
+  },
+  {
+    "name": "Dr Srinivas Arukonda",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "srinivas.a@srmap.edu.in",
+    "education": "PhD, National Institute of Technology (NIT), Warangal",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-srinivas-arukonda/"
+  },
+  {
+    "name": "Dr Achala Shakya",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "achala.s@srmap.edu.in",
+    "education": "PhD, National Institute of Technology Kurukshetra",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-achala-shakya/"
+  },
+  {
+    "name": "Mr Venkata Sreekanth Balijabudda",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "sreekanth.b@srmap.edu.in",
+    "education": "PhD, IIT Kharagpur",
+    "profileUrl": "https://www.srmap.edu.in/faculty/mr-venkata-sreekanth-balijabudda/"
+  },
+  {
+    "name": "Dr Prasant Kumar Mohanty",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "prasant.k@srmap.edu.in",
+    "education": "Doctor of Philosophy (PhD) in Computer Science and Engineering, National Institute of Technology Meghalaya",
+    "profileUrl": "https://www.srmap.edu.in/faculty/mr-prasant-kumar-mohanty/"
+  },
+  {
+    "name": "Dr Nelatoori Kiran Babu",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "kiranbabu.n@srmap.edu.in",
+    "education": "PhD, National Institute of Technology, Andhra Pradesh",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-nelatoori-kiran-babu/"
+  },
+  {
+    "name": "Dr Gyanajyoti Routray",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "gyanajyoti.r@srmap.edu.in",
+    "education": "Ph.D, Indian Institute of Technology, Kanpur",
+    "profileUrl": "https://www.srmap.edu.in/faculty/gyanajyoti-routray/"
+  },
+  {
+    "name": "Dr VRPS Sastry Yadavilli",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "sastry.y@srmap.edu.in",
+    "education": "Ph.D., National Institute of Technology, Andhra Pradesh",
+    "profileUrl": "https://www.srmap.edu.in/faculty/mr-vrps-sastry-yadavilli/"
+  },
+  {
+    "name": "Dr Bidhan Barai",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "bidhan.b@srmap.edu.in",
+    "education": "PhD, Jadavpur University, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-bidhan-barai/"
+  },
+  {
+    "name": "Dr D Chandana Gowri",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "chandanagowri.d@srmap.edu.in",
+    "education": "Ph.D, VIT-AP University, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-d-chandana-gowri/"
+  },
+  {
+    "name": "Dr Adusumilli Vijaya Bhaskar",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "vijayabhaskar.a@srmap.edu.in",
+    "education": "PhD, IIT Madras, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-adusumilli-vijaya-bhaskar/"
+  },
+  {
+    "name": "Dr Shaik John Saida",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "johnsaida.s@srmap.edu.in",
+    "education": "Ph.D, NIT Rourkela, Varanasi, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-shaik-john-saida/"
+  },
+  {
+    "name": "Dr Lipismita Panigrahi",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "lipismita.p@srmap.edu.in",
+    "education": "PhD, National Institute of Technology, Raipur",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-lipismita-panigrahi/"
+  },
+  {
+    "name": "Dr Ch Sree Kumar",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "sreekumar.c@srmap.edu.in",
+    "education": "PhD - CS, NIT Meghalaya",
+    "profileUrl": "https://www.srmap.edu.in/faculty/mr-ch-sree-kumar/"
+  },
+  {
+    "name": "Dr Bhagwat Ram",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "bhagwat.r@srmap.edu.in",
+    "education": "Ph.D. in Computer Science, Banaras Hindu University, Varanasi",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-bhagwat-ram/"
+  },
+  {
+    "name": "Dr Shaik Rafi",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "rafi.s@srmap.edu.in",
+    "education": "Ph.D, National Institute of Technology Mizoram, Mizoram, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-shaik-rafi/"
+  },
+  {
+    "name": "Dr Kammula Sunil Kumar",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "sunilkumar.k@srmap.edu.in",
+    "education": "Ph.D, National Institute of Technology, Raipur, Raipur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-kammula-sunil-kumar/"
+  },
+  {
+    "name": "Dr Yara Srinivas",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "srinivas.y@srmap.edu.in",
+    "education": "Ph.D, School of Computer and Information Sciences, University of Hyderabad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/mr-yara-srinivas/"
+  },
+  {
+    "name": "Dr Matta Krishna Kumari",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "krishnakumari.m@srmap.edu.in",
+    "education": "Ph.D, Indian Institute of Information Technology Sri City, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/ms-matta-krishna-kumari/"
+  },
+  {
+    "name": "Dr Shadab Ahmad",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "shadabahmad.s@srmap.edu.in",
+    "education": "Ph.D, University of Hyderabad, Telangana, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-shadab-ahmad/"
+  },
+  {
+    "name": "Dr MD NASIR",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "nasir.m@srmap.edu.in",
+    "education": "Ph.D, Visva-Bharati University, West Bengal, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-md-nasir/"
+  },
+  {
+    "name": "Dr Sudheer Babu Punuri",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "sudheerbabu.p@srmap.edu.in",
+    "education": "PhD, Gandhi Institute of Engineering & Technology,  (GIETU - Gunupur), India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/sudheer-babu-punuri/"
+  },
+  {
+    "name": "Dr Santanu Mandal",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "santanu.m@srmap.edu.in",
+    "education": "PhD, NIT Rourkela, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-santanu-mandal/"
+  },
+  {
+    "name": "Dr Thangellamudi Anitha Kumari",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "anithakumari.t@srmap.edu.in",
+    "education": "Ph.D, VIT-AP University, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/ms-thangellamudi-anitha-kumari-2/"
+  },
+  {
+    "name": "Dr Rangachary Kommanduri",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "rangachary.k@srmap.edu.in",
+    "education": "Ph.D, Indian Institute of Information Technology, Sri City , Sri City, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-rangachary-kommanduri/"
+  },
+  {
+    "name": "Dr Chillara AnilKumar",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "anilkumar.c@srmap.edu.in",
+    "education": "Ph.D, Birla Institute of Technology and Sciences , Telangana, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-chillara-anilkumar/"
+  },
+  {
+    "name": "Dr Sushovan Khatua",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "sushovan.k@srmap.edu.in",
+    "education": "PhD, Maulana Abul Kalam Azad University of Technology, West Bengal",
+    "profileUrl": "https://www.srmap.edu.in/faculty/mr-sushovan-khatua/"
+  },
+  {
+    "name": "Dr Imandi Raju",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "raju.v@srmap.edu.in",
+    "education": "PhD, Indian Institute of Information Technology, Sri City, Chittoor",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-imandi-raju/"
+  },
+  {
+    "name": "Dr Subhajit Sahu",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "subhajit.s@srmap.edu.in",
+    "education": "PhD, IIIT Hyderabad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/subhajit-sahu/"
+  },
+  {
+    "name": "Dr Madhusudan Naik",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "madhusudan.n@srmap.edu.in",
+    "education": "Ph.D, National Institute of Technology, Meghalaya, Meghalaya",
+    "profileUrl": "https://www.srmap.edu.in/faculty/madhusudan-naik/"
+  },
+  {
+    "name": "Dr Paramita Ray",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "paramita.r@srmap.edu.in",
+    "education": "Ph.D, University of Calcutta, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-paramita-ray/"
+  },
+  {
+    "name": "Dr Tabiya Manzoor Beigh",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "tabiya.m@srmap.edu.in",
+    "education": "PhD, Pondicherry University",
+    "profileUrl": "https://www.srmap.edu.in/faculty/tabiya-manzoor-beigh/"
+  },
+  {
+    "name": "Dr Dipankar Kundu",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "dipankar.k@srmap.edu.in",
+    "education": "PhD, MIU, ISI, Kolkata & University of Calcutta, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-dipankar-kundu/"
+  },
+  {
+    "name": "Mr. Rijvan Beg",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "rijvan.b@srmap.edu.in",
+    "education": "Ph.D. (CSE), MANIT (NIT-Bhopal), India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/rijvan-beg/"
+  },
+  {
+    "name": "Ajay Kumar Sahu",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "Ajay.sa@srmap.edu.in",
+    "education": null,
+    "profileUrl": "https://www.srmap.edu.in/faculty/ajay-kumar-sahu/"
+  },
+  {
+    "name": "Dr Soma Chatterjee",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "soma.d@srmap.edu.in",
+    "education": "Doctorate, Jadavpur University, West Bengal, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-soma-chatterjee/"
+  },
+  {
+    "name": "Dr. Rama Ranjan Panda",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "ramaranjan.p@srmap.edu.in",
+    "education": "PhD, NIT Raipur, Chattisgarh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-rama-ranjan-panda/"
+  },
+  {
+    "name": "Dr Priya K V",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "priya.k@srmap.edu.in",
+    "education": "PhD, Karunya Institute of Technology and Sciences, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-priya-k-v/"
+  },
+  {
+    "name": "Dr Syed Sameen Ahmad Rizvi",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "sameen.s@srmap.edu.in",
+    "education": "PhD, Birla Institute of Technology & Science, Pilani, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-syed-sameen-ahmad-rizvi/"
+  },
+  {
+    "name": "Dr Surochita Pal",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "surochita.p@srmap.edu.in",
+    "education": "PhD, Indian Statistical Institute, West Bengal, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-surochita-pal/"
+  },
+  {
+    "name": "Dr Arpan Phukan",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "arpan.p@srmap.edu.in",
+    "education": "Ph.D., IIT Patna, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/arpan-phukan/"
+  },
+  {
+    "name": "Dr Yasir Afaq",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "yasir.a@srmap.edu.in",
+    "education": "PhD, Lovely Professional University, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-yasir-afaq/"
+  },
+  {
+    "name": "Dr Sahadeb Shit",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "sahadeb.s@srmap.edu.in",
+    "education": "PhD, CSIR-Central Mechanical Engineering Research Institute (CSIR-CMERI), Durgapur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-sahadeb-shit/"
+  },
+  {
+    "name": "Dr Sandip Kumar Mondal",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "sandipkumar.m@srmap.edu.in",
+    "education": "PhD in Pure Mathematics., University of Calcutta",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-sandip-kumar-mondal/"
+  },
+  {
+    "name": "Mr Junaid Alam",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "junaidalam.r@srmap.edu.in",
+    "education": "Ph.D-IT, IIIT Allahabad, Uttar Pradesh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/mr-junaid-alam/"
+  },
+  {
+    "name": "Dr Abhaya Kumar Pradhan",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "abhayakumar.p@srmap.edu.in",
+    "education": "PhD, University of Hyderabad, Telangana, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/abhaya-kumar-pradhan/"
+  },
+  {
+    "name": "Dr Chintalapudi V N U Bharathi Murthy",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "bharathi.c@srmap.edu.in",
+    "education": "PhD, VIT University, Tamilnadu, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-chintalapudi-v-n-u-bharathi-murthy/"
+  },
+  {
+    "name": "Mr Ramesh Sahoo",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "ramesh.s@srmap.edu.in",
+    "education": null,
+    "profileUrl": "https://www.srmap.edu.in/faculty/mr-ramesh-sahoo/"
+  },
+  {
+    "name": "Dr Vishnu Chandrabanshi",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "vishnu.c@srmap.edu.in",
+    "education": "PhD in Computer Science, NIT Tiruchirappalli, Tamil Nadu, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-vishnu-chandrabanshi/"
+  },
+  {
+    "name": "Dr. Nihar Ranjan Pradhan",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "niharranjan.p@srmap.edu.in",
+    "education": "Ph.D., NIT Meghalaya, Meghalaya, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-nihar-ranjan-pradhan/"
+  },
+  {
+    "name": "Dr Nilin Prabhaker",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "prabhaker.n@srmap.edu.in",
+    "education": "PhD, NIT Trichy, Tamil Nadu, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/nilin-prabhaker/"
+  },
+  {
+    "name": "Dr Advaitha Vetagiri",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "advaitha.v@srmap.edu.in",
+    "education": "Ph.D., NIT Silchar, Assam, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/advaitha-vetagiri/"
+  },
+  {
+    "name": "Dr Raushan Singh",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "raushankumar.s@srmap.edu.in",
+    "education": "PhD, IIT Ropar, Punjab, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/raushan-singh/"
+  },
+  {
+    "name": "Dr Biswajit Maity",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "biswajit.m@srmap.edu.in",
+    "education": "PhD, National Institute of Technology Durgapur, West Bengal, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/biswajit-maity/"
+  },
+  {
+    "name": "Dr Kunal Dey",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "kunal.d@srmap.edu.in",
+    "education": "Ph.D., NIT Jamshedpur, Jharkhand, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/kunal-dey/"
+  },
+  {
+    "name": "Mr Palthiya Anantharao",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "anantharao.p@srmap.edu.in",
+    "education": null,
+    "profileUrl": "https://www.srmap.edu.in/faculty/palthiya-anantharao/"
+  },
+  {
+    "name": "Dr Sonali Mondal",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "sonali.a@srmap.edu.in",
+    "education": "Post Doc, National Dong Hwa University, Hualien, Taiwan",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-sonali-mondal-2/"
+  },
+  {
+    "name": "Dr Ashmita Dey",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "ashmita.de@srmap.edu.in",
+    "education": "PhD, Jadavpur University, West Bengal, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/ashmita-dey/"
+  },
+  {
+    "name": "Dr Anushka Chaurasia",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "anushka.c@srmap.edu.in",
+    "education": "PhD, National Institute of Technology Meghalaya, Meghalaya, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/anushka-chaurasia/"
+  },
+  {
+    "name": "Venkatesh Akula",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "venkatesh.a@srmap.edu.in",
+    "education": "PhD, NIT Warangal, Telangana",
+    "profileUrl": "https://www.srmap.edu.in/faculty/venkatesh-akula/"
+  },
+  {
+    "name": "Dr Shreerudra Pratik",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "shreerudra.p@srmap.edu.in",
+    "education": "PhD, NIT Meghalaya, Meghalaya, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-shreerudra-pratik/"
+  },
+  {
+    "name": "Mr Nikhil Nigam",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "nikhil.n@srmap.edu.in",
+    "education": "PhD, Manit Bhopal, Madhya Pradesh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/nikhil-nigam/"
+  },
+  {
+    "name": "Dr Banovoth Raja Sekhar",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "rajasekhar.b@srmap.edu.in",
+    "education": "PhD, NIT  WARANGAL, Telangana, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/banovoth-raja-sekhar/"
+  },
+  {
+    "name": "Dr Venkata Praveen Kumar Madhavarapu",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "praveen.n@srmap.edu.in",
+    "education": "PhD, Missouri University of Science & Technology, Missouri, USA",
+    "profileUrl": "https://www.srmap.edu.in/faculty/venkata-praveen-kumar-madhavarapu/"
+  },
+  {
+    "name": "Dr Gokaramaiah Thota",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "gokaramaiah.t@srmap.edu.in",
+    "education": "Doctor of Philosophy in Explainable Artificial Intelligence (XAI), Indian Institute of Information Technology, Design and Manufacturing Kurnool (IIITDM Kurnool) , Andhra Pradesh",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-gokaramaiah-thota/"
+  },
+  {
+    "name": "Dr Shruti Pallawi",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "shruti.p@srmap.edu.in",
+    "education": "Ph.D., MNNIT Allahabad, Uttar Pradesh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/shruti-pallawi/"
+  },
+  {
+    "name": "Dr Sumita Majhi",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "sumita.m@srmap.edu.in",
+    "education": "PhD, IIT Guwahati, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/sumita-majhi/"
+  },
+  {
+    "name": "Dr N Sameera",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "sameera.n@srmap.edu.in",
+    "education": "PhD, Andhra Unversity, Andhra Pradesh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-n-sameera/"
+  },
+  {
+    "name": "Dr Dipayan Chakraborty",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "dipayan.c@srmap.edu.in",
+    "education": "Doctorate in Computer Science, Universit\u00e9 Clermont Auvergne, Clermont-Ferrand, France",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-dipayan-chakraborty/"
+  },
+  {
+    "name": "Dr Surya Kant Yadav",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "suryakant.y@srmap.edu.in",
+    "education": "Ph.D (Thesis Submitted), NIT Silchar, Assam, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-surya-kant-yadav/"
+  },
+  {
+    "name": "Dr Nevil Anto",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "nevil.a@srmap.edu.in",
+    "education": "PhD, NIT Karnataka, Surathkal, karnataka, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-nevil-anto/"
+  },
+  {
+    "name": "Dr Praveen Karmakar",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "praveen.ka@srmap.edu.in",
+    "education": "PhD(CSE), IIT Guwahati, Assam, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-praveen-karmakar/"
+  },
+  {
+    "name": "Dr Vipin Maurya",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "vipin.m@srmap.edu.in",
+    "education": "Ph.D., IIT BHU, Uttar Pradesh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-vipin-maurya/"
+  },
+  {
+    "name": "Dr Prashant Kapil",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "prashant.k@srmap.edu.in",
+    "education": "Ph.D., IIT Patna, Bihar, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-prashant-kapil/"
+  },
+  {
+    "name": "Dr Manomita Chakraborty",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "manomita.c@srmap.edu.in",
+    "education": "Ph.D., NIT Silchar, Assam, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-manomita-chakraborty/"
+  },
+  {
+    "name": "Mr Piyush Kumar",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "piyushkumar.r@srmap.edu.in",
+    "education": null,
+    "profileUrl": "https://www.srmap.edu.in/faculty/piyush-kumar/"
+  },
+  {
+    "name": "Dr Djeane Debora Onthoni",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "djeanedebora.o@srmap.edu.in",
+    "education": "Ph.D, Chang Gung University, Taiwan",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-djeane-debora-onthoni/"
+  },
+  {
+    "name": "Ms Anwesha Kashyap",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "anwesha.k@srmap.edu.in",
+    "education": "PhD (CSE), IIIT Guwahati, Assam",
+    "profileUrl": "https://www.srmap.edu.in/faculty/ms-anwesha-kashyap/"
+  },
+  {
+    "name": "Dr Arghya Bhattacharjee",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "arghya.b@srmap.edu.in",
+    "education": "Ph.D., Indian Statistical Institute, Kolkata, West Bengal, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/arghya-bhattacharjee/"
+  },
+  {
+    "name": "Dr B Bikram Kumar",
+    "designation": "Assistant  Professor",
+    "department": "Computer Science and Engineering",
+    "email": null,
+    "education": "PhD, CGU, Taiwan, Taiwan",
+    "profileUrl": "https://www.srmap.edu.in/faculty/b-bikram-kumar/"
+  },
+  {
+    "name": "Dr Sr Ngamwal Anal",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "ngamwal.a@srmap.edu.in",
+    "education": "PhD, NIT Meghalaya, Meghalaya, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/sr-ngamwal-anal/"
+  },
+  {
+    "name": "Dr Jai Prakash Kushwaha",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "jaiprakash.k@srmap.edu.in",
+    "education": "PhD, ABV-IIITM Gwalior, Madhya Pradesh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/jai-prakash-kushwaha/"
+  },
+  {
+    "name": "Dr Tirthankar Sengupta",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "sengupta.t@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology, Kharagpur, West Bengal, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-tirthankar-sengupta/"
+  },
+  {
+    "name": "Dr Srikanta Pradhan",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "srikanta.p@srmap.edu.in",
+    "education": "PhD, IIT Patna, Bihar, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/srikanta-pradhan/"
+  },
+  {
+    "name": "Dr Abhimanyu Bar",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "abhimanyu.b@srmap.edu.in",
+    "education": "PhD, University of Hyderabad, Telengana, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/abhimanyu-bar/"
+  },
+  {
+    "name": "Dr Sadineni Lakshminarayana",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "lakshminarayana.s@srmap.edu.in",
+    "education": "Ph.D. in CSE, MNIT Jaipur, Rajasthan, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/sadineni-lakshminarayana/"
+  },
+  {
+    "name": "Dr Abir Sen",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "abir.s@srmap.edu.in",
+    "education": "PhD, National Institute of Technology, Rourkela, Odisha, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/abir-sen/"
+  },
+  {
+    "name": "Dr Kounteya Sarkar",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "kounteya.s@srmap.edu.in",
+    "education": "PhD, IIT Kharagpur, West Bengal, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/kounteya-sarkar/"
+  },
+  {
+    "name": "Dr Praneetha Surapaneni",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "praneetha.s@srmap.edu.in",
+    "education": "PhD, SRM University, Andhra Pradesh",
+    "profileUrl": "https://www.srmap.edu.in/faculty/praneetha-surapaneni-2/"
+  },
+  {
+    "name": "Dr Tamizharasan Kanagamani",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "tamizharasan.k@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology, Madras, Tamil Nadu, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/tamizharasan-kanagamani/"
+  },
+  {
+    "name": "Dr Raju Gudla",
+    "designation": "Assistant professor",
+    "department": "Computer Science and Engineering",
+    "email": "raju.gu@srmap.edu.in",
+    "education": "PhD, IIIT Naya Raipur, Chhattissgarh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-raju-gudla/"
+  },
+  {
+    "name": "Dr Mohd Usama",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "usama.m@srmap.edu.in",
+    "education": "Ph.D., Huazhong University of Science and Technology, China",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-mohd-usama/"
+  },
+  {
+    "name": "Dr G Punnam Chander",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": null,
+    "education": "Ph.D, NIT Warangal, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-g-punnam-chander/"
+  },
+  {
+    "name": "Dr Kunal Biswas",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": null,
+    "education": "Ph.D., Jadavpur University, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-kunal-biswas/"
+  },
+  {
+    "name": "Dr Anindita Sarkar",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "anindita.s@srmap.edu.in",
+    "education": "PhD, Jadavpur University, West Bengal, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/anindita-sarkar/"
+  },
+  {
+    "name": "Dr Sourav Kumar Purohit",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "sourav.p@srmap.edu.in",
+    "education": "PhD, Samablpur University, Odisha, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/sourav-kumar-purohit/"
+  },
+  {
+    "name": "Ms MunMun Swain",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "munmun.s@srmap.edu.in",
+    "education": "Ph.D. (Thesis Submitted), IIIT Sricity, Chitoor, Andhra Pradesh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/ms-munmun-swain/"
+  },
+  {
+    "name": "Dr Vishnu Prasad Verma",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "vishnuprasad.v@srmap.edu.in",
+    "education": "PhD, Dr SPM IIIT Naya Raipur, Chhattisgarh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/vishnu-prasad-verma/"
+  },
+  {
+    "name": "Dr Trilochan Rout",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "trilochan.r@srmap.edu.in",
+    "education": "PhD, IIIT, Bhubaneswar, Odisha, Odisha, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/trilochan-rout/"
+  },
+  {
+    "name": "Dr. Dasari Kasi Viswanath",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "kasiviswanath.d@srmap.edu.in",
+    "education": "PhD, University of Hyderabad (UoH)",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-dasari-kasi-viswanath/"
+  },
+  {
+    "name": "Dr Neelakantam Gone",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "neelakantam.g@srmap.edu.in",
+    "education": "Integrated PhD, Chang Gung University, Taiwan, Taiwan",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-neelakantam-gone/"
+  },
+  {
+    "name": "Dr Prakash Babu Yandrapati",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "prakashbabu.y@srmap.edu.in",
+    "education": "PhD, National Institute of Technology Tiruchirappalli, TamilNadu, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/prakash-babu-yandrapati/"
+  },
+  {
+    "name": "Dr Pothuri Surendra Varma",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "surendravarma.p@srmap.edu.in",
+    "education": "PhD, NIT Raipur, Chhattisgarh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-pothuri-surendra-varma/"
+  },
+  {
+    "name": "Dr Amit Kumar Kar",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "amitkumar.k@srmap.edu.in",
+    "education": "PhD, IIITDM, Jabalpur, Madhya Pradesh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-amit-kumar-kar/"
+  },
+  {
+    "name": "Dr Moirangthem Rabindra Singh",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "rabindrasingh.m@srmap.edu.in",
+    "education": "PhD, NIT Meghalaya , India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-moirangthem-rabindra-singh/"
+  },
+  {
+    "name": "Dr Amit Gupta",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "amit.g@srmap.edu.in",
+    "education": null,
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-amit-gupta/"
+  },
+  {
+    "name": "Dr Debasmita Manna",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "debasmita.m@srmap.edu.in",
+    "education": "PhD, IITPatna, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/debasmita-manna/"
+  },
+  {
+    "name": "Dr Toluchuri Shalini Shanker Rao",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "shalini.t@srmap.edu.in",
+    "education": "PhD, IIT Kharagpur, WestBengal, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-toluchuri-shalini-shanker-rao/"
+  },
+  {
+    "name": "Dr Subha Sreekumar",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "subha.s@srmap.edu.in",
+    "education": "PhD, NIT Calicut, Kerala",
+    "profileUrl": "https://www.srmap.edu.in/faculty/subha-sreekumar/"
+  },
+  {
+    "name": "Dr Jinaga Tulasiram",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "tulasiram.j@srmap.edu.in",
+    "education": "PhD, NIT Tiruchirappalli, Tamilnadu",
+    "profileUrl": "https://www.srmap.edu.in/faculty/jinaga-tulasiram/"
+  },
+  {
+    "name": "Dr Archana",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "archana.r@srmap.edu.in",
+    "education": "Ph.D, Babasaheb Bhimrao Ambedkar University (A Central University) Lucknow, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/archana/"
+  },
+  {
+    "name": "Dr Koyel Mandal",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "koyel.m@srmap.edu.in",
+    "education": "PhD in Computer Science and Engineering, Tezpur University, Assam, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-koyel-mandal/"
+  },
+  {
+    "name": "Ms Gudapati Maneesha",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "maneesha.g@srmap.edu.in",
+    "education": "Ph.D., University of Hyderabad, Telangana, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/gudapati-maneesha/"
+  },
+  {
+    "name": "Dr Shaik Reshma",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "reshma.s@srmap.edu.in",
+    "education": "PhD, VIT-AP University, Andhra Pradesh",
+    "profileUrl": "https://www.srmap.edu.in/faculty/shaik-reshma/"
+  },
+  {
+    "name": "Mr M Sreenivasan",
+    "designation": "",
+    "department": "Computer Science and Engineering",
+    "email": "sreenivasan.m@srmap.edu.in",
+    "education": "PhD- Thesis Submitted, NIT Calicut, Kerala",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-m-sreenivasan/"
+  },
+  {
+    "name": "Dr Rahul Singh",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "rahul.si@srmap.edu.in",
+    "education": "PhD - Thesis Submitted, MANIT Bhopal",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-rahul-singh/"
+  },
+  {
+    "name": "Dr N Srinivas Mudiraj",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "srinivasmudiraj.n@srmap.edu.in",
+    "education": "PhD, Central University of Punjab, Punjab, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/n-srinivas-mudiraj/"
+  },
+  {
+    "name": "Dr Joy Gorai",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "joy.g@srmap.edu.in",
+    "education": "Ph.D, National Institute of Technology Jamshedpur, Jharkhand",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-joy-gorai/"
+  },
+  {
+    "name": "Dr Parakrant Sarkar",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "parakrant.s@srmap.edu.in",
+    "education": "Doctor of Philosophy, City University of Hong Kong, Hong Kong SAR, China",
+    "profileUrl": "https://www.srmap.edu.in/faculty/parakrant-sarkar/"
+  },
+  {
+    "name": "Dr Imtiyaz Ahmad",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "imtiyaz.a@srmap.edu.in",
+    "education": "PhD, MNNIT Allahabad, Prayagraj, Uttar Pradesh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/imtiyaz-ahmad/"
+  },
+  {
+    "name": "Dr Vadlamudi Aadarsh",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "aadarsh.v@srmap.edu.in",
+    "education": "PhD, University of Hyderabad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/aadarsh/"
+  },
+  {
+    "name": "Dr Paramita Das",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "paramita.d@srmap.edu.in",
+    "education": "PhD, IIT Kharagpur, West Bengal, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/paramita-das/"
+  },
+  {
+    "name": "Dr Suman Nandi",
+    "designation": "Assistant Professor",
+    "department": "Computer Science and Engineering",
+    "email": "suman.n@srmap.edu.in",
+    "education": "Ph.D. in Computer Science and Engineering, National Institute of Technology Durgapur, West Bengal",
+    "profileUrl": "https://www.srmap.edu.in/faculty/suman-nandi/"
+  },
+  {
+    "name": "Dr Rajeev Shorey",
+    "designation": "Distinguished Visiting Professor",
+    "department": "Computer Science and Engineering",
+    "email": null,
+    "education": "PhD, Indian Institute of Science, Bangalore",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-rajeev-shorey/"
+  },
+  {
+    "name": "Dr A V S Kamesh",
+    "designation": "Professor &  Associate Dean (Academic Operations and Accreditation)",
+    "department": "Paari School of Business (Management)",
+    "email": "kamesh.a@srmap.edu.in",
+    "education": "Ph.D., University of Hyderabad, Hyderabad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-a-v-s-kamesh/"
+  },
+  {
+    "name": "Mr Satyanarayana Duvvuri",
+    "designation": "Associate Director - Directorate of Executive Education and Professional Studies & Professor of Practice",
+    "department": "Paari School of Business (Management)",
+    "email": "satyanarayana.d@srmap.edu.in",
+    "education": null,
+    "profileUrl": "https://www.srmap.edu.in/faculty/mr-satyanarayana-duvvuri/"
+  },
+  {
+    "name": "Dr Vimal Babu",
+    "designation": "Associate Professor",
+    "department": "Paari School of Business (Management)",
+    "email": "vimal.b@srmap.edu.in",
+    "education": "PhD (Management: Human Resource Management/Org. Behaviour), FMS, Jamia Millia Islamia Central University, New Delhi, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-vimal-babu/"
+  },
+  {
+    "name": "Dr Lalita Mohan Mohapatra",
+    "designation": "Assistant Professor & Assistant Dean \u2013 Academic Operations and Accreditation",
+    "department": "Paari School of Business (Management)",
+    "email": "lalithamohan.m@srmap.edu.in",
+    "education": "Ph.D., IIT Madras, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-lalita-mohan-mohapatra/"
+  },
+  {
+    "name": "Dr Md Asadul Haque",
+    "designation": "Assistant Professor",
+    "department": "Paari School of Business (Management)",
+    "email": "asadulhaque.m@srmap.edu.in",
+    "education": "PhD (Business Administration), Faculty of Management Studies & Research, Aligarh Muslim University, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-md-asadul-haque/"
+  },
+  {
+    "name": "Dr Rohit K Abhimalla",
+    "designation": "Assistant Professor",
+    "department": "Paari School of Business (Management)",
+    "email": "rohitkumar.a@srmap.edu.in",
+    "education": "PhD, University of Hyderabad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-rohit-k-abhimalla/"
+  },
+  {
+    "name": "Mr Dharma Theja T",
+    "designation": "Assistant Professor - Contract",
+    "department": "Paari School of Business (Management)",
+    "email": "dharmatheja.t@srmap.edu.in",
+    "education": null,
+    "profileUrl": "https://www.srmap.edu.in/faculty/mr-dharma-theja-t/"
+  },
+  {
+    "name": "Dr Ravi Prakash S",
+    "designation": "Assistant Professor - Contract",
+    "department": "Paari School of Business (Management)",
+    "email": "raviprakash.s@srmap.edu.in",
+    "education": "PhD, Dravidian University, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/mr-ravi-prakash-s/"
+  },
+  {
+    "name": "Dr Md Faiz Ahmad",
+    "designation": "Assistant Professor",
+    "department": "Paari School of Business (Management)",
+    "email": "faizahmad.m@srmap.edu.in",
+    "education": "PhD (Management Studies), University of Hyderabad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-md-faiz-ahmad/"
+  },
+  {
+    "name": "Dr Suryakanta Nayak",
+    "designation": "Assistant Professor",
+    "department": "Paari School of Business (Management)",
+    "email": "suryakanta.n@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology Bhubaneswar, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-suryakanta-nayak/"
+  },
+  {
+    "name": "Dr Aftab Alam",
+    "designation": "Assistant Professor",
+    "department": "Paari School of Business (Management)",
+    "email": "aftab.a@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology Kharagpur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-aftab-alam/"
+  },
+  {
+    "name": "Dr Ishita Sar",
+    "designation": "Assistant Professor",
+    "department": "Paari School of Business (Management)",
+    "email": "ishita.s@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology Kharagpur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-ishita-sar/"
+  },
+  {
+    "name": "Dr Krishna Manasvi J",
+    "designation": "Assistant Professor",
+    "department": "Paari School of Business (Management)",
+    "email": "krishnamanasvi.j@srmap.edu.in",
+    "education": "PhD, BITS Pilani, Pilani, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-krishna-manasvi-j/"
+  },
+  {
+    "name": "Dr Reshmi",
+    "designation": "Assistant Professor",
+    "department": "Paari School of Business (Management)",
+    "email": "reshmi.a@srmap.edu.in",
+    "education": "Ph.D., Tata Institute of Social Sciences, Mumbai, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-reshmi/"
+  },
+  {
+    "name": "Dr P S Biswa Bhusan Sahoo",
+    "designation": "Assistant Professor",
+    "department": "Paari School of Business (Management)",
+    "email": "biswabhusan.p@srmap.edu.in",
+    "education": "PhD, NIT Rourkela, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-p-s-biswa-bhusan-sahoo/"
+  },
+  {
+    "name": "Dr Satchidananda Tripathy",
+    "designation": "Assistant Professor",
+    "department": "Paari School of Business (Management)",
+    "email": "satchidananda.t@srmap.edu.in",
+    "education": "PhD, IIT, Kharagpur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-satchidananda-tripathy/"
+  },
+  {
+    "name": "Dr Sri Sourya Sri Harsha Rongala",
+    "designation": "Assistant Professor",
+    "department": "Paari School of Business (Management)",
+    "email": "sourya.r@srmap.edu.in",
+    "education": "PhD, University of Hyderabad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-sri-sourya-sri-harsha-rongala/"
+  },
+  {
+    "name": "Dr Madhu Lata",
+    "designation": "Assistant Professor and Assistant Dean \u2013 Research",
+    "department": "Paari School of Business (Management)",
+    "email": "madhu.l@srmap.edu.in",
+    "education": "PhD (Thesis Submitted), Indian Institute of Technology Patna, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/ms-madhu-lata/"
+  },
+  {
+    "name": "Dr Kumar Srinivasan",
+    "designation": "Assistant Professor",
+    "department": "Paari School of Business (Management)",
+    "email": "kumar.s@srmap.edu.in",
+    "education": "PhD, National Institute of Technology Tiruchirappalli, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-kumar-srinivasan/"
+  },
+  {
+    "name": "Dr Mohan Venkatesh Palani",
+    "designation": "Assistant Professor",
+    "department": "Paari School of Business (Management)",
+    "email": "mohanvenkatesh.p@srmap.edu.in",
+    "education": "PhD, University of Hyderabad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-mohan-venkatesh-palani/"
+  },
+  {
+    "name": "Dr Mrutyunjaya Sahoo",
+    "designation": "Assistant Professor",
+    "department": "Paari School of Business (Management)",
+    "email": "mrutyunjaya.s@srmap.edu.in",
+    "education": "Ph.D. (Commerce), Central University of Rajasthan, Ajmer, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-mrutyunjaya-sahoo/"
+  },
+  {
+    "name": "Dr Parvez Ahmad",
+    "designation": "Assistant Professor",
+    "department": "Paari School of Business (Management)",
+    "email": "parvezahmad.a@srmap.edu.in",
+    "education": "PhD, University of Hyderabad India, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/mr-parvez-ahmad/"
+  },
+  {
+    "name": "Dr Puviarasu M",
+    "designation": "Assistant Professor",
+    "department": "Paari School of Business (Management)",
+    "email": "puviarasu.m@srmap.edu.in",
+    "education": "Ph.D, National Institute of Technology, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-puviarasu-m/"
+  },
+  {
+    "name": "Dr Pothuganti Sanjeeva Kumar",
+    "designation": "Assistant Professor",
+    "department": "Paari School of Business (Management)",
+    "email": "sanjeevakumar.p@srmap.edu.in",
+    "education": "PhD, National Institute of Technology (NIT) , Warangal, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-pothuganti-sanjeeva-kumar/"
+  },
+  {
+    "name": "Dr Biswajit Behera",
+    "designation": "Assistant Professor",
+    "department": "Paari School of Business (Management)",
+    "email": "biswajit.b@srmap.edu.in",
+    "education": "PhD, NIT Rourkela, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/biswajit-behera/"
+  },
+  {
+    "name": "Dr.  Sheikh Basharul Islam",
+    "designation": "Assistant Professor",
+    "department": "Paari School of Business (Management)",
+    "email": "basharul.s@srmap.edu.in",
+    "education": "Ph.D., University of Kashmir, Jammu & Kashmir, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/sheikh-basharul-islam/"
+  },
+  {
+    "name": "Dr Mitrabarun Ghosh",
+    "designation": "Assistant Professor",
+    "department": "Paari School of Business (Management)",
+    "email": "mitrabarun.g@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology Kharagpur, West Bengal, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-mitrabarun-ghosh/"
+  },
+  {
+    "name": "Dr Shiva Saketh Reddy",
+    "designation": "Assistant Professor",
+    "department": "Paari School of Business (Management)",
+    "email": "shivasaketh.r@srmap.edu.in",
+    "education": "Ph.D, University of Hyderabad, Telangana, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/shiva-saketh-reddy/"
+  },
+  {
+    "name": "Dr Lata Kumari Pandey",
+    "designation": "Assistant Professor",
+    "department": "Paari School of Business (Management)",
+    "email": "latakumari.p@srmap.edu.in",
+    "education": "Ph.D, IIIT Allahabad, Uttar Pradesh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/lata-kumari-pandey/"
+  },
+  {
+    "name": "Dr Mohd Juned",
+    "designation": "Assistant Professor",
+    "department": "Paari School of Business (Management)",
+    "email": "juned.m@srmap.edu.in",
+    "education": "PhD, IIM Mumbai, Maharashtra, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/juned-mohd/"
+  },
+  {
+    "name": "Dr Pappu Kalyan Ram",
+    "designation": "Assistant Professor",
+    "department": "Paari School of Business (Management)",
+    "email": "kalyanram.p@srmap.edu.in",
+    "education": "PhD, Indian Institute of Management, Mumbai, Maharashtra, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/pappu-kalyan-ram/"
+  },
+  {
+    "name": "Dr Mathukumalli V R K Kanaka Durga Devi",
+    "designation": "Assistant Professor",
+    "department": "Paari School of Business (Management)",
+    "email": null,
+    "education": "Doctoral Degree, IIT Madras, Tamil Nadu, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/ms-mathukumalli-v-r-k-kanaka-durga-devi/"
+  },
+  {
+    "name": "Dr Gunturi Venkatesh",
+    "designation": "",
+    "department": "Paari School of Business (Management)",
+    "email": "venkatesh.g@srmap.edu.in",
+    "education": "PhD, IIT Tirupati, Andhra Pradesh",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-gunturi-venkatesh/"
+  },
+  {
+    "name": "Dr Mosarrap Hossain Khan",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "mosarraphossain.k@srmap.edu.in",
+    "education": "Ph.D., New York University, USA",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-mosarrap-hossain-khan/"
+  },
+  {
+    "name": "Dr Naveen Kumar Pothapakula",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "naveenkumar.p@srmap.edu.in",
+    "education": "Ph.D., IIT Madras, TamilNadu, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-naveen-kumar-pothapakula/"
+  },
+  {
+    "name": "Dr Priyanka S",
+    "designation": "",
+    "department": "SRM University-AP",
+    "email": null,
+    "education": null,
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-priyanka-s-2/"
+  },
+  {
+    "name": "Prof. Pavol Noga",
+    "designation": "Associate Professor, Slovak University of Technology in Bratislava",
+    "department": "SRM University-AP",
+    "email": "pavol.n@srmap.edu.in",
+    "education": "Associate Professor, Slovak University of Technology in Bratislava",
+    "profileUrl": "https://www.srmap.edu.in/faculty/prof-pavol-noga/"
+  },
+  {
+    "name": "Dr Vivek Kumar Singh",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "vivekkumar.s@srmap.edu.in",
+    "education": "Ph.D., Indian Institute of Technology Indore, Madhya Pradesh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-vivek-kumar-singh/"
+  },
+  {
+    "name": "Prof. Meththika Suharshini Vithanage",
+    "designation": "",
+    "department": "SRM University-AP",
+    "email": null,
+    "education": "Department of Geochemistry, Geological Survey of Denmark and Greenland: Copenhagen, Capital Region, DK",
+    "profileUrl": "https://www.srmap.edu.in/faculty/prof-meththika-suharshini-vithanage/"
+  },
+  {
+    "name": "Prof. Corrado Di Natale",
+    "designation": "",
+    "department": "SRM University-AP",
+    "email": null,
+    "education": "University of Rome Tor Vergata",
+    "profileUrl": "https://www.srmap.edu.in/faculty/prof-corrado-di-natale/"
+  },
+  {
+    "name": "Dr Arkabrata Ghosh",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "arkabrata.g@srmap.edu.in",
+    "education": "PhD, Central Michigan University, Michigan, USA",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-arkabrata-ghosh/"
+  },
+  {
+    "name": "Prof. Vishnupad",
+    "designation": "Professor & Dean",
+    "department": "SRM University-AP",
+    "email": "vishnupad.m@srmap.edu.in",
+    "education": "PhD (Anthropology), Columbia University, USA",
+    "profileUrl": "https://www.srmap.edu.in/faculty/prof-vishnupad/"
+  },
+  {
+    "name": "Dr Sabyasachi Chakrabortty",
+    "designation": "Professor & Head of the Department",
+    "department": "SRM University-AP",
+    "email": "sabyasachi.c@srmap.edu.in",
+    "education": "Ph.D., National University of Singapore, Singapore",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-sabyasachi-chakrabortty/"
+  },
+  {
+    "name": "Dr Ugen Bhutia",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "bhutia.u@srmap.edu.in",
+    "education": "PhD, Sikkim University Sikkim, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-ugen-bhutia/"
+  },
+  {
+    "name": "Dr Shoji D Thottathil",
+    "designation": "Associate Professor & Head of the Department",
+    "department": "SRM University-AP",
+    "email": "shoji.t@srmap.edu.in",
+    "education": "Ph.D., University of Quebec at Montreal, Canada",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-shoji-d-thottathil/"
+  },
+  {
+    "name": "Prof.Jayaseelan Murugaiyan",
+    "designation": "Professor & Assoc Dean (Admission Outreach and Research Collaborations)",
+    "department": "SRM University-AP",
+    "email": "jayaseelan.m@srmap.edu.in",
+    "education": "Ph.D., University of Leipzig, Germany",
+    "profileUrl": "https://www.srmap.edu.in/faculty/jayaseelan-murugaiyan/"
+  },
+  {
+    "name": "Dr Somesh Vinayak Tewari",
+    "designation": "Assistant Professor & Head of the Department",
+    "department": "SRM University-AP",
+    "email": "someshvinayak.t@srmap.edu.in",
+    "education": "Ph.D., Bhabha Atomic Research Centre (BARC),Homi Bhabha National Institute, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-somesh-vinayak-tewari/"
+  },
+  {
+    "name": "Dr Soumyajyoti Biswas",
+    "designation": "Associate Professor & Head of the Department",
+    "department": "SRM University-AP",
+    "email": "soumyajyoti.b@srmap.edu.in",
+    "education": "Ph. D., Saha Institute of Nuclear Physics, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-soumyajyoti-biswas/"
+  },
+  {
+    "name": "Dr Lakshmi Sirisha Maganti",
+    "designation": "Associate Professor & Head of the Department",
+    "department": "SRM University-AP",
+    "email": "lakshmisirisha.m@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology Madras, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-lakshmi-sirisha-maganti/"
+  },
+  {
+    "name": "Dr Writoban Basu Ball",
+    "designation": "Associate Professor & Head of the Department",
+    "department": "SRM University-AP",
+    "email": "writoban.b@srmap.edu.in",
+    "education": "Ph.D., CSIR-Indian Institute of Chemical Biology, Kolkata",
+    "profileUrl": "https://www.srmap.edu.in/faculty/writoban-basu-ball/"
+  },
+  {
+    "name": "Dr Ayesha Parveen Haroon",
+    "designation": "Assistant Professor & Head of the Department",
+    "department": "SRM University-AP",
+    "email": "ayeshaparveen.h@srmap.edu.in",
+    "education": null,
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-ayesha-parveen-haroon/"
+  },
+  {
+    "name": "Dr Raviteja KVNS",
+    "designation": "Assistant Professor & Head of the Department",
+    "department": "SRM University-AP",
+    "email": "raviteja.k@srmap.edu.in",
+    "education": "Ph.D., Indian Institute of Technology, Hyderabad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-raviteja-kvns/"
+  },
+  {
+    "name": "Dr Ramanjaneya Reddy U",
+    "designation": "Associate Professor & Head of the Department, Energy Engineering",
+    "department": "SRM University-AP",
+    "email": "ramanjaneya.r@srmap.edu.in",
+    "education": "PhD, National Institute of Technology Warangal, Telangana, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/ramanjaneya-reddy-u/"
+  },
+  {
+    "name": "Dr Aqsa Agha",
+    "designation": "Assistant Professor & Head of the Department",
+    "department": "SRM University-AP",
+    "email": "aqsa.a@srmap.edu.in",
+    "education": "Ph.D., Jawaharlal Nehru University, New Delhi, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-aqsa-agha/"
+  },
+  {
+    "name": "Dr Bikku R",
+    "designation": "Associate Professor & Head of the Department",
+    "department": "SRM University-AP",
+    "email": "bikku.r@srmap.edu.in",
+    "education": "Post Doc, Research Fellow at University College London, London, UK",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-bikku-r/"
+  },
+  {
+    "name": "Dr K A Sunitha",
+    "designation": "Professor & Head of the Department, Health Engineering",
+    "department": "SRM University-AP",
+    "email": "sunitha.ka@srmap.edu.in",
+    "education": "PhD, SRM Institute of Science and Technology, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-k-a-sunitha/"
+  },
+  {
+    "name": "Dr Sayantan Thakur",
+    "designation": "Assistant Professor & Head of the Department",
+    "department": "SRM University-AP",
+    "email": "sayantan.t@srmap.edu.in",
+    "education": "PhD, Tilka Manjhi Bhagalpur University, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-sayantan-thakur/"
+  },
+  {
+    "name": "Dr Sujith Kalluri",
+    "designation": "Associate Professor & Head of the Department",
+    "department": "SRM University-AP",
+    "email": "sujith.k@srmap.edu.in",
+    "education": "Ph.D., University of Wollongong, Australia, NSW, Australia",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-sujith-kalluri/"
+  },
+  {
+    "name": "Prof. Kalyan Chakraborty",
+    "designation": "Senior Professor & Head of the Department",
+    "department": "SRM University-AP",
+    "email": "kalyan.c@srmap.edu.in",
+    "education": "PhD, Harish-Chandra Research Institute",
+    "profileUrl": "https://www.srmap.edu.in/faculty/prof-kalyan-chakraborty/"
+  },
+  {
+    "name": "Prof. Parag Jayant Waknis",
+    "designation": "Professor & Head of the Department",
+    "department": "SRM University-AP",
+    "email": "paragjayant.w@srmap.edu.in",
+    "education": "PhD, University of Connecticut",
+    "profileUrl": "https://www.srmap.edu.in/faculty/parag-jayant-waknis/"
+  },
+  {
+    "name": "Prof. Prakash Jadhav",
+    "designation": "Professor- Department of Mechanical Engineering  Head \u2013 Innovation, Design and Entrepreneurship Academy (IDEA)",
+    "department": "SRM University-AP",
+    "email": "prakash.j@srmap.edu.in",
+    "education": "PhD, University of Mississippi",
+    "profileUrl": "https://www.srmap.edu.in/faculty/prof-prakash-jadhav/"
+  },
+  {
+    "name": "Prof. Anil K Suresh, FRSB",
+    "designation": "Professor",
+    "department": "SRM University-AP",
+    "email": "anil.s@srmap.edu.in",
+    "education": "Ph.D., National Chemical Laboratory (Pune University), India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/anil-k-suresh/"
+  },
+  {
+    "name": "Dr Mahesh Kumar Ravva",
+    "designation": "Professor, Chemistry & Assistant Dean (Research)",
+    "department": "SRM University-AP",
+    "email": "Mahesh.r@srmap.edu.in",
+    "education": "Ph.D., CSIR-Central Leather Research Institute",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-mahesh-kumar-ravva/"
+  },
+  {
+    "name": "Dr S. Mannathan",
+    "designation": "Professor & Associate Director - TLC",
+    "department": "SRM University-AP",
+    "email": "mannathan.s@srmap.edu.in",
+    "education": "Ph.D., National Tsing Hua University, Taiwan",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-s-mannathan/"
+  },
+  {
+    "name": "Prof. Ranjit Thapa",
+    "designation": "Professor and  Dean - Research",
+    "department": "SRM University-AP",
+    "email": "ranjit.t@srmap.edu.in",
+    "education": "PhD, Jadavpur University, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/prof-ranjit-thapa/"
+  },
+  {
+    "name": "Dr Karthik Rajendran",
+    "designation": "Professor, Environmental Science and Engineering & Associate Dean - Quality Assurance and Rankings",
+    "department": "SRM University-AP",
+    "email": "rajendran.k@srmap.edu.in",
+    "education": "Ph. D., University of Boras, Sweden",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-karthik-rajendran/"
+  },
+  {
+    "name": "Prof. Sheela Singh",
+    "designation": "Professor, Mechanical Engineering & Controller of Examinations",
+    "department": "SRM University-AP",
+    "email": "sheela.s@srmap.edu.in",
+    "education": "PhD, IIT Kharagpur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/prof-sheela-singh/"
+  },
+  {
+    "name": "Prof. G S VinodKumar",
+    "designation": "Associate Dean - Technology Transfer Cell Professor",
+    "department": "SRM University-AP",
+    "email": "vinodkumar.g@srmap.edu.in",
+    "education": "Ph.D. (Metallurgical & Materials Engineering), Indian Institute of Technology, Kharagpur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/prof-g-s-vinodkumar/"
+  },
+  {
+    "name": "Prof. Rupesh Kumar",
+    "designation": "Professor",
+    "department": "SRM University-AP",
+    "email": "rupesh.k@srmap.edu.in",
+    "education": "PhD, Telecom ParisTech, France",
+    "profileUrl": "https://www.srmap.edu.in/faculty/prof-rupesh-kumar/"
+  },
+  {
+    "name": "Dr Rangabhashiyam Selvasembian",
+    "designation": "Professor",
+    "department": "SRM University-AP",
+    "email": "rangabhashiyam.s@srmap.edu.in",
+    "education": "PhD, National Institute of Technology, Calicut",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-rangabhashiyam-selvasembian/"
+  },
+  {
+    "name": "Dr Chebrolu Pulla Rao",
+    "designation": "Senior Professor",
+    "department": "SRM University-AP",
+    "email": "cp.rao@srmap.edu.in",
+    "education": "PhD, Indian Institute of Science, Bangalore, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-chebrolu-pulla-rao/"
+  },
+  {
+    "name": "Prof. Vandana Swami",
+    "designation": "Professor",
+    "department": "SRM University-AP",
+    "email": "vandana.s@srmap.edu.in",
+    "education": "PhD, State University of New York Binghamton, USA",
+    "profileUrl": "https://www.srmap.edu.in/faculty/prof-vandana-swami/"
+  },
+  {
+    "name": "Prof. C V Tomy",
+    "designation": "Professor and Dean - SEAS, Ai Technology Institute (AiTi)",
+    "department": "SRM University-AP",
+    "email": "tomy.cv@srmap.edu.in",
+    "education": "PhD, Tata Institute of Fundamental Research, Bombay, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/prof-c-v-tomy/"
+  },
+  {
+    "name": "Dr C Durga Rao",
+    "designation": "Professor",
+    "department": "SRM University-AP",
+    "email": "durgarao.c@srmap.edu.in",
+    "education": "Ph. D. (Microbiology), Indian Institute of Science",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-c-durga-rao/"
+  },
+  {
+    "name": "Prof. Rama Rao T",
+    "designation": "Professor",
+    "department": "SRM University-AP",
+    "email": "ramarao.t@srmap.edu.in",
+    "education": "PhD, Sri Venkateswara University, Tirupati, AP, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/prof-dr-rama-rao-t/"
+  },
+  {
+    "name": "Prof. Sreenath Subrahmanyam",
+    "designation": "Professor",
+    "department": "SRM University-AP",
+    "email": "sreenath.s@srmap.edu.in",
+    "education": "PhD, Cranfield University, United Kingdom",
+    "profileUrl": "https://www.srmap.edu.in/faculty/prof-sreenath-subrahmanyam/"
+  },
+  {
+    "name": "Prof. Saseendran Pallikadavath",
+    "designation": "Professor of Global Health",
+    "department": "SRM University-AP",
+    "email": "saseendran.p@srmap.edu.in",
+    "education": null,
+    "profileUrl": "https://www.srmap.edu.in/faculty/saseendran-pallikadavath/"
+  },
+  {
+    "name": "Prof. Yoshiyuki Kawazoe",
+    "designation": "Senior Professor",
+    "department": "SRM University-AP",
+    "email": "kawazoe.y@srmap.edu.in",
+    "education": "Department of Nuclear Physics, Tohoku University, Sendai, Japan",
+    "profileUrl": "https://www.srmap.edu.in/faculty/yoshiyuki-kawazoe/"
+  },
+  {
+    "name": "Dr habil. Vadim Azhmyakov",
+    "designation": "Professor",
+    "department": "SRM University-AP",
+    "email": "vadim.a@srmap.edu.in",
+    "education": "Post Doc, University of Greifswald, Germany",
+    "profileUrl": "https://www.srmap.edu.in/faculty/vadim-azhmyakov/"
+  },
+  {
+    "name": "Dr Sabyasachi Mukhopadhyay",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "sabyasachi.m@srmap.edu.in",
+    "education": "Ph.D., Jawaharlal Nehru Centre for Advanced Scientific Research (JNCASR) Bangalore",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-sabyasachi-mukhopadhyay/"
+  },
+  {
+    "name": "Dr Sreenivasulu Tupakula",
+    "designation": "Associate Professor & Associate Head",
+    "department": "SRM University-AP",
+    "email": "sreenivasulu.t@srmap.edu.in",
+    "education": null,
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-sreenivasulu-tupakula/"
+  },
+  {
+    "name": "Dr Gangi Reddy Salla",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "gangireddy.s@srmap.edu.in",
+    "education": "Ph.D., Physical Research laboratory, Ahmedabad / Mohanlal Sukhadia University, Udaipur",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-gangi-reddy-salla/"
+  },
+  {
+    "name": "Dr Tousif Khan N",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "tousif.k@srmap.edu.in",
+    "education": "PHD, Indian Institute of Technology, Guwahati, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-tousif-khan-n/"
+  },
+  {
+    "name": "Dr Pranab Mandal",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "pranab.m@srmap.edu.in",
+    "education": "Ph.D., Jawaharlal Nehru Centre for Advanced Scientific Research, Bangalore",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-pranab-mandal/"
+  },
+  {
+    "name": "Dr Ashok Kumar Pradhan",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "ashokkumar.p@srmap.edu.in",
+    "education": "Ph.D., National Institute of Technology Durgapur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-ashok-kumar-pradhan/"
+  },
+  {
+    "name": "Dr Jatis Kumar Dash",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "jatis.d@srmap.edu.in",
+    "education": "Ph.D., Institute of Physics Odisha",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-jatis-kumar-dash/"
+  },
+  {
+    "name": "Dr Srabani Basu",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "srabani.b@srmap.edu.in",
+    "education": "Ph.D., IKSVV, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-srabani-basu/"
+  },
+  {
+    "name": "Dr Fouzul Atik",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "atik.f@srmap.edu.in",
+    "education": "Ph.D., Indian Institute of Technology Kharagpur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-fouzul-atik/"
+  },
+  {
+    "name": "Dr Pardha Saradhi Maram",
+    "designation": "Professor",
+    "department": "SRM University-AP",
+    "email": "pardha.m@srmap.edu.in",
+    "education": "Ph.D., Indian Institute of Technology Madras, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-pardha-saradhi-maram/"
+  },
+  {
+    "name": "Dr Laxmi Narayana Patro",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "laxminarayana.p@srmap.edu.in",
+    "education": "Ph.D., IIT Madras, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-laxmi-narayana-patro/"
+  },
+  {
+    "name": "Dr Surfarazhussain S. Halkarni",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "surfarazhussain.s@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology Bombay (IITB), India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-surfarazhussain-s-halkarni/"
+  },
+  {
+    "name": "Dr Pradyut Kumar Sanki",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "pradyut.s@srmap.edu.in",
+    "education": "Ph.D., Indian Institute of Technology Kharagpur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-pradyut-kumar-sanki/"
+  },
+  {
+    "name": "Dr Tapan Kumar Hota",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "tapan.k@srmap.edu.in",
+    "education": "Ph.D., Indian Institute of Technology Ropar Punjab",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-tapan-kumar-hota/"
+  },
+  {
+    "name": "Dr V Sateeshkrishna Dhuli",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "sateeshkrishna.d@srmap.edu.in",
+    "education": "Ph.D., Indian Institute of Technology Kanpur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-v-sateeshkrishna-dhuli/"
+  },
+  {
+    "name": "Dr Sunil Chinnadurai",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "sunil.c@srmap.edu.in",
+    "education": "PhD, Jeonbuk National University, South Korea, South Korea",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-sunil-chinnadurai/"
+  },
+  {
+    "name": "Dr Anirban Ghosh",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "anirban.g@srmap.edu.in",
+    "education": "Ph.D., North Dakota State University, US",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-anirban-ghosh/"
+  },
+  {
+    "name": "Dr Siddhartha Ghosh",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "siddhartha.g@srmap.edu.in",
+    "education": "Ph.D., University of Florida, USA",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-siddhartha-ghosh/"
+  },
+  {
+    "name": "Dr GVP Bhagath Singh",
+    "designation": "Associate Professor & Faculty In-Charge \u2013 Infrastructure Monitoring and Coordination Unit",
+    "department": "SRM University-AP",
+    "email": "bhagathsingh.g@srmap.edu.in",
+    "education": "Ph.D., IIT Hyderabad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-gvp-bhagath-singh/"
+  },
+  {
+    "name": "Dr Sutharsan Govindarajan",
+    "designation": "Associate Professor & Associate Director International Relations & Higher Studies",
+    "department": "SRM University-AP",
+    "email": "sutharsan.g@srmap.edu.in",
+    "education": "Ph.D., The Hebrew University of Jerusalem, Israel",
+    "profileUrl": "https://www.srmap.edu.in/faculty/sutharsan-govindarajan/"
+  },
+  {
+    "name": "Dr Jayasree Subramanian",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "jayasree.s@srmap.edu.in",
+    "education": "Ph.D., University of Hyderabad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-jayasree-subramanian/"
+  },
+  {
+    "name": "Dr Pankaj Pathak",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "pankaj.p@srmap.edu.in",
+    "education": "Ph.D., IIT Bombay, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-pankaj-pathak/"
+  },
+  {
+    "name": "Dr Tarkeshwar Mahto",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "tarkeshwar.m@srmap.edu.in",
+    "education": "Ph.D., IIT (ISM) Dhanbad, Jharkhand, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-tarkeshwar-mahto/"
+  },
+  {
+    "name": "Dr M Ramakrishnan",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "ramakrishanan.m@srmap.edu.in",
+    "education": "PhD, College of Engineering, Guindy, Anna University, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-m-ramakrishnan/"
+  },
+  {
+    "name": "Dr Koyel Chakravarty",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "koyel.c@srmap.edu.in",
+    "education": "PhD (Applied Mathematics), Indian Institute of Technology Guwahati, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-koyel-chakravarty/"
+  },
+  {
+    "name": "Dr Partha Bhattacharjee",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "partha.b@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology Patna, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-partha-bhattacharjee/"
+  },
+  {
+    "name": "Dr Pankaj Bhalla",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "pankaj.b@srmap.edu.in",
+    "education": "PhD, Physical Research Laboratory, Ahmedabad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-pankaj-bhalla/"
+  },
+  {
+    "name": "Dr Ravi Kumar",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "ravi.k@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology (ISM) Dhanbad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-ravi-kumar/"
+  },
+  {
+    "name": "Dr Harish Puppala",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "harish.p@srmap.edu.in",
+    "education": "PhD, BITS Pilani, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-harish-puppala/"
+  },
+  {
+    "name": "Dr Saswat Kumar Ram",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "saswatkumar.r@srmap.edu.in",
+    "education": "PhD, National Institute of Technology (NIT), Rourkela, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-saswat-kumar-ram/"
+  },
+  {
+    "name": "Dr Mrutyunjaya Mangaraj",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "mrutyunjaya.m@srmap.edu.in",
+    "education": "PhD, NIT Rourkela, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-mrutyunjaya-mangaraj/"
+  },
+  {
+    "name": "Dr Narayanamoorthy Bhuvanendran",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "narayanamoorthy.b@srmap.edu.in",
+    "education": "PhD, Sri Chandrasekharendra Saraswathi Viswa Mahavidyalaya (SCSVMV University), India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-narayanamoorthy-bhuvanendran/"
+  },
+  {
+    "name": "Dr Vinodkumar Etacheri",
+    "designation": "Associate Professor of Practice",
+    "department": "SRM University-AP",
+    "email": "vinodkumar.e@srmap.edu.in",
+    "education": "PhD, Dublin Institute of Technology (TU-Dublin), Ireland",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-vinodkumar-etacheri/"
+  },
+  {
+    "name": "Dr Kiran Mangalampalli",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "kiran.k@srmap.edu.in",
+    "education": "PhD, University of Hyderabad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-kiran-mangalampalli/"
+  },
+  {
+    "name": "Dr Aniruddh Bahadur Yadav",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "aniruddh.y@srmap.edu.in",
+    "education": "PhD, IIT (BHU) Varanasi, Uttar Pradesh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/aniruddh-bahadur-yadav/"
+  },
+  {
+    "name": "Dr Venkatramaiah Nutalapati",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "venkatramaiah.n@srmap.edu.in",
+    "education": "Ph.D, Pondicherry University, Puducherry, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/venkatramaiah-nutalapati/"
+  },
+  {
+    "name": "Dr Ganesh Manjhi",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "ganesh.ma@srmap.edu.in",
+    "education": "Ph.D., JNU New Delhi, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/ganesh-manjhi/"
+  },
+  {
+    "name": "Dr Sudip Pan",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "sudip.p@srmap.edu.in",
+    "education": "Ph.D., IIT Kharagpur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/sudip-pan/"
+  },
+  {
+    "name": "Dr Kanaparthi V Phani Kumar",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "phanikumar.k@srmap.edu.in",
+    "education": "PhD, IIITD&M, Kancheepuram, Tamil Nadu, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-kanaparthi-v-phani-kumar/"
+  },
+  {
+    "name": "Dr Arunkumar P",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "arunkumar.p@srmap.edu.in",
+    "education": "PhD, IIT Bombay, Maharastra, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/arunkumar-p/"
+  },
+  {
+    "name": "Dr Gunda Mohanakrishna",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "mohanakrishna.g@srmap.edu.in",
+    "education": "Ph.D., CSIR-Indian Institute of Chemical Technology (IICT) and JNTUH, Telangana, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/gunda-mohanakrishna/"
+  },
+  {
+    "name": "Dr Durga Prakash M",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "durgaprakash.m@srmap.edu.in",
+    "education": "PhD, Indian Institute Technology, Hyderabad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-durga-prakash-m/"
+  },
+  {
+    "name": "Dr Maanvender Singh",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "maanvender.s@srmap.edu.in",
+    "education": "Ph.D., Sikkim University Sikkim, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-maanvender-singh/"
+  },
+  {
+    "name": "Dr Vijayakrishna Rowthu",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "vijayakrishna.r@srmap.edu.in",
+    "education": "Ph.D., Indian Institute of Technology Kanpur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-vijayakrishna-rowthu/"
+  },
+  {
+    "name": "Dr Rajni",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "rajni.m@srmap.edu.in",
+    "education": "PhD, The English and Foreign University, Hyderabad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-rajni/"
+  },
+  {
+    "name": "Dr V Udaya Sankar",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "udayasankar.v@srmap.edu.in",
+    "education": "Ph.D., Indian Institute of Science, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-v-udaya-sankar/"
+  },
+  {
+    "name": "Dr Mallikarjuna Rao Motapothula",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "mallikarjuna.m@srmap.edu.in",
+    "education": "Ph.D., National University of Singapore",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-mallikarjuna-rao-motapothula/"
+  },
+  {
+    "name": "Dr Anuj Deshpande",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "deshpande.a@srmap.edu.in",
+    "education": "Ph.D., Indian Institute of Technology, Kharagpur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-anuj-deshpande/"
+  },
+  {
+    "name": "Dr Ram Baran Verma",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "rambaran.v@srmap.edu.in",
+    "education": "Ph.D., IIT Gandhinagar, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-ram-baran-verma/"
+  },
+  {
+    "name": "Dr M Radhakrishnan",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "radhakrishnan.m@srmap.edu.in",
+    "education": "Ph.D., Ramanujan Institute for Advanced Study in Mathematics, University of Madras, Chennai, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-m-radhakrishnan/"
+  },
+  {
+    "name": "Dr Ranjana Mehta",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "ranjana.m@srmap.edu.in",
+    "education": "Ph.D., IIT , Gandhinagar, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-ranjana-mehta/"
+  },
+  {
+    "name": "Dr Sibendu Samanta",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "sibendu.s@srmap.edu.in",
+    "education": "Ph.D., IIT Kharagpur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-sibendu-samanta/"
+  },
+  {
+    "name": "Dr Megha Yadav",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "megha.y@srmap.edu.in",
+    "education": "Ph.D., Jawaharlal Nehru University, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-megha-yadav/"
+  },
+  {
+    "name": "Dr Gaanutula Damodar Reddy",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "gaanutuladamodar.r@srmap.edu.in",
+    "education": "PhD, IISER Thiruvananthapuram, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-gaanutula-damodar-reddy/"
+  },
+  {
+    "name": "Dr Goutam Rana",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "goutam.r@srmap.edu.in",
+    "education": "Ph.D., Indian Institute of Technology Bombay,, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-goutam-rana/"
+  },
+  {
+    "name": "Dr Soni Wadhwa",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "soni.w@srmap.edu.in",
+    "education": "Ph.D (English), University of Mumbai, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-soni-wadhwa/"
+  },
+  {
+    "name": "Dr Uma Maheswar Arepalli",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "umamaheswar.a@srmap.edu.in",
+    "education": "Ph.D, Worcester Polytechnic Institute (WPI), USA",
+    "profileUrl": "https://www.srmap.edu.in/faculty/uma-maheswar-arepalli/"
+  },
+  {
+    "name": "Dr. Amit Chakraborty",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "amit.c@srmap.edu.in",
+    "education": "Ph.D., Indian Association for the Cultivation of Science, Kolkata, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-amit-chakraborty/"
+  },
+  {
+    "name": "Dr J P Raja Pandiyan",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "rajapandiyan.p@srmap.edu.in",
+    "education": "Ph.D., National Chung Hsing University, Taiwan",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-j-p-raja-pandiyan/"
+  },
+  {
+    "name": "Dr Javid Ahmad Dar",
+    "designation": "Associate Professor",
+    "department": "SRM University-AP",
+    "email": "javidahmad.d@srmap.edu.in",
+    "education": "PhD, Pondicherry University, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-javid-ahmad-dar/"
+  },
+  {
+    "name": "Dr Sazzad Ali Biswas",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "sazzadali.b@srmap.edu.in",
+    "education": "PhD, University of Hyderabad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-sazzad-ali-biswas/"
+  },
+  {
+    "name": "Dr Sudhakar Tummala",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "sudhakar.t@srmap.edu.in",
+    "education": "PhD, University of Copenhagen, Copenhagen, Denmark",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-sudhakar-tummala/"
+  },
+  {
+    "name": "Dr Pitchaiah Cherukuri",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "pitchaiah.c@srmap.edu.in",
+    "education": "PhD, International Max Planck Research School for Neurosciences (IMPRS)/European Neuroscience Institute (ENI), G\u00f6ttingen, Germany",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-pitchaiah-cherukuri/"
+  },
+  {
+    "name": "Dr Sandeep Kumar Verma",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "sandeepkumar.v@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology (ISM), Dhanbad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-sandeep-kumar-verma/"
+  },
+  {
+    "name": "Dr Naga Bhushana Rao Karampudi",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "nagabhushan.k@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology Kharagpur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-naga-bhushana-rao-karampudi/"
+  },
+  {
+    "name": "Dr Satheesh Ellipilli",
+    "designation": "DST - Ramanujan Fellowship Faculty",
+    "department": "SRM University-AP",
+    "email": "satheesh.e@srmap.edu.in",
+    "education": "PhD, Indian Institute of Science Education and Research, Pune, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-satheesh-ellipilli/"
+  },
+  {
+    "name": "Dr Anirban Bose",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "anirban.b@srmap.edu.in",
+    "education": "Ph.D, Indian Statistical Institute Delhi Centre",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-anirban-bose/"
+  },
+  {
+    "name": "Dr M Naveen Kumar",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "naveenkumar.m@srmap.edu.in",
+    "education": "National Institute of Technology, Tiruchirappalli, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-m-naveen-kumar/"
+  },
+  {
+    "name": "Dr Supravat Dey",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "supravat.d@srmap.edu.in",
+    "education": "Ph.D, IIT Bombay",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-supravat-dey/"
+  },
+  {
+    "name": "Dr Banee Bandana Das",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "banee.b@srmap.edu.in",
+    "education": "PhD, NIT Rourkela,, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-banee-bandana-das/"
+  },
+  {
+    "name": "Dr Swagata Samanta",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "swagata.s@srmap.edu.in",
+    "education": "PhD, IIT Kharagpur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-swagata-samanta/"
+  },
+  {
+    "name": "Dr Ainal Hoque Gazi",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "ainalhoque.g@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology, Kharagpur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-ainal-hoque-gazi/"
+  },
+  {
+    "name": "Dr Balaji Babu",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "balaji.b@srmap.edu.in",
+    "education": "PhD, Indian Institute of Science (IISC), Bengaluru",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-balaji-babu/"
+  },
+  {
+    "name": "Dr Nityananda Roy",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "nityananda.r@srmap.edu.in",
+    "education": "PhD, IIT Madras, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-nityananda-roy/"
+  },
+  {
+    "name": "Dr M Dhamodharan",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "dhamodharan.m@srmap.edu.in",
+    "education": "PhD, Pondicherry Central University, Puducherry, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-m-dhamodharan/"
+  },
+  {
+    "name": "Dr Deep Raj",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "deepraj.p@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology (Indian School of Mines) Dhanbad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-deep-raj/"
+  },
+  {
+    "name": "Dr Rajoshree Chatterjee",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "rajoshree.c@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology Kharagpur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-rajoshree-chatterjee/"
+  },
+  {
+    "name": "Dr Manish Kumar",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "manish.k@srmap.edu.in",
+    "education": "PhD in Economics, IIT Bombay, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-manish-kumar/"
+  },
+  {
+    "name": "Dr Manjesh Kumar",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "manjesh.k@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology (IIT) Guwahati, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-manjesh-kumar/"
+  },
+  {
+    "name": "Dr Lekshmi Chandran C P",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "lekshmi.c@srmap.edu.in",
+    "education": "PhD, Centre for Historical Studies, School of Social Sciences, Jawaharlal Nehru University, New Delhi, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-lekshmi-chandran-c-p/"
+  },
+  {
+    "name": "Dr Kousik Das",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "kousik.d@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology Kharagpur",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-kousik-das/"
+  },
+  {
+    "name": "Dr Debabrata Pramanik",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "debabrata.p@srmap.edu.in",
+    "education": "PhD, Indian Institute of Science (IISc) Bangalore, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-debabrata-pramanik/"
+  },
+  {
+    "name": "Dr Arghya Chakravarty",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "arghya.c@srmap.edu.in",
+    "education": "PhD, IIT Guwahati, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-arghya-chakravarty/"
+  },
+  {
+    "name": "Dr Chandana Deka",
+    "designation": "Assistant Professor & Head of the Department",
+    "department": "SRM University-AP",
+    "email": "chandana.d@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology Guwahati, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-chandana-deka/"
+  },
+  {
+    "name": "Dr Idris Hassan Bhat",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "idrishassan.b@srmap.edu.in",
+    "education": "PhD, Jawaharlal Nehru University, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-idris-hassan-bhat/"
+  },
+  {
+    "name": "Dr Kamatham Narayanaswamy",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "kamatham.n@srmap.edu.in",
+    "education": "PhD, CSIR - Indian Institute of Chemical Technology, Hyderabad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-kamatham-narayanaswamy/"
+  },
+  {
+    "name": "Dr Manab Kundu",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "manab.k@srmap.edu.in",
+    "education": "PhD, IIT (ISM) Dhanbad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-manab-kundu/"
+  },
+  {
+    "name": "Dr Deblina Dutta",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "deblina.d@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology Kharagpur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-deblina-dutta/"
+  },
+  {
+    "name": "Dr Arijit Datta",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "arijit.d@srmap.edu.in",
+    "education": "PhD, National Institute of Technology (NIT) Agartala, Tripura, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-arijit-datta/"
+  },
+  {
+    "name": "Mr Ravindran Kesavan",
+    "designation": "Visiting Faculty",
+    "department": "SRM University-AP",
+    "email": "ravindran.k@srmap.edu.in",
+    "education": "MPhil ( Psychology), University Of Madras, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/mr-ravindran-kesavan/"
+  },
+  {
+    "name": "Dr Patta Supraja",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "supraja.p@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology Hyderabad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-patta-supraja/"
+  },
+  {
+    "name": "Dr Sandra Roshni Monteiro",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "sandraroshni.m@srmap.edu.in",
+    "education": "PhD (Psychology), University of Hyderabad, Telangana, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-sandra-roshni-monteiro/"
+  },
+  {
+    "name": "Dr Ashmita Das",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "ashmita.d@srmap.edu.in",
+    "education": "PhD, Indian Association for the Cultivation of Science, Kolkata, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-ashmita-das/"
+  },
+  {
+    "name": "Dr Debajyoti Kundu",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "debajyoti.k@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology Kharagpur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-debajyoti-kundu/"
+  },
+  {
+    "name": "Dr Seema Rani",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "seema.r@srmap.edu.in",
+    "education": "PhD, Indian Institute of Science Education and Research (IISER) Mohali, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-seema-rani/"
+  },
+  {
+    "name": "Dr Animesh Bhandari",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "animesh.b@srmap.edu.in",
+    "education": "PhD, NIT Meghalaya",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-animesh-bhandari/"
+  },
+  {
+    "name": "Dr Choiti Bandyopadhyay",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "choiti.b@srmap.edu.in",
+    "education": "PhD, University of Alberta, Canada",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-choiti-bandyopadhyay/"
+  },
+  {
+    "name": "Dr Prateek Gupta",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "prateek.g@srmap.edu.in",
+    "education": "PhD, University of Hyderabad, Hyderabad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-prateek-gupta/"
+  },
+  {
+    "name": "Dr Sebanti Chatterjee",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "sebanti.c@srmap.edu.in",
+    "education": "PhD, Delhi School of Economics, University of Delhi, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-sebanti-chatterjee/"
+  },
+  {
+    "name": "Dr M I Nafeesathul Basariya",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "nafeesathulbasariya.m@srmap.edu.in",
+    "education": "PhD, National Institute of Technology,Thiruchirappalli, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-m-i-nafeesathul-basariya/"
+  },
+  {
+    "name": "Dr Chandan Kumar",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "chandan.k@srmap.edu.in",
+    "education": "PhD, IIT Guwahati, Assam,, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-chandan-kumar/"
+  },
+  {
+    "name": "Mr Amlan Baisya",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "amlan.b@srmap.edu.in",
+    "education": null,
+    "profileUrl": "https://www.srmap.edu.in/faculty/mr-amlan-baisya/"
+  },
+  {
+    "name": "Dr Krishanu Roy",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "krishanu.r@srmap.edu.in",
+    "education": "PhD, The Institute of Mathematical Sciences, Chennai, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-krishanu-roy/"
+  },
+  {
+    "name": "Dr Suraj Singh Khurana",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "surajsingh.k@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology Ropar, Punjab, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-suraj-singh-khurana/"
+  },
+  {
+    "name": "Dr Surinder Kaur",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "surinder.k@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology Ropar, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-surinder-kaur/"
+  },
+  {
+    "name": "Dr Subashree Kothandaraman",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "subashree.k@srmap.edu.in",
+    "education": "PhD, Pondicherry University, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-subashree-kothandaraman/"
+  },
+  {
+    "name": "Dr Thirukovela Nikhilesh",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "nikhilesh.t@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology \u2013 Delhi, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-thirukovela-nikhilesh/"
+  },
+  {
+    "name": "Dr Pulak Kar",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "pulak.k@srmap.edu.in",
+    "education": "PhD, University of Kalyani, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-pulak-kar/"
+  },
+  {
+    "name": "Dr Bidisha Pal",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "bidisha.p@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology (ISM) Dhanbad,, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-bidisha-pal/"
+  },
+  {
+    "name": "Dr Chinmoy Das",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "chinmoy.d@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology Bombay, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-chinmoy-das/"
+  },
+  {
+    "name": "Dr Sudeshna Saha",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "sudeshna.s@srmap.edu.in",
+    "education": "PhD, Boston College, USA",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-sudeshna-saha/"
+  },
+  {
+    "name": "Dr Kaushik Saha",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "kaushik.s@srmap.edu.in",
+    "education": "PhD, University of Cambridge, UK",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-kaushik-saha/"
+  },
+  {
+    "name": "Dr Daigy Varghese",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "daigy.v@srmap.edu.in",
+    "education": "PhD, IIT Hyderabad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-daigy-varghese/"
+  },
+  {
+    "name": "Dr Saikat Sinha Ray",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "saikatsinha.r@srmap.edu.in",
+    "education": "PhD, National Taipei University of Technology, Taiwan",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-saikat-sinha-ray/"
+  },
+  {
+    "name": "Dr Niravkumar P Raval",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "niravkumar.r@srmap.edu.in",
+    "education": "PhD, Gujarat University, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-niravkumar-p-raval/"
+  },
+  {
+    "name": "Dr Basabendu Barman",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "basabendu.b@srmap.edu.in",
+    "education": "PhD, IIT Guwahati",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-basabendu-barman/"
+  },
+  {
+    "name": "Dr Manaswini Sen",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "manaswini.s@srmap.edu.in",
+    "education": "PhD, University of Hyderabad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-manaswini-sen/"
+  },
+  {
+    "name": "Dr Kalyan Banerjee",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "kalyan.ba@srmap.edu.in",
+    "education": "PhD, University of Liverpool",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-kalyan-banerjee/"
+  },
+  {
+    "name": "Dr Leenendra Chowdary Gunnam",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "leenendra.c@srmap.edu.in",
+    "education": "PhD, National Taipei University of Technology, Taipei,, Taiwan",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-leenendra-chowdary-gunnam/"
+  },
+  {
+    "name": "Mr Mohammed Rashid ul Ansar",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "rashid.m@srmap.edu.in",
+    "education": "PhD Pursuing, IIT Hyderabad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/mr-mohammed-rashid-ul-ansar/"
+  },
+  {
+    "name": "Dr Bijeta Mishra",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "bijeta.m@srmap.edu.in",
+    "education": "PhD, NIT, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/ms-bijeta-mishra/"
+  },
+  {
+    "name": "Dr Pranav R T Peddinti",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "pranav.rt@srmap.edu.in",
+    "education": "Ph.D (Pavement Geotechnics), IIT Hyderabad",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-pranav-r-t-peddinti/"
+  },
+  {
+    "name": "Dr Aurolipsa Das",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "aurolipsa.d@srmap.edu.in",
+    "education": "PhD(Economics), National Institute of Technology,Rourkela, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-aurolipsa-das/"
+  },
+  {
+    "name": "Dr Boddu Srujana",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "srujana.b@srmap.edu.in",
+    "education": null,
+    "profileUrl": "https://www.srmap.edu.in/faculty/ms-boddu-srujana/"
+  },
+  {
+    "name": "Dr Nilakantha Meher",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "nilakantha.m@srmap.edu.in",
+    "education": "PhD, Indira Gandhi Centre for Atomic Research, Kalpakkam",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-nilakantha-meher/"
+  },
+  {
+    "name": "Dr Vitalram Rayankula",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "vitalram.r@srmap.edu.in",
+    "education": "PhD, IIT Roorkee, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-vitalram-rayankula/"
+  },
+  {
+    "name": "Dr Vigneswaran V S",
+    "designation": "Assistant Professor-Ad hoc",
+    "department": "SRM University-AP",
+    "email": "vigneswaran.vs@srmap.edu.in",
+    "education": "PhD, CEG campus, Anna University, Chennai",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-vigneswaran-v-s/"
+  },
+  {
+    "name": "Dr Nirmalendu Sekhar Mishra",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "nirmalendusekhar.m@srmap.edu.in",
+    "education": "PhD, IIT Dhanbad",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-nirmalendu-sekhar-mishra/"
+  },
+  {
+    "name": "Dr Sujit Das",
+    "designation": "Assistant Professor-Ad hoc",
+    "department": "SRM University-AP",
+    "email": "sujit.d@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology Guwahati, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-sujit-das/"
+  },
+  {
+    "name": "Dr Kunchanapalli Ramya",
+    "designation": "Assistant Professor - Ad hoc",
+    "department": "SRM University-AP",
+    "email": "ramya.k@srmap.edu.in",
+    "education": "PhD, SRM University- AP",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-kunchanapalli-ramya/"
+  },
+  {
+    "name": "Dr G Santhosh Kumar",
+    "designation": "Assistant Professor-Ad hoc",
+    "department": "SRM University-AP",
+    "email": "santhoshkumar.g@srmap.edu.in",
+    "education": "Ph.D, National Institute of Technology, Andhra Pradesh",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-g-santhosh-kumar/"
+  },
+  {
+    "name": "Dr Geeta Devi",
+    "designation": "Assistant Professor (Ad hoc)",
+    "department": "SRM University-AP",
+    "email": "geetadevi.r@srmap.edu.in",
+    "education": "Ph.D. (Water Resources), Delhi Technological University, Delhi",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-geeta-devi/"
+  },
+  {
+    "name": "Dr Krishna Prasad Maity",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "krishnaprasad.m@srmap.edu.in",
+    "education": "PhD, IISc Bengaluru",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-krishna-prasad-maity/"
+  },
+  {
+    "name": "Dr Jaidev Kaushik",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "jaidev.k@srmap.edu.in",
+    "education": "PhD, Malaviya National Institute of Technology Jaipur",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-jaidev-kaushik/"
+  },
+  {
+    "name": "Dr Swetamber P Das",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "swetamber.p@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology Madras",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-swetamber-p-das/"
+  },
+  {
+    "name": "Dr Arghya Dutta",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "arghya.d@srmap.edu.in",
+    "education": "Ph.D., S N Bose National Centre for Basic Sciences, University of Calcutta, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-arghya-dutta/"
+  },
+  {
+    "name": "Dr Jyotibhusan Padhi",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "jyotibhusan.p@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology Mandi, Himachal Pradesh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-jyotibhusan-padhi/"
+  },
+  {
+    "name": "Dr Mohit Aggarwal",
+    "designation": "Assistant Professor-Ad hoc",
+    "department": "SRM University-AP",
+    "email": "mohit.a@srmap.edu.in",
+    "education": "Ph.D, IIT Bhubaneswar",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-mohit-aggarwal/"
+  },
+  {
+    "name": "Dr Md Najrul Islam",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "najrulislam.h@srmap.edu.in",
+    "education": "PhD, IIT Mandi, Himachal Pradesh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-md-najrul-islam/"
+  },
+  {
+    "name": "Dr Devdutt Tripathi",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "devdutt.t@srmap.edu.in",
+    "education": "PhD, IIT Gandhinagar, Gujarat, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/mr-devdutt-tripathi/"
+  },
+  {
+    "name": "Dr Abhijit Dasgupta",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "abhijit.d@srmap.edu.in",
+    "education": "PhD, Indian Statistical Institute, (Jadavpur University), India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-abhijit-dasgupta/"
+  },
+  {
+    "name": "Dr Aswathy Gopi",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "aswathy.g@srmap.edu.in",
+    "education": "PhD, Central University of Karnataka, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-aswathy-gopi-2/"
+  },
+  {
+    "name": "Dr Chiranjeevi Korupalli",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "chiranjeevi.k@srmap.edu.in",
+    "education": "PhD, National Tsing Hua University, Taiwan",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-chiranjeevi-korupalli/"
+  },
+  {
+    "name": "Dr Sourav Sen",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "sourav.s@srmap.edu.in",
+    "education": "PhD, Ramakrishna Mission Vidyamandira (University of Calcutta)",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-sourav-sen/"
+  },
+  {
+    "name": "Dr Ishrat Munawer",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "ishrat.m@srmap.edu.in",
+    "education": "PhD, Aligarh Muslim University, Aligarh Uttar Pradesh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-ishrat-munawer/"
+  },
+  {
+    "name": "Dr Yenuganti Vengala Rao",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "vengala.r@srmap.edu.in",
+    "education": "Ph.D., National Dairy Research Institute, Karanal, Haryana, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-yenuganti-vengala-rao/"
+  },
+  {
+    "name": "Dr Ankur Srivastava",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "ankur.s@srmap.edu.in",
+    "education": "Ph.D., Indian Institute of Technology, Roorkee, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-ankur-srivastava/"
+  },
+  {
+    "name": "Dr Robert Rahman Raman",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "robert.r@srmap.edu.in",
+    "education": "Post Doc, Harvard University",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-robert-rahman-raman/"
+  },
+  {
+    "name": "Dr Arun Kumar",
+    "designation": "",
+    "department": "SRM University-AP",
+    "email": "arunkumar.y@srmap.edu.in",
+    "education": "PhD, PDPM IIITDMJ,  M.P,  Jabalpur,  India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/arun-kumar/"
+  },
+  {
+    "name": "Dr Ventrapati Pavan Kumar",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "pavankumar.v@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology Madras, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-ventrapati-pavan-kumar/"
+  },
+  {
+    "name": "Dr Prasun Goswami",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "prasun.g@srmap.edu.in",
+    "education": "PhD, University of Madras",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-prasun-goswami/"
+  },
+  {
+    "name": "Dr Saranya Antony A",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "saranya.a@srmap.edu.in",
+    "education": "Ph.D. in International Relations, Jawaharlal Nehru University, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-saranya-antony-a/"
+  },
+  {
+    "name": "Dr James Ralte",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "james.r@srmap.edu.in",
+    "education": "Ph.D. (Politics & International Studies), Pondicherry University, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/james_ralte/"
+  },
+  {
+    "name": "Dr Ubaid Mushtaq",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "ubaid.m@srmap.edu.in",
+    "education": "Ph.D. (Economics), IIT Kharagpur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-ubaid-mushtaq/"
+  },
+  {
+    "name": "Dr Pavithra M R",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "pavithra.m@srmap.edu.in",
+    "education": "PhD, Periyar University Salem, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-pavithra-m-r/"
+  },
+  {
+    "name": "Dr Manasi Sinha",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "manasi.s@srmap.edu.in",
+    "education": "PhD in European Studies, Jawaharlal Nehru University, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-manasi-sinha/"
+  },
+  {
+    "name": "Dr Nishanth K S",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "nishanth.s@srmap.edu.in",
+    "education": "PhD, Rensselaer Polytechnic Institute, Troy New York, USA",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-nishanth-k-s/"
+  },
+  {
+    "name": "Dr Keerthi Reddy N",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "keerthi.r@srmap.edu.in",
+    "education": "PhD, Presidency University, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-keerthi-reddy-n/"
+  },
+  {
+    "name": "Dr Naresh Nial",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "naresh.n@srmap.edu.in",
+    "education": "Ph.D. (ESG Reporting), Central University of Jharkhand, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/mr-naresh-nial/"
+  },
+  {
+    "name": "Dr Nirmal Singh",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "nirmalsingh.u@srmap.edu.in",
+    "education": "Ph.D., Indian Institute of Technology, Roorkee, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-nirmal-singh/"
+  },
+  {
+    "name": "Dr Prasun Dutta",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "prasun.d@srmap.edu.in",
+    "education": "Ph.D., Indian Statistical Institute (ISI), Kolkata",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-prasun-dutta/"
+  },
+  {
+    "name": "Dr Varsha Sambhaje",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "varsha.s@srmap.edu.in",
+    "education": "Ph.D, D Y Patil International University, Pune, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-varsha-sambhaje/"
+  },
+  {
+    "name": "Dr Preeti Kumari",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "preeti.k@srmap.edu.in",
+    "education": "Post Doc, Universitat Pompeu Fabra, Barcelona, Spain",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-preeti-kumari/"
+  },
+  {
+    "name": "Dr Argha Basu",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "arghabasu.a@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology Patna, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-argha-basu/"
+  },
+  {
+    "name": "Dr Aniruddha Nagaraj",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "aniruddha.n@srmap.edu.in",
+    "education": "PhD, Ambedkar University, Delhi, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-aniruddha-nagaraj/"
+  },
+  {
+    "name": "Dr Kousani Banerjee",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "kousani.b@srmap.edu.in",
+    "education": "PhD, The English and Foreign Languages University, Hyderabad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/ms-kousani-banerjee/"
+  },
+  {
+    "name": "Dr Parvathy N",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "parvathy.n@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology, Patna, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/ms-parvathy-n/"
+  },
+  {
+    "name": "Dr Surjit Sahoo",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "surjit.s@srmap.edu.in",
+    "education": "PhD, Jeju National University, South Korea",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-surjit-sahoo/"
+  },
+  {
+    "name": "Dr Punyashlok Dash",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "punyashlok.d@srmap.edu.in",
+    "education": "Ph.D, Simon Fraser University (SFU, BC, Canada), British Columbia, Canada",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-punyashlok-dash/"
+  },
+  {
+    "name": "Dr Arun Krishnan K S",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "arunkrishnan.k@srmap.edu.in",
+    "education": "Mechanical Engineering, IIT Palakkad, Kerala, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-arun-krishnan-k-s/"
+  },
+  {
+    "name": "Dr Kamalesh Saha",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "kamalesh.s@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology Gandhinagar, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-kamalesh-saha/"
+  },
+  {
+    "name": "Dr Krishan Takhar",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "krishan.t@srmap.edu.in",
+    "education": "PhD, JNU, New Delhi, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/mr-krishan-takhar/"
+  },
+  {
+    "name": "Dr Pintu Bhunia",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "pintu.b@srmap.edu.in",
+    "education": "PhD, Jadavpur University, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-pintu-bhunia/"
+  },
+  {
+    "name": "Dr Aniruddha Kundu",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "aniruddha.k@srmap.edu.in",
+    "education": "PhD, Indian Association for the Cultivation of Science, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-aniruddha-kundu/"
+  },
+  {
+    "name": "Dr Arghajit Jana",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "arghajit.j@srmap.edu.in",
+    "education": "PhD, Indian Centre for Space Physics, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-arghajit-jana/"
+  },
+  {
+    "name": "Dr Amal M Latif",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "amal.m@srmap.edu.in",
+    "education": "Post Doc, Vrije Universiteit Amsterdam, Netherlands",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-amal-m-latif/"
+  },
+  {
+    "name": "Dr Anumol Joseph",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "anumol.j@srmap.edu.in",
+    "education": "PhD, IIT Palakkad, Kerala, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-anumol-joseph/"
+  },
+  {
+    "name": "Dr Harvinder Kumar Negi",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "harvinderkumar.n@srmap.edu.in",
+    "education": "PhD, University of Delhi, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-harvinder-kumar-negi/"
+  },
+  {
+    "name": "Dr Sudeb Majee",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "sudeb.m@srmap.edu.in",
+    "education": "Doctor of Philosophy, IIT Mandi, Himachal Pradesh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/sudeb-majee/"
+  },
+  {
+    "name": "Dr Barun Kumar Barman",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "barunkumar.b@srmap.edu.in",
+    "education": "PhD, Indian Institute of Science (IISc), Bangalore, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/barun-kumar-barman/"
+  },
+  {
+    "name": "Dr Tirlingi Madhava Rao",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "madhavarao.t@srmap.edu.in",
+    "education": "Ph.D., Indian Institute of Technology (IIT) Kharagpur, West Bengal, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/mr-tirlingi-madhava-rao/"
+  },
+  {
+    "name": "Dr Manoj Kumar Yadav",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "manojkumar.y@srmap.edu.in",
+    "education": "PhD, IIT Mandi, Himachal Pradesh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/manoj-kumar-yadav/"
+  },
+  {
+    "name": "Dr Veerakumar Chinnasamy",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "veerakumar.c@srmap.edu.in",
+    "education": "PhD, Pondicherry University, Puducherry, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-veerakumar-chinnasamy/"
+  },
+  {
+    "name": "Dr. Teja Krishna Mamidi",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "tejakrishna.m@srmap.edu.in",
+    "education": "MS & PhD (by research), IIT Madras, Tamil Nadu, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/teja-krishna-mamidi/"
+  },
+  {
+    "name": "Dr Tushar Bag",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "tushar.b@srmap.edu.in",
+    "education": "PhD, IIT Patna, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/tushar-bag/"
+  },
+  {
+    "name": "Dr. Rohit Babar",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "rohit.b@srmap.edu.in",
+    "education": "PhD, Indian Institute of Science Education and Research Pune, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-rohit-milind-babar/"
+  },
+  {
+    "name": "Dr. Nupur Patanker",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "nupur.p@srmap.edu.in",
+    "education": null,
+    "profileUrl": "https://www.srmap.edu.in/faculty/nupur-patanker/"
+  },
+  {
+    "name": "Dr Sk Shahid Nadim",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "shahid.s@srmap.edu.in",
+    "education": "PhD, Indian Statistical Institute, Kolkata, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/sk-shahid-nadim/"
+  },
+  {
+    "name": "Dr Suraj Kumar Bhagat",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "surajkumar.b@srmap.edu.in",
+    "education": "PhD, Ton Duc Thang University, Ho Chi Minh City, Vietnam",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-suraj-kumar-bhagat/"
+  },
+  {
+    "name": "Dr Rakesh Kumar Dhiman",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "rakeshkumar.r@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology Jodhpur, Rajasthan, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/rakesh-kumar/"
+  },
+  {
+    "name": "Dr Soumyakanti Bose",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "soumyakanti.b@srmap.edu.in",
+    "education": null,
+    "profileUrl": "https://www.srmap.edu.in/faculty/soumyakanti-bose/"
+  },
+  {
+    "name": "Dr. Chinmoy Biswas",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "chinmoy.b@srmap.edu.in",
+    "education": "PhD, IIT Kharagpur, West Bengal, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/chinmoy-biswas/"
+  },
+  {
+    "name": "Dr Janmejaya Panda",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "janmejaya.p@srmap.edu.in",
+    "education": "PhD in Economics, IIT Dharwad, Karnataka, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/janmejaya-panda/"
+  },
+  {
+    "name": "Dr Sonali Mondal",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "sonali.m@srmap.edu.in",
+    "education": "PhD, IIT (Indian School of Mines) Dhanbad, Jharkhand, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-sonali-mondal/"
+  },
+  {
+    "name": "Dr Sheshadri Shekhar Rauth",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "shekhar.r@srmap.edu.in",
+    "education": "PhD, IIT Kharagpur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/sheshadri-shekhar-rauth/"
+  },
+  {
+    "name": "Dr Pravin Kumar",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "pravin.k@srmap.edu.in",
+    "education": "PhD, IIT Roorkee, Uttarakhand, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/pravin-kumar/"
+  },
+  {
+    "name": "Dr Antarleena Basu",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "antarleena.b@srmap.edu.in",
+    "education": "Ph.D, University of Hyderabad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-antarleena-basu/"
+  },
+  {
+    "name": "Dr Chavali Ravi Varma",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "ravivarma.c@srmap.edu.in",
+    "education": "PhD, IIT Roorkee, Uttarakhand, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-chavali-ravi-varma/"
+  },
+  {
+    "name": "Dr Eshwar Kuncham",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "eshwar.k@srmap.edu.in",
+    "education": "Ph.D., IIT Mandi, Himachal Pradesh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/eshwar-kuncham/"
+  },
+  {
+    "name": "Dr Arya P S",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "arya.p@srmap.edu.in",
+    "education": "PhD in Mathematics, Central University of Kerala, Kerala, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-arya-p-s/"
+  },
+  {
+    "name": "Dr Vemula Naresh Kumar",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "nareshkumar.ve@srmap.edu.in",
+    "education": "PhD, IIT Patna, Bihar, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/vemula-naresh-kumar/"
+  },
+  {
+    "name": "Dr Rashmiranjan Nayak",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "rashmiranjan.n@srmap.edu.in",
+    "education": "Ph.D., National Institute of Technology Rourkela, Odisha, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-rashmiranjan-nayak/"
+  },
+  {
+    "name": "Dr Bibaswan Bose",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "bibaswan.b@srmap.edu.in",
+    "education": "Ph.D., IIT Delhi, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/bibaswan-bose/"
+  },
+  {
+    "name": "Dr Pranaw Kumar",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "pranawkumar.j@srmap.edu.in",
+    "education": "Ph.D., IIT (ISM) Dhanbad, Jharkhand, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/pranaw-kumar/"
+  },
+  {
+    "name": "Dr Sivarama Prasad Tera",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "sivaramaprasad.t@srmap.edu.in",
+    "education": "Ph.D., IIT Guwahati, Assam, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-sivarama-prasad-tera/"
+  },
+  {
+    "name": "Dr Shubhajit Pal",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "shubhajit.p@srmap.edu.in",
+    "education": "Ph.D., IIT Roorkee, Uttarakhand, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/shubhajit-pal/"
+  },
+  {
+    "name": "Dr Saswati Paramita",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "paramita.s@srmap.edu.in",
+    "education": "Ph.D., IIIT-Delhi, New Delhi, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-saswati-paramita/"
+  },
+  {
+    "name": "Dr Pialy Biswas",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "pialy.b@srmap.edu.in",
+    "education": "Ph.D., IIT Delhi, Delhi, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-pialy-biswas/"
+  },
+  {
+    "name": "Dr Samyukthah A",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "samyukthah.a@srmap.edu.in",
+    "education": "Ph.D., IIT Jodhpur, Rajasthan , India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/samyukthah-a/"
+  },
+  {
+    "name": "Dr Uday Chandra Akuthota",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "udaychandra.a@srmap.edu.in",
+    "education": "Ph.D., Malaviya National Institute of Technology, Jaipur, Rajasthan, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-uday-chandra-akuthota/"
+  },
+  {
+    "name": "Dr Abhishek Bhattacharjee",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "abhishek.b@srmap.edu.in",
+    "education": "Ph.D., IIT Roorkee",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-abhishek-bhattacharjee/"
+  },
+  {
+    "name": "Dr Rishikanta Mayengbam",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "rishikanta.m@srmap.edu.in",
+    "education": "Ph.D., National Institute of Technology Silchar, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-rishikanta-mayengbam/"
+  },
+  {
+    "name": "Ms. Shyamosree Goswami",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "shyamosree.g@srmap.edu.in",
+    "education": "Doctorate, NIT Meghalaya, Meghalaya, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/shyamosree-goswami/"
+  },
+  {
+    "name": "Dr Jintu Borah",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "jintu.b@srmap.edu.in",
+    "education": "Doctorate, National Institute of Technology Meghalaya, Meghalaya, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/jintu-borah/"
+  },
+  {
+    "name": "Mr Harsh Ranjan",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "harsh.r@srmap.edu.in",
+    "education": "PhD, IIT Patna, Bihar, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/harsh-ranjan/"
+  },
+  {
+    "name": "Dr Anjishnu Biswas",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "anjishnu.b@srmap.edu.in",
+    "education": "Ph.D., IIT Guwahati, Assam, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-anjishnu-biswas/"
+  },
+  {
+    "name": "Dr Ashrafudoulla Md",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "ashrafudoulla.m@srmap.edu.in",
+    "education": "Ph.D., Chung Ang University, South Korea",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-ashrafudoulla-md/"
+  },
+  {
+    "name": "Dilip Kumar Sahoo",
+    "designation": "",
+    "department": "SRM University-AP",
+    "email": null,
+    "education": "PhD in Mathematics, IISER Berhampur, Odisha",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dilip-kumar-sahoo/"
+  },
+  {
+    "name": "Dr Akshaya Kumar Das",
+    "designation": "Assistant  Professor",
+    "department": "SRM University-AP",
+    "email": "akshayakumar.d@srmap.edu.in",
+    "education": "PhD, University of Basel, Switzerland",
+    "profileUrl": "https://www.srmap.edu.in/faculty/akshaya-kumar-das/"
+  },
+  {
+    "name": "Dr A K V Vinod Sharma",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "vinodsarma.a@srmap.edu.in",
+    "education": "Ph.D., IIT Hyderabad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/a-k-v-vinod-sharma/"
+  },
+  {
+    "name": "Dr. Gulloo Lal Prajapati",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "gulloolal.p@srmap.edu.in",
+    "education": "PhD, Indian Institute of Science Education and Research Bhopal, Madhya Pradesh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-gulloo-lal-prajapati/"
+  },
+  {
+    "name": "Dr Joydeep Ghosh",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "joydeep.g@srmap.edu.in",
+    "education": "PhD, Technical University of Vienna, Austria",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-joydeep-ghosh/"
+  },
+  {
+    "name": "Dr Subir Das",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "subir.d@srmap.edu.in",
+    "education": "Ph.D, IIT Patna, Bihar, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/subir-das/"
+  },
+  {
+    "name": "Dr Avvaru Venkata Sai",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "venkatasai.a@srmap.edu.in",
+    "education": "Advanced Materials and Nanotechnology, Autonomous University of Madrid (UAM), Madrid, Spain",
+    "profileUrl": "https://www.srmap.edu.in/faculty/avvaru-venkata-sai/"
+  },
+  {
+    "name": "Dr Abu Bakar Siddique",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "abubakar.s@srmap.edu.in",
+    "education": "Ph.D., IIEST Shibpur, West Bengal, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/abu-bakar-siddique/"
+  },
+  {
+    "name": "Dr Saikat Panja",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "saikat.p@srmap.edu.in",
+    "education": "Ph.D. in Mathematics, IISER Pune, Maharashtra",
+    "profileUrl": "https://www.srmap.edu.in/faculty/saikat-panja/"
+  },
+  {
+    "name": "Dr Dipanjan Nandi",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "dipanjan.n@srmap.edu.in",
+    "education": "Ph.D., University of Alberta, Edmonton, Alberta, Canada",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dipanjan-nandi/"
+  },
+  {
+    "name": "Dr Lohith Kumar Pittala",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "lohithkumar.p@srmap.edu.in",
+    "education": "Biomedical, Electrical and Systems Engineering, University of Bologna, Bologna, Italy",
+    "profileUrl": "https://www.srmap.edu.in/faculty/lohith-kumar-pittala/"
+  },
+  {
+    "name": "Dr Amit Kumar Singh",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "amitkumar.si@srmap.edu.in",
+    "education": "Ph.D., IIT-Madras, Tamil Nadu, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-amit-kumar-singh/"
+  },
+  {
+    "name": "Dr Parul Tiwari",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "parul.t@srmap.edu.in",
+    "education": "Ph.D., Indian Institute of Technology Gandhinagar, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/parul-tiwari/"
+  },
+  {
+    "name": "Dr Sooraj Shiby",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "sooraj.s@srmap.edu.in",
+    "education": "Integrated MS-PhD, Indian Institute of Technology (IIT) Madras, Tamil Nadu",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-sooraj-shiby/"
+  },
+  {
+    "name": "Dr Ali Jraisheh",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "jraisheh.a@srmap.edu.in",
+    "education": "PhD, IIT Guwahati, Assam, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/ali-jraisheh/"
+  },
+  {
+    "name": "Dr Md Moneef Ahmad",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "moneef.a@srmap.edu.in",
+    "education": "Commerce, Aligarh Muslim University, Aligarh, Uttar Pradesh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/md-moneef-ahmad/"
+  },
+  {
+    "name": "Dr Sreelakshmi Sowjanya Lanka",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "sowjanya.l@srmap.edu.in",
+    "education": "Ph.D, NIT Andhra Pradesh,  Andhra Pradesh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-sreelakshmi-sowjanya-lanka/"
+  },
+  {
+    "name": "Dr Debasish Swapnesh Kumar Nayak",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "swapnesh.n@srmap.edu.in",
+    "education": "Ph.D., Siksha 'O' Anusandhan, Odisha, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-debasish-swapnesh-kumar-nayak/"
+  },
+  {
+    "name": "Dr Sumanta Kumar Nanda",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "sumantakumar.n@srmap.edu.in",
+    "education": "PhD in Electrical Engineering, IIT Indore, Madhya Pradesh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/sumanta-kumar-nanda/"
+  },
+  {
+    "name": "Dr Prabakaran G",
+    "designation": "Assistant Professor-Ad hoc",
+    "department": "SRM University-AP",
+    "email": "prabakaran.g@srmap.edu.in",
+    "education": "PhD, SRM University-AP, Andhra Pradesh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-prabakaran-g/"
+  },
+  {
+    "name": "Dr Thahir Jamal K M",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "thahirjamal.k@srmap.edu.in",
+    "education": "PhD (Comparative Literature), University of Hyderabad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/thahir-jamal-k-m/"
+  },
+  {
+    "name": "Dr Sangeeta Saha",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "sangeeta.sa@srmap.edu.in",
+    "education": "PhD, IIEST, Shibpur, West Bengal, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/sangeeta-saha/"
+  },
+  {
+    "name": "Dr Deeptajyoti Sen",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "deeptajyoti.s@srmap.edu.in",
+    "education": "PhD, IIT Kanpur, Uttar Pradesh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/deeptajyoti-sen/"
+  },
+  {
+    "name": "Dr Vishnu Ravindran",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "vishnu.r@srmap.edu.in",
+    "education": "PhD, Aerospace Engineering, IIT Madras, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/vishnu-ravindran/"
+  },
+  {
+    "name": "Dr Iswar Mahato",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "iswar.m@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology Kharagpur",
+    "profileUrl": "https://www.srmap.edu.in/faculty/iswar-mahato/"
+  },
+  {
+    "name": "Dr Vikram Mahamiya",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "vikram.m@srmap.edu.in",
+    "education": "PhD, IIT Bombay, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/vikram-mahamiya/"
+  },
+  {
+    "name": "Dr Manjeet Chhetri",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "manjeet.c@srmap.edu.in",
+    "education": null,
+    "profileUrl": "https://www.srmap.edu.in/faculty/manjeet-chhetri/"
+  },
+  {
+    "name": "Dr Manoj NY",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "manoj.n@srmap.edu.in",
+    "education": "PhD, Manipal University, Karnataka , India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/manoj-ny/"
+  },
+  {
+    "name": "Dr Neha Shri",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "neha.s@srmap.edu.in",
+    "education": "PhD, IIPS,Mumbai, Maharashtra, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/neha-shri/"
+  },
+  {
+    "name": "Dr Digjoy Paul",
+    "designation": "",
+    "department": "SRM University-AP",
+    "email": "digjoy.p@srmap.edu.in",
+    "education": "PhD, IMSc Chennai, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/digjoy-paul/"
+  },
+  {
+    "name": "Dr Prasad Teja Dakey",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "prasadteja.d@srmap.edu.in",
+    "education": "PhD, University of Hyderabad, Telangana, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/prasad-teja-dakey/"
+  },
+  {
+    "name": "Dr Mudavath Ravi",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "ravi.m@srmap.edu.in",
+    "education": "PhD, University of Hyderabad, Telangana, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/mudavath-ravi/"
+  },
+  {
+    "name": "Dr Kailash Pati Mandal",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "kailashpati.m@srmap.edu.in",
+    "education": "PhD, NIT Durgapur, West Bengal, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-kailash-pati-mandal/"
+  },
+  {
+    "name": "Dr Gonna Somu Naidu",
+    "designation": "Assistant Professor - Ramanujan Fellowship Faculty",
+    "department": "SRM University-AP",
+    "email": "somunaidu.g@srmap.edu.in",
+    "education": "Ph.D. (Chemistry), Bhabha Atomic Research Centre, Homi Bhabha National Institute, Mumbai, Maharashtra, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/gonna-somu-naidu/"
+  },
+  {
+    "name": "Amit Roy",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "amit.r@srmap.edu.in",
+    "education": "PhD in Mathematics, IISER Mohali, Punjab, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/amit-roy/"
+  },
+  {
+    "name": "Dr P Arun",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "arun.p@srmap.edu.in",
+    "education": "Ph.D. Political Science, University of Delhi, Delhi, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-p-arun/"
+  },
+  {
+    "name": "Dr Prakash Kumar Shukla",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "prakashkumar.s@srmap.edu.in",
+    "education": "PhD, Birla Institute of Technology and Science-Pilani (BITS-Pilani), India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-prakash-kumar-shukla/"
+  },
+  {
+    "name": "Dr Vipin Kumar",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "vipinkumar.a@srmap.edu.in",
+    "education": "PhD, IIT Madras, Tamil Nadu, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-vipin-kumar/"
+  },
+  {
+    "name": "Dr Hamid Hassan Khan",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "hamidhassan.k@srmap.edu.in",
+    "education": "PhD, IIT Delhi, Delhi, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-hamid-hassan-khan/"
+  },
+  {
+    "name": "Dr Sumit Kumar Mehta",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "sumitkumar.m@srmap.edu.in",
+    "education": "PhD, National Institute of Technology\u00a0Silchar\u00a0, Assam, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-sumit-kumar-mehta/"
+  },
+  {
+    "name": "Dr Rishabh Mittal",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "rishabh.m@srmap.edu.in",
+    "education": "PhD, NIT Silchar, Assam,  India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-rishabh-mittal/"
+  },
+  {
+    "name": "Dr Jayaram K P",
+    "designation": "Assistant  Professor",
+    "department": "SRM University-AP",
+    "email": "jayaram.kp@srmap.edu.in",
+    "education": "Information and Communincation Engineering, Anna University, Chennai, Tamil Nadu, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/jayaram-k-p/"
+  },
+  {
+    "name": "Dr Arup Sarkar",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "arup.s@srmap.edu.in",
+    "education": "PhD in Computational Chemistry, IIT Bombay, Maharashtra, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/arup-sarkar/"
+  },
+  {
+    "name": "Dr Naganaboina Venkata Ramesh",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "venkataramesh.n@srmap.edu.in",
+    "education": "PhD, IIT Hyderabad, Telangana, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-naganaboina-venkata-ramesh/"
+  },
+  {
+    "name": "Dr Anil Kumar Rajapitamahuni",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "anilkumar.ra@srmap.edu.in",
+    "education": "PhD, University of Nebraska-Lincoln, Nebraska, USA",
+    "profileUrl": "https://www.srmap.edu.in/faculty/anil-kumar-rajapitamahuni/"
+  },
+  {
+    "name": "Dr Shatrughna Kumar",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "shatrughnakumar.s@srmap.edu.in",
+    "education": "PhD, IIT(ISM), Dhanbad, Jharkhand, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-shatrughna-kumar/"
+  },
+  {
+    "name": "Dr Akash Balakrishnan",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "akash.b@srmap.edu.in",
+    "education": "PhD in Chemical Engineering, NIT Rourkela, Odisha, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-akash-balakrishnan/"
+  },
+  {
+    "name": "Dr. Anshu Sahu",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "anshu.s@srmap.edu.in",
+    "education": "IIT Indore, MP, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-anshu-sahu/"
+  },
+  {
+    "name": "Dr Vaibhav Kathavate",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": null,
+    "education": null,
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-vaibhav-kathavate/"
+  },
+  {
+    "name": "Dr Khushbu Doulani",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "khushbu.d@srmap.edu.in",
+    "education": "PhD, IIIT Lucknow, Uttar Pradesh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-khushbu-doulani/"
+  },
+  {
+    "name": "Dr Indu Yadav",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "indu.y@srmap.edu.in",
+    "education": "PhD, IIT Roorkee, Uttarakhand, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-indu-yadav/"
+  },
+  {
+    "name": "Dr M Venkateswara Rao",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "venkateswararao.m@srmap.edu.in",
+    "education": "Ph.D., National Institute of Technology Andhra Pradesh",
+    "profileUrl": "https://www.srmap.edu.in/faculty/m-venkateswara-rao/"
+  },
+  {
+    "name": "Dr Santosh Kumar Sahu",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "santoshkumar.s@srmap.edu.in",
+    "education": "Ph.D., National Institute of Technology Karnataka, Surathkal, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/santosh-kumar-sahu/"
+  },
+  {
+    "name": "Dr Karna Vishnu Vardhana Reddy",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "vishnuvardhanareddy.k@srmap.edu.in",
+    "education": "Doctorate, Universiti Teknologi PETRONAS, Seri Iskandar, Perak, Malaysia",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-karna-vishnu-vardhana-reddy/"
+  },
+  {
+    "name": "Dr Diwakar P",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "diwakar.p@srmap.edu.in",
+    "education": "Computer Science, Babasaheb Bhimrao Ambedkar University, Uttar Pradesh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-diwakar-p/"
+  },
+  {
+    "name": "Dr Krishnadas Narayanan Nampoothiri",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "krishnadas.n@srmap.edu.in",
+    "education": "PhD, IISc Bangalore, Karnataka, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-krishnadas-narayanan-nampoothiri/"
+  },
+  {
+    "name": "Dr Pudi Dhilleswararao",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "dhilleswararao.p@srmap.edu.in",
+    "education": "PhD, IIT Bhubaneswar, Odisha, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-pudi-dhilleswararao/"
+  },
+  {
+    "name": "Dr. V. Veera Babu",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": null,
+    "education": "PhD, IIT (BHU), Varanasi, Uttar Pradesh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-v-veera-babu/"
+  },
+  {
+    "name": "Dr Arkaprava Datta",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "arkaprava.d@srmap.edu.in",
+    "education": "PhD, IIT Kharagpur, West Bengal, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-arkaprava-datta/"
+  },
+  {
+    "name": "Dr Shivanshu Benjwal",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "shivanshu.b@srmap.edu.in",
+    "education": "Ph.D, IIT Roorkee, Uttarakhand, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-shivanshu-benjwal/"
+  },
+  {
+    "name": "Dr Sunil Kumar",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "sunil.k@srmap.edu.in",
+    "education": "Ph.D. QR-OR, Indian Statistical Institute, TamilNadu, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-sunil-kumar/"
+  },
+  {
+    "name": "Dr Ahmet Ilker Topuz",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "ahmetllker.t@srmap.edu.in",
+    "education": "PhD, University of Tartu, Tartu, Estonia",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-ahmet-ilker-topuz/"
+  },
+  {
+    "name": "Dr Pratim Bhattacharyya",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "pratim.b@srmap.edu.in",
+    "education": "Ph.D., Academy of Scientific and Innovative Research (AcSIR) at CSIR- Central Mechanical Engineering Research Institute (CMERI), India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/pratim-bhattacharyya/"
+  },
+  {
+    "name": "Dr Arun Kumar",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "arunkumar.bi@srmap.edu.in",
+    "education": "PhD, Banaras Hindu University, Uttar Pradesh",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-arun-kumar/"
+  },
+  {
+    "name": "Dr Saduri Das",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "saduri.d@srmap.edu.in",
+    "education": "PhD, NIT Silchar, Assam, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/saduri-das/"
+  },
+  {
+    "name": "Dr Mohammed Nazibul Hasan",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "nazibulhasan.m@srmap.edu.in",
+    "education": "Ph.D., University of Technology Malaysia, Malaysia",
+    "profileUrl": "https://www.srmap.edu.in/faculty/mohammed-nazibul-hasan/"
+  },
+  {
+    "name": "Dr Puspendu Pradhan",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "puspendu.p@srmap.edu.in",
+    "education": "PhD, NISER Bhubaneswar, Odisha, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/puspendu-pradhan/"
+  },
+  {
+    "name": "Dr Avinash Trivedi",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "avinash.t@srmap.edu.in",
+    "education": "PhD, National Institute of Technology, Tiruchirappalli, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/avinash-trivedi/"
+  },
+  {
+    "name": "Dr Amit Kumar",
+    "designation": "Assistant  Professor",
+    "department": "SRM University-AP",
+    "email": "amit.ss@srmap.edu.in",
+    "education": "PhD, NIT Raipur, Chhattisgarh",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-amit-kumar/"
+  },
+  {
+    "name": "Dr Pankaj Kumar Raghuwanshi",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "pankajkumar.r@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology (IIT) Indore, Madhya Pradesh, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-pankaj-kumar-raghuwanshi/"
+  },
+  {
+    "name": "Dr Syed Tajammul Ahmad",
+    "designation": "Assistant Professor",
+    "department": "SRM University-AP",
+    "email": "syedtajammul.a@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology Kanpur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-syed-tajammul-ahmad/"
+  },
+  {
+    "name": "Dr Rajkumar Elagiri Ramalingam",
+    "designation": "Guest Faculty",
+    "department": "SRM University-AP",
+    "email": "rajkumarelagiri.r@srmap.edu.in",
+    "education": "PhD, University of Rouen Normandy",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-rajkumar-elagiri-ramalingam/"
+  },
+  {
+    "name": "Dr M Thiripalraju",
+    "designation": "Distinguished Professor",
+    "department": "SRM University-AP",
+    "email": "thiripalaraju.m@srmap.edu.in",
+    "education": "PhD, Indian Institute of Technology (IIT) Bombay, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-m-thiripalraju/"
+  },
+  {
+    "name": "Dr K N Sasi Rekha",
+    "designation": "Guest Faculty",
+    "department": "SRM University-AP",
+    "email": "sasirekha.n@srmap.edu.in",
+    "education": "PhD, University of Hyderabad, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-k-n-sasi-rekha/"
+  },
+  {
+    "name": "Prof. G Venkata Chalam",
+    "designation": "Guest Faculty",
+    "department": "SRM University-AP",
+    "email": "venkatachalam.g@srmap.edu.in",
+    "education": "PhD, Nagarjuna University, Guntur, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/prof-g-venkata-chalam/"
+  },
+  {
+    "name": "Prof K Narayana Chandran",
+    "designation": "Distinguished Visiting Professor",
+    "department": "SRM University-AP",
+    "email": "narayanachandran.k@srmap.edu.in",
+    "education": "PhD (English, American Poetry of the XX Century), I I T Bombay, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/prof-k-narayana-chandran/"
+  },
+  {
+    "name": "Prof. Kota Sitaramanjaneyulu",
+    "designation": "Visiting Faculty",
+    "department": "SRM University-AP",
+    "email": null,
+    "education": null,
+    "profileUrl": "https://www.srmap.edu.in/faculty/prof-kota-sitaramanjaneyulu/"
+  },
+  {
+    "name": "Prof. Rathinasamy Maria Saleth",
+    "designation": "Distinguished Visiting Faculty",
+    "department": "SRM University-AP",
+    "email": "rathinasamymaria.s@srmap.edu.in",
+    "education": "PhD (Agricultural and Natural Resources Economics), University of Illinois Urbana-Champaign USA, USA",
+    "profileUrl": "https://www.srmap.edu.in/faculty/prof-rathinasamy-maria-saleth/"
+  },
+  {
+    "name": "Prof S Irudaya Rajan",
+    "designation": "Distinguished Visiting Faculty",
+    "department": "SRM University-AP",
+    "email": "irudayarajan.s@srmap.edu.in",
+    "education": "PhD (Demography), International Institute for Population Sciences University of Mumbai, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/prof-s-irudaya-rajan/"
+  },
+  {
+    "name": "Prof. Haribabu Ejnavarzala",
+    "designation": "Distinguished Visiting Faculty",
+    "department": "SRM University-AP",
+    "email": "haribabu.e@srmap.edu.in",
+    "education": "PhD Sociology, Indian Institute of Technology Bombay, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/prof-haribabu-ejnavarzala/"
+  },
+  {
+    "name": "Dr Lakshmi Kantam Mannepalli",
+    "designation": "Visiting Professor",
+    "department": "SRM University-AP",
+    "email": "lakshmikantam.m@srmap.edu.in",
+    "education": "Ph.D. Chemistry, Kurukshetra University, India",
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-lakshmi-kantam-mannepalli/"
+  },
+  {
+    "name": "Hsin Yi Huang",
+    "designation": "Mandarin Chinese Instructor",
+    "department": "SRM University-AP",
+    "email": "hsinyi.h@srmap.edu.in",
+    "education": null,
+    "profileUrl": "https://www.srmap.edu.in/faculty/hsin-yi-huang/"
+  },
+  {
+    "name": "Dr. Bhagavatula L. V. Prasad",
+    "designation": "Visiting Professor",
+    "department": "SRM University-AP",
+    "email": null,
+    "education": null,
+    "profileUrl": "https://www.srmap.edu.in/faculty/dr-bhagavatula-l-v-prasad/"
+  }
+]
