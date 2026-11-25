@@ -16,23 +16,30 @@ export interface CampusLabel {
   visible: boolean;
 }
 
-// Verified real-world floor counts for SRM University-AP buildings
+// Verified real-world floor counts for SRM University-AP buildings (from srmap_blocks.db)
 const BUILDING_FLOOR_COUNTS: Record<string, number> = {
-  'cv raman block': 12,        // 12-story high-rise academic tower (Central Library F12)
-  'homi j bhabha block': 7,    // 7 levels research facility
+  // Landmark High-Rises
+  'ganga': 26,                    // 26-storey iconic landmark high-rise residence for male students
+  'vedavathi': 15,                // 15-storey modern mid-rise boys' residence
+  'cv raman block': 12,           // 12-storey landmark tower (Central Library F12)
+
+  // Girls Hostels & Faculty Residences (9 floors each)
+  'krishna hostel': 9,            // 9-storey girls' residence tower
+  'godavari hostel': 9,           // 9-storey girls' residence tower
+  'narmada hostel': 9,            // 9-storey girls' residence tower
+  'yamuna hostel': 9,             // 9-storey girls' residence tower
+  'kaveri faculty residence': 9,  // 9-storey faculty apartment residence
+
+  // Academic Blocks
+  'sr block': 9,                  // SR Block across 9 stories
+  'x-lab': 7,                     // X-Lab multidisciplinary engineering complex across 7 levels
+  'homi j bhabha block': 7,       // Administrative & Advanced Science Block across 7 levels
   'homi j. bhabha block': 7,
-  'sr block': 4,               // 4 stories (OE1/SR1 classrooms & faculty cabins)
-  'v block': 5,                // 5 levels (Vikram Sarabhai Academic Block)
-  'x-lab': 4,                  // 4 levels AI & fabrication labs & Auditorium
-  'jc bose block': 5,          // 5 stories academic block
-  'ganga boys\' hostel': 6,    // 6-story student residence
-  'vedavathi boys\' hostel': 6,// 6-story student residence
-  'narmada hostel': 5,
-  'yamuna hostel': 5,
-  'godavari hostel': 5,
-  'krishna hostel': 5,
-  'kaveri faculty residence': 5,
-  'annapurna mess': 2,
+  'v block': 7,                   // Vikram Sarabhai Academic Block I across 7 levels
+  'jc bose block': 5,             // 5-storey research and laboratory facility
+
+  // Amenities & Dining
+  'annapurna mess': 2,            // 2-storey central dining facility
   'office': 2,
 };
 
@@ -43,7 +50,7 @@ function getBuildingFloors(name: string): number {
       return floors;
     }
   }
-  return 4; // Default sensible fallback
+  return 4;
 }
 
 interface CampusMap3DProps {
