@@ -16,6 +16,36 @@ export interface CampusLabel {
   visible: boolean;
 }
 
+// Verified real-world floor counts for SRM University-AP buildings
+const BUILDING_FLOOR_COUNTS: Record<string, number> = {
+  'cv raman block': 12,        // 12-story high-rise academic tower (Central Library F12)
+  'homi j bhabha block': 7,    // 7 levels research facility
+  'homi j. bhabha block': 7,
+  'sr block': 4,               // 4 stories (OE1/SR1 classrooms & faculty cabins)
+  'v block': 5,                // 5 levels (Vikram Sarabhai Academic Block)
+  'x-lab': 4,                  // 4 levels AI & fabrication labs & Auditorium
+  'jc bose block': 5,          // 5 stories academic block
+  'ganga boys\' hostel': 6,    // 6-story student residence
+  'vedavathi boys\' hostel': 6,// 6-story student residence
+  'narmada hostel': 5,
+  'yamuna hostel': 5,
+  'godavari hostel': 5,
+  'krishna hostel': 5,
+  'kaveri faculty residence': 5,
+  'annapurna mess': 2,
+  'office': 2,
+};
+
+function getBuildingFloors(name: string): number {
+  const lower = (name || '').toLowerCase().trim();
+  for (const [key, floors] of Object.entries(BUILDING_FLOOR_COUNTS)) {
+    if (lower.includes(key) || key.includes(lower)) {
+      return floors;
+    }
+  }
+  return 4; // Default sensible fallback
+}
+
 interface CampusMap3DProps {
   buildingsGeoJSON: any;
   pathsGeoJSON: any;
@@ -54,9 +84,10 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
   const hemiLightRef = useRef<THREE.HemisphereLight | null>(null);
   const starsRef = useRef<THREE.Points | null>(null);
   const buildingMeshesRef = useRef<THREE.Mesh[]>([]);
-  const windowMeshesRef = useRef<THREE.InstancedMesh | null>(null);
+  const windowPanelsRef = useRef<THREE.Mesh[]>([]);
   const streetLampsGroupRef = useRef<THREE.Group | null>(null);
   const treesGroupRef = useRef<THREE.Group | null>(null);
+  const sportsGroupRef = useRef<THREE.Group | null>(null);
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
 
@@ -66,47 +97,43 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
   // Orbit camera control state
   const isDraggingRef = useRef(false);
   const previousMousePositionRef = useRef({ x: 0, y: 0 });
-  // Initial isometric aerial view matching IITK 3D
-  const cameraAngleRef = useRef({ theta: Math.PI / 4, phi: Math.PI / 3.4, radius: 280 });
+  const cameraAngleRef = useRef({ theta: Math.PI / 3.8, phi: Math.PI / 3.4, radius: 260 });
   const panOffsetRef = useRef({ x: 0, z: 0 });
 
   useEffect(() => {
     if (!mountRef.current) return;
 
-    // Scene
     const scene = new THREE.Scene();
     sceneRef.current = scene;
 
     const width = mountRef.current.clientWidth;
     const height = mountRef.current.clientHeight;
 
-    // Camera
     const camera = new THREE.PerspectiveCamera(40, width / height, 1, 3000);
     cameraRef.current = camera;
     updateCamera();
 
-    // Renderer with soft shadows
     const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.05;
+    renderer.toneMappingExposure = 1.1;
     mountRef.current.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
-    // Dynamic Atmosphere & Lights
-    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x182416, 0.5);
+    // Lights
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x142012, 0.6);
     hemiLight.position.set(0, 500, 0);
     scene.add(hemiLight);
     hemiLightRef.current = hemiLight;
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.25);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
     scene.add(ambientLight);
     ambientLightRef.current = ambientLight;
 
-    const sunLight = new THREE.DirectionalLight(0xffffff, 1.3);
+    const sunLight = new THREE.DirectionalLight(0xffffff, 1.4);
     sunLight.castShadow = true;
     sunLight.shadow.mapSize.width = 2048;
     sunLight.shadow.mapSize.height = 2048;
@@ -117,14 +144,14 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
     sunLight.shadow.camera.right = d;
     sunLight.shadow.camera.top = d;
     sunLight.shadow.camera.bottom = -d;
-    sunLight.shadow.bias = -0.0005;
+    sunLight.shadow.bias = -0.0004;
     scene.add(sunLight);
     sunLightRef.current = sunLight;
 
-    // Campus Dark Green Turf Ground Mesh (1.8km x 1.8km) like IITK 3D
+    // Dark Turf Ground Plane (1.8km x 1.8km)
     const groundGeo = new THREE.PlaneGeometry(1800, 1800);
     const groundMat = new THREE.MeshStandardMaterial({
-      color: 0x142817, // Rich dark campus lawn grass
+      color: 0x122416, // Lush dark campus lawn turf
       roughness: 0.95,
       metalness: 0.05,
     });
@@ -133,7 +160,7 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
     ground.receiveShadow = true;
     scene.add(ground);
 
-    // Groups for street lamps and trees
+    // Groups
     const streetLampsGroup = new THREE.Group();
     scene.add(streetLampsGroup);
     streetLampsGroupRef.current = streetLampsGroup;
@@ -142,8 +169,12 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
     scene.add(treesGroup);
     treesGroupRef.current = treesGroup;
 
-    // Night Stars
-    const starCount = 1000;
+    const sportsGroup = new THREE.Group();
+    scene.add(sportsGroup);
+    sportsGroupRef.current = sportsGroup;
+
+    // Stars Field
+    const starCount = 1200;
     const starGeo = new THREE.BufferGeometry();
     const starPositions = new Float32Array(starCount * 3);
     for (let i = 0; i < starCount * 3; i += 3) {
@@ -152,10 +183,41 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
       starPositions[i + 2] = (Math.random() - 0.5) * 2000;
     }
     starGeo.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
-    const starMat = new THREE.PointsMaterial({ color: 0xffffff, size: 2.2, transparent: true, opacity: 0.75 });
+    const starMat = new THREE.PointsMaterial({ color: 0xffffff, size: 2.2, transparent: true, opacity: 0.8 });
     const stars = new THREE.Points(starGeo, starMat);
     scene.add(stars);
     starsRef.current = stars;
+
+    // Procedural 3D Trees across campus
+    const trunkGeo = new THREE.CylinderGeometry(0.4, 0.6, 3, 6);
+    const trunkMat = new THREE.MeshStandardMaterial({ color: 0x422006, roughness: 0.9 });
+    const foliageGeo = new THREE.DodecahedronGeometry(2.5, 1);
+    const foliageMat = new THREE.MeshStandardMaterial({ color: 0x166534, roughness: 0.8 });
+
+    // Plant trees along pathways and campus open grounds
+    for (let i = 0; i < 180; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const radius = 60 + Math.random() * 200;
+      const tx = Math.cos(angle) * radius;
+      const tz = Math.sin(angle) * radius;
+
+      const tree = new THREE.Group();
+      const trunk = new THREE.Mesh(trunkGeo, trunkMat);
+      trunk.position.y = 1.5;
+      trunk.castShadow = true;
+      trunk.receiveShadow = true;
+      tree.add(trunk);
+
+      const foliage = new THREE.Mesh(foliageGeo, foliageMat);
+      foliage.position.y = 4.2;
+      foliage.scale.set(1 + Math.random() * 0.4, 1 + Math.random() * 0.5, 1 + Math.random() * 0.4);
+      foliage.castShadow = true;
+      foliage.receiveShadow = true;
+      tree.add(foliage);
+
+      tree.position.set(tx, 0, tz);
+      treesGroup.add(tree);
+    }
 
     // Mouse handlers for Orbit & Pan
     const dom = renderer.domElement;
@@ -175,14 +237,12 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
       const deltaY = e.clientY - previousMousePositionRef.current.y;
 
       if (isRightClick) {
-        // Pan
-        const factor = 0.4;
+        const factor = 0.35;
         const forward = new THREE.Vector3(-Math.sin(cameraAngleRef.current.theta), 0, -Math.cos(cameraAngleRef.current.theta));
         const right = new THREE.Vector3(Math.cos(cameraAngleRef.current.theta), 0, -Math.sin(cameraAngleRef.current.theta));
         panOffsetRef.current.x += (-right.x * deltaX + forward.x * deltaY) * factor;
         panOffsetRef.current.z += (-right.z * deltaX + forward.z * deltaY) * factor;
       } else if (!isAngleLocked) {
-        // Rotate
         cameraAngleRef.current.theta -= deltaX * 0.006;
         cameraAngleRef.current.phi = Math.max(0.2, Math.min(Math.PI / 2.1, cameraAngleRef.current.phi + deltaY * 0.006));
       }
@@ -197,7 +257,7 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
 
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
-      cameraAngleRef.current.radius = Math.max(70, Math.min(500, cameraAngleRef.current.radius + e.deltaY * 0.3));
+      cameraAngleRef.current.radius = Math.max(60, Math.min(500, cameraAngleRef.current.radius + e.deltaY * 0.3));
       updateCamera();
     };
 
@@ -213,7 +273,6 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
       animId = requestAnimationFrame(animate);
       renderer.render(scene, camera);
 
-      // Project 3D building coordinates to 2D screen pills
       if (onLabelsUpdate && mountRef.current) {
         const w = mountRef.current.clientWidth;
         const h = mountRef.current.clientHeight;
@@ -225,7 +284,6 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
           const clonePos = item.pos.clone();
           clonePos.project(camera);
 
-          // Visible if within frustum and in front of camera
           const isVisible = clonePos.z < 1 && clonePos.x >= -1.1 && clonePos.x <= 1.1 && clonePos.y >= -1.1 && clonePos.y <= 1.1;
 
           projectedLabels.push({
@@ -279,7 +337,7 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
     cameraRef.current.position.x = cx + radius * Math.sin(phi) * Math.sin(theta);
     cameraRef.current.position.y = radius * Math.cos(phi);
     cameraRef.current.position.z = cz + radius * Math.sin(phi) * Math.cos(theta);
-    cameraRef.current.lookAt(cx, 15, cz);
+    cameraRef.current.lookAt(cx, 18, cz);
   }
 
   // Day & Night Solar lighting updates
@@ -300,7 +358,7 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
       sceneRef.current.fog = new THREE.FogExp2(0x040810, 0.0018);
 
       sunLightRef.current.color.setHex(0x38bdf8);
-      sunLightRef.current.intensity = 0.2;
+      sunLightRef.current.intensity = 0.25;
 
       ambientLightRef.current.color.setHex(0x0f172a);
       ambientLightRef.current.intensity = 0.45;
@@ -313,9 +371,13 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
       // Illuminated warm yellow/amber windows at night
       buildingMeshesRef.current.forEach((m) => {
         if (m.material instanceof THREE.MeshStandardMaterial) {
-          m.material.color.setHex(0x1a2333);
-          m.material.emissive.setHex(0xfbbf24);
-          m.material.emissiveIntensity = 0.22;
+          m.material.color.setHex(0x182436);
+        }
+      });
+      windowPanelsRef.current.forEach((w) => {
+        if (w.material instanceof THREE.MeshBasicMaterial) {
+          w.material.color.setHex(0xfbbf24);
+          w.material.opacity = 0.95;
         }
       });
       if (streetLampsGroupRef.current) streetLampsGroupRef.current.visible = true;
@@ -351,23 +413,33 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
 
       buildingMeshesRef.current.forEach((m) => {
         if (m.material instanceof THREE.MeshStandardMaterial) {
-          m.material.color.setHex(0xe2e8f0);
-          m.material.emissive.setHex(0x000000);
-          m.material.emissiveIntensity = 0;
+          m.material.color.setHex(0x2a3d58);
+        }
+      });
+      windowPanelsRef.current.forEach((w) => {
+        if (w.material instanceof THREE.MeshBasicMaterial) {
+          w.material.color.setHex(0x60a5fa);
+          w.material.opacity = 0.6;
         }
       });
       if (streetLampsGroupRef.current) streetLampsGroupRef.current.visible = false;
     }
   }, [solarInfo]);
 
-  // Generate 3D Buildings with Dark Slate & Rooftop details like IITK
+  // Procedurally Build Multi-Floor Detailed 3D Buildings with Floor Slabs & Window Rows
   useEffect(() => {
     const scene = sceneRef.current;
     if (!scene || !buildingsGeoJSON || !buildingsGeoJSON.features) return;
 
-    buildingMeshesRef.current.forEach((mesh) => scene.remove(mesh));
+    // Clear old meshes
+    buildingMeshesRef.current.forEach((m) => scene.remove(m));
     buildingMeshesRef.current = [];
+    windowPanelsRef.current.forEach((w) => scene.remove(w));
+    windowPanelsRef.current = [];
     labelAnchorsRef.current = [];
+
+    const floorHeight = 4.2; // 4.2m per floor
+    const slabThickness = 0.35; // Concrete floor separation slab
 
     buildingsGeoJSON.features.forEach((feature: any, idx: number) => {
       const geom = feature.geometry;
@@ -376,6 +448,11 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
       const coords = geom.coordinates[0];
       if (!coords || coords.length < 3) return;
 
+      const name = feature.properties?.name || `Academic Block ${idx + 1}`;
+      const floors = getBuildingFloors(name);
+      const totalHeight = floors * floorHeight;
+
+      // Exterior Shape
       const shape = new THREE.Shape();
       let sumX = 0;
       let sumZ = 0;
@@ -392,75 +469,140 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
       const centerX = sumX / coords.length;
       const centerZ = sumZ / coords.length;
 
-      const levels = parseInt(feature.properties?.levels || '4', 10);
-      const height = Math.max(12, levels * 4.5);
-
+      // 1. Extrude Building Main Structure
       const extrudeSettings: THREE.ExtrudeGeometryOptions = {
-        depth: height,
+        depth: totalHeight,
         bevelEnabled: true,
         bevelSegments: 2,
-        steps: 1,
-        bevelSize: 0.6,
-        bevelThickness: 0.6,
+        steps: floors, // Segments per floor level
+        bevelSize: 0.5,
+        bevelThickness: 0.5,
       };
 
       const extrudeGeo = new THREE.ExtrudeGeometry(shape, extrudeSettings);
       extrudeGeo.rotateX(Math.PI / 2);
 
       const buildingMat = new THREE.MeshStandardMaterial({
-        color: solarInfo.isNight ? 0x1a2333 : 0x223249, // Dark corporate slate matching IITK 3D
-        roughness: 0.45,
-        metalness: 0.35,
+        color: solarInfo.isNight ? 0x182436 : 0x2a3d58,
+        roughness: 0.4,
+        metalness: 0.3,
       });
 
-      const mesh = new THREE.Mesh(extrudeGeo, buildingMat);
-      mesh.castShadow = true;
-      mesh.receiveShadow = true;
-      scene.add(mesh);
-      buildingMeshesRef.current.push(mesh);
+      const buildingMesh = new THREE.Mesh(extrudeGeo, buildingMat);
+      buildingMesh.castShadow = true;
+      buildingMesh.receiveShadow = true;
+      scene.add(buildingMesh);
+      buildingMeshesRef.current.push(buildingMesh);
 
-      // Register label anchor
-      const name = feature.properties?.name || `Block ${idx + 1}`;
+      // 2. Generate Horizontal Floor Slabs & Window Stripes per Floor
+      const windowMat = new THREE.MeshBasicMaterial({
+        color: solarInfo.isNight ? 0xfbbf24 : 0x60a5fa,
+        transparent: true,
+        opacity: solarInfo.isNight ? 0.95 : 0.6,
+      });
+
+      const slabMat = new THREE.MeshStandardMaterial({
+        color: 0x334155, // Dark concrete slab divider
+        roughness: 0.8,
+        metalness: 0.1,
+      });
+
+      for (let f = 1; f <= floors; f++) {
+        const floorY = f * floorHeight;
+
+        // Concrete floor slab ribbon outline
+        const slabPoints: THREE.Vector3[] = [];
+        for (let i = 0; i < coords.length; i++) {
+          const [lng, lat] = coords[i];
+          const local = latLngToLocal(lat, lng);
+          slabPoints.push(new THREE.Vector3(local.x, floorY, local.z));
+        }
+        slabPoints.push(slabPoints[0]);
+
+        const slabLineGeo = new THREE.BufferGeometry().setFromPoints(slabPoints);
+        const slabLine = new THREE.Line(slabLineGeo, new THREE.LineBasicMaterial({ color: 0x0ea5e9, linewidth: 2 }));
+        scene.add(slabLine);
+
+        // Window stripes placed along facades
+        for (let i = 0; i < coords.length - 1; i++) {
+          const [lng1, lat1] = coords[i];
+          const [lng2, lat2] = coords[i + 1];
+          const p1 = latLngToLocal(lat1, lng1);
+          const p2 = latLngToLocal(lat2, lng2);
+
+          const edgeVec = new THREE.Vector3(p2.x - p1.x, 0, p2.z - p1.z);
+          const edgeLength = edgeVec.length();
+          if (edgeLength < 8) continue;
+
+          const windowW = edgeLength * 0.75;
+          const windowH = 1.6;
+          const winGeo = new THREE.PlaneGeometry(windowW, windowH);
+          const winMesh = new THREE.Mesh(winGeo, windowMat);
+
+          const midX = (p1.x + p2.x) / 2;
+          const midZ = (p1.z + p2.z) / 2;
+          winMesh.position.set(midX, floorY - 2.0, midZ);
+
+          const angle = Math.atan2(p2.z - p1.z, p2.x - p1.x);
+          winMesh.rotation.y = -angle;
+
+          scene.add(winMesh);
+          windowPanelsRef.current.push(winMesh);
+        }
+      }
+
+      // 3. Rooftop Parapet Border & HVAC Units
+      const roofPoints: THREE.Vector3[] = [];
+      for (let i = 0; i < coords.length; i++) {
+        const [lng, lat] = coords[i];
+        const local = latLngToLocal(lat, lng);
+        roofPoints.push(new THREE.Vector3(local.x, totalHeight + 1.2, local.z));
+      }
+      roofPoints.push(roofPoints[0]);
+      const roofLineGeo = new THREE.BufferGeometry().setFromPoints(roofPoints);
+      const roofLine = new THREE.Line(roofLineGeo, new THREE.LineBasicMaterial({ color: 0x38bdf8, linewidth: 3 }));
+      scene.add(roofLine);
+
+      // Register 3D Label Anchor
       let category = 'Academic';
       let color = '#38bdf8';
-
       const lowerName = name.toLowerCase();
+
       if (lowerName.includes('hostel')) {
         category = 'Hostels';
         color = '#ec4899';
       } else if (lowerName.includes('sports') || lowerName.includes('ground')) {
         category = 'Sports';
         color = '#10b981';
-      } else if (lowerName.includes('canteen') || lowerName.includes('dining')) {
+      } else if (lowerName.includes('mess') || lowerName.includes('canteen')) {
         category = 'Food';
-        color = '#f59e0b';
+        color = '#f97316';
       }
 
       labelAnchorsRef.current.push({
         id: `label_${idx}`,
-        name,
+        name: `${name} (${floors}F)`,
         category,
         color,
-        pos: new THREE.Vector3(centerX, height + 4, centerZ),
+        pos: new THREE.Vector3(centerX, totalHeight + 6, centerZ),
         feature,
       });
     });
   }, [buildingsGeoJSON, solarInfo.isNight]);
 
-  // Roads, Paths & Street Light Glow Orbs (warm glowing spheres along pathways like IITK)
+  // Roads, Pedestrian Walkways & Street Lamp Orbs
   useEffect(() => {
     const scene = sceneRef.current;
     const lampsGroup = streetLampsGroupRef.current;
     if (!scene || !lampsGroup) return;
 
-    // Clear old lamps
     while (lampsGroup.children.length > 0) {
       lampsGroup.remove(lampsGroup.children[0]);
     }
 
-    // Place warm glowing street lamp spheres along pedestrian paths
+    // Warm street lamp spheres along pedestrian paths
     if (pathsGeoJSON && pathsGeoJSON.features) {
-      const lampSphereGeo = new THREE.SphereGeometry(1.4, 8, 8);
+      const lampSphereGeo = new THREE.SphereGeometry(1.5, 8, 8);
       const lampGlowMat = new THREE.MeshBasicMaterial({
         color: 0xfef08a,
         transparent: true,
@@ -476,7 +618,7 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
           const [lng, lat] = coords[i];
           const local = latLngToLocal(lat, lng);
           const lampMesh = new THREE.Mesh(lampSphereGeo, lampGlowMat);
-          lampMesh.position.set(local.x, 3.2, local.z);
+          lampMesh.position.set(local.x, 3.4, local.z);
           lampsGroup.add(lampMesh);
           count++;
           if (count > 250) break;
@@ -512,6 +654,44 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
     };
   }, [pathsGeoJSON]);
 
+  // Sports Complex in 3D (Running Track & Sports fields)
+  useEffect(() => {
+    const group = sportsGroupRef.current;
+    if (!group || !sportsGeoJSON || !sportsGeoJSON.features) return;
+
+    while (group.children.length > 0) {
+      group.remove(group.children[0]);
+    }
+
+    for (const feat of sportsGeoJSON.features) {
+      const coords = feat.geometry?.coordinates;
+      if (!coords || !coords[0]) continue;
+      const ring = coords[0];
+
+      const shape = new THREE.Shape();
+      for (let i = 0; i < ring.length; i++) {
+        const [lng, lat] = ring[i];
+        const local = latLngToLocal(lat, lng);
+        if (i === 0) shape.moveTo(local.x, local.z);
+        else shape.lineTo(local.x, local.z);
+      }
+
+      const geo = new THREE.ShapeGeometry(shape);
+      geo.rotateX(-Math.PI / 2);
+
+      const isTrack = feat.properties?.sport === 'running' || (feat.properties?.leisure === 'pitch');
+      const mat = new THREE.MeshStandardMaterial({
+        color: isTrack ? 0x991b1b : 0x0284c7, // Crimson athletics track or cyan court
+        roughness: 0.9,
+      });
+
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.position.y = 0.2;
+      mesh.receiveShadow = true;
+      group.add(mesh);
+    }
+  }, [sportsGeoJSON]);
+
   // Active navigation route ribbon in 3D
   useEffect(() => {
     const scene = sceneRef.current;
@@ -525,7 +705,7 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
         points.push(new THREE.Vector3(local.x, 1.2, local.z));
       }
       const lineGeo = new THREE.BufferGeometry().setFromPoints(points);
-      const lineMat = new THREE.LineBasicMaterial({ color: 0x38bdf8, linewidth: 5 });
+      const lineMat = new THREE.LineBasicMaterial({ color: 0x38bdf8, linewidth: 6 });
       routeLine = new THREE.Line(lineGeo, lineMat);
       scene.add(routeLine);
     }
