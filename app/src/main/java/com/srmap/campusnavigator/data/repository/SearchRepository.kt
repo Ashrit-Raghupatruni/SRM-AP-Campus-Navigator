@@ -1,6 +1,7 @@
 package com.srmap.campusnavigator.data.repository
 
 import com.srmap.campusnavigator.data.datasource.VerifiedAmenitiesDataSource
+import com.srmap.campusnavigator.data.datasource.VerifiedFacultyDataSource
 import com.srmap.campusnavigator.data.local.dao.CampusDao
 import com.srmap.campusnavigator.data.local.entities.RecentSearchEntity
 import com.srmap.campusnavigator.domain.models.AmenityCategory
@@ -85,6 +86,8 @@ class SearchRepositoryImpl(
             } else null
         }
 
+        val verifiedFacultyResults = VerifiedFacultyDataSource.verifiedFaculty
+
         val equipmentResults = allEquipment.mapNotNull { eq ->
             val room = roomMap[eq.roomId]
             if (room?.latitude != null && room.longitude != null) {
@@ -122,6 +125,7 @@ class SearchRepositoryImpl(
 
             cachedFaculty.clear()
             cachedFaculty.addAll(facultyResults)
+            cachedFaculty.addAll(verifiedFacultyResults)
 
             cachedEquipment.clear()
             cachedEquipment.addAll(equipmentResults)

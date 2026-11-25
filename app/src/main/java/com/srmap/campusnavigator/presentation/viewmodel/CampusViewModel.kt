@@ -21,6 +21,7 @@ data class CampusUiState(
     val favoriteIds: Set<String> = emptySet(),
     val selectedBuilding: CampusBuilding? = null,
     val selectedRoom: UnifiedSearchResult.RoomResult? = null,
+    val selectedFaculty: UnifiedSearchResult.FacultyResult? = null,
     val buildingRooms: List<RoomEntity> = emptyList(),
     val buildingFaculty: List<FacultyEntity> = emptyList(),
     val buildingEquipment: List<EquipmentEntity> = emptyList(),
@@ -57,7 +58,8 @@ class CampusViewModel(
     fun selectBuilding(building: CampusBuilding?) {
         _uiState.value = _uiState.value.copy(
             selectedBuilding = building,
-            selectedRoom = null
+            selectedRoom = null,
+            selectedFaculty = null
         )
         if (building != null) {
             loadBuildingDetails(building)
@@ -104,6 +106,15 @@ class CampusViewModel(
     fun selectRoom(room: UnifiedSearchResult.RoomResult?) {
         _uiState.value = _uiState.value.copy(
             selectedRoom = room,
+            selectedBuilding = null,
+            selectedFaculty = null
+        )
+    }
+
+    fun selectFaculty(faculty: UnifiedSearchResult.FacultyResult?) {
+        _uiState.value = _uiState.value.copy(
+            selectedFaculty = faculty,
+            selectedRoom = null,
             selectedBuilding = null
         )
     }

@@ -43,8 +43,9 @@ class FirstPersonCameraController {
         const val MAX_DISTANCE = 25.0f
 
         const val MIN_PITCH_DEG = 10.0f
-        const val MAX_PITCH_DEG = 65.0f
+        const val MAX_PITCH_DEG = 89.5f
         const val DEFAULT_THIRD_PERSON_PITCH = 24.0f
+        const val TOP_DOWN_90_PITCH = 89.5f
         const val FIRST_PERSON_PITCH = -4.0f
 
         private const val POSITION_LERP_FACTOR = 0.18f
@@ -148,6 +149,20 @@ class FirstPersonCameraController {
         val dy = viewpoint.eyePosition.y - viewpoint.targetPosition.y
         val dz = viewpoint.eyePosition.z - viewpoint.targetPosition.z
         targetDistance = kotlin.math.sqrt(dx * dx + dy * dy + dz * dz).coerceIn(MIN_DISTANCE, 120.0f)
+        currentDistance = targetDistance
+        lastManualInteractionTime = System.currentTimeMillis()
+    }
+
+    /**
+     * Frames a campus target (building, room, faculty, or amenity) with a direct 90° top-down overhead perspective
+     */
+    fun frameTopDown90(target: Vector3, overheadAltitude: Float = 35.0f) {
+        viewMode = CameraViewMode.THIRD_PERSON
+        targetUserGroundPos = Vector3(target.x, 0f, target.z)
+        currentUserGroundPos = targetUserGroundPos
+        orbitYawOffset = 0f
+        orbitPitch = TOP_DOWN_90_PITCH
+        targetDistance = overheadAltitude.coerceIn(MIN_DISTANCE, 120.0f)
         currentDistance = targetDistance
         lastManualInteractionTime = System.currentTimeMillis()
     }

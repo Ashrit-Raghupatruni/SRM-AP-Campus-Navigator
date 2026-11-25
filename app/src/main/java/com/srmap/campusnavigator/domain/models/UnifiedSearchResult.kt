@@ -38,10 +38,18 @@ sealed class UnifiedSearchResult {
         val blockId: String,
         val floor: Int,
         val roomNo: String,
-        override val point: GeoPoint
+        override val point: GeoPoint,
+        val email: String? = null,
+        val education: String? = null,
+        val profileUrl: String? = null
     ) : UnifiedSearchResult() {
         override val title: String get() = facultyName
-        override val subtitle: String get() = "${designation ?: "Faculty"} • ${department ?: "SRM AP"} • $blockId F$floor (Cabin $roomNo)"
+        override val subtitle: String get() {
+            val role = designation ?: "Faculty"
+            val dept = department ?: "SRM University-AP"
+            val loc = if (roomNo.isNotBlank()) " • $blockId F$floor ($roomNo)" else " • $blockId Block"
+            return "$role • $dept$loc"
+        }
     }
 
     data class EquipmentResult(

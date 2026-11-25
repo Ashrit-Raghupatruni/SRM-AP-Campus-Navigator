@@ -38,6 +38,7 @@ import com.srmap.campusnavigator.domain.models.CampusFeature
 import com.srmap.campusnavigator.domain.models.GeoPoint
 import com.srmap.campusnavigator.domain.models.UnifiedSearchResult
 import com.srmap.campusnavigator.presentation.bottomsheet.BuildingDetailsSheet
+import com.srmap.campusnavigator.presentation.bottomsheet.FacultyDossierSheet
 import com.srmap.campusnavigator.presentation.bottomsheet.RoomDetailsSheet
 import com.srmap.campusnavigator.presentation.bottomsheet.RouteNavigationSheet
 import com.srmap.campusnavigator.presentation.components.*
@@ -311,6 +312,33 @@ fun CampusNavigatorMainScreen(
                                 )
                             }
 
+                            // Faculty Dossier Bottom Sheet (IITK / SRM AP realistic physical place dossier)
+                            campusState.selectedFaculty?.let { fac ->
+                                FacultyDossierSheet(
+                                    faculty = fac,
+                                    onClose = { campusViewModel.selectFaculty(null) },
+                                    onNavigate = { f ->
+                                        val start = navState.userLocation?.point ?: GeoPoint(16.4632311, 80.5064108)
+                                        val started = navigationViewModel.startNavigation(
+                                            startPoint = start,
+                                            endPoint = f.point,
+                                            destinationName = "${f.facultyName} (${f.blockId} Block)",
+                                            blockName = "${f.blockId} Block",
+                                            floor = f.floor,
+                                            roomNo = f.roomNo
+                                        )
+                                        if (started) {
+                                            campusViewModel.selectFaculty(null)
+                                        }
+                                    },
+                                    onView90Deg = { f ->
+                                        focusTarget = f.point
+                                        navigationViewModel.set3DMode(true)
+                                    },
+                                    modifier = Modifier.align(Alignment.BottomCenter)
+                                )
+                            }
+
                             // Building Details Bottom Sheet
                             BuildingDetailsSheet(
                                 building = campusState.selectedBuilding,
@@ -444,18 +472,7 @@ fun CampusNavigatorMainScreen(
                                         focusTarget = res.point
                                     }
                                     is UnifiedSearchResult.FacultyResult -> {
-                                        campusViewModel.selectRoom(
-                                            UnifiedSearchResult.RoomResult(
-                                                roomId = "${res.blockId}_${res.roomNo}",
-                                                blockId = res.blockId,
-                                                floor = res.floor,
-                                                roomNo = res.roomNo,
-                                                roomType = "Faculty Cabin",
-                                                point = res.point,
-                                                facultyName = res.facultyName,
-                                                department = res.department
-                                            )
-                                        )
+                                        campusViewModel.selectFaculty(res)
                                         focusTarget = res.point
                                     }
                                     is UnifiedSearchResult.EquipmentResult -> {
