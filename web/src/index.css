@@ -10,7 +10,17 @@ html, body, #root {
   overflow: hidden;
 }
 
-/* Custom scrollbars */
+/* Force Leaflet map container beneath application UI overlays */
+.leaflet-container {
+  z-index: 1 !important;
+}
+.leaflet-pane {
+  z-index: 10 !important;
+}
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 20 !important;
+}
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
