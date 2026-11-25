@@ -40,6 +40,19 @@ export const CampusMap2D: React.FC<CampusMap2DProps> = ({
   const roomsLayerGroupRef = useRef<L.LayerGroup | null>(null);
   const geojsonLayersRef = useRef<L.LayerGroup | null>(null);
 
+  // Helper to determine active tile URL (MapTiler with Carto fallback)
+  const getTileUrl = (night: boolean) => {
+    const apiKey = import.meta.env.VITE_MAPTILER_API_KEY;
+    if (apiKey) {
+      return night
+        ? `https://api.maptiler.com/maps/ch-swisstopo-lbm-dark/{z}/{x}/{y}.png?key=${apiKey}`
+        : `https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=${apiKey}`;
+    }
+    return night
+      ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+      : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+  };
+
   // Initialize Leaflet map
   useEffect(() => {
     if (!mapContainerRef.current || mapRef.current) return;
@@ -55,12 +68,10 @@ export const CampusMap2D: React.FC<CampusMap2DProps> = ({
     L.control.zoom({ position: 'bottomright' }).addTo(map);
 
     // Initial tile layer
-    const tileUrl = isNight
-      ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
-      : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+    const tileUrl = getTileUrl(isNight);
 
     const tileLayer = L.tileLayer(tileUrl, {
-      attribution: '&copy; OpenStreetMap contributors, CartoDB',
+      attribution: '&copy; MapTiler, &copy; OpenStreetMap contributors',
       maxZoom: 20,
     }).addTo(map);
     tileLayerRef.current = tileLayer;
@@ -87,11 +98,7 @@ export const CampusMap2D: React.FC<CampusMap2DProps> = ({
   useEffect(() => {
     if (!mapRef.current || !tileLayerRef.current) return;
 
-    const tileUrl = isNight
-      ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
-      : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
-
-    tileLayerRef.current.setUrl(tileUrl);
+    tileLayerRef.current.setUrl(getTileUrl(isNight));
   }, [isNight]);
 
   // Render Base Vector GeoJSON Layers (Buildings, Paths, Roads, Grounds)
