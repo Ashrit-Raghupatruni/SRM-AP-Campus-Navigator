@@ -67,9 +67,8 @@ export const CampusMap2D: React.FC<CampusMap2DProps> = ({
       maxBounds: campusBounds,
       maxBoundsViscosity: 1.0, // Strictly bounces and locks user inside SRM AP only
       zoomControl: false,
+      attributionControl: false, // Prevents bottom-right attribution bar from overlapping custom controls
     });
-
-    L.control.zoom({ position: 'bottomright' }).addTo(map);
 
     // Initial tile layer
     const tileUrl = getTileUrl(isNight);

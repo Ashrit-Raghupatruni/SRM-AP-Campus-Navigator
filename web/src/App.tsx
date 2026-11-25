@@ -204,15 +204,15 @@ export function App() {
         </div>
       </div>
 
-      {/* Right Floating Floor Selector */}
+      {/* Right Floating Floor Selector & View Controls */}
       {viewMode === '2D' && (
-        <div className="absolute right-4 top-24 z-30 pointer-events-auto">
+        <div className="absolute right-4 top-20 z-50 pointer-events-auto">
           <FloorSelector selectedFloor={selectedFloor} onSelectFloor={setSelectedFloor} />
         </div>
       )}
 
       {/* Bottom Floating Control Bar (Solar Day/Night Cycle + Time) */}
-      <div className="absolute bottom-4 left-4 right-4 sm:left-6 sm:w-96 z-40 pointer-events-auto">
+      <div className="absolute bottom-4 left-4 right-4 sm:left-6 sm:w-96 z-50 pointer-events-auto">
         <TimeControlBar
           solarInfo={solarInfo}
           simulatedTime={simulatedTime}
@@ -230,7 +230,7 @@ export function App() {
 
       {/* Navigation Turn-by-Turn Card */}
       {activeRoute && (
-        <div className="absolute bottom-24 sm:bottom-4 right-4 z-40 pointer-events-auto">
+        <div className="absolute bottom-24 sm:bottom-4 right-4 z-50 pointer-events-auto">
           <NavigationSheet
             route={activeRoute}
             destinationTitle={navigationTargetName}
@@ -241,7 +241,7 @@ export function App() {
 
       {/* Building Inspection Sheet */}
       {selectedBuilding && (
-        <div className="absolute bottom-24 sm:bottom-4 right-4 z-40 pointer-events-auto">
+        <div className="absolute bottom-24 sm:bottom-4 right-4 z-50 pointer-events-auto">
           <BlockInspectionSheet
             buildingName={selectedBuilding.name}
             properties={selectedBuilding.feature.properties}
