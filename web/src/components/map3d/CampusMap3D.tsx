@@ -50,6 +50,7 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
     // Camera
     const camera = new THREE.PerspectiveCamera(45, width / height, 1, 3000);
     cameraRef.current = camera;
+    cameraAngleRef.current.radius = 350; // Focused directly on campus buildings
     updateCameraPosition();
 
     // Renderer
@@ -136,7 +137,8 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
 
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
-      cameraAngleRef.current.radius = Math.max(80, Math.min(900, cameraAngleRef.current.radius + e.deltaY * 0.4));
+      // Clamp zoom distance between 80m and 450m so user stays tightly focused on SRM AP
+      cameraAngleRef.current.radius = Math.max(80, Math.min(450, cameraAngleRef.current.radius + e.deltaY * 0.3));
       updateCameraPosition();
     };
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { CAMPUS_LAT, CAMPUS_LNG } from '../../core/solar';
+import { CAMPUS_LAT, CAMPUS_LNG, CAMPUS_BOUNDS } from '../../core/solar';
 import { RouteResult } from '../../types/campus';
 
 interface CampusMap2DProps {
@@ -45,7 +45,7 @@ export const CampusMap2D: React.FC<CampusMap2DProps> = ({
     const apiKey = import.meta.env.VITE_MAPTILER_API_KEY;
     if (apiKey) {
       return night
-        ? `https://api.maptiler.com/maps/ch-swisstopo-lbm-dark/{z}/{x}/{y}.png?key=${apiKey}`
+        ? `https://api.maptiler.com/maps/streets-v2-dark/{z}/{x}/{y}.png?key=${apiKey}`
         : `https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=${apiKey}`;
     }
     return night
@@ -57,11 +57,15 @@ export const CampusMap2D: React.FC<CampusMap2DProps> = ({
   useEffect(() => {
     if (!mapContainerRef.current || mapRef.current) return;
 
+    const campusBounds = L.latLngBounds(CAMPUS_BOUNDS[0], CAMPUS_BOUNDS[1]);
+
     const map = L.map(mapContainerRef.current, {
       center: [CAMPUS_LAT, CAMPUS_LNG],
       zoom: 17,
-      minZoom: 15,
+      minZoom: 16,
       maxZoom: 20,
+      maxBounds: campusBounds,
+      maxBoundsViscosity: 1.0, // Strictly bounces and locks user inside SRM AP only
       zoomControl: false,
     });
 
@@ -158,7 +162,6 @@ export const CampusMap2D: React.FC<CampusMap2DProps> = ({
     if (buildingsGeoJSON) {
       L.geoJSON(buildingsGeoJSON, {
         style: (feature) => {
-          const name = feature?.properties?.name || '';
           return {
             fillColor: isNight ? '#1e293b' : '#ffffff',
             fillOpacity: isNight ? 0.9 : 0.95,
@@ -169,9 +172,9 @@ export const CampusMap2D: React.FC<CampusMap2DProps> = ({
         onEachFeature: (feature, layer) => {
           const name = feature.properties?.name || 'Academic Block';
           layer.bindTooltip(`<b>${name}</b>`, {
-            permanent: false,
+            permanent: true,
             direction: 'center',
-            className: 'campus-tooltip',
+            className: 'campus-building-label',
           });
           layer.on('click', () => {
             onSelectBuilding(name, feature);
@@ -187,7 +190,8 @@ export const CampusMap2D: React.FC<CampusMap2DProps> = ({
     if (!group) return;
     group.clearLayers();
 
-    if (!roomsGeoJSON || !roomsGeoJSON.features) return;
+    // Do NOT render all room dots when selectedFloor is null to prevent cluster clutter
+    if (selectedFloor === null || !roomsGeoJSON || !roomsGeoJSON.features) return;
 
     for (const feat of roomsGeoJSON.features) {
       const p = feat.properties || {};
@@ -196,22 +200,22 @@ export const CampusMap2D: React.FC<CampusMap2DProps> = ({
       const [lng, lat] = coords;
 
       const floor = typeof p.floor === 'number' ? p.floor : parseInt(p.floor || '0', 10);
-      if (selectedFloor !== null && floor !== selectedFloor) {
+      if (floor !== selectedFloor) {
         continue;
       }
 
       const isLab = (p.type || '').toLowerCase().includes('lab') || (p.description || '').toLowerCase().includes('lab');
 
       const marker = L.circleMarker([lat, lng], {
-        radius: 4.5,
+        radius: 5,
         fillColor: isLab ? '#ec4899' : '#0f766e',
         color: '#ffffff',
         weight: 1.5,
-        fillOpacity: 0.9,
+        fillOpacity: 0.95,
       });
 
       marker.bindTooltip(
-        `<div class="text-xs font-sans"><b>${p.room_number || p.room_id}</b><br/>${p.block || ''} • Floor ${floor}</div>`,
+        `<div class="text-xs font-sans font-bold">${p.room_number || p.room_id}</div><div class="text-[10px] text-slate-500">${p.block || ''} • Floor ${floor}</div>`,
         { direction: 'top', offset: [0, -5] }
       );
 

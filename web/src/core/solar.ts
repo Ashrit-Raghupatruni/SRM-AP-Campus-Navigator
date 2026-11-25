@@ -1,6 +1,12 @@
-// SRM University-AP exact campus center coordinates
-export const CAMPUS_LAT = 16.5658;
-export const CAMPUS_LNG = 80.4996;
+// SRM University-AP exact campus center coordinates (derived from verified buildings GIS)
+export const CAMPUS_LAT = 16.46408;
+export const CAMPUS_LNG = 80.50688;
+
+// Strict Campus Boundaries: locks panning/zooming to SRM AP only
+export const CAMPUS_BOUNDS: [[number, number], [number, number]] = [
+  [16.4580, 80.5020], // Southwest corner
+  [16.4700, 80.5120], // Northeast corner
+];
 
 const RAD = Math.PI / 180;
 const DEG = 180 / Math.PI;
