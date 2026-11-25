@@ -1,19 +1,32 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Search, Compass, Box, Map as MapIcon, Sun, Moon } from 'lucide-react';
+import {
+  Search,
+  Compass,
+  Box,
+  Map as MapIcon,
+  Navigation,
+  Lock,
+  Unlock,
+  RotateCcw,
+  Footprints,
+  Info,
+  Clock,
+  Sparkles,
+} from 'lucide-react';
 import { CampusMap2D } from './components/map/CampusMap2D';
-import { CampusMap3D } from './components/map3d/CampusMap3D';
+import { CampusMap3D, CampusLabel } from './components/map3d/CampusMap3D';
 import { FloorSelector } from './components/map/FloorSelector';
 import { TimeControlBar } from './components/solar/TimeControlBar';
 import { SearchModal } from './components/directory/SearchModal';
 import { NavigationSheet } from './components/navigation/NavigationSheet';
 import { BlockInspectionSheet } from './components/directory/BlockInspectionSheet';
-import { getSolarTimes, CAMPUS_LAT, CAMPUS_LNG } from './core/solar';
+import { getSolarTimes, formatTime } from './core/solar';
 import { PedestrianGraph } from './core/routing';
-import { CampusSearchIndex, SearchResultItem } from './core/search';
+import { CampusSearchIndex } from './core/search';
 import { RouteResult } from './types/campus';
 
 export function App() {
-  // GeoJSON Data states
+  // GeoJSON Data
   const [buildingsData, setBuildingsData] = useState<any>(null);
   const [pathsData, setPathsData] = useState<any>(null);
   const [roadsData, setRoadsData] = useState<any>(null);
@@ -23,9 +36,16 @@ export function App() {
   const [facultyData, setFacultyData] = useState<any[]>([]);
 
   // Navigation & View Mode
-  const [viewMode, setViewMode] = useState<'2D' | '3D'>('2D');
+  const [viewMode, setViewMode] = useState<'3D' | '2D'>('3D');
   const [selectedFloor, setSelectedFloor] = useState<number | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [activeFilter, setActiveFilter] = useState<string>('All');
+  const [isAngleLocked, setIsAngleLocked] = useState(false);
+  const [isWalkMode, setIsWalkMode] = useState(false);
+  const [isTimePickerOpen, setIsTimePickerOpen] = useState(false);
+
+  // Projected 3D building labels
+  const [campusLabels, setCampusLabels] = useState<CampusLabel[]>([]);
 
   // Active navigation & selected building
   const [activeRoute, setActiveRoute] = useState<RouteResult | null>(null);
@@ -40,7 +60,7 @@ export function App() {
   const routingGraph = useMemo(() => new PedestrianGraph(), []);
   const searchIndex = useMemo(() => new CampusSearchIndex(), []);
 
-  // Update clock every second when in live sync mode
+  // Update clock every second in live mode
   useEffect(() => {
     if (!isLiveTime) return;
     const interval = setInterval(() => {
@@ -51,16 +71,7 @@ export function App() {
 
   const solarInfo = useMemo(() => getSolarTimes(simulatedTime), [simulatedTime]);
 
-  // Sync dark class to root HTML element for Tailwind dark mode
-  useEffect(() => {
-    if (solarInfo.isNight) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [solarInfo.isNight]);
-
-  // Load campus GIS & directory data on startup
+  // Load campus GIS assets
   useEffect(() => {
     async function loadCampusAssets() {
       try {
@@ -82,27 +93,18 @@ export function App() {
         setRoomsData(rmRes);
         setFacultyData(facRes);
 
-        // Populate routing graph
-        if (pRes) {
-          routingGraph.loadFromGeoJSON(pRes, rRes);
-        }
-
-        // Populate search index
+        if (pRes) routingGraph.loadFromGeoJSON(pRes, rRes);
         searchIndex.loadData(rmRes, facRes);
       } catch (err) {
         console.error('Failed to load campus GIS assets:', err);
       }
     }
-
     loadCampusAssets();
   }, [routingGraph, searchIndex]);
 
-  // Trigger pedestrian navigation towards a target coordinate
   const navigateToLocation = (targetLat: number, targetLng: number, targetName: string) => {
-    // Campus entrance / main gate as default origin
-    const originLat = 16.5645;
-    const originLng = 80.4985;
-
+    const originLat = 16.4635;
+    const originLng = 80.5065;
     const route = routingGraph.findRoute(originLat, originLng, targetLat, targetLng);
     if (route) {
       setActiveRoute(route);
@@ -110,21 +112,37 @@ export function App() {
     }
   };
 
-  // Rooms belonging to selected building
-  const buildingRooms = useMemo(() => {
-    if (!selectedBuilding || !roomsData || !roomsData.features) return [];
-    const bName = selectedBuilding.name.toLowerCase();
-    return roomsData.features.filter((f: any) => {
-      const b = (f.properties?.block || f.properties?.building || '').toLowerCase();
-      return b.includes(bName) || bName.includes(b);
-    });
-  }, [selectedBuilding, roomsData]);
+  const categories = [
+    { name: 'All', color: '#f59e0b' },
+    { name: 'Academic', color: '#38bdf8' },
+    { name: 'Hostels', color: '#ec4899' },
+    { name: 'Food', color: '#f97316' },
+    { name: 'Shops', color: '#a855f7' },
+    { name: 'Sports', color: '#10b981' },
+    { name: 'Health', color: '#ef4444' },
+    { name: 'Useful spots', color: '#06b6d4' },
+  ];
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden font-sans select-none bg-slate-100 dark:bg-slate-950">
+    <div className="relative w-screen h-screen overflow-hidden font-sans select-none bg-[#040810] text-slate-100">
       {/* 2D or 3D Map Viewport */}
       <div className="absolute inset-0">
-        {viewMode === '2D' ? (
+        {viewMode === '3D' ? (
+          <CampusMap3D
+            buildingsGeoJSON={buildingsData}
+            pathsGeoJSON={pathsData}
+            roadsGeoJSON={roadsData}
+            groundsGeoJSON={groundsData}
+            sportsGeoJSON={sportsData}
+            solarInfo={solarInfo}
+            activeRoute={activeRoute}
+            activeFilter={activeFilter}
+            isFirstPerson={isWalkMode}
+            isAngleLocked={isAngleLocked}
+            onSelectBuilding={(name, feature) => setSelectedBuilding({ name, feature })}
+            onLabelsUpdate={setCampusLabels}
+          />
+        ) : (
           <CampusMap2D
             buildingsGeoJSON={buildingsData}
             pathsGeoJSON={pathsData}
@@ -139,98 +157,189 @@ export function App() {
             onSelectBuilding={(name, feature) => setSelectedBuilding({ name, feature })}
             onSelectRoom={(room) => navigateToLocation(room.lat, room.lng, room.room_number || room.room_id)}
           />
-        ) : (
-          <CampusMap3D
-            buildingsGeoJSON={buildingsData}
-            pathsGeoJSON={pathsData}
-            roadsGeoJSON={roadsData}
-            solarInfo={solarInfo}
-            activeRoute={activeRoute}
-            cameraMode="orbit"
-          />
         )}
       </div>
 
-      {/* Top Floating App Bar */}
-      <div className="absolute top-4 left-4 right-4 z-40 flex items-center justify-between pointer-events-none gap-3">
-        {/* Brand & Search Trigger */}
-        <div className="flex items-center gap-2 pointer-events-auto">
-          <div className="flex items-center gap-2.5 bg-srm-navy text-white px-3.5 py-2.5 rounded-2xl shadow-xl border border-white/10">
-            <Compass className="w-5 h-5 text-teal-400 animate-pulse" />
-            <div className="hidden sm:block">
-              <div className="font-extrabold text-xs tracking-wide">SRM UNIVERSITY-AP</div>
-              <div className="text-[10px] text-teal-300 font-medium">Campus Navigator</div>
-            </div>
-          </div>
+      {/* Floating 3D Building Pills across 3D screen space */}
+      {viewMode === '3D' && (
+        <div className="absolute inset-0 pointer-events-none z-20">
+          {campusLabels.map((lbl) => {
+            if (!lbl.visible) return null;
+            if (activeFilter !== 'All' && lbl.category !== activeFilter) return null;
 
-          <button
-            onClick={() => setIsSearchOpen(true)}
-            className="flex items-center gap-2.5 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md px-4 py-2.5 rounded-2xl shadow-lg border border-slate-200/80 dark:border-slate-800 text-slate-500 hover:text-slate-800 dark:hover:text-slate-100 transition-all cursor-pointer group"
-          >
-            <Search className="w-4 h-4 text-teal-600 group-hover:scale-110 transition-transform" />
-            <span className="text-xs font-semibold hidden md:inline">Search rooms, faculty cabins, labs...</span>
-            <span className="text-xs font-semibold md:hidden">Search...</span>
-            <kbd className="hidden sm:inline text-[10px] bg-slate-100 dark:bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded font-mono">
-              /
-            </kbd>
-          </button>
+            return (
+              <div
+                key={lbl.id}
+                style={{
+                  transform: `translate3d(${lbl.screenX}px, ${lbl.screenY}px, 0) translate(-50%, -100%)`,
+                }}
+                onClick={() => setSelectedBuilding({ name: lbl.name, feature: null })}
+                className="absolute pointer-events-auto cursor-pointer group transition-transform duration-75 hover:scale-110"
+              >
+                <div className="flex items-center gap-1.5 bg-[#09101d]/90 hover:bg-[#0f172a] border border-cyan-500/30 hover:border-cyan-400 text-slate-200 hover:text-white px-2.5 py-1 rounded-full text-[11px] font-bold shadow-xl backdrop-blur-md">
+                  <span
+                    className="w-2 h-2 rounded-full flex-shrink-0 animate-pulse"
+                    style={{ backgroundColor: lbl.color }}
+                  />
+                  <span className="whitespace-nowrap tracking-wide">{lbl.name}</span>
+                </div>
+              </div>
+            );
+          })}
         </div>
+      )}
 
-        {/* 2D / 3D Mode Switcher */}
-        <div className="flex items-center bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-slate-200/80 dark:border-slate-800 rounded-2xl shadow-lg p-1 pointer-events-auto gap-1">
-          <button
-            onClick={() => setViewMode('2D')}
-            className={`flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-xl transition-all cursor-pointer ${
-              viewMode === '2D'
-                ? 'bg-srm-navy text-white shadow-sm'
-                : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
-            }`}
-          >
-            <MapIcon className="w-3.5 h-3.5" />
-            <span>2D</span>
-          </button>
-
-          <button
-            onClick={() => setViewMode('3D')}
-            className={`flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-xl transition-all cursor-pointer ${
-              viewMode === '3D'
-                ? 'bg-teal-600 text-white shadow-sm'
-                : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
-            }`}
-          >
-            <Box className="w-3.5 h-3.5" />
-            <span>3D World</span>
-          </button>
+      {/* Top Left Title Card (Exact IITK 3D Card Style) */}
+      <div className="absolute top-4 left-4 z-40 pointer-events-auto">
+        <div className="bg-[#0b1324]/90 backdrop-blur-xl border border-slate-700/60 rounded-2xl p-3.5 shadow-2xl flex flex-col gap-0.5 min-w-[190px]">
+          <div className="flex items-center gap-2">
+            <h1 className="text-base font-extrabold tracking-tight text-white">
+              SRM AP <span className="text-amber-400 font-bold">in 3D</span>
+            </h1>
+          </div>
+          <div className="text-[11px] text-slate-400 flex items-center gap-1">
+            <span>Production Campus Navigator</span> • <span className="text-amber-400 font-medium">Verified</span>
+          </div>
         </div>
       </div>
 
-      {/* Right Floating Floor Selector & View Controls */}
+      {/* Top Right Universal Search Bar (Matching IITK 3D UI) */}
+      <div className="absolute top-4 right-4 z-40 flex items-center gap-2 pointer-events-auto">
+        <button
+          onClick={() => setIsSearchOpen(true)}
+          className="flex items-center gap-3 bg-[#0b1324]/90 backdrop-blur-xl border border-slate-700/60 hover:border-slate-500 rounded-2xl px-4 py-2.5 shadow-2xl text-slate-400 hover:text-white transition-all w-72 sm:w-80 group cursor-pointer"
+        >
+          <Search className="w-4 h-4 text-slate-400 group-hover:text-amber-400 transition-colors" />
+          <span className="text-xs font-medium text-slate-400">Search halls, faculty, food, roads...</span>
+          <span className="ml-auto text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded font-mono">
+            ⌘K
+          </span>
+        </button>
+
+        <button
+          onClick={() => setIsSearchOpen(true)}
+          className="p-2.5 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold transition-all shadow-lg cursor-pointer"
+          title="Direct search"
+        >
+          <Search className="w-4 h-4" />
+        </button>
+      </div>
+
+      {/* Top Category Filter Pills (IITK 3D Horizontal Category Bar) */}
+      <div className="absolute top-20 right-4 z-40 flex items-center gap-1.5 overflow-x-auto max-w-[calc(100vw-2rem)] py-1 pointer-events-auto scrollbar-none">
+        {categories.map((cat) => (
+          <button
+            key={cat.name}
+            onClick={() => setActiveFilter(cat.name)}
+            className={`flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-full transition-all cursor-pointer whitespace-nowrap backdrop-blur-xl border ${
+              activeFilter === cat.name
+                ? 'bg-amber-500 text-slate-950 border-amber-400 shadow-md font-extrabold'
+                : 'bg-[#0b1324]/85 text-slate-300 border-slate-700/60 hover:bg-slate-800/80'
+            }`}
+          >
+            {cat.name !== 'All' && (
+              <span className="w-2 h-2 rounded-full" style={{ backgroundColor: cat.color }} />
+            )}
+            <span>{cat.name}</span>
+          </button>
+        ))}
+      </div>
+
+      {/* Floor Selector in 2D Mode */}
       {viewMode === '2D' && (
-        <div className="absolute right-4 top-20 z-50 pointer-events-auto">
+        <div className="absolute right-4 top-36 z-50 pointer-events-auto">
           <FloorSelector selectedFloor={selectedFloor} onSelectFloor={setSelectedFloor} />
         </div>
       )}
 
-      {/* Bottom Floating Control Bar (Solar Day/Night Cycle + Time) */}
-      <div className="absolute bottom-4 left-4 right-4 sm:left-6 sm:w-96 z-50 pointer-events-auto">
-        <TimeControlBar
-          solarInfo={solarInfo}
-          simulatedTime={simulatedTime}
-          isLiveTime={isLiveTime}
-          onTimeChange={(t) => {
-            setIsLiveTime(false);
-            setSimulatedTime(t);
+      {/* Bottom Center Floating Controls (Time badge, Walk, Recenter, 2D/3D, Lock angle like IITK) */}
+      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2 pointer-events-auto">
+        {/* Time of Day Button (Pops up slider) */}
+        <button
+          onClick={() => setIsTimePickerOpen(!isTimePickerOpen)}
+          className="flex items-center gap-2 bg-[#0b1324]/90 backdrop-blur-xl border border-slate-700/60 hover:border-slate-500 rounded-2xl px-3.5 py-2.5 text-xs font-bold text-white shadow-2xl transition-all cursor-pointer"
+          title="Adjust time of day"
+        >
+          <Clock className="w-4 h-4 text-amber-400" />
+          <span>{formatTime(simulatedTime)}</span>
+          <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+        </button>
+
+        {/* Walk / First-person mode toggle */}
+        <button
+          onClick={() => setIsWalkMode(!isWalkMode)}
+          className={`flex items-center gap-1.5 text-xs font-bold px-3.5 py-2.5 rounded-2xl border transition-all shadow-2xl cursor-pointer ${
+            isWalkMode
+              ? 'bg-teal-500 text-slate-950 border-teal-400'
+              : 'bg-[#0b1324]/90 backdrop-blur-xl border-slate-700/60 text-slate-200 hover:bg-slate-800'
+          }`}
+          title="Toggle Walk mode"
+        >
+          <Footprints className="w-4 h-4" />
+          <span>Walk</span>
+        </button>
+
+        {/* Recenter Campus Origin Button */}
+        <button
+          onClick={() => {
+            window.location.reload();
           }}
-          onToggleLive={() => {
-            setIsLiveTime(true);
-            setSimulatedTime(new Date());
-          }}
-        />
+          className="p-2.5 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 transition-all shadow-2xl cursor-pointer"
+          title="Recenter Camera to Campus Core"
+        >
+          <Navigation className="w-4 h-4" />
+        </button>
+
+        {/* Reset Camera Orbit Angle */}
+        <button
+          onClick={() => setIsAngleLocked(!isAngleLocked)}
+          className="p-2.5 rounded-2xl bg-[#0b1324]/90 backdrop-blur-xl border border-slate-700/60 hover:bg-slate-800 text-slate-300 transition-all shadow-2xl cursor-pointer"
+          title={isAngleLocked ? 'Unlock rotation' : 'Lock rotation'}
+        >
+          {isAngleLocked ? <Lock className="w-4 h-4 text-amber-400" /> : <Unlock className="w-4 h-4" />}
+        </button>
+
+        {/* 2D / 3D Mode Toggle Switch */}
+        <button
+          onClick={() => setViewMode(viewMode === '3D' ? '2D' : '3D')}
+          className="flex items-center gap-1.5 bg-[#0b1324]/90 backdrop-blur-xl border border-slate-700/60 hover:border-slate-500 rounded-2xl px-3.5 py-2.5 text-xs font-bold text-white shadow-2xl transition-all cursor-pointer"
+        >
+          {viewMode === '3D' ? (
+            <>
+              <MapIcon className="w-4 h-4 text-sky-400" />
+              <span>2D map</span>
+            </>
+          ) : (
+            <>
+              <Box className="w-4 h-4 text-amber-400" />
+              <span>3D view</span>
+            </>
+          )}
+        </button>
       </div>
+
+      {/* Pop-up Time Slider if open */}
+      {isTimePickerOpen && (
+        <div className="absolute bottom-20 left-1/2 -translate-x-1/2 z-50 w-80 sm:w-96 pointer-events-auto">
+          <TimeControlBar
+            solarInfo={solarInfo}
+            simulatedTime={simulatedTime}
+            isLiveTime={isLiveTime}
+            onTimeChange={(t) => {
+              setIsLiveTime(false);
+              setSimulatedTime(t);
+            }}
+            onToggleLive={() => {
+              setIsLiveTime(true);
+              setSimulatedTime(new Date());
+            }}
+          />
+        </div>
+      )}
 
       {/* Navigation Turn-by-Turn Card */}
       {activeRoute && (
-        <div className="absolute bottom-24 sm:bottom-4 right-4 z-50 pointer-events-auto">
+        <div className="absolute bottom-20 right-4 z-50 pointer-events-auto">
           <NavigationSheet
             route={activeRoute}
             destinationTitle={navigationTargetName}
@@ -241,11 +350,15 @@ export function App() {
 
       {/* Building Inspection Sheet */}
       {selectedBuilding && (
-        <div className="absolute bottom-24 sm:bottom-4 right-4 z-50 pointer-events-auto">
+        <div className="absolute bottom-20 right-4 z-50 pointer-events-auto">
           <BlockInspectionSheet
             buildingName={selectedBuilding.name}
-            properties={selectedBuilding.feature.properties}
-            rooms={buildingRooms}
+            properties={selectedBuilding.feature?.properties || { levels: 4 }}
+            rooms={
+              roomsData?.features?.filter((f: any) =>
+                (f.properties?.block || '').toLowerCase().includes(selectedBuilding.name.toLowerCase())
+              ) || []
+            }
             onClose={() => setSelectedBuilding(null)}
             onNavigateToRoom={(r) => navigateToLocation(r.lat, r.lng, r.room_number || r.room_id)}
           />
