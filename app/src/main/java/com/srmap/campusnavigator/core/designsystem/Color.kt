@@ -36,6 +36,11 @@ val AccentDining = Color(0xFFF59E0B)
 val AccentSports = Color(0xFF10B981)
 val AccentLab = Color(0xFF0F766E)
 val AccentFaculty = Color(0xFFD97706)
+val AccentWater = Color(0xFF0284C7)
+val AccentFood = Color(0xFFF97316)
+val AccentAtm = Color(0xFF16A34A)
+val AccentPrint = Color(0xFF8B5CF6)
+val AccentHealth = Color(0xFFE11D48)
 
 // Map-Specific Canvas Tokens
 val MapGrass = Color(0xFFDCFCE7)

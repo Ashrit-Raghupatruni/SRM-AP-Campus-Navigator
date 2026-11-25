@@ -61,7 +61,7 @@ fun SearchScreen(
             modifier = Modifier.padding(top = 2.dp, bottom = 12.dp)
         )
 
-        // Modern Outlined Search Bar
+        // Modern Outlined Omni-Search Bar
         Surface(
             shape = RoundedCornerShape(20.dp),
             shadowElevation = 6.dp,
@@ -74,7 +74,7 @@ fun SearchScreen(
                 modifier = Modifier.fillMaxWidth(),
                 placeholder = {
                     Text(
-                        "Search rooms, faculty, labs, instruments...",
+                        "Search rooms, water, food, ATMs, faculty, clinic...",
                         fontSize = 14.sp,
                         color = SlateGrey
                     )

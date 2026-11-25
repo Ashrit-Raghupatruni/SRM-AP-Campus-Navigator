@@ -57,6 +57,22 @@ sealed class UnifiedSearchResult {
                 (if (!labInCharge.isNullOrBlank()) " • Lab In-Charge: $labInCharge" else "")
     }
 
+    data class AmenityResult(
+        val amenityId: String,
+        val name: String,
+        val category: AmenityCategory,
+        val blockId: String,
+        val floor: Int,
+        val locationDescription: String,
+        override val point: GeoPoint,
+        val isVerified: Boolean = true,
+        val openingHours: String? = null
+    ) : UnifiedSearchResult() {
+        override val title: String get() = name
+        override val subtitle: String get() = "${category.displayName} • $locationDescription (Floor $floor)" +
+                (if (!openingHours.isNullOrBlank()) " • $openingHours" else "")
+    }
+
     data class MapTilerPlaceResult(
         val id: String,
         override val title: String,

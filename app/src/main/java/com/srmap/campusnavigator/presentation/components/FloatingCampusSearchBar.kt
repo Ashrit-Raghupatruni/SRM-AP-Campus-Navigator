@@ -100,6 +100,12 @@ fun FloatingCampusSearchBar(
                 SearchCategoryFilter.ROOMS -> res is UnifiedSearchResult.RoomResult && res.roomType.contains("Classroom", ignoreCase = true)
                 SearchCategoryFilter.FACULTY -> res is UnifiedSearchResult.FacultyResult || (res is UnifiedSearchResult.RoomResult && !res.facultyName.isNullOrBlank())
                 SearchCategoryFilter.LABS -> (res is UnifiedSearchResult.RoomResult && (res.roomType.contains("Lab", ignoreCase = true) || res.roomNo.contains("Lab", ignoreCase = true)))
+                SearchCategoryFilter.AMENITIES -> res is UnifiedSearchResult.AmenityResult
+                SearchCategoryFilter.WATER -> res is UnifiedSearchResult.AmenityResult && res.category == com.srmap.campusnavigator.domain.models.AmenityCategory.WATER_COOLER
+                SearchCategoryFilter.FOOD -> res is UnifiedSearchResult.AmenityResult && res.category == com.srmap.campusnavigator.domain.models.AmenityCategory.FOOD_CAFE
+                SearchCategoryFilter.ATM -> res is UnifiedSearchResult.AmenityResult && res.category == com.srmap.campusnavigator.domain.models.AmenityCategory.ATM
+                SearchCategoryFilter.PRINTING -> res is UnifiedSearchResult.AmenityResult && (res.category == com.srmap.campusnavigator.domain.models.AmenityCategory.PRINTING || res.category == com.srmap.campusnavigator.domain.models.AmenityCategory.STATIONERY)
+                SearchCategoryFilter.HEALTH -> res is UnifiedSearchResult.AmenityResult && res.category == com.srmap.campusnavigator.domain.models.AmenityCategory.HEALTHCARE
                 SearchCategoryFilter.EQUIPMENT -> res is UnifiedSearchResult.EquipmentResult || (res is UnifiedSearchResult.RoomResult && !res.equipmentList.isNullOrBlank())
             }
         }

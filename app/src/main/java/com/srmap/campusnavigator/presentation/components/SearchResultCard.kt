@@ -37,6 +37,17 @@ fun SearchResultCard(
         }
         is UnifiedSearchResult.FacultyResult -> Triple(Icons.Default.Person, AccentFaculty, "Faculty")
         is UnifiedSearchResult.EquipmentResult -> Triple(Icons.Default.Science, AccentLab, "Equipment")
+        is UnifiedSearchResult.AmenityResult -> {
+            when (result.category) {
+                com.srmap.campusnavigator.domain.models.AmenityCategory.WATER_COOLER -> Triple(Icons.Default.WaterDrop, AccentWater, "Water")
+                com.srmap.campusnavigator.domain.models.AmenityCategory.FOOD_CAFE -> Triple(Icons.Default.Restaurant, AccentFood, "Food")
+                com.srmap.campusnavigator.domain.models.AmenityCategory.ATM -> Triple(Icons.Default.AccountBalance, AccentAtm, "ATM")
+                com.srmap.campusnavigator.domain.models.AmenityCategory.PRINTING -> Triple(Icons.Default.Print, AccentPrint, "Print")
+                com.srmap.campusnavigator.domain.models.AmenityCategory.HEALTHCARE -> Triple(Icons.Default.LocalHospital, AccentHealth, "Clinic")
+                com.srmap.campusnavigator.domain.models.AmenityCategory.STATIONERY -> Triple(Icons.Default.Store, AccentPrint, "Store")
+                com.srmap.campusnavigator.domain.models.AmenityCategory.FACILITY -> Triple(Icons.Default.Business, AccentAcademic, "Facility")
+            }
+        }
         else -> Triple(Icons.Default.LocationOn, SlateGrey, "Place")
     }
 

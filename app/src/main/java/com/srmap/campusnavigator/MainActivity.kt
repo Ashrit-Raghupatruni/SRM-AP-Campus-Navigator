@@ -477,6 +477,9 @@ fun CampusNavigatorMainScreen(
                                         campusViewModel.selectBuilding(res.building)
                                         focusTarget = res.building.centroid
                                     }
+                                    is UnifiedSearchResult.AmenityResult -> {
+                                        focusTarget = res.point
+                                    }
                                     is UnifiedSearchResult.MapTilerPlaceResult -> {
                                         focusTarget = res.point
                                     }
