@@ -154,6 +154,7 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
   const buildingMeshesRef = useRef<THREE.Mesh[]>([]);
   const windowPanelsRef = useRef<{ mesh: THREE.Mesh; nightColor: number; dayColor: number }[]>([]);
   const streetLampsGroupRef = useRef<THREE.Group | null>(null);
+  const groundMeshRef = useRef<THREE.Mesh | null>(null);
   const sportsGroupRef = useRef<THREE.Group | null>(null);
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
@@ -237,6 +238,7 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
     ground.rotation.x = -Math.PI / 2;
     ground.receiveShadow = true;
     scene.add(ground);
+    groundMeshRef.current = ground;
 
     // Groups for Street Lamps and Sports
     const streetLampsGroup = new THREE.Group();
@@ -484,8 +486,15 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
       sceneRef.current.background = new THREE.Color(0x0a101d);
       sceneRef.current.fog = new THREE.FogExp2(0x0a101d, 0.0008);
 
-      // Disable directional hard casting shadows at night to prevent infinite shadow spikes from 80m towers
+      // Disable directional hard casting shadows and clear shadow map at night
       sunLightRef.current.castShadow = false;
+      if (sunLightRef.current.shadow.map) {
+        sunLightRef.current.shadow.map.dispose();
+        sunLightRef.current.shadow.map = null as any;
+      }
+      if (groundMeshRef.current) {
+        groundMeshRef.current.receiveShadow = false;
+      }
 
       // Soft cool moonlight placed high overhead in celestial space
       sunLightRef.current.position.set(150, 480, -150);
@@ -533,6 +542,9 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
       sceneRef.current.fog = new THREE.FogExp2(0xe0f2fe, 0.0007);
 
       sunLightRef.current.castShadow = true;
+      if (groundMeshRef.current) {
+        groundMeshRef.current.receiveShadow = true;
+      }
       sunLightRef.current.color.setHex(0xffffff);
       sunLightRef.current.intensity = 1.45;
 
