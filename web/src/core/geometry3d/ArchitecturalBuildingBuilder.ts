@@ -8,6 +8,7 @@ import { AnnapurnaMessGenerator } from './AnnapurnaMessGenerator';
 import { AcademicComplexCanopyGenerator } from './AcademicComplexCanopyGenerator';
 import { Gate1EntranceGenerator } from './Gate1EntranceGenerator';
 import { ModularHostelGenerator } from './ModularHostelGenerator';
+import { AcademicPavilionGenerator } from './AcademicPavilionGenerator';
 import { latLngToLocal } from '../geo';
 import { getBuildingFloors, getBuildingPalette } from '../../components/map3d/CampusMap3D';
 
@@ -83,6 +84,16 @@ export class ArchitecturalBuildingBuilder {
         lower.includes('kaveri')
       ) {
         result = ModularHostelGenerator.generate(feature, isNight);
+      } else if (lower.includes('x-lab') || lower.includes('xlab')) {
+        result = AcademicPavilionGenerator.generate(feature, isNight, 'x_lab');
+      } else if (lower.includes('jc bose') || lower.includes('j.c. bose') || lower.includes('jcbose')) {
+        result = AcademicPavilionGenerator.generate(feature, isNight, 'jc_bose');
+      } else if (lower.includes('v block') || lower.includes('v-block') || lower.includes('vikram')) {
+        result = AcademicPavilionGenerator.generate(feature, isNight, 'v_block');
+      } else if (lower.includes('homi') || lower.includes('bhabha')) {
+        result = AcademicPavilionGenerator.generate(feature, isNight, 'homi_bhabha');
+      } else if (lower.includes('office')) {
+        result = AcademicPavilionGenerator.generate(feature, isNight, 'office');
       }
 
       if (result) {
@@ -147,8 +158,9 @@ export class ArchitecturalBuildingBuilder {
 
       const buildingMat = new THREE.MeshStandardMaterial({
         color: palette.wallColor,
-        roughness: 0.45,
-        metalness: 0.15,
+        roughness: 0.55,
+        metalness: 0.1,
+        side: THREE.DoubleSide,
       });
 
       const buildingMesh = new THREE.Mesh(extrudeGeo, buildingMat);
@@ -166,6 +178,7 @@ export class ArchitecturalBuildingBuilder {
           color: palette.slabColor,
           roughness: 0.35,
           metalness: 0.1,
+          side: THREE.DoubleSide,
         });
         const slabMesh = new THREE.Mesh(slabShapeGeo, slabMat);
         slabMesh.position.y = f * floorH;
@@ -179,6 +192,7 @@ export class ArchitecturalBuildingBuilder {
         color: palette.roofColor,
         roughness: 0.7,
         metalness: 0.1,
+        side: THREE.DoubleSide,
       });
       const roofMesh = new THREE.Mesh(roofShapeGeo, roofMat);
       roofMesh.position.y = totalHeight + 0.1;

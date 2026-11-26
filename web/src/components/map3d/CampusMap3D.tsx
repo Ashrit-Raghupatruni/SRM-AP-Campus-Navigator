@@ -101,14 +101,14 @@ export function getBuildingPalette(name: string) {
       nightWindow: 0xf59e0b,
     };
   }
-  // V Block, X-Lab, JC Bose, Academic default
+  // V Block, X-Lab, JC Bose, Homi J Bhabha, Academic complex palette
   return {
-    wallColor: 0xe2e8f0,        // Precast sandstone off-white
-    accentColor: 0xcbd5e1,      // Floor spandrel band
-    slabColor: 0xffffff,        // White slab ribbons
-    roofColor: 0x94a3b8,        // Parapet roof surface
-    windowColor: 0x334155,      // Charcoal window frame & glass
-    nightWindow: 0x38bdf8,
+    wallColor: 0xf8fafc,        // Crisp monolithic white precast panels
+    accentColor: 0xd9d2c5,      // Warm sandstone brise-soleil louvers
+    slabColor: 0xffffff,        // Pure white cantilevered floor slabs
+    roofColor: 0x94a3b8,        // Weatherproof flat gravel roof terrace
+    windowColor: 0x2b5876,      // Deep solar-reflective blue-grey ribbon glazing
+    nightWindow: 0x38bdf8,      // Incandescent sky-blue night illumination
   };
 }
 
