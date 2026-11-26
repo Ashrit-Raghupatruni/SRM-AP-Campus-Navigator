@@ -1,10 +1,12 @@
 import * as THREE from 'three';
 import { ArchitecturalMeshResult, createBoxMesh } from './MeshUtils';
+import { latLngToLocal } from '../geo';
 
 /**
  * Procedural 3D Architectural Reconstruction for CV Raman Block (Academic Block III / srmap_bldg_20).
  * - 12-Story Concrete Monolith (Height: 42.0m)
- * - 5-Story Western Annex Wing (X in [-124.9, -104.0], H = 18.0m)
+ * - Built strictly on top of its verified GeoJSON footprint
+ * - 5-Story Western Annex Wing (H = 18.0m)
  * - Monumental Dual-Tier Sky-Atrium Voids on the North Facade (Floors 5-7) with warm study lounge glow
  * - Full-height vertical sky-blue glass curtain spines flanking the voids
  * - Continuous wrap-around ribbon glass for top floors (Floors 10-12 / Central Library)
@@ -23,17 +25,30 @@ export class CVRamanBlockGenerator {
     const ROOF_GRAVEL = 0x94a3b8;
     const PILOTIS_COLOR = 0x334155;
 
-    // Metrics in Local Tangent ENU
-    const BLDG_MIN_X = -124.9;
-    const BLDG_MAX_X = -40.6;
-    const NORTH_Z = 209.0;
-    const SOUTH_Z = 244.1;
-    const WING_DIVIDER_X = -104.0;
+    // Derive bounding envelope directly from GeoJSON polygon
+    const coords = feature.geometry?.coordinates?.[0] || [];
+    let bldgMinX = Infinity, bldgMaxX = -Infinity, northZ = Infinity, southZ = -Infinity;
+    for (const [lng, lat] of coords) {
+      const p = latLngToLocal(lat, lng);
+      bldgMinX = Math.min(bldgMinX, p.x);
+      bldgMaxX = Math.max(bldgMaxX, p.x);
+      northZ = Math.min(northZ, p.z);
+      southZ = Math.max(southZ, p.z);
+    }
+
+    const BLDG_MIN_X = bldgMinX;
+    const BLDG_MAX_X = bldgMaxX;
+    const NORTH_Z = northZ;
+    const SOUTH_Z = southZ;
+    const BLDG_WIDTH = BLDG_MAX_X - BLDG_MIN_X;
+
+    // Relative architectural sections
+    const WING_DIVIDER_X = BLDG_MIN_X + BLDG_WIDTH * 0.25;
     const WING_HEIGHT = 18.0;
     const TOWER_HEIGHT = 42.0;
 
-    const VOID_MIN_X = -88.0;
-    const VOID_MAX_X = -56.0;
+    const VOID_MIN_X = BLDG_MIN_X + BLDG_WIDTH * 0.44;
+    const VOID_MAX_X = BLDG_MIN_X + BLDG_WIDTH * 0.82;
     const VOID_DEPTH_Z = 10.0;
     const LOWER_VOID_MIN_Y = 13.5;
     const LOWER_VOID_MAX_Y = 21.0;

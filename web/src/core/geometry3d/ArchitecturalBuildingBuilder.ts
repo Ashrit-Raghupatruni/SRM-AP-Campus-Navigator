@@ -3,6 +3,7 @@ import { ArchitecturalMeshResult } from './MeshUtils';
 import { CVRamanBlockGenerator } from './CVRamanBlockGenerator';
 import { SRBlockGenerator } from './SRBlockGenerator';
 import { GangaHostelGenerator } from './GangaHostelGenerator';
+import { VedavathiHostelGenerator } from './VedavathiHostelGenerator';
 import { AnnapurnaMessGenerator } from './AnnapurnaMessGenerator';
 import { AcademicComplexCanopyGenerator } from './AcademicComplexCanopyGenerator';
 import { Gate1EntranceGenerator } from './Gate1EntranceGenerator';
@@ -13,7 +14,8 @@ import { getBuildingFloors, getBuildingPalette } from '../../components/map3d/Ca
 export class ArchitecturalBuildingBuilder {
   static buildCampus(
     buildingsGeoJSON: any,
-    isNight: boolean
+    isNight: boolean,
+    facilitiesGeoJSON?: any
   ): {
     buildingMeshes: THREE.Mesh[];
     windows: { mesh: THREE.Mesh; nightColor: number; dayColor: number }[];
@@ -29,8 +31,8 @@ export class ArchitecturalBuildingBuilder {
       return { buildingMeshes, windows, labels, rootGroup };
     }
 
-    // 1. Build Landmark Monument: Gate 1 Entrance
-    const gate1 = Gate1EntranceGenerator.generate();
+    // 1. Build Landmark Monument: Gate 1 Entrance at southern campus boulevard
+    const gate1 = Gate1EntranceGenerator.generate(facilitiesGeoJSON);
     rootGroup.add(gate1.group);
     labels.push({
       id: 'gate_1',
@@ -41,8 +43,8 @@ export class ArchitecturalBuildingBuilder {
       feature: null,
     });
 
-    // 2. Build Landmark Architectural Canopy ("The Flying Umbrella")
-    const canopy = AcademicComplexCanopyGenerator.generate();
+    // 2. Build Landmark Architectural Canopy ("The Flying Umbrella") bridging V-Block & Homi Bhabha
+    const canopy = AcademicComplexCanopyGenerator.generate(buildingsGeoJSON);
     rootGroup.add(canopy.group);
     labels.push({
       id: 'canopy_academic',
@@ -69,6 +71,8 @@ export class ArchitecturalBuildingBuilder {
         result = SRBlockGenerator.generate(feature, isNight);
       } else if (lower.includes('ganga')) {
         result = GangaHostelGenerator.generate(feature, isNight);
+      } else if (lower.includes('vedavathi')) {
+        result = VedavathiHostelGenerator.generate(feature, isNight);
       } else if (lower.includes('annapurna') || lower.includes('mess')) {
         result = AnnapurnaMessGenerator.generate(feature, isNight);
       } else if (
@@ -104,7 +108,7 @@ export class ArchitecturalBuildingBuilder {
         return;
       }
 
-      // Default Academic Blocks (V-Block, X-Lab, JC Bose, Vedavathi, Office)
+      // Default Academic & Administration Blocks (V-Block, X-Lab, JC Bose, Homi J Bhabha, Offices)
       const coords = geom.coordinates[0];
       if (!coords || coords.length < 3) return;
 
@@ -154,73 +158,88 @@ export class ArchitecturalBuildingBuilder {
       rootGroup.add(buildingMesh);
       buildingMeshes.push(buildingMesh);
 
-      // Floor Eyebrow Slabs
-      for (let f = 1; f <= floors; f++) {
-        const floorY = f * floorH;
-        const slabPoints: THREE.Vector3[] = [];
-        for (let i = 0; i < coords.length; i++) {
-          const [lng, lat] = coords[i];
-          const local = latLngToLocal(lat, lng);
-          slabPoints.push(new THREE.Vector3(local.x, floorY, local.z));
-        }
-        slabPoints.push(slabPoints[0]);
-        const sGeo = new THREE.BufferGeometry().setFromPoints(slabPoints);
-        const sLine = new THREE.Line(sGeo, new THREE.LineBasicMaterial({ color: palette.slabColor, linewidth: 2 }));
-        rootGroup.add(sLine);
+      // Floor horizontal division bands (cantilever slabs)
+      for (let f = 1; f < floors; f++) {
+        const slabShapeGeo = new THREE.ShapeGeometry(shape);
+        slabShapeGeo.rotateX(Math.PI / 2);
+        const slabMat = new THREE.MeshStandardMaterial({
+          color: palette.slabColor,
+          roughness: 0.35,
+          metalness: 0.1,
+        });
+        const slabMesh = new THREE.Mesh(slabShapeGeo, slabMat);
+        slabMesh.position.y = f * floorH;
+        rootGroup.add(slabMesh);
+      }
 
-        // Windows along facades
+      // Parapet roof rim
+      const roofShapeGeo = new THREE.ShapeGeometry(shape);
+      roofShapeGeo.rotateX(Math.PI / 2);
+      const roofMat = new THREE.MeshStandardMaterial({
+        color: palette.roofColor,
+        roughness: 0.7,
+        metalness: 0.1,
+      });
+      const roofMesh = new THREE.Mesh(roofShapeGeo, roofMat);
+      roofMesh.position.y = totalHeight + 0.1;
+      roofMesh.receiveShadow = true;
+      rootGroup.add(roofMesh);
+
+      // Window matrices along the perimeter walls
+      for (let f = 0; f < floors; f++) {
+        const winY = f * floorH + 1.2;
         for (let i = 0; i < coords.length - 1; i++) {
           const [lng1, lat1] = coords[i];
           const [lng2, lat2] = coords[i + 1];
           const p1 = latLngToLocal(lat1, lng1);
           const p2 = latLngToLocal(lat2, lng2);
-          const edgeVec = new THREE.Vector3(p2.x - p1.x, 0, p2.z - p1.z);
-          const len = edgeVec.length();
-          if (len < 6) continue;
 
-          const winGeo = new THREE.PlaneGeometry(len * 0.72, 1.5);
-          const winMat = new THREE.MeshBasicMaterial({
-            color: isNight ? palette.nightWindow : palette.windowColor,
-            transparent: true,
-            opacity: isNight ? 0.95 : 0.65,
-          });
-          const winMesh = new THREE.Mesh(winGeo, winMat);
-          const midX = (p1.x + p2.x) / 2;
-          const midZ = (p1.z + p2.z) / 2;
-          winMesh.position.set(midX, floorY - 1.8, midZ);
-          const angle = Math.atan2(p2.z - p1.z, p2.x - p1.x);
-          winMesh.rotation.y = -angle;
+          const dx = p2.x - p1.x;
+          const dz = p2.z - p1.z;
+          const dist = Math.hypot(dx, dz);
+          if (dist > 8.0) {
+            const numWindows = Math.floor(dist / 5.0);
+            for (let w = 1; w <= numWindows; w++) {
+              const t = w / (numWindows + 1);
+              const wx = p1.x + dx * t;
+              const wz = p1.z + dz * t;
 
-          rootGroup.add(winMesh);
-          windows.push({ mesh: winMesh, nightColor: palette.nightWindow, dayColor: palette.windowColor });
+              const angle = Math.atan2(dz, dx);
+              const winGeo = new THREE.BoxGeometry(2.4, 1.8, 0.4);
+              const winMat = new THREE.MeshStandardMaterial({
+                color: palette.windowColor,
+                roughness: 0.1,
+                metalness: 0.9,
+                emissive: isNight ? palette.nightWindow : 0x000000,
+                emissiveIntensity: isNight ? 0.8 : 0.0,
+              });
+              const winMesh = new THREE.Mesh(winGeo, winMat);
+              winMesh.position.set(wx, winY, wz);
+              winMesh.rotation.y = -angle;
+              rootGroup.add(winMesh);
+              windows.push({ mesh: winMesh, nightColor: palette.nightWindow, dayColor: palette.windowColor });
+            }
+          }
         }
       }
 
-      // Rooftop Parapet Border
-      const roofPoints: THREE.Vector3[] = [];
-      for (let i = 0; i < coords.length; i++) {
-        const [lng, lat] = coords[i];
-        const local = latLngToLocal(lat, lng);
-        roofPoints.push(new THREE.Vector3(local.x, totalHeight + 1.2, local.z));
-      }
-      roofPoints.push(roofPoints[0]);
-      const rGeo = new THREE.BufferGeometry().setFromPoints(roofPoints);
-      const rLine = new THREE.Line(rGeo, new THREE.LineBasicMaterial({ color: palette.accentColor, linewidth: 3 }));
-      rootGroup.add(rLine);
-
-      let category = 'Academic';
-      let color = '#38bdf8';
-      if (lower.includes('hostel') || lower.includes('vedavathi')) {
-        category = 'Hostels';
-        color = '#ec4899';
+      // Compute label position
+      let labelCategory = 'Academic';
+      let labelColor = '#38bdf8';
+      if (lower.includes('hostel') || lower.includes('kaveri')) {
+        labelCategory = 'Hostels';
+        labelColor = '#f43f5e';
+      } else if (lower.includes('mess') || lower.includes('annapurna')) {
+        labelCategory = 'Food';
+        labelColor = '#f59e0b';
       }
 
       labels.push({
         id: `label_${idx}`,
         name: `${name} (${floors}F)`,
-        category,
-        color,
-        pos: new THREE.Vector3(centerX, totalHeight + 6, centerZ),
+        category: labelCategory,
+        color: labelColor,
+        pos: new THREE.Vector3(centerX, totalHeight + 4.5, centerZ),
         feature,
       });
     });
