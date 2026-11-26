@@ -108,10 +108,10 @@ object SRBlockMeshGenerator {
         val greenC      = SRBlockSpec.COLOR_GREEN_PARTERRE
 
         // 1. FLOOR-BY-FLOOR HORIZONTAL RIBBON TIERS (Floors 0 to 6)
-        val slabOverhang = 0.85f // Cantilevered eyebrow fin extension
+        val slabOverhang = 1.35f // Prominent cantilevered floor eyebrow plates (matching photo 115637/115642)
         val slabThick    = 0.45f // Thickness of horizontal concrete slab
         val spandrelH    = 0.35f // Height of dark charcoal metal spandrel
-        val glassInset   = 0.25f // Inset behind the slab face
+        val glassInset   = 0.35f // Inset behind the slab face
 
         // Building main box bounds
         val bMinX = minX + 2.0f

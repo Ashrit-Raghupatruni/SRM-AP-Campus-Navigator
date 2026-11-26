@@ -86,6 +86,14 @@ object SRBlockSpec {
                 yawDegrees = 270.0f
             ),
             BuildingViewpoint(
+                id = "sr_to_cv_high_plaza",
+                name = "SR to CV Plaza (Photo 115637/42)",
+                eyePosition = Vector3(12.0f, 15.0f, 138.0f),
+                targetPosition = Vector3(-65.0f, 18.0f, 215.0f),
+                pitchDegrees = 18.0f,
+                yawDegrees = 220.0f
+            ),
+            BuildingViewpoint(
                 id = "top_down_roof",
                 name = "Top-Down Plan View",
                 eyePosition = Vector3(23.65f, 110.0f, 81.96f),

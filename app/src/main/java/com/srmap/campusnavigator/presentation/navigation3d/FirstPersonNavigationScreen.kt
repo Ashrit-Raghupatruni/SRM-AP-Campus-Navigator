@@ -223,6 +223,7 @@ fun FirstPersonNavigationScreen(
                             "photo3_aerial_master" -> "Aerial"
                             "sr_main_entrance" -> "Entrance"
                             "east_elevation_courts" -> "Courts"
+                            "sr_to_cv_high_plaza" -> "Plaza View"
                             "top_down_roof" -> "Roof"
                             else -> vp.name
                         }

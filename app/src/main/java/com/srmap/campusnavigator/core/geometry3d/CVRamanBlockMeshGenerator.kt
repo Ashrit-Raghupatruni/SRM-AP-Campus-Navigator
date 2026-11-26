@@ -67,6 +67,9 @@ object CVRamanBlockMeshGenerator {
     private val VOID_CEILING_DARK = Color(0xFF1E293B)
     private val ROOF_GRAVEL = Color(0xFF94A3B8)
     private val PILOTIS_COLOR = Color(0xFF334155)
+    private val SCAFFOLD_NET_GREEN = Color(0xFF15803D) // Green construction safety netting
+    private val CRANE_YELLOW = Color(0xFFEAB308) // Tower construction crane
+    private val CONCRETE_RAW = Color(0xFF94A3B8) // Unfinished concrete columns & slabs
 
     fun generateMesh(): MeshData {
         val positions = mutableListOf<Float>()
@@ -144,6 +147,7 @@ object CVRamanBlockMeshGenerator {
 
         // =========================================================================
         // 1. WEST ANNEX WING (5 Stories, X in [BLDG_MIN_X, WING_DIVIDER_X], H = 18m)
+        // With Tower 2 Under-Construction Annex visible in IMG_20261125_115634
         // =========================================================================
         addBox(BLDG_MIN_X, 0f, NORTH_Z, WING_DIVIDER_X, WING_HEIGHT, SOUTH_Z, FAÇADE_PRECAST_WHITE)
 
@@ -160,6 +164,32 @@ object CVRamanBlockMeshGenerator {
         // West Wing Roof Parapet
         addBox(BLDG_MIN_X, WING_HEIGHT, NORTH_Z, WING_DIVIDER_X, WING_HEIGHT + 1.0f, SOUTH_Z, FAÇADE_DARK_CONCRETE)
         addBox(BLDG_MIN_X + 0.5f, WING_HEIGHT, NORTH_Z + 0.5f, WING_DIVIDER_X - 0.5f, WING_HEIGHT + 0.1f, SOUTH_Z - 0.5f, ROOF_GRAVEL)
+
+        // Under-Construction Tower 2 Annex immediately to the west (as captured in IMG_115634)
+        val constMinX = BLDG_MIN_X - 32.0f
+        val constMaxX = BLDG_MIN_X - 2.0f
+        val constH = 34.0f // 10-story under-construction reinforced concrete skeletal frame
+        // Main structural core with green safety netting
+        addBox(constMinX, 0f, NORTH_Z + 2.0f, constMaxX, constH, SOUTH_Z - 2.0f, SCAFFOLD_NET_GREEN)
+        // Concrete floor slab bands exposed through scaffolding
+        for (f in 0..9) {
+            val sy = f * 3.4f
+            addBox(constMinX - 0.3f, sy, NORTH_Z + 1.5f, constMaxX + 0.3f, sy + 0.35f, SOUTH_Z - 1.5f, CONCRETE_RAW)
+        }
+        // Vertical skeletal concrete columns
+        val cColCount = 6
+        val cColStep = (constMaxX - constMinX) / cColCount
+        for (i in 0..cColCount) {
+            val cx = constMinX + i * cColStep
+            addBox(cx - 0.3f, 0f, NORTH_Z + 1.4f, cx + 0.3f, constH + 1.5f, NORTH_Z + 2.0f, CONCRETE_RAW)
+        }
+        // High-rise luffing tower crane atop construction annex (matching Photo 115634)
+        val craneX = constMinX + 10.0f
+        val craneZ = (NORTH_Z + SOUTH_Z) / 2f
+        // Vertical crane mast
+        addBox(craneX - 0.7f, constH, craneZ - 0.7f, craneX + 0.7f, constH + 20.0f, craneZ + 0.7f, CRANE_YELLOW)
+        // Horizontal crane jib arm extending out
+        addBox(craneX - 18.0f, constH + 19.0f, craneZ - 0.4f, craneX + 22.0f, constH + 20.2f, craneZ + 0.4f, CRANE_YELLOW)
 
         // =========================================================================
         // 2. MAIN 12-STORY TOWER BODY (X in [WING_DIVIDER_X, BLDG_MAX_X], H = 42m)

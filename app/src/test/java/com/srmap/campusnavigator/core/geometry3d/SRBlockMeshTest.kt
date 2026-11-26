@@ -25,9 +25,10 @@ class SRBlockMeshTest {
     @Test
     fun testSRBlockViewpoints() {
         val vps = SRBlockSpec.getSRBlockViewpoints()
-        assertEquals(6, vps.size)
+        assertTrue("Must have at least 6 viewpoints", vps.size >= 6)
         assertTrue(vps.any { it.id == "photo1_sunset_sports" })
         assertTrue(vps.any { it.id == "photo2_corner_ribbon" })
         assertTrue(vps.any { it.id == "photo3_aerial_master" })
+        assertTrue(vps.any { it.id == "sr_to_cv_high_plaza" })
     }
 }

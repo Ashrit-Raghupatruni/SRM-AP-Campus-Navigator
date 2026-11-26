@@ -62,6 +62,7 @@ class Campus3DRenderer(
     private var treeCourtGpuMesh: GpuMesh? = null
     private var gate1GpuMesh: GpuMesh? = null
     private var hostelPlazaGpuMesh: GpuMesh? = null
+    private var centralPlazaGpuMesh: GpuMesh? = null
     private val buildingGpuMeshes = mutableListOf<Pair<String, GpuMesh>>()
     private var completedRouteGpuMesh: GpuMesh? = null
     private var remainingRouteGpuMesh: GpuMesh? = null
@@ -152,6 +153,7 @@ class Campus3DRenderer(
         // 3. Draw Walkways & Central Breezeway Spine
         walkwaysGpuMesh?.let { drawMesh(it) }
         centralBreezewayGpuMesh?.let { drawMesh(it) }
+        centralPlazaGpuMesh?.let { drawMesh(it) }
 
         // 4. Draw Procedural 3D Trees
         treesGpuMesh?.let { drawMesh(it) }
@@ -326,6 +328,10 @@ class Campus3DRenderer(
         // Gate 1 Monumental Entrance Complex: 42m Canopy, 16.5m Sculptural Fin & Security Cabin
         val gate1Data = com.srmap.campusnavigator.core.geometry3d.Gate1EntranceMeshGenerator.generateGate1Mesh()
         gate1GpuMesh = uploadToGpu(gate1Data)
+
+        // Central Sandstone Pedestrian Plaza & Avenue (Between SR Block & CV Raman)
+        val centralPlazaData = com.srmap.campusnavigator.core.geometry3d.CentralPlazaMeshGenerator.generatePlazaMesh()
+        centralPlazaGpuMesh = uploadToGpu(centralPlazaData)
 
         // Buildings
         buildingGpuMeshes.clear()
