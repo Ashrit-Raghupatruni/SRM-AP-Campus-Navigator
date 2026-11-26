@@ -778,7 +778,7 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
     };
   }, [pathsGeoJSON]);
 
-  // Sports Complex in 3D
+  // Sports Complex in 3D (Athletics Track, Cricket, Soccer, Courts)
   useEffect(() => {
     const group = sportsGroupRef.current;
     if (!group || !sportsGeoJSON || !sportsGeoJSON.features) return;
@@ -801,16 +801,38 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
       }
 
       const geo = new THREE.ShapeGeometry(shape);
-      geo.rotateX(-Math.PI / 2);
+      // Correct mathematical rotation: +PI/2 preserves +Z south and -Z north coordinates
+      geo.rotateX(Math.PI / 2);
 
-      const isTrack = feat.properties?.sport === 'running' || feat.properties?.leisure === 'pitch';
+      const sport = feat.properties?.sport;
+      let color = 0x0284c7; // Default court blue
+      let yElev = 0.2;
+
+      if (sport === 'running') {
+        color = 0x991b1b; // Tartan red running track
+        yElev = 0.22;
+      } else if (sport === 'soccer') {
+        color = 0x15803d; // Lush green soccer turf infield
+        yElev = 0.24;
+      } else if (sport === 'cricket') {
+        color = 0xb45309; // Terracotta clay cricket outfield
+        yElev = 0.2;
+      } else if (sport === 'volleyball') {
+        color = 0xea580c; // Vibrant orange court
+        yElev = 0.22;
+      } else if (sport === 'tennis' || sport === 'basketball') {
+        color = 0x0284c7; // Synthetic blue court
+        yElev = 0.22;
+      }
+
       const mat = new THREE.MeshStandardMaterial({
-        color: isTrack ? 0x991b1b : 0x0284c7,
-        roughness: 0.9,
+        color,
+        roughness: 0.85,
+        metalness: 0.1,
       });
 
       const mesh = new THREE.Mesh(geo, mat);
-      mesh.position.y = 0.2;
+      mesh.position.y = yElev;
       mesh.receiveShadow = true;
       group.add(mesh);
     }
