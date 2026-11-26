@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { latLngToLocal } from '../../core/geo';
+import { ArchitecturalBuildingBuilder } from '../../core/geometry3d/ArchitecturalBuildingBuilder';
 import { SolarInfo } from '../../types/campus';
 import { RouteResult } from '../../types/campus';
 
@@ -541,178 +542,30 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
     }
   }, [solarInfo]);
 
-  // Procedurally Build Solid, Opaque Multi-Material Detailed 3D Buildings
+  // Procedurally Build Realistic 3D Buildings using Architectural Generators
   useEffect(() => {
     const scene = sceneRef.current;
     if (!scene || !buildingsGeoJSON || !buildingsGeoJSON.features) return;
 
-    // Clear old meshes
-    buildingMeshesRef.current.forEach((m) => scene.remove(m));
+    // Clear old building groups and meshes
+    buildingMeshesRef.current.forEach((m) => {
+      if (m.parent) m.parent.remove(m);
+      scene.remove(m);
+    });
     buildingMeshesRef.current = [];
-    windowPanelsRef.current.forEach((w) => scene.remove(w.mesh));
     windowPanelsRef.current = [];
     labelAnchorsRef.current = [];
 
-    const floorHeight = 4.0; // 4.0m per floor
+    // Master Architectural Dispatcher
+    const { buildingMeshes, windows, labels, rootGroup } = ArchitecturalBuildingBuilder.buildCampus(
+      buildingsGeoJSON,
+      solarInfo.isNight
+    );
 
-    buildingsGeoJSON.features.forEach((feature: any, idx: number) => {
-      const geom = feature.geometry;
-      if (!geom || geom.type !== 'Polygon') return;
-
-      const coords = geom.coordinates[0];
-      if (!coords || coords.length < 3) return;
-
-      const name = feature.properties?.name || `Academic Block ${idx + 1}`;
-      const floors = getBuildingFloors(name);
-      const totalHeight = floors * floorHeight;
-      const palette = getBuildingPalette(name);
-
-      const shape = new THREE.Shape();
-      let sumX = 0;
-      let sumZ = 0;
-
-      for (let i = 0; i < coords.length; i++) {
-        const [lng, lat] = coords[i];
-        const local = latLngToLocal(lat, lng);
-        sumX += local.x;
-        sumZ += local.z;
-        if (i === 0) shape.moveTo(local.x, local.z);
-        else shape.lineTo(local.x, local.z);
-      }
-
-      const centerX = sumX / coords.length;
-      const centerZ = sumZ / coords.length;
-
-      // 1. SOLID OPAQUE BUILDING MESH
-      const extrudeSettings: THREE.ExtrudeGeometryOptions = {
-        depth: totalHeight,
-        bevelEnabled: true,
-        bevelSegments: 2,
-        steps: floors,
-        bevelSize: 0.6,
-        bevelThickness: 0.6,
-      };
-
-      const extrudeGeo = new THREE.ExtrudeGeometry(shape, extrudeSettings);
-      extrudeGeo.rotateX(Math.PI / 2);
-
-      // Solid, rich architectural material (completely opaque, no wireframe)
-      const buildingMat = new THREE.MeshStandardMaterial({
-        color: palette.wallColor,
-        roughness: 0.45,
-        metalness: 0.15,
-      });
-
-      const buildingMesh = new THREE.Mesh(extrudeGeo, buildingMat);
-      buildingMesh.castShadow = true;
-      buildingMesh.receiveShadow = true;
-      buildingMesh.userData = { name, feature, floors };
-      scene.add(buildingMesh);
-      buildingMeshesRef.current.push(buildingMesh);
-
-      // 2. HORIZONTAL FLOOR SEPARATION EYEBROWS (White / Accent Slabs per Floor)
-      const slabMat = new THREE.MeshStandardMaterial({
-        color: palette.slabColor,
-        roughness: 0.35,
-        metalness: 0.2,
-      });
-
-      for (let f = 1; f <= floors; f++) {
-        const floorY = f * floorHeight;
-
-        // Concrete eyebrow line wrapping each floor perimeter
-        const slabPoints: THREE.Vector3[] = [];
-        for (let i = 0; i < coords.length; i++) {
-          const [lng, lat] = coords[i];
-          const local = latLngToLocal(lat, lng);
-          slabPoints.push(new THREE.Vector3(local.x, floorY, local.z));
-        }
-        slabPoints.push(slabPoints[0]);
-
-        const slabLineGeo = new THREE.BufferGeometry().setFromPoints(slabPoints);
-        const slabLine = new THREE.Line(
-          slabLineGeo,
-          new THREE.LineBasicMaterial({ color: palette.slabColor, linewidth: 2 })
-        );
-        scene.add(slabLine);
-
-        // Window Panels along facades
-        for (let i = 0; i < coords.length - 1; i++) {
-          const [lng1, lat1] = coords[i];
-          const [lng2, lat2] = coords[i + 1];
-          const p1 = latLngToLocal(lat1, lng1);
-          const p2 = latLngToLocal(lat2, lng2);
-
-          const edgeVec = new THREE.Vector3(p2.x - p1.x, 0, p2.z - p1.z);
-          const edgeLength = edgeVec.length();
-          if (edgeLength < 7) continue;
-
-          const windowW = edgeLength * 0.72;
-          const windowH = 1.6;
-          const winGeo = new THREE.PlaneGeometry(windowW, windowH);
-          const winMat = new THREE.MeshBasicMaterial({
-            color: solarInfo.isNight ? palette.nightWindow : palette.windowColor,
-            transparent: true,
-            opacity: solarInfo.isNight ? 0.95 : 0.65,
-          });
-          const winMesh = new THREE.Mesh(winGeo, winMat);
-
-          const midX = (p1.x + p2.x) / 2;
-          const midZ = (p1.z + p2.z) / 2;
-          winMesh.position.set(midX, floorY - 1.9, midZ);
-
-          const angle = Math.atan2(p2.z - p1.z, p2.x - p1.x);
-          winMesh.rotation.y = -angle;
-
-          scene.add(winMesh);
-          windowPanelsRef.current.push({
-            mesh: winMesh,
-            nightColor: palette.nightWindow,
-            dayColor: palette.windowColor,
-          });
-        }
-      }
-
-      // 3. ROOFTOP PARAPET & MECHANICAL PENTHOUSE
-      const roofPoints: THREE.Vector3[] = [];
-      for (let i = 0; i < coords.length; i++) {
-        const [lng, lat] = coords[i];
-        const local = latLngToLocal(lat, lng);
-        roofPoints.push(new THREE.Vector3(local.x, totalHeight + 1.2, local.z));
-      }
-      roofPoints.push(roofPoints[0]);
-      const roofLineGeo = new THREE.BufferGeometry().setFromPoints(roofPoints);
-      const roofLine = new THREE.Line(
-        roofLineGeo,
-        new THREE.LineBasicMaterial({ color: palette.accentColor, linewidth: 3 })
-      );
-      scene.add(roofLine);
-
-      // Register 3D Label Anchor
-      let category = 'Academic';
-      let color = '#38bdf8';
-      const lowerName = name.toLowerCase();
-
-      if (lowerName.includes('hostel')) {
-        category = 'Hostels';
-        color = '#ec4899';
-      } else if (lowerName.includes('sports') || lowerName.includes('ground')) {
-        category = 'Sports';
-        color = '#10b981';
-      } else if (lowerName.includes('mess') || lowerName.includes('canteen')) {
-        category = 'Food';
-        color = '#f97316';
-      }
-
-      labelAnchorsRef.current.push({
-        id: `label_${idx}`,
-        name: `${name} (${floors}F)`,
-        category,
-        color,
-        pos: new THREE.Vector3(centerX, totalHeight + 6, centerZ),
-        feature,
-      });
-    });
+    scene.add(rootGroup);
+    buildingMeshesRef.current = buildingMeshes;
+    windowPanelsRef.current = windows;
+    labelAnchorsRef.current = labels;
   }, [buildingsGeoJSON, solarInfo.isNight]);
 
   // Roads, Pedestrian Walkways & Street Lamp Orbs
