@@ -481,23 +481,29 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
     sunLightRef.current.position.set(sunX, Math.max(sunY, -100), sunZ);
 
     if (isNight) {
-      sceneRef.current.background = new THREE.Color(0x040810);
-      sceneRef.current.fog = new THREE.FogExp2(0x040810, 0.0016);
+      sceneRef.current.background = new THREE.Color(0x0a101d);
+      sceneRef.current.fog = new THREE.FogExp2(0x0a101d, 0.0008);
 
-      sunLightRef.current.color.setHex(0x38bdf8);
-      sunLightRef.current.intensity = 0.25;
+      // Soft cool moonlight from high angle
+      sunLightRef.current.color.setHex(0x93c5fd);
+      sunLightRef.current.intensity = 0.85;
 
-      ambientLightRef.current.color.setHex(0x0f172a);
-      ambientLightRef.current.intensity = 0.45;
+      // Generous ambient sky radiance so facades and ground stay clearly visible
+      ambientLightRef.current.color.setHex(0x1e293b);
+      ambientLightRef.current.intensity = 0.95;
 
-      hemiLightRef.current.color.setHex(0x1e1b4b);
-      hemiLightRef.current.groundColor.setHex(0x030712);
+      // Hemisphere light for clear vertical contrast between upper sky and ground
+      hemiLightRef.current.color.setHex(0x38bdf8);
+      hemiLightRef.current.groundColor.setHex(0x0f172a);
 
       if (starsRef.current) starsRef.current.visible = true;
 
-      // Illuminated windows at night
+      // Illuminated windows at night (supporting both Standard and Basic materials)
       windowPanelsRef.current.forEach(({ mesh, nightColor }) => {
-        if (mesh.material instanceof THREE.MeshBasicMaterial) {
+        if (mesh.material instanceof THREE.MeshStandardMaterial) {
+          mesh.material.emissive.setHex(nightColor);
+          mesh.material.emissiveIntensity = 1.0;
+        } else if (mesh.material instanceof THREE.MeshBasicMaterial) {
           mesh.material.color.setHex(nightColor);
           mesh.material.opacity = 0.95;
         }
@@ -534,7 +540,10 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
       if (starsRef.current) starsRef.current.visible = false;
 
       windowPanelsRef.current.forEach(({ mesh, dayColor }) => {
-        if (mesh.material instanceof THREE.MeshBasicMaterial) {
+        if (mesh.material instanceof THREE.MeshStandardMaterial) {
+          mesh.material.emissive.setHex(0x000000);
+          mesh.material.emissiveIntensity = 0.0;
+        } else if (mesh.material instanceof THREE.MeshBasicMaterial) {
           mesh.material.color.setHex(dayColor);
           mesh.material.opacity = 0.65;
         }
