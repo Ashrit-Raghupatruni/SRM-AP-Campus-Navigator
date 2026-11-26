@@ -263,6 +263,65 @@ export class ProceduralRoadBuilder {
       }
     }
 
+    // 3. WESTERN PROMENADE & ENTRANCE APRONS (Seamless connection along Vedavathi, Ganga & SR Block)
+    // Covers the unpaved trench between the western kerb of SRM College Rd and the building entrances
+    const promenadeMat = new THREE.MeshStandardMaterial({
+      color: PAVER_BASE,
+      roughness: 0.75,
+      metalness: 0.05,
+      side: THREE.DoubleSide,
+    });
+    const kerbStoneMat = new THREE.MeshStandardMaterial({
+      color: BORDER_KERB,
+      roughness: 0.55,
+      metalness: 0.1,
+      side: THREE.DoubleSide,
+    });
+
+    // Paved promenade spanning X: [8.0m, 19.5m], Z: [-250.0m, 140.0m]
+    const promW = 12.0;
+    const promL = 390.0;
+    const promCX = 13.5;
+    const promCZ = -55.0;
+
+    const promGeo = new THREE.PlaneGeometry(promW, promL);
+    promGeo.rotateX(-Math.PI / 2);
+    const promMesh = new THREE.Mesh(promGeo, promenadeMat);
+    promMesh.position.set(promCX, 0.045, promCZ);
+    promMesh.receiveShadow = true;
+    root.add(promMesh);
+
+    // Architectural boundary kerb stone along the outer edge of the promenade
+    const promKerbGeo = new THREE.BoxGeometry(0.3, 0.12, promL);
+    const promKerb = new THREE.Mesh(promKerbGeo, kerbStoneMat);
+    promKerb.position.set(promCX - promW / 2, 0.06, promCZ);
+    root.add(promKerb);
+
+    // Transverse entrance paving aprons leading directly into:
+    // a) Vedavathi Hostel entrance (Z ~ -118m)
+    const vedaApronGeo = new THREE.PlaneGeometry(16.0, 14.0);
+    vedaApronGeo.rotateX(-Math.PI / 2);
+    const vedaApron = new THREE.Mesh(vedaApronGeo, promenadeMat);
+    vedaApron.position.set(0.0, 0.046, -118.0);
+    vedaApron.receiveShadow = true;
+    root.add(vedaApron);
+
+    // b) Ganga Hostel entrance (Z ~ -47m)
+    const gangaApronGeo = new THREE.PlaneGeometry(16.0, 16.0);
+    gangaApronGeo.rotateX(-Math.PI / 2);
+    const gangaApron = new THREE.Mesh(gangaApronGeo, promenadeMat);
+    gangaApron.position.set(0.0, 0.046, -47.0);
+    gangaApron.receiveShadow = true;
+    root.add(gangaApron);
+
+    // c) SR Block entrance plaza (Z ~ 60m)
+    const srApronGeo = new THREE.PlaneGeometry(16.0, 24.0);
+    srApronGeo.rotateX(-Math.PI / 2);
+    const srApron = new THREE.Mesh(srApronGeo, promenadeMat);
+    srApron.position.set(0.0, 0.046, 60.0);
+    srApron.receiveShadow = true;
+    root.add(srApron);
+
     return root;
   }
 }
