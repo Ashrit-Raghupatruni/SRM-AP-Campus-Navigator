@@ -80,17 +80,60 @@ export class GangaHostelGenerator {
     const towerCore = createBoxMesh(TOWER_MIN_X, TOWER_MAX_X, PODIUM_H, TOTAL_H, TOWER_MIN_Z, TOWER_MAX_Z, COLOR_TERRACOTTA_OCHRE);
     group.add(towerCore);
 
-    // Continuous horizontal floor bands on tower (Floors 6 to 26)
+    // Continuous horizontal floor bands on tower (Floors 6 to 26) across all facades
     const towerFloorH = (TOTAL_H - PODIUM_H) / 21;
     for (let f = 1; f <= 21; f++) {
       const y = PODIUM_H + f * towerFloorH;
-      const towerSlab = createBoxMesh(TOWER_MIN_X - 0.4, TOWER_MAX_X + 0.4, y - 0.25, y, TOWER_MIN_Z - 0.4, TOWER_MAX_Z + 0.4, COLOR_WHITE_SLAB);
+      const towerSlab = createBoxMesh(
+        TOWER_MIN_X - 0.6,
+        TOWER_MAX_X + 0.6,
+        y - 0.3,
+        y,
+        TOWER_MIN_Z - 0.6,
+        TOWER_MAX_Z + 0.6,
+        COLOR_WHITE_SLAB
+      );
       group.add(towerSlab);
+
+      // East Facade Windows (Facing central campus & camera)
+      for (let z = TOWER_MIN_Z + 3.0; z <= TOWER_MAX_Z - 3.0; z += 5.5) {
+        const winGeo = new THREE.BoxGeometry(0.3, 1.8, 2.4);
+        const winMat = new THREE.MeshStandardMaterial({
+          color: isNight ? 0xfbbf24 : COLOR_WINDOW_GLASS,
+          roughness: 0.2,
+          metalness: 0.8,
+          emissive: isNight ? 0xfbbf24 : 0x000000,
+          emissiveIntensity: isNight ? 0.95 : 0.0,
+        });
+        const winMesh = new THREE.Mesh(winGeo, winMat);
+        winMesh.position.set(TOWER_MAX_X + 0.1, y - 1.2, z);
+        group.add(winMesh);
+        windows.push({ mesh: winMesh, nightColor: 0xfbbf24, dayColor: COLOR_WINDOW_GLASS });
+      }
+
+      // North Facade Windows
+      for (let x = TOWER_MIN_X + 3.0; x <= TOWER_MAX_X - 3.0; x += 5.5) {
+        const winGeo = new THREE.BoxGeometry(2.4, 1.8, 0.3);
+        const winMat = new THREE.MeshStandardMaterial({
+          color: isNight ? 0xfbbf24 : COLOR_WINDOW_GLASS,
+          roughness: 0.2,
+          metalness: 0.8,
+          emissive: isNight ? 0xfbbf24 : 0x000000,
+          emissiveIntensity: isNight ? 0.95 : 0.0,
+        });
+        const winMesh = new THREE.Mesh(winGeo, winMat);
+        winMesh.position.set(x, y - 1.2, TOWER_MIN_Z - 0.1);
+        group.add(winMesh);
+        windows.push({ mesh: winMesh, nightColor: 0xfbbf24, dayColor: COLOR_WINDOW_GLASS });
+      }
     }
 
-    // Punched window slots with deep burnt umber surround fins
-    for (let x = TOWER_MIN_X + 2.5; x <= TOWER_MAX_X - 2.5; x += 4.5) {
-      // Vertical fin from podium to roof
+    // Punched vertical fins on East and North facades
+    for (let z = TOWER_MIN_Z + 3.0; z <= TOWER_MAX_Z - 3.0; z += 5.5) {
+      const fin = createBoxMesh(TOWER_MAX_X, TOWER_MAX_X + 0.6, PODIUM_H, TOTAL_H, z - 0.15, z + 0.15, COLOR_TERRACOTTA_DARK);
+      group.add(fin);
+    }
+    for (let x = TOWER_MIN_X + 3.0; x <= TOWER_MAX_X - 3.0; x += 5.5) {
       const fin = createBoxMesh(x - 0.15, x + 0.15, PODIUM_H, TOTAL_H, TOWER_MIN_Z - 0.6, TOWER_MIN_Z, COLOR_TERRACOTTA_DARK);
       group.add(fin);
     }
