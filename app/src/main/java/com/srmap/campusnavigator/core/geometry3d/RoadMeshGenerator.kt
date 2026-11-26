@@ -83,7 +83,9 @@ object RoadMeshGenerator {
 
                 // Lateral vector on XZ plane
                 val lateral = Vector3(-dir.z, 0f, dir.x).normalized()
-                val halfW = WALKWAY_WIDTH / 2f
+                val isVehicular = edge.highwayType in listOf("secondary", "tertiary", "service", "residential", "primary")
+                val roadWidth = if (isVehicular) 6.4f else WALKWAY_WIDTH
+                val halfW = roadWidth / 2f
 
                 // Procedural Paving Tile Subdivision along segment:
                 // Divide length into modular ~1.4m paving units
@@ -101,21 +103,29 @@ object RoadMeshGenerator {
                     val center2 = from3D + dir * dist2
 
                     // Determine paving material for this tile block:
-                    // Every 9th tile (~12.6m) is a dark granite accent band matching photo evidence
-                    val isAccentBand = (t % 9 == 0 && t > 0)
                     val tileColor = when {
-                        isAccentBand -> COLOR_ACCENT_BAND
+                        isVehicular -> COLOR_ASPHALT_ROAD
+                        (t % 9 == 0 && t > 0) -> COLOR_ACCENT_BAND
                         (t % 2 == 0) -> COLOR_PAVER_BASE
                         else -> COLOR_PAVER_ALT
                     }
 
-                    // Main Paver Tile Quad
+                    // Main Surface Quad
                     val p1 = center1 - lateral * halfW
                     val p2 = center1 + lateral * halfW
                     val p3 = center2 + lateral * halfW
                     val p4 = center2 - lateral * halfW
 
                     addQuad(p1, p2, p3, p4, tileColor, Vector3(0f, 1f, 0f))
+
+                    // Roadway Center Marking
+                    if (isVehicular && t % 2 == 0) {
+                        val m1 = center1 - lateral * 0.1f
+                        val m2 = center1 + lateral * 0.1f
+                        val m3 = center2 + lateral * 0.1f
+                        val m4 = center2 - lateral * 0.1f
+                        addQuad(m1, m2, m3, m4, COLOR_ROAD_MARKING, Vector3(0f, 1f, 0f))
+                    }
 
                     // Left Elevated Border Kerb
                     val lKerbInner1 = p1

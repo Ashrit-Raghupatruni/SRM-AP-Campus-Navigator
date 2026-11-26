@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { latLngToLocal } from '../../core/geo';
 import { ArchitecturalBuildingBuilder } from '../../core/geometry3d/ArchitecturalBuildingBuilder';
+import { ProceduralRoadBuilder } from '../../core/geometry3d/ProceduralRoadBuilder';
 import { SolarInfo } from '../../types/campus';
 import { RouteResult } from '../../types/campus';
 
@@ -604,32 +605,17 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
       }
     }
 
-    // Pedestrian Paths Ribbons
-    let pathsLine: THREE.LineSegments | null = null;
-    if (pathsGeoJSON && pathsGeoJSON.features) {
-      const pathPoints: THREE.Vector3[] = [];
-      for (const feat of pathsGeoJSON.features) {
-        const coords = feat.geometry?.coordinates;
-        if (!coords) continue;
-        for (let i = 0; i < coords.length - 1; i++) {
-          const [lng1, lat1] = coords[i];
-          const [lng2, lat2] = coords[i + 1];
-          const p1 = latLngToLocal(lat1, lng1);
-          const p2 = latLngToLocal(lat2, lng2);
-          pathPoints.push(new THREE.Vector3(p1.x, 0.4, p1.z));
-          pathPoints.push(new THREE.Vector3(p2.x, 0.4, p2.z));
-        }
-      }
-      const pGeo = new THREE.BufferGeometry().setFromPoints(pathPoints);
-      const pMat = new THREE.LineBasicMaterial({ color: 0x334155, linewidth: 2 });
-      pathsLine = new THREE.LineSegments(pGeo, pMat);
-      scene.add(pathsLine);
+    // Realistic Procedural Paved Walkways and Asphalt Roads
+    let roadsGroup: THREE.Group | null = null;
+    if ((pathsGeoJSON && pathsGeoJSON.features) || (roadsGeoJSON && roadsGeoJSON.features)) {
+      roadsGroup = ProceduralRoadBuilder.buildRoadsAndPaths(pathsGeoJSON, roadsGeoJSON);
+      scene.add(roadsGroup);
     }
 
     return () => {
-      if (pathsLine && scene) scene.remove(pathsLine);
+      if (roadsGroup && scene) scene.remove(roadsGroup);
     };
-  }, [pathsGeoJSON]);
+  }, [pathsGeoJSON, roadsGeoJSON]);
 
   // Sports Complex in 3D (Athletics Track, Cricket, Soccer, Courts)
   useEffect(() => {
