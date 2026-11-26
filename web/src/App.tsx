@@ -7,14 +7,13 @@ import {
   Navigation,
   Lock,
   Unlock,
-  RotateCcw,
   Footprints,
-  Info,
+  Eye,
+  User,
   Clock,
-  Sparkles,
 } from 'lucide-react';
 import { CampusMap2D } from './components/map/CampusMap2D';
-import { CampusMap3D, CampusLabel } from './components/map3d/CampusMap3D';
+import { CampusMap3D, CampusLabel, getBuildingFloors } from './components/map3d/CampusMap3D';
 import { FloorSelector } from './components/map/FloorSelector';
 import { TimeControlBar } from './components/solar/TimeControlBar';
 import { SearchModal } from './components/directory/SearchModal';
@@ -42,6 +41,7 @@ export function App() {
   const [activeFilter, setActiveFilter] = useState<string>('All');
   const [isAngleLocked, setIsAngleLocked] = useState(false);
   const [isWalkMode, setIsWalkMode] = useState(false);
+  const [walkPov, setWalkPov] = useState<'1st' | '3rd'>('1st');
   const [isTimePickerOpen, setIsTimePickerOpen] = useState(false);
 
   // Projected 3D building labels
@@ -137,7 +137,8 @@ export function App() {
             solarInfo={solarInfo}
             activeRoute={activeRoute}
             activeFilter={activeFilter}
-            isFirstPerson={isWalkMode}
+            isWalkMode={isWalkMode}
+            walkPov={walkPov}
             isAngleLocked={isAngleLocked}
             onSelectBuilding={(name, feature) => setSelectedBuilding({ name, feature })}
             onLabelsUpdate={setCampusLabels}
@@ -161,7 +162,7 @@ export function App() {
       </div>
 
       {/* Floating 3D Building Pills across 3D screen space */}
-      {viewMode === '3D' && (
+      {viewMode === '3D' && !isWalkMode && (
         <div className="absolute inset-0 pointer-events-none z-20">
           {campusLabels.map((lbl) => {
             if (!lbl.visible) return null;
@@ -173,7 +174,7 @@ export function App() {
                 style={{
                   transform: `translate3d(${lbl.screenX}px, ${lbl.screenY}px, 0) translate(-50%, -100%)`,
                 }}
-                onClick={() => setSelectedBuilding({ name: lbl.name, feature: null })}
+                onClick={() => setSelectedBuilding({ name: lbl.name.replace(/\s*\(\d+F\)$/, ''), feature: null })}
                 className="absolute pointer-events-auto cursor-pointer group transition-transform duration-75 hover:scale-110"
               >
                 <div className="flex items-center gap-1.5 bg-[#09101d]/90 hover:bg-[#0f172a] border border-cyan-500/30 hover:border-cyan-400 text-slate-200 hover:text-white px-2.5 py-1 rounded-full text-[11px] font-bold shadow-xl backdrop-blur-md">
@@ -190,8 +191,8 @@ export function App() {
       )}
 
       {/* Top Left Title Card (Exact IITK 3D Card Style) */}
-      <div className="absolute top-4 left-4 z-40 pointer-events-auto">
-        <div className="bg-[#0b1324]/90 backdrop-blur-xl border border-slate-700/60 rounded-2xl p-3.5 shadow-2xl flex flex-col gap-0.5 min-w-[190px]">
+      <div className="absolute top-4 left-4 z-40 pointer-events-auto flex flex-col gap-2">
+        <div className="bg-[#0b1324]/90 backdrop-blur-xl border border-slate-700/60 rounded-2xl p-3.5 shadow-2xl flex flex-col gap-0.5 min-w-[200px]">
           <div className="flex items-center gap-2">
             <h1 className="text-base font-extrabold tracking-tight text-white">
               SRM AP <span className="text-amber-400 font-bold">in 3D</span>
@@ -201,6 +202,29 @@ export function App() {
             <span>Production Campus Navigator</span> • <span className="text-amber-400 font-medium">Verified</span>
           </div>
         </div>
+
+        {/* Left Side Building Details Card - Positioned Directly under "SRM AP in 3D" */}
+        {selectedBuilding && (
+          <div className="w-80 sm:w-96 max-h-[calc(100vh-160px)] z-50">
+            <BlockInspectionSheet
+              buildingName={selectedBuilding.name}
+              properties={
+                selectedBuilding.feature?.properties || {
+                  levels: getBuildingFloors(selectedBuilding.name),
+                }
+              }
+              rooms={
+                roomsData?.features?.filter((f: any) => {
+                  const bName = selectedBuilding.name.toLowerCase();
+                  const roomBlock = (f.properties?.block || f.properties?.building || '').toLowerCase();
+                  return roomBlock.includes(bName) || bName.includes(roomBlock);
+                }) || []
+              }
+              onClose={() => setSelectedBuilding(null)}
+              onNavigateToRoom={(r) => navigateToLocation(r.lat, r.lng, r.room_number || r.room_id)}
+            />
+          </div>
+        )}
       </div>
 
       {/* Top Right Universal Search Bar (Matching IITK 3D UI) */}
@@ -252,9 +276,9 @@ export function App() {
         </div>
       )}
 
-      {/* Bottom Center Floating Controls (Time badge, Walk, Recenter, 2D/3D, Lock angle like IITK) */}
+      {/* Bottom Center Floating Controls (Time badge, Walk Mode with 1st/3rd POV, Recenter, 2D/3D, Lock angle) */}
       <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2 pointer-events-auto">
-        {/* Time of Day Button (Pops up slider) */}
+        {/* Time of Day Button */}
         <button
           onClick={() => setIsTimePickerOpen(!isTimePickerOpen)}
           className="flex items-center gap-2 bg-[#0b1324]/90 backdrop-blur-xl border border-slate-700/60 hover:border-slate-500 rounded-2xl px-3.5 py-2.5 text-xs font-bold text-white shadow-2xl transition-all cursor-pointer"
@@ -265,23 +289,36 @@ export function App() {
           <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
         </button>
 
-        {/* Walk / First-person mode toggle */}
+        {/* Walk Mode Toggle */}
         <button
           onClick={() => setIsWalkMode(!isWalkMode)}
           className={`flex items-center gap-1.5 text-xs font-bold px-3.5 py-2.5 rounded-2xl border transition-all shadow-2xl cursor-pointer ${
             isWalkMode
-              ? 'bg-teal-500 text-slate-950 border-teal-400'
+              ? 'bg-teal-500 text-slate-950 border-teal-400 shadow-teal-500/20'
               : 'bg-[#0b1324]/90 backdrop-blur-xl border-slate-700/60 text-slate-200 hover:bg-slate-800'
           }`}
-          title="Toggle Walk mode"
+          title="Toggle Walk mode (smooth glide to street level)"
         >
           <Footprints className="w-4 h-4" />
-          <span>Walk</span>
+          <span>{isWalkMode ? 'Walking' : 'Walk'}</span>
         </button>
+
+        {/* 1st / 3rd Person POV Toggle when in Walk Mode */}
+        {isWalkMode && (
+          <button
+            onClick={() => setWalkPov(walkPov === '1st' ? '3rd' : '1st')}
+            className="flex items-center gap-1.5 bg-[#0b1324]/90 backdrop-blur-xl border border-slate-700/60 hover:border-slate-500 rounded-2xl px-3 py-2.5 text-xs font-bold text-teal-400 shadow-2xl transition-all cursor-pointer"
+            title="Toggle 1st Person / 3rd Person camera"
+          >
+            {walkPov === '1st' ? <Eye className="w-4 h-4" /> : <User className="w-4 h-4" />}
+            <span>{walkPov} POV</span>
+          </button>
+        )}
 
         {/* Recenter Campus Origin Button */}
         <button
           onClick={() => {
+            setIsWalkMode(false);
             window.location.reload();
           }}
           className="p-2.5 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 transition-all shadow-2xl cursor-pointer"
@@ -290,7 +327,7 @@ export function App() {
           <Navigation className="w-4 h-4" />
         </button>
 
-        {/* Reset Camera Orbit Angle */}
+        {/* Lock/Unlock Rotation */}
         <button
           onClick={() => setIsAngleLocked(!isAngleLocked)}
           className="p-2.5 rounded-2xl bg-[#0b1324]/90 backdrop-blur-xl border border-slate-700/60 hover:bg-slate-800 text-slate-300 transition-all shadow-2xl cursor-pointer"
@@ -344,23 +381,6 @@ export function App() {
             route={activeRoute}
             destinationTitle={navigationTargetName}
             onCancel={() => setActiveRoute(null)}
-          />
-        </div>
-      )}
-
-      {/* Building Inspection Sheet */}
-      {selectedBuilding && (
-        <div className="absolute bottom-20 right-4 z-50 pointer-events-auto">
-          <BlockInspectionSheet
-            buildingName={selectedBuilding.name}
-            properties={selectedBuilding.feature?.properties || { levels: 4 }}
-            rooms={
-              roomsData?.features?.filter((f: any) =>
-                (f.properties?.block || '').toLowerCase().includes(selectedBuilding.name.toLowerCase())
-              ) || []
-            }
-            onClose={() => setSelectedBuilding(null)}
-            onNavigateToRoom={(r) => navigateToLocation(r.lat, r.lng, r.room_number || r.room_id)}
           />
         </div>
       )}
