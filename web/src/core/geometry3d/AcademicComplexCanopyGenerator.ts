@@ -106,12 +106,36 @@ export class AcademicComplexCanopyGenerator {
       }
     }
 
-    // 3. Structural Perimeter Trusses
-    const trussMat = new THREE.MeshStandardMaterial({ color: STEEL_TRUSS_COLOR, metalness: 0.6 });
-    const spineTrussGeo = new THREE.BoxGeometry(0.6, 0.6, CANOPY_L);
+    // 3. Structural Perimeter Trusses & Triangular Webbing
+    const trussMat = new THREE.MeshStandardMaterial({ color: STEEL_TRUSS_COLOR, roughness: 0.4, metalness: 0.6, side: THREE.DoubleSide });
+    const spineTrussGeo = new THREE.BoxGeometry(0.8, 0.8, CANOPY_L);
     const spineTruss = new THREE.Mesh(spineTrussGeo, trussMat);
     spineTruss.position.set(CANOPY_CX, 23.5, CANOPY_CZ);
     group.add(spineTruss);
+
+    // Lateral Arch Ribs
+    for (let z = CANOPY_CZ - CANOPY_L / 2 + 5; z <= CANOPY_CZ + CANOPY_L / 2 - 5; z += 9.0) {
+      const ribGeo = new THREE.CylinderGeometry(CANOPY_W / 2, CANOPY_W / 2, 0.8, 16, 1, false, 0, Math.PI);
+      const ribMesh = new THREE.Mesh(ribGeo, trussMat);
+      ribMesh.position.set(CANOPY_CX, 21.0, z);
+      ribMesh.rotation.z = Math.PI / 2;
+      ribMesh.rotation.y = Math.PI / 2;
+      ribMesh.scale.set(0.24, 1.0, 1.0);
+      group.add(ribMesh);
+    }
+
+    // 4. Underside Golden Warm Downlighting Pendants (Night Glow)
+    for (let z = CANOPY_CZ - CANOPY_L * 0.35; z <= CANOPY_CZ + CANOPY_L * 0.35; z += 12.0) {
+      const lampGeo = new THREE.SphereGeometry(0.6, 8, 8);
+      const lampMat = new THREE.MeshStandardMaterial({
+        color: 0xfde047,
+        emissive: 0xfbbf24,
+        emissiveIntensity: 0.95,
+      });
+      const lamp = new THREE.Mesh(lampGeo, lampMat);
+      lamp.position.set(CANOPY_CX, 19.5, z);
+      group.add(lamp);
+    }
 
     return {
       group,

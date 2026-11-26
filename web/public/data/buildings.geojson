@@ -596,7 +596,7 @@
         "name": "X-Lab",
         "building": "yes",
         "building:category": "ACADEMIC",
-        "building:levels": "3",
+        "building:levels": "7",
         "category": "ACADEMIC"
       },
       "geometry": {
@@ -941,7 +941,7 @@
         "name": "SR Block",
         "building": "yes",
         "building:category": "ACADEMIC",
-        "building:levels": "7",
+        "building:levels": "9",
         "category": "ACADEMIC"
       },
       "geometry": {

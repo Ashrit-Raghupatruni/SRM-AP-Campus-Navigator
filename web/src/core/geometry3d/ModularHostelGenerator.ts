@@ -56,8 +56,9 @@ export class ModularHostelGenerator {
 
     const mat = new THREE.MeshStandardMaterial({
       color: COLOR_WALL_SLATE,
-      roughness: 0.45,
-      metalness: 0.15,
+      roughness: 0.5,
+      metalness: 0.1,
+      side: THREE.DoubleSide,
     });
 
     const mesh = new THREE.Mesh(extrudeGeo, mat);
@@ -80,11 +81,14 @@ export class ModularHostelGenerator {
         const len = edgeVec.length();
         if (len < 6) continue;
 
-        const winGeo = new THREE.PlaneGeometry(len * 0.72, 1.4);
-        const winMat = new THREE.MeshBasicMaterial({
+        const winGeo = new THREE.BoxGeometry(len * 0.72, 1.4, 0.3);
+        const winMat = new THREE.MeshStandardMaterial({
           color: isNight ? 0xfbbf24 : COLOR_WINDOW_GLASS,
-          transparent: true,
-          opacity: isNight ? 0.95 : 0.65,
+          roughness: 0.2,
+          metalness: 0.8,
+          emissive: isNight ? 0xfbbf24 : 0x000000,
+          emissiveIntensity: isNight ? 0.95 : 0.0,
+          side: THREE.DoubleSide,
         });
         const winMesh = new THREE.Mesh(winGeo, winMat);
 
@@ -100,17 +104,25 @@ export class ModularHostelGenerator {
       }
     }
 
-    // 3. Rooftop Parapet Line
-    const roofPoints: THREE.Vector3[] = [];
-    for (let i = 0; i < coords.length; i++) {
-      const [lng, lat] = coords[i];
-      const local = latLngToLocal(lat, lng);
-      roofPoints.push(new THREE.Vector3(local.x, totalHeight + 1.1, local.z));
+    // 3. Solid 3D Parapet Perimeter Coping (0.9m solid coping)
+    for (let i = 0; i < coords.length - 1; i++) {
+      const [lng1, lat1] = coords[i];
+      const [lng2, lat2] = coords[i + 1];
+      const p1 = latLngToLocal(lat1, lng1);
+      const p2 = latLngToLocal(lat2, lng2);
+      const dx = p2.x - p1.x;
+      const dz = p2.z - p1.z;
+      const len = Math.hypot(dx, dz);
+      if (len < 0.2) continue;
+
+      const angle = Math.atan2(dz, dx);
+      const paraGeo = new THREE.BoxGeometry(len, 0.9, 0.4);
+      const paraMat = new THREE.MeshStandardMaterial({ color: COLOR_ROOF_PARAPET, roughness: 0.6, side: THREE.DoubleSide });
+      const paraMesh = new THREE.Mesh(paraGeo, paraMat);
+      paraMesh.position.set((p1.x + p2.x) / 2, totalHeight + 0.45, (p1.z + p2.z) / 2);
+      paraMesh.rotation.y = -angle;
+      group.add(paraMesh);
     }
-    roofPoints.push(roofPoints[0]);
-    const rGeo = new THREE.BufferGeometry().setFromPoints(roofPoints);
-    const rLine = new THREE.Line(rGeo, new THREE.LineBasicMaterial({ color: COLOR_ROOF_PARAPET, linewidth: 2 }));
-    group.add(rLine);
 
     group.userData = { name, feature, floors };
 

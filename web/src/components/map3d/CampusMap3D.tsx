@@ -484,7 +484,11 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
       sceneRef.current.background = new THREE.Color(0x0a101d);
       sceneRef.current.fog = new THREE.FogExp2(0x0a101d, 0.0008);
 
-      // Soft cool moonlight from high angle
+      // Disable directional hard casting shadows at night to prevent infinite shadow spikes from 80m towers
+      sunLightRef.current.castShadow = false;
+
+      // Soft cool moonlight placed high overhead in celestial space
+      sunLightRef.current.position.set(150, 480, -150);
       sunLightRef.current.color.setHex(0x93c5fd);
       sunLightRef.current.intensity = 0.85;
 
@@ -528,6 +532,7 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
       sceneRef.current.background = new THREE.Color(0x7dd3fc);
       sceneRef.current.fog = new THREE.FogExp2(0xe0f2fe, 0.0007);
 
+      sunLightRef.current.castShadow = true;
       sunLightRef.current.color.setHex(0xffffff);
       sunLightRef.current.intensity = 1.45;
 
