@@ -5,11 +5,11 @@ import { latLngToLocal } from '../geo';
 /**
  * Procedural 3D Architectural Reconstruction for Annapurna Mess (srmap_bldg_8).
  * - Stepped organic landscape pavilion integrated into the slope
- * - Built directly on top of verified GeoJSON polygon footprint
+ * - Built DIRECTLY on its exact 21-vertex GeoJSON curved polygon footprint
  * - Signature entrance portal in vibrant Terracotta/Coral red (#E06D53)
  * - LIVING GREEN ROOF (Sod/Turf #2E7D32) with white perimeter fascia (#F8FAFC)
  * - Floor-to-ceiling clerestory glass ribbons (#38BDF8)
- * - Stepped granite amphitheater ledges (#334155)
+ * - Solid double-sided materials with warm evening illumination
  */
 export class AnnapurnaMessGenerator {
   static generate(feature: any, isNight: boolean): ArchitecturalMeshResult {
@@ -21,87 +21,157 @@ export class AnnapurnaMessGenerator {
     const COLOR_WALL_WARM = 0xfef3c7;
     const COLOR_LIVING_GREEN_ROOF = 0x2e7d32; // Living grass turf
     const COLOR_CLERESTORY_GLASS = 0x38bdf8;
-    const COLOR_AMPHITHEATER_GRANITE = 0x334155;
+    const COLOR_NIGHT_GLOW = 0xf59e0b;
 
-    // Derive bounding envelope directly from GeoJSON polygon
-    const coords = feature.geometry?.coordinates?.[0] || [];
-    let bldgMinX = Infinity, bldgMaxX = -Infinity, bldgMinZ = Infinity, bldgMaxZ = -Infinity;
-    for (const [lng, lat] of coords) {
+    const coords: [number, number][] = feature.geometry?.coordinates?.[0] || [];
+    if (coords.length < 3) {
+      return {
+        group,
+        windows,
+        floors: 2,
+        name: 'Annapurna Mess',
+        category: 'Food',
+        color: '#f59e0b',
+        labelPos: new THREE.Vector3(0, 12, 0),
+      };
+    }
+
+    const localPts: { x: number; z: number }[] = [];
+    let minX = Infinity, maxX = -Infinity, minZ = Infinity, maxZ = -Infinity;
+    let sumX = 0, sumZ = 0;
+
+    for (let i = 0; i < coords.length; i++) {
+      const [lng, lat] = coords[i];
       const p = latLngToLocal(lat, lng);
-      bldgMinX = Math.min(bldgMinX, p.x);
-      bldgMaxX = Math.max(bldgMaxX, p.x);
-      bldgMinZ = Math.min(bldgMinZ, p.z);
-      bldgMaxZ = Math.max(bldgMaxZ, p.z);
+      localPts.push(p);
+      minX = Math.min(minX, p.x);
+      maxX = Math.max(maxX, p.x);
+      minZ = Math.min(minZ, p.z);
+      maxZ = Math.max(maxZ, p.z);
+      sumX += p.x;
+      sumZ += p.z;
     }
 
-    const MIN_X = bldgMinX;
-    const MAX_X = bldgMaxX;
-    const MIN_Z = bldgMinZ;
-    const MAX_Z = bldgMaxZ;
-    const WIDTH = MAX_X - MIN_X;
-    const DEPTH = MAX_Z - MIN_Z;
+    const centerX = sumX / localPts.length;
+    const centerZ = sumZ / localPts.length;
+    const TOTAL_H = 7.5; // 2 stories dining hall
 
-    // 1. Tier 1: Lower West Dining Wing (H = 4.5m)
-    const tier1MaxX = MIN_X + WIDTH * 0.55;
-    const lowerDining = createBoxMesh(MIN_X, tier1MaxX, 0, 4.5, MIN_Z + DEPTH * 0.08, MAX_Z - DEPTH * 0.08, COLOR_WALL_WARM);
-    // Living Green Roof on Tier 1
-    const lowerTurf = createBoxMesh(MIN_X - 0.4, tier1MaxX + 0.4, 4.5, 4.75, MIN_Z + DEPTH * 0.07, MAX_Z - DEPTH * 0.07, COLOR_LIVING_GREEN_ROOF, 0.95, 0.05);
-    const lowerFascia = createBoxMesh(MIN_X - 0.6, tier1MaxX + 0.6, 4.5, 4.85, MIN_Z + DEPTH * 0.06, MAX_Z - DEPTH * 0.06, COLOR_WHITE_FASCIA);
-    group.add(lowerDining, lowerTurf, lowerFascia);
+    const wallMat = new THREE.MeshStandardMaterial({
+      color: COLOR_WALL_WARM,
+      roughness: 0.65,
+      metalness: 0.1,
+      side: THREE.DoubleSide,
+    });
 
-    // 2. Tier 2: Raised Central Dining Spine (H = 8.5m)
-    const upperDining = createBoxMesh(MIN_X + WIDTH * 0.35, MAX_X, 0, 8.5, MIN_Z, MAX_Z, COLOR_WALL_WARM);
-    // Living Green Roof on Tier 2
-    const upperTurf = createBoxMesh(MIN_X + WIDTH * 0.34, MAX_X + 0.4, 8.5, 8.75, MIN_Z - 0.4, MAX_Z + 0.4, COLOR_LIVING_GREEN_ROOF, 0.95, 0.05);
-    const upperFascia = createBoxMesh(MIN_X + WIDTH * 0.33, MAX_X + 0.6, 8.5, 8.85, MIN_Z - 0.6, MAX_Z + 0.6, COLOR_WHITE_FASCIA);
-    group.add(upperDining, upperTurf, upperFascia);
+    const fasciaMat = new THREE.MeshStandardMaterial({
+      color: COLOR_WHITE_FASCIA,
+      roughness: 0.35,
+      metalness: 0.15,
+      side: THREE.DoubleSide,
+    });
 
-    // 3. Continuous Floor-to-Ceiling Clerestory Ribbon Glazing (Overlooking outdoor plazas)
-    const glassWest = createBoxMesh(
-      MIN_X - 0.1, MIN_X + 0.1,
-      0.4, 4.2,
-      MIN_Z + DEPTH * 0.12, MAX_Z - DEPTH * 0.12,
-      COLOR_CLERESTORY_GLASS,
-      0.1, 0.8,
-      isNight ? 0xf59e0b : 0x000000,
-      isNight ? 0.8 : 0.0
-    );
-    group.add(glassWest);
-    windows.push({ mesh: glassWest, nightColor: 0xf59e0b, dayColor: COLOR_CLERESTORY_GLASS });
+    const turfMat = new THREE.MeshStandardMaterial({
+      color: COLOR_LIVING_GREEN_ROOF,
+      roughness: 0.9,
+      metalness: 0.05,
+      side: THREE.DoubleSide,
+    });
 
-    // 4. Iconic Coral / Terracotta Entry Pavilion Portal
-    const portalMinX = MIN_X + WIDTH * 0.15;
-    const portalMaxX = portalMinX + 8.5;
-    const portalZ = MAX_Z;
-    const portalH = 6.2;
-    const entryPortal = createBoxMesh(
-      portalMinX, portalMaxX,
-      0, portalH,
-      portalZ - 0.5, portalZ + 3.5,
+    const glassMat = new THREE.MeshStandardMaterial({
+      color: COLOR_CLERESTORY_GLASS,
+      roughness: 0.15,
+      metalness: 0.85,
+      emissive: isNight ? COLOR_NIGHT_GLOW : 0x000000,
+      emissiveIntensity: isNight ? 0.9 : 0.0,
+      side: THREE.DoubleSide,
+    });
+
+    // 1. Build Exact Curved 2D Polygon Base Plinth and Roof
+    const shape = new THREE.Shape();
+    localPts.forEach((p, i) => {
+      if (i === 0) shape.moveTo(p.x, p.z);
+      else shape.lineTo(p.x, p.z);
+    });
+
+    // Base Floor Slab
+    const baseGeo = new THREE.ShapeGeometry(shape);
+    baseGeo.rotateX(Math.PI / 2);
+    const baseMesh = new THREE.Mesh(baseGeo, fasciaMat);
+    baseMesh.position.y = 0.05;
+    baseMesh.receiveShadow = true;
+    group.add(baseMesh);
+
+    // Living Green Roof Turf
+    const roofTurfGeo = new THREE.ShapeGeometry(shape);
+    roofTurfGeo.rotateX(Math.PI / 2);
+    const roofTurf = new THREE.Mesh(roofTurfGeo, turfMat);
+    roofTurf.position.y = TOTAL_H + 0.1;
+    roofTurf.receiveShadow = true;
+    group.add(roofTurf);
+
+    // 2. White Perimeter Roof Fascia & Solid Walls along true curved contour
+    for (let i = 0; i < localPts.length - 1; i++) {
+      const p1 = localPts[i];
+      const p2 = localPts[i + 1];
+      const dx = p2.x - p1.x;
+      const dz = p2.z - p1.z;
+      const edgeLen = Math.hypot(dx, dz);
+      if (edgeLen < 0.2) continue;
+
+      const mx = (p1.x + p2.x) / 2;
+      const mz = (p1.z + p2.z) / 2;
+      const angle = Math.atan2(dz, dx);
+      const nx = -dz / edgeLen;
+      const nz = dx / edgeLen;
+
+      // Roof Fascia Trim (0.6m high projecting white band)
+      const fasciaGeo = new THREE.BoxGeometry(edgeLen + 0.2, 0.6, 0.6);
+      const fasciaMesh = new THREE.Mesh(fasciaGeo, fasciaMat);
+      fasciaMesh.position.set(mx, TOTAL_H + 0.3, mz);
+      fasciaMesh.rotation.y = -angle;
+      group.add(fasciaMesh);
+
+      // Lower Solid Wall (0.9m)
+      const lowerWallGeo = new THREE.BoxGeometry(edgeLen, 0.9, 0.35);
+      const lowerWall = new THREE.Mesh(lowerWallGeo, wallMat);
+      lowerWall.position.set(mx, 0.45, mz);
+      lowerWall.rotation.y = -angle;
+      group.add(lowerWall);
+
+      // Floor-to-Ceiling Clerestory Ribbon Glazing (4.8m tall)
+      const glassGeo = new THREE.BoxGeometry(edgeLen * 0.96, 4.8, 0.2);
+      const glassMesh = new THREE.Mesh(glassGeo, glassMat);
+      glassMesh.position.set(mx - nx * 0.05, 0.9 + 2.4, mz - nz * 0.05);
+      glassMesh.rotation.y = -angle;
+      group.add(glassMesh);
+      windows.push({ mesh: glassMesh, nightColor: COLOR_NIGHT_GLOW, dayColor: COLOR_CLERESTORY_GLASS });
+
+      // Upper Lintel Solid Wall (1.8m)
+      const upperWallGeo = new THREE.BoxGeometry(edgeLen, 1.8, 0.35);
+      const upperWall = new THREE.Mesh(upperWallGeo, wallMat);
+      upperWall.position.set(mx, 0.9 + 4.8 + 0.9, mz);
+      upperWall.rotation.y = -angle;
+      group.add(upperWall);
+    }
+
+    // 3. Signature Coral/Terracotta Entrance Portal
+    const entrancePortal = createBoxMesh(
+      centerX - 4.0, centerX + 4.0,
+      0, 6.0,
+      maxZ - 2.5, maxZ + 1.5,
       COLOR_CORAL_ENTRANCE,
-      0.3, 0.1
+      0.4, 0.2
     );
-    group.add(entryPortal);
-
-    // 5. Stepped Granite Amphitheater Bleachers on the Northern Slope
-    for (let step = 0; step < 4; step++) {
-      const stepY = step * 0.55;
-      const stepZ = MIN_Z - 1.5 - step * 1.6;
-      const bleacher = createBoxMesh(MIN_X + 6.0, MAX_X - 6.0, stepY, stepY + 0.5, stepZ, stepZ + 1.6, COLOR_AMPHITHEATER_GRANITE);
-      group.add(bleacher);
-    }
-
-    const centerX = (MIN_X + MAX_X) / 2;
-    const centerZ = (MIN_Z + MAX_Z) / 2;
+    group.add(entrancePortal);
 
     group.userData = { name: 'Annapurna Mess', feature, floors: 2 };
 
     return {
       group,
       windows,
-      labelPos: new THREE.Vector3(centerX, 12.0, centerZ),
+      labelPos: new THREE.Vector3(centerX, TOTAL_H + 4.5, centerZ),
       name: 'Annapurna Mess',
-      category: 'Dining',
+      category: 'Food',
       color: '#f59e0b',
       floors: 2,
     };
