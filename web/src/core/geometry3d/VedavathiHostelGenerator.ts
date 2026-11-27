@@ -9,6 +9,7 @@ import { latLngToLocal } from '../geo';
  * - Built directly on top of verified GeoJSON polygon footprint
  * - Authentic Indian Terracotta Ochre (#966A55) with crisp white floor slab eyebrows (#F8FAFC)
  * - Ground floor double-height pilotis and central courtyard garden
+ * - 360-degree punched dormitory bedroom windows across North, South, East, and West wings
  * - Rooftop stepped elevator headhouse
  */
 export class VedavathiHostelGenerator {
@@ -20,6 +21,8 @@ export class VedavathiHostelGenerator {
     const COLOR_WHITE_SLAB = 0xf8fafc;
     const COLOR_PILOTIS = 0xe2e8f0;
     const COLOR_CURTAIN_GLASS = 0x38bdf8;
+    const COLOR_WINDOW_GLASS = 0x64748b;
+    const COLOR_NIGHT_WINDOW = 0xfbbf24;
     const COLOR_ROOF_GRAVEL = 0xcbd5e1;
 
     // Derive bounding envelope directly from GeoJSON polygon
@@ -53,21 +56,59 @@ export class VedavathiHostelGenerator {
 
     // 2. Main 15-Story U-Shape Building Mass
     // North Wing
-    const northWing = createBoxMesh(MIN_X, MAX_X, PILOTIS_H, TOTAL_H, MIN_Z, MIN_Z + DEPTH * 0.38, COLOR_TERRACOTTA_OCHRE);
+    const northWing = createBoxMesh(MIN_X, MAX_X, PILOTIS_H, TOTAL_H, MIN_Z, MIN_Z + DEPTH * 0.38, COLOR_TERRACOTTA_OCHRE, 0.4, 0.1);
     // West Spine
-    const westSpine = createBoxMesh(MIN_X, MIN_X + WIDTH * 0.35, PILOTIS_H, TOTAL_H, MIN_Z, MAX_Z, COLOR_TERRACOTTA_OCHRE);
+    const westSpine = createBoxMesh(MIN_X, MIN_X + WIDTH * 0.35, PILOTIS_H, TOTAL_H, MIN_Z, MAX_Z, COLOR_TERRACOTTA_OCHRE, 0.4, 0.1);
     // East Spine
-    const eastSpine = createBoxMesh(MAX_X - WIDTH * 0.35, MAX_X, PILOTIS_H, TOTAL_H, MIN_Z, MAX_Z, COLOR_TERRACOTTA_OCHRE);
+    const eastSpine = createBoxMesh(MAX_X - WIDTH * 0.35, MAX_X, PILOTIS_H, TOTAL_H, MIN_Z, MAX_Z, COLOR_TERRACOTTA_OCHRE, 0.4, 0.1);
     group.add(northWing, westSpine, eastSpine);
 
     // 3. Horizontal White Slab Eyebrows across all 15 floors
     const floorH = (TOTAL_H - PILOTIS_H) / 14;
     for (let f = 1; f <= 14; f++) {
       const y = PILOTIS_H + f * floorH;
-      const slabN = createBoxMesh(MIN_X - 0.4, MAX_X + 0.4, y - 0.25, y, MIN_Z - 0.4, MIN_Z + DEPTH * 0.38 + 0.4, COLOR_WHITE_SLAB);
-      const slabW = createBoxMesh(MIN_X - 0.4, MIN_X + WIDTH * 0.35 + 0.4, y - 0.25, y, MIN_Z - 0.4, MAX_Z + 0.4, COLOR_WHITE_SLAB);
-      const slabE = createBoxMesh(MAX_X - WIDTH * 0.35 - 0.4, MAX_X + 0.4, y - 0.25, y, MIN_Z - 0.4, MAX_Z + 0.4, COLOR_WHITE_SLAB);
+      const slabN = createBoxMesh(MIN_X - 0.4, MAX_X + 0.4, y - 0.25, y, MIN_Z - 0.4, MIN_Z + DEPTH * 0.38 + 0.4, COLOR_WHITE_SLAB, 0.3, 0.1);
+      const slabW = createBoxMesh(MIN_X - 0.4, MIN_X + WIDTH * 0.35 + 0.4, y - 0.25, y, MIN_Z - 0.4, MAX_Z + 0.4, COLOR_WHITE_SLAB, 0.3, 0.1);
+      const slabE = createBoxMesh(MAX_X - WIDTH * 0.35 - 0.4, MAX_X + 0.4, y - 0.25, y, MIN_Z - 0.4, MAX_Z + 0.4, COLOR_WHITE_SLAB, 0.3, 0.1);
       group.add(slabN, slabW, slabE);
+
+      // East Facade Windows (Facing central campus promenade)
+      for (let z = MIN_Z + 3.0; z <= MAX_Z - 3.0; z += 5.5) {
+        const winGeo = new THREE.BoxGeometry(0.3, 1.6, 2.2);
+        const winMat = new THREE.MeshStandardMaterial({
+          color: isNight ? COLOR_NIGHT_WINDOW : COLOR_WINDOW_GLASS,
+          roughness: 0.2,
+          metalness: 0.8,
+          emissive: isNight ? COLOR_NIGHT_WINDOW : 0x000000,
+          emissiveIntensity: isNight ? 0.95 : 0.0,
+          side: THREE.DoubleSide,
+        });
+        const winMesh = new THREE.Mesh(winGeo, winMat);
+        winMesh.position.set(MAX_X + 0.1, y - 1.0, z);
+        group.add(winMesh);
+        windows.push({ mesh: winMesh, nightColor: COLOR_NIGHT_WINDOW, dayColor: COLOR_WINDOW_GLASS });
+      }
+
+      // South Facade Windows on West and East wings (Facing toward Ganga & SR Block)
+      const southWestWinGeo = new THREE.BoxGeometry(2.2, 1.6, 0.3);
+      const southEastWinGeo = new THREE.BoxGeometry(2.2, 1.6, 0.3);
+      const winMatS = new THREE.MeshStandardMaterial({
+        color: isNight ? COLOR_NIGHT_WINDOW : COLOR_WINDOW_GLASS,
+        roughness: 0.2,
+        metalness: 0.8,
+        emissive: isNight ? COLOR_NIGHT_WINDOW : 0x000000,
+        emissiveIntensity: isNight ? 0.95 : 0.0,
+        side: THREE.DoubleSide,
+      });
+      const winMeshSW = new THREE.Mesh(southWestWinGeo, winMatS);
+      winMeshSW.position.set(MIN_X + WIDTH * 0.17, y - 1.0, MAX_Z + 0.1);
+      const winMeshSE = new THREE.Mesh(southEastWinGeo, winMatS);
+      winMeshSE.position.set(MAX_X - WIDTH * 0.17, y - 1.0, MAX_Z + 0.1);
+      group.add(winMeshSW, winMeshSE);
+      windows.push(
+        { mesh: winMeshSW, nightColor: COLOR_NIGHT_WINDOW, dayColor: COLOR_WINDOW_GLASS },
+        { mesh: winMeshSE, nightColor: COLOR_NIGHT_WINDOW, dayColor: COLOR_WINDOW_GLASS }
+      );
     }
 
     // 4. Glazed Ground Entrance Lobby
@@ -79,7 +120,8 @@ export class VedavathiHostelGenerator {
       MIN_X + WIDTH * 0.1, MIN_X + WIDTH * 0.45,
       TOTAL_H, HEADHOUSE_H,
       MIN_Z + 2.0, MIN_Z + DEPTH * 0.3,
-      COLOR_ROOF_GRAVEL
+      COLOR_ROOF_GRAVEL,
+      0.4, 0.1
     );
     group.add(headhouse);
 
