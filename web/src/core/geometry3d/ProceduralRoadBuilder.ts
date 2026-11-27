@@ -322,6 +322,131 @@ export class ProceduralRoadBuilder {
     srApron.receiveShadow = true;
     root.add(srApron);
 
+    // 4. ACADEMIC COMPLEX SOUTH BOULEVARD, PARKING BAYS & LANDSCAPED BERMS (Photos 1, 2, 4)
+    // Directly in front of V-Block and Homi J Bhabha Block (X: [20m, 185m], Z: [-46m, -28m])
+    const acadRoadW = 14.0;
+    const acadRoadL = 165.0;
+    const acadRoadCX = 102.5;
+    const acadRoadCZ = -36.0;
+
+    // Asphalt Main Boulevard Surface
+    const acadAsphaltMat = new THREE.MeshStandardMaterial({
+      color: ASPHALT_BASE,
+      roughness: 0.85,
+      metalness: 0.1,
+    });
+    const acadRoadGeo = new THREE.PlaneGeometry(acadRoadL, acadRoadW);
+    acadRoadGeo.rotateX(-Math.PI / 2);
+    const acadRoadMesh = new THREE.Mesh(acadRoadGeo, acadAsphaltMat);
+    acadRoadMesh.position.set(acadRoadCX, 0.05, acadRoadCZ);
+    acadRoadMesh.receiveShadow = true;
+    root.add(acadRoadMesh);
+
+    // Concrete kerbs lining the south academic boulevard
+    const acadKerbNorth = new THREE.Mesh(
+      new THREE.BoxGeometry(acadRoadL, 0.14, 0.3),
+      kerbStoneMat
+    );
+    acadKerbNorth.position.set(acadRoadCX, 0.07, acadRoadCZ - acadRoadW / 2);
+
+    const acadKerbSouth = new THREE.Mesh(
+      new THREE.BoxGeometry(acadRoadL, 0.14, 0.3),
+      kerbStoneMat
+    );
+    acadKerbSouth.position.set(acadRoadCX, 0.07, acadRoadCZ + acadRoadW / 2);
+    root.add(acadKerbNorth, acadKerbSouth);
+
+    // Marked White Car Parking Stalls (Photo 4 shows rows of angled parking stalls with vehicles)
+    const stallMarkingMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+    const stallW = 2.6;
+    const stallD = 5.2;
+    for (let x = acadRoadCX - acadRoadL / 2 + 10; x <= acadRoadCX + acadRoadL / 2 - 10; x += 3.2) {
+      // White boundary stripe between stalls
+      const stripeGeo = new THREE.PlaneGeometry(0.15, stallD);
+      stripeGeo.rotateX(-Math.PI / 2);
+      const stripe = new THREE.Mesh(stripeGeo, stallMarkingMat);
+      stripe.position.set(x, 0.052, acadRoadCZ + acadRoadW / 2 - stallD / 2 - 0.2);
+      root.add(stripe);
+
+      // Procedural Campus Cars parked in stalls (as clearly visible in Photo 4 aerial shot)
+      if ((Math.round(x) % 7 === 0) || (Math.round(x) % 11 === 0)) {
+        const carColors = [0xffffff, 0x1e293b, 0x94a3b8, 0xb91c1c, 0x2563eb];
+        const carColor = carColors[Math.abs(Math.round(x)) % carColors.length];
+        const carBody = new THREE.Mesh(
+          new THREE.BoxGeometry(2.0, 1.2, 4.4),
+          new THREE.MeshStandardMaterial({ color: carColor, roughness: 0.3, metalness: 0.6 })
+        );
+        carBody.position.set(x + 1.2, 0.65, acadRoadCZ + acadRoadW / 2 - stallD / 2);
+        carBody.castShadow = true;
+        root.add(carBody);
+
+        // Windshield
+        const carGlass = new THREE.Mesh(
+          new THREE.BoxGeometry(1.9, 0.5, 2.0),
+          new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.1, metalness: 0.9 })
+        );
+        carGlass.position.set(x + 1.2, 1.25, acadRoadCZ + acadRoadW / 2 - stallD / 2);
+        root.add(carGlass);
+      }
+    }
+
+    // 5. MANICURED LANDSCAPE GREEN BERMS & ROADSIDE TREES (Photos 1, 2, 4)
+    // Smooth elevated grass mounds between the road kerb and V-Block / Homi J Bhabha facade
+    const bermMat = new THREE.MeshStandardMaterial({
+      color: 0x2e7d32, // Lush vibrant campus green
+      roughness: 0.9,
+      metalness: 0.05,
+    });
+
+    const bermW = acadRoadL * 0.96;
+    const bermD = 6.5;
+    const bermGeo = new THREE.CylinderGeometry(bermD / 2, bermD / 2, bermW, 16, 1, false, 0, Math.PI);
+    bermGeo.rotateZ(Math.PI / 2);
+    bermGeo.scale(1.0, 0.22, 1.0); // Gentle parabolic mound
+    const bermMesh = new THREE.Mesh(bermGeo, bermMat);
+    bermMesh.position.set(acadRoadCX, 0.05, -46.5);
+    bermMesh.receiveShadow = true;
+    root.add(bermMesh);
+
+    // Procedural Landscape Foliage Trees & Shrubs along the academic boulevard (Photos 1, 2, 4)
+    const foliageMat = new THREE.MeshStandardMaterial({
+      color: 0x1e5a22,
+      roughness: 0.85,
+      metalness: 0.05,
+    });
+    const trunkMat = new THREE.MeshStandardMaterial({
+      color: 0x4a3728,
+      roughness: 0.9,
+    });
+
+    // Regular rhythm of compact rounded ornamental trees along the green berm (Photo 1 & Photo 4)
+    for (let x = acadRoadCX - acadRoadL / 2 + 8.0; x <= acadRoadCX + acadRoadL / 2 - 8.0; x += 11.5) {
+      // Tree trunk
+      const treeTrunk = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.2, 0.28, 2.8, 8),
+        trunkMat
+      );
+      treeTrunk.position.set(x, 1.4, -46.5);
+      treeTrunk.castShadow = true;
+
+      // Canopy foliage (dome-shaped campus shade tree)
+      const treeCrown = new THREE.Mesh(
+        new THREE.SphereGeometry(2.4, 8, 8),
+        foliageMat
+      );
+      treeCrown.position.set(x, 3.8, -46.5);
+      treeCrown.scale.set(1.1, 0.9, 1.1);
+      treeCrown.castShadow = true;
+      root.add(treeTrunk, treeCrown);
+
+      // Low ornamental trimmed shrubs flanking tree bases (Photo 1)
+      const shrub1 = new THREE.Mesh(new THREE.SphereGeometry(0.7, 6, 6), bermMat);
+      shrub1.position.set(x - 1.4, 0.45, -46.5);
+      const shrub2 = new THREE.Mesh(new THREE.SphereGeometry(0.7, 6, 6), bermMat);
+      shrub2.position.set(x + 1.4, 0.45, -46.5);
+      root.add(shrub1, shrub2);
+    }
+
     return root;
   }
 }

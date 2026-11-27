@@ -45,7 +45,7 @@ export class ArchitecturalBuildingBuilder {
     });
 
     // 2. Build Landmark Architectural Canopy ("The Flying Umbrella") bridging V-Block & Homi Bhabha
-    const canopy = AcademicComplexCanopyGenerator.generate(buildingsGeoJSON);
+    const canopy = AcademicComplexCanopyGenerator.generate(buildingsGeoJSON, isNight);
     rootGroup.add(canopy.group);
     labels.push({
       id: 'canopy_academic',

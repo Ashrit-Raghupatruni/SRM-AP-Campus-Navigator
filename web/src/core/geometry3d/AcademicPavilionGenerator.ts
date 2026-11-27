@@ -274,11 +274,10 @@ export class AcademicPavilionGenerator {
       windows.push({ mesh: groundWallMesh, nightColor: COLOR_NIGHT_WINDOW, dayColor: COLOR_GLAZING });
 
       // Upper Floors (1 to levels - 1):
-      // Each floor has:
-      // a) Solid spandrel lower wall (0.8m)
-      // b) Solar ribbon window aperture (1.8m)
-      // c) Solid lintel upper wall (1.0m)
-      // d) Sandstone brise-soleil vertical louvers projecting outward
+      // In real photos (Photos 1, 2, 4), the facade has distinct alternating architectural rhythm:
+      // - Sandstone vertical sunbreaker louver bays (#D9D2C5) with multiple vertical blades
+      // - Glazed solar ribbon bays with crisp monolithic white spandrels (#F8FAFC)
+      // - Solid monolithic shear corners
       for (let f = 1; f < levels; f++) {
         const floorBaseY = f * floorH;
 
@@ -290,9 +289,9 @@ export class AcademicPavilionGenerator {
         spandrelMesh.rotation.y = -angle;
         group.add(spandrelMesh);
 
-        // b) Continuous Solar Glazing Ribbon (Recessed 0.15m inwards)
+        // b) Continuous Solar Glazing Ribbon (Recessed 0.08m inwards)
         const winH = 1.85;
-        const winGeo = new THREE.BoxGeometry(edgeLen * 0.96, winH, 0.2);
+        const winGeo = new THREE.BoxGeometry(edgeLen * 0.98, winH, 0.2);
         const winMesh = new THREE.Mesh(winGeo, glassMat);
         winMesh.position.set(mx - nx * 0.08, floorBaseY + spandrelH + winH / 2, mz - nz * 0.08);
         winMesh.rotation.y = -angle;
@@ -308,17 +307,21 @@ export class AcademicPavilionGenerator {
         group.add(lintelMesh);
 
         // d) Vertical Sandstone Louvers (Brise-Soleil)
-        // Authentic spacing: Every 2.4 meters along the facade
-        if (edgeLen > 4.0) {
-          const louverSpacing = 2.4;
+        // Grouped into rhythmic sunscreen bays with 0.9m dense blade spacing (Photo 1 & Photo 2)
+        if (edgeLen > 5.0) {
+          const louverSpacing = 1.0;
           const numLouvers = Math.floor(edgeLen / louverSpacing);
           for (let l = 1; l < numLouvers; l++) {
+            // Group into 4-blade clusters every 6 meters
+            const cluster = Math.floor(l / 6);
+            if (l % 6 === 0 || l % 6 === 5) continue; // leave open glazed slot between louver bays
+
             const lt = l / numLouvers;
             const lx = p1.x + dx * lt + nx * 0.25;
             const lz = p1.z + dz * lt + nz * 0.25;
 
-            // Louver blade: 0.15m wide, winH tall, projecting 0.4m out
-            const louverGeo = new THREE.BoxGeometry(0.18, winH + 0.3, 0.42);
+            // Louver blade: 0.16m wide, full aperture height + 0.3m projection
+            const louverGeo = new THREE.BoxGeometry(0.16, winH + 0.35, 0.5);
             const louverMesh = new THREE.Mesh(louverGeo, louverMat);
             louverMesh.position.set(lx, floorBaseY + spandrelH + winH / 2, lz);
             louverMesh.rotation.y = -angle;
