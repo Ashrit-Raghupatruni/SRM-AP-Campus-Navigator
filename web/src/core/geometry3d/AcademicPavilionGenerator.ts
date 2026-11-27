@@ -6,13 +6,15 @@ import { latLngToLocal } from '../geo';
  * Procedural 3D Architectural Reconstruction for Academic Pavilions:
  * Vikram Sarabhai Block (V-Block), Homi J Bhabha Block, X-Lab, and JC Bose Block.
  *
- * Real-world Architectural Features:
- * - Solid crisp monolithic off-white exterior wall mass (#F8FAFC) - 100% opaque, no see-through glitch.
- * - Warm sandstone brise-soleil vertical sunbreaker louvers (#D9D2C5).
- * - Continuous horizontal cantilevered floor slab eyebrows (#FFFFFF / #E2E8F0).
- * - Deep solar-reflective blue-grey ribbon glazing bands (#2B5876).
- * - Recessed ground-floor entrance arcade with pilotis columns (#475569).
- * - Rooftop parapet coping (#CBD5E1) enclosing flat gravel roof terrace (#94A3B8) and mechanical headhouses.
+ * Real-world Architectural Features (Derived directly from aerial & ground photos):
+ * - Short End Walls & Shear Masses: Monolithic solid crisp white architectural finish (#FFFFFF / #F8FAFC)
+ *   with dark slate ground plinth (#64748B) - ZERO protruding horizontal cantilever slabs!
+ * - Long Primary Facades: Vertical bay rhythm composed of:
+ *   1. Floor-to-ceiling vertical solar-reflective glass ribbon bays (#2B5876)
+ *   2. Textured vertical sandstone sunbreaker louver bays (#D9D2C5)
+ *   3. Full-height solid white precast structural piers running continuously from Floor 1 to Floor 7
+ * - Recessed ground-floor entrance arcade with pilotis columns (#475569) and glazed lobby
+ * - Rooftop parapet coping enclosing gravel terrace and centered mechanical headhouse.
  */
 export class AcademicPavilionGenerator {
   static generate(
@@ -26,7 +28,7 @@ export class AcademicPavilionGenerator {
     // Authentic Material & Color Palettes
     const COLOR_MONOLITHIC_WALL = 0xf8fafc; // Crisp off-white precast wall cladding
     const COLOR_LOUVERS = 0xd9d2c5;         // Natural sandstone vertical louvers
-    const COLOR_SLAB = 0xffffff;            // Solid white cantilevered floor slab plates
+    const COLOR_SLAB = 0xffffff;            // Solid white floor slab plates
     const COLOR_GLAZING = 0x2b5876;         // Deep solar-reflective blue-grey glazing
     const COLOR_NIGHT_WINDOW = 0x38bdf8;    // Sky-blue incandescent night glow
     const COLOR_PILOTIS = 0x475569;         // Dark charcoal ground stilt columns
@@ -142,7 +144,14 @@ export class AcademicPavilionGenerator {
       side: THREE.DoubleSide,
     });
 
-    // 1. Build Solid Base Polygon Floor Slabs for each tier
+    const plinthMat = new THREE.MeshStandardMaterial({
+      color: 0x64748b, // Dark slate precast ground plinth
+      roughness: 0.7,
+      metalness: 0.1,
+      side: THREE.DoubleSide,
+    });
+
+    // 1. Build Solid Base Polygon Floor Slabs (Internal floor structure, zero cantilever slabs)
     const shape = new THREE.Shape();
     localPts.forEach((p, i) => {
       if (i === 0) shape.moveTo(p.x, p.z);
@@ -157,7 +166,7 @@ export class AcademicPavilionGenerator {
     baseMesh.receiveShadow = true;
     group.add(baseMesh);
 
-    // Cantilevered floor slabs at each level
+    // Internal floor slabs at each level (Flush with exterior, NO horizontal cantilever projections!)
     for (let f = 1; f <= levels; f++) {
       const slabGeo = new THREE.ShapeGeometry(shape);
       slabGeo.rotateX(Math.PI / 2);
@@ -165,26 +174,6 @@ export class AcademicPavilionGenerator {
       slabMesh.position.y = f * floorH;
       slabMesh.receiveShadow = true;
       group.add(slabMesh);
-
-      // Slight edge slab thickness band around perimeter
-      for (let i = 0; i < localPts.length - 1; i++) {
-        const p1 = localPts[i];
-        const p2 = localPts[i + 1];
-        const dx = p2.x - p1.x;
-        const dz = p2.z - p1.z;
-        const len = Math.hypot(dx, dz);
-        if (len < 0.1) continue;
-
-        const mx = (p1.x + p2.x) / 2;
-        const mz = (p1.z + p2.z) / 2;
-        const angle = Math.atan2(dz, dx);
-
-        const bandGeo = new THREE.BoxGeometry(len + 0.1, 0.35, 0.5);
-        const bandMesh = new THREE.Mesh(bandGeo, slabMat);
-        bandMesh.position.set(mx, f * floorH, mz);
-        bandMesh.rotation.y = -angle;
-        group.add(bandMesh);
-      }
     }
 
     // 2. Rooftop Parapet and Gravel Deck
@@ -195,7 +184,7 @@ export class AcademicPavilionGenerator {
     roofMesh.receiveShadow = true;
     group.add(roofMesh);
 
-    // Parapet perimeter wall (0.9m solid coping)
+    // Parapet perimeter coping (0.8m flush parapet edge)
     for (let i = 0; i < localPts.length - 1; i++) {
       const p1 = localPts[i];
       const p2 = localPts[i + 1];
@@ -208,9 +197,9 @@ export class AcademicPavilionGenerator {
       const mz = (p1.z + p2.z) / 2;
       const angle = Math.atan2(dz, dx);
 
-      const paraGeo = new THREE.BoxGeometry(len, 0.9, 0.35);
+      const paraGeo = new THREE.BoxGeometry(len, 0.8, 0.35);
       const paraMesh = new THREE.Mesh(paraGeo, parapetMat);
-      paraMesh.position.set(mx, totalHeight + 0.45, mz);
+      paraMesh.position.set(mx, totalHeight + 0.4, mz);
       paraMesh.rotation.y = -angle;
       group.add(paraMesh);
     }
@@ -233,8 +222,7 @@ export class AcademicPavilionGenerator {
       group.add(headhouse);
     }
 
-    // 3. Robust Solid Outer Wall Quads & Solar Ribbon Windows Along All Polygon Edges
-    // This constructs 100% solid walls with real architectural depth between floors
+    // 3. Facade Articulation: Distinct End Shear Walls vs Long Vertical Bay Facades (Photo 4)
     for (let i = 0; i < localPts.length - 1; i++) {
       const p1 = localPts[i];
       const p2 = localPts[i + 1];
@@ -251,82 +239,145 @@ export class AcademicPavilionGenerator {
       const nx = -dz / edgeLen;
       const nz = dx / edgeLen;
 
-      // Ground Floor: Colonnade pilotis + recessed wall
-      const groundPilotisSpacing = 6.0;
-      const numCols = Math.max(1, Math.floor(edgeLen / groundPilotisSpacing));
-      for (let c = 0; c <= numCols; c++) {
-        const t = c / numCols;
-        const cx = p1.x + dx * t;
-        const cz = p1.z + dz * t;
-        const colGeo = new THREE.CylinderGeometry(0.35, 0.35, floorH, 12);
-        const colMat = new THREE.MeshStandardMaterial({ color: COLOR_PILOTIS, roughness: 0.4 });
-        const colMesh = new THREE.Mesh(colGeo, colMat);
-        colMesh.position.set(cx, floorH / 2, cz);
-        group.add(colMesh);
-      }
+      // Classify edge: Short end walls vs Long primary facades
+      const isShortEndWall = edgeLen < 28.0;
 
-      // Ground floor recessed glass corridor
-      const groundWallGeo = new THREE.BoxGeometry(edgeLen, floorH * 0.9, 0.3);
-      const groundWallMesh = new THREE.Mesh(groundWallGeo, glassMat);
-      groundWallMesh.position.set(mx - nx * 0.6, floorH / 2, mz - nz * 0.6);
-      groundWallMesh.rotation.y = -angle;
-      group.add(groundWallMesh);
-      windows.push({ mesh: groundWallMesh, nightColor: COLOR_NIGHT_WINDOW, dayColor: COLOR_GLAZING });
+      if (isShortEndWall) {
+        // MONOLITHIC SOLID CRISP WHITE END WALL (Photo 4 & Photo 1)
+        // Completely solid precast white wall from ground to roof with ground plinth. Zero horizontal cantilever slabs!
+        const plinthH = floorH * 0.9;
+        const plinthGeo = new THREE.BoxGeometry(edgeLen, plinthH, 0.4);
+        const plinthMesh = new THREE.Mesh(plinthGeo, plinthMat);
+        plinthMesh.position.set(mx, plinthH / 2, mz);
+        plinthMesh.rotation.y = -angle;
+        group.add(plinthMesh);
 
-      // Upper Floors (1 to levels - 1):
-      // In real photos (Photos 1, 2, 4), the facade has distinct alternating architectural rhythm:
-      // - Sandstone vertical sunbreaker louver bays (#D9D2C5) with multiple vertical blades
-      // - Glazed solar ribbon bays with crisp monolithic white spandrels (#F8FAFC)
-      // - Solid monolithic shear corners
-      for (let f = 1; f < levels; f++) {
-        const floorBaseY = f * floorH;
+        // Solid upper white wall mass
+        const upperWallH = totalHeight - plinthH;
+        const upperWallGeo = new THREE.BoxGeometry(edgeLen, upperWallH, 0.4);
+        const upperWallMesh = new THREE.Mesh(upperWallGeo, wallMat);
+        upperWallMesh.position.set(mx, plinthH + upperWallH / 2, mz);
+        upperWallMesh.rotation.y = -angle;
+        group.add(upperWallMesh);
 
-        // a) Lower solid parapet spandrel wall
-        const spandrelH = 0.85;
-        const spandrelGeo = new THREE.BoxGeometry(edgeLen, spandrelH, 0.4);
-        const spandrelMesh = new THREE.Mesh(spandrelGeo, wallMat);
-        spandrelMesh.position.set(mx, floorBaseY + spandrelH / 2, mz);
-        spandrelMesh.rotation.y = -angle;
-        group.add(spandrelMesh);
-
-        // b) Continuous Solar Glazing Ribbon (Recessed 0.08m inwards)
-        const winH = 1.85;
-        const winGeo = new THREE.BoxGeometry(edgeLen * 0.98, winH, 0.2);
-        const winMesh = new THREE.Mesh(winGeo, glassMat);
-        winMesh.position.set(mx - nx * 0.08, floorBaseY + spandrelH + winH / 2, mz - nz * 0.08);
-        winMesh.rotation.y = -angle;
-        group.add(winMesh);
-        windows.push({ mesh: winMesh, nightColor: COLOR_NIGHT_WINDOW, dayColor: COLOR_GLAZING });
-
-        // c) Solid Lintel Upper Wall
-        const lintelH = floorH - spandrelH - winH; // ~0.9m
-        const lintelGeo = new THREE.BoxGeometry(edgeLen, lintelH, 0.4);
-        const lintelMesh = new THREE.Mesh(lintelGeo, wallMat);
-        lintelMesh.position.set(mx, floorBaseY + spandrelH + winH + lintelH / 2, mz);
-        lintelMesh.rotation.y = -angle;
-        group.add(lintelMesh);
-
-        // d) Vertical Sandstone Louvers (Brise-Soleil)
-        // Grouped into rhythmic sunscreen bays with 0.9m dense blade spacing (Photo 1 & Photo 2)
-        if (edgeLen > 5.0) {
-          const louverSpacing = 1.0;
-          const numLouvers = Math.floor(edgeLen / louverSpacing);
-          for (let l = 1; l < numLouvers; l++) {
-            // Group into 4-blade clusters every 6 meters
-            const cluster = Math.floor(l / 6);
-            if (l % 6 === 0 || l % 6 === 5) continue; // leave open glazed slot between louver bays
-
-            const lt = l / numLouvers;
-            const lx = p1.x + dx * lt + nx * 0.25;
-            const lz = p1.z + dz * lt + nz * 0.25;
-
-            // Louver blade: 0.16m wide, full aperture height + 0.3m projection
-            const louverGeo = new THREE.BoxGeometry(0.16, winH + 0.35, 0.5);
-            const louverMesh = new THREE.Mesh(louverGeo, louverMat);
-            louverMesh.position.set(lx, floorBaseY + spandrelH + winH / 2, lz);
-            louverMesh.rotation.y = -angle;
-            group.add(louverMesh);
+        // Subtle vertical architectural expansion joints (clean modern detailing)
+        if (edgeLen > 8.0) {
+          const jointSpacing = 4.5;
+          const numJoints = Math.floor(edgeLen / jointSpacing);
+          for (let j = 1; j <= numJoints; j++) {
+            const jt = j / (numJoints + 1);
+            const jx = p1.x + dx * jt + nx * 0.22;
+            const jz = p1.z + dz * jt + nz * 0.22;
+            const joint = new THREE.Mesh(
+              new THREE.BoxGeometry(0.08, totalHeight, 0.08),
+              plinthMat
+            );
+            joint.position.set(jx, totalHeight / 2, jz);
+            joint.rotation.y = -angle;
+            group.add(joint);
           }
+        }
+      } else {
+        // LONG PRIMARY FACADE: VERTICAL BAY ARCHITECTURE (Photos 1, 2, 4)
+        // Ground Floor: Recessed glass lobby arcade with structural circular columns
+        const groundPilotisSpacing = 6.5;
+        const numCols = Math.max(1, Math.floor(edgeLen / groundPilotisSpacing));
+        for (let c = 0; c <= numCols; c++) {
+          const t = c / numCols;
+          const cx = p1.x + dx * t;
+          const cz = p1.z + dz * t;
+          const colGeo = new THREE.CylinderGeometry(0.35, 0.35, floorH, 12);
+          const colMat = new THREE.MeshStandardMaterial({ color: COLOR_PILOTIS, roughness: 0.4 });
+          const colMesh = new THREE.Mesh(colGeo, colMat);
+          colMesh.position.set(cx, floorH / 2, cz);
+          group.add(colMesh);
+        }
+
+        const groundWallGeo = new THREE.BoxGeometry(edgeLen * 0.98, floorH * 0.88, 0.2);
+        const groundWallMesh = new THREE.Mesh(groundWallGeo, glassMat);
+        groundWallMesh.position.set(mx - nx * 0.5, floorH / 2, mz - nz * 0.5);
+        groundWallMesh.rotation.y = -angle;
+        group.add(groundWallMesh);
+        windows.push({ mesh: groundWallMesh, nightColor: COLOR_NIGHT_WINDOW, dayColor: COLOR_GLAZING });
+
+        // Upper Floors (1 to levels - 1):
+        // Segmented into distinct vertical bays:
+        // - Floor-to-ceiling vertical glass ribbon bays with thin dark frames
+        // - Vertical textured sandstone sunbreaker screen panels (#D9D2C5)
+        // - Full-height vertical white precast structural piers running continuously from Floor 1 to Floor 7
+        const bayW = 5.6;
+        const numBays = Math.max(1, Math.floor(edgeLen / bayW));
+
+        for (let b = 0; b < numBays; b++) {
+          const tCenter = (b + 0.5) / numBays;
+          const bx = p1.x + dx * tCenter;
+          const bz = p1.z + dz * tCenter;
+          const actualBayW = edgeLen / numBays;
+
+          const isScreenBay = (b % 2 === 0);
+
+          for (let f = 1; f < levels; f++) {
+            const floorBaseY = f * floorH;
+
+            if (isScreenBay) {
+              // Textured Vertical Sandstone Screen Louver Bay (Photo 1 & Photo 4)
+              // Glazed backdrop
+              const winGeo = new THREE.BoxGeometry(actualBayW * 0.96, floorH * 0.9, 0.2);
+              const winMesh = new THREE.Mesh(winGeo, glassMat);
+              winMesh.position.set(bx - nx * 0.05, floorBaseY + floorH / 2, bz - nz * 0.05);
+              winMesh.rotation.y = -angle;
+              group.add(winMesh);
+              windows.push({ mesh: winMesh, nightColor: COLOR_NIGHT_WINDOW, dayColor: COLOR_GLAZING });
+
+              // Dense array of vertical sandstone louvers (4 vertical blades per bay)
+              const blades = 4;
+              for (let bl = 1; bl <= blades; bl++) {
+                const bOffset = (bl - (blades + 1) / 2) * (actualBayW / (blades + 1));
+                const blX = bx + (dx / edgeLen) * bOffset + nx * 0.22;
+                const blZ = bz + (dz / edgeLen) * bOffset + nz * 0.22;
+
+                const louverBlade = new THREE.Mesh(
+                  new THREE.BoxGeometry(0.18, floorH * 0.94, 0.45),
+                  louverMat
+                );
+                louverBlade.position.set(blX, floorBaseY + floorH / 2, blZ);
+                louverBlade.rotation.y = -angle;
+                group.add(louverBlade);
+              }
+            } else {
+              // Vertical Ribbon Glazing Bay with crisp white spandrel lintels (Photo 1 & Photo 4)
+              const spandrelH = 0.75;
+              const spandrel = new THREE.Mesh(
+                new THREE.BoxGeometry(actualBayW, spandrelH, 0.35),
+                wallMat
+              );
+              spandrel.position.set(bx, floorBaseY + spandrelH / 2, bz);
+              spandrel.rotation.y = -angle;
+              group.add(spandrel);
+
+              const winH = floorH - spandrelH;
+              const winMesh = new THREE.Mesh(
+                new THREE.BoxGeometry(actualBayW * 0.96, winH * 0.94, 0.2),
+                glassMat
+              );
+              winMesh.position.set(bx - nx * 0.05, floorBaseY + spandrelH + winH / 2, bz - nz * 0.05);
+              winMesh.rotation.y = -angle;
+              group.add(winMesh);
+              windows.push({ mesh: winMesh, nightColor: COLOR_NIGHT_WINDOW, dayColor: COLOR_GLAZING });
+            }
+          }
+
+          // Full-Height Solid White Structural Pier between bays (Photo 1, Photo 4)
+          const pierT = (b + 1) / numBays;
+          const pierX = p1.x + dx * pierT + nx * 0.15;
+          const pierZ = p1.z + dz * pierT + nz * 0.15;
+          const pier = new THREE.Mesh(
+            new THREE.BoxGeometry(0.4, totalHeight - floorH, 0.5),
+            wallMat
+          );
+          pier.position.set(pierX, floorH + (totalHeight - floorH) / 2, pierZ);
+          pier.rotation.y = -angle;
+          group.add(pier);
         }
       }
     }

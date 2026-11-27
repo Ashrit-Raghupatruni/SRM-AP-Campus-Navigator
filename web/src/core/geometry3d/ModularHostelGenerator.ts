@@ -3,12 +3,15 @@ import { ArchitecturalMeshResult } from './MeshUtils';
 import { latLngToLocal } from '../geo';
 
 /**
- * Procedural 3D Architectural Reconstruction for Modular Hostels (Yamuna, Narmada, Godavari, Krishna, Kaveri).
- * - 9 Floors (Total height: 29.5m)
- * - Solid crisp pure architectural white facade walls (#FFFFFF / #F8FAFC)
- * - Continuous horizontal white floor slab plates separating each floor tier
- * - Recessed residential dual-sash dormitory windows (#334155 / solar glass) with warm amber glow (#FBBF24) at night
- * - 3D Solid parapet coping around the roof terrace
+ * Procedural 3D Architectural Reconstruction for Modular Girls' Hostels
+ * (Yamuna, Narmada, Godavari, Krishna, Kaveri).
+ *
+ * Real-world Architectural Features (Derived directly from Photo 4 aerial shot):
+ * - 9-story tall monolithic crisp white residential towers (#FFFFFF)
+ * - FLUSH exterior facades (NO horizontal cantilever slab eyebrows sticking out!)
+ * - Regular modular punched rectangular dormitory bedroom window matrix (9 rows x dense regular columns)
+ * - Vertical stairwell / elevator lift cores with vertical service slot louvers
+ * - Rooftop elevator headhouse towers flanked by elevated photovoltaic solar panel arrays (#1E293B)
  */
 export class ModularHostelGenerator {
   static generate(feature: any, isNight: boolean): ArchitecturalMeshResult {
@@ -16,11 +19,13 @@ export class ModularHostelGenerator {
     const windows: { mesh: THREE.Mesh; nightColor: number; dayColor: number }[] = [];
 
     const COLOR_WALL_WHITE = 0xffffff;     // Pure crisp architectural white
-    const COLOR_SLAB_WHITE = 0xf1f5f9;     // Smooth off-white slab ribbons
+    const COLOR_WINDOW_FRAME = 0x334155;   // Thin dark architectural window frames
     const COLOR_WINDOW_GLASS = 0x2b394a;   // Deep residential solar window
     const COLOR_NIGHT_WINDOW = 0xfbbf24;   // Warm incandescent night glow
     const COLOR_ROOF_PARAPET = 0xe2e8f0;   // Perimeter coping
     const COLOR_ROOF_DECK = 0x94a3b8;      // Gravel roof deck
+    const COLOR_SOLAR_PANEL = 0x1e293b;    // Photovoltaic solar array panels
+    const COLOR_SOLAR_FRAME = 0x64748b;    // Galvanized structural steel racking
 
     const coords: [number, number][] = feature.geometry?.coordinates?.[0] || [];
     const name = feature.properties?.name || 'Hostel Block';
@@ -38,6 +43,7 @@ export class ModularHostelGenerator {
     }
 
     const localPts: { x: number; z: number }[] = [];
+    let minX = Infinity, maxX = -Infinity, minZ = Infinity, maxZ = -Infinity;
     let sumX = 0;
     let sumZ = 0;
 
@@ -45,6 +51,10 @@ export class ModularHostelGenerator {
       const [lng, lat] = coords[i];
       const local = latLngToLocal(lat, lng);
       localPts.push(local);
+      minX = Math.min(minX, local.x);
+      maxX = Math.max(maxX, local.x);
+      minZ = Math.min(minZ, local.z);
+      maxZ = Math.max(maxZ, local.z);
       sumX += local.x;
       sumZ += local.z;
     }
@@ -62,10 +72,10 @@ export class ModularHostelGenerator {
       side: THREE.DoubleSide,
     });
 
-    const slabMat = new THREE.MeshStandardMaterial({
-      color: COLOR_SLAB_WHITE,
+    const frameMat = new THREE.MeshStandardMaterial({
+      color: COLOR_WINDOW_FRAME,
       roughness: 0.4,
-      metalness: 0.1,
+      metalness: 0.2,
       side: THREE.DoubleSide,
     });
 
@@ -92,7 +102,7 @@ export class ModularHostelGenerator {
       side: THREE.DoubleSide,
     });
 
-    // 1. Build Base Plinth & Horizontal Floor Slabs for all 9 Tiers
+    // 1. Build Internal Floor Slabs (Flush with exterior, zero cantilever slab eyebrows)
     const shape = new THREE.Shape();
     localPts.forEach((p, i) => {
       if (i === 0) shape.moveTo(p.x, p.z);
@@ -102,36 +112,19 @@ export class ModularHostelGenerator {
     // Base Slab
     const baseGeo = new THREE.ShapeGeometry(shape);
     baseGeo.rotateX(Math.PI / 2);
-    const baseMesh = new THREE.Mesh(baseGeo, slabMat);
+    const baseMesh = new THREE.Mesh(baseGeo, wallMat);
     baseMesh.position.y = 0.05;
     baseMesh.receiveShadow = true;
     group.add(baseMesh);
 
-    // Floor Eyebrow Slabs
+    // Internal floor slabs
     for (let f = 1; f <= floors; f++) {
       const slabGeo = new THREE.ShapeGeometry(shape);
       slabGeo.rotateX(Math.PI / 2);
-      const slabMesh = new THREE.Mesh(slabGeo, slabMat);
+      const slabMesh = new THREE.Mesh(slabGeo, wallMat);
       slabMesh.position.y = f * floorH;
       slabMesh.receiveShadow = true;
       group.add(slabMesh);
-
-      // Floor slab perimeter edge band
-      for (let i = 0; i < localPts.length - 1; i++) {
-        const p1 = localPts[i];
-        const p2 = localPts[i + 1];
-        const dx = p2.x - p1.x;
-        const dz = p2.z - p1.z;
-        const len = Math.hypot(dx, dz);
-        if (len < 0.2) continue;
-
-        const angle = Math.atan2(dz, dx);
-        const bandGeo = new THREE.BoxGeometry(len + 0.1, 0.35, 0.6);
-        const bandMesh = new THREE.Mesh(bandGeo, slabMat);
-        bandMesh.position.set((p1.x + p2.x) / 2, f * floorH, (p1.z + p2.z) / 2);
-        bandMesh.rotation.y = -angle;
-        group.add(bandMesh);
-      }
     }
 
     // 2. Rooftop Terrace Deck & Parapet Coping
@@ -142,7 +135,7 @@ export class ModularHostelGenerator {
     roofMesh.receiveShadow = true;
     group.add(roofMesh);
 
-    // Solid Parapet (0.9m high)
+    // Parapet Wall (0.9m flush coping around the entire perimeter)
     for (let i = 0; i < localPts.length - 1; i++) {
       const p1 = localPts[i];
       const p2 = localPts[i + 1];
@@ -152,21 +145,70 @@ export class ModularHostelGenerator {
       if (len < 0.2) continue;
 
       const angle = Math.atan2(dz, dx);
-      const paraGeo = new THREE.BoxGeometry(len, 0.9, 0.4);
+      const paraGeo = new THREE.BoxGeometry(len, 0.9, 0.35);
       const paraMesh = new THREE.Mesh(paraGeo, parapetMat);
       paraMesh.position.set((p1.x + p2.x) / 2, totalHeight + 0.45, (p1.z + p2.z) / 2);
       paraMesh.rotation.y = -angle;
       group.add(paraMesh);
     }
 
-    // 3. Solid Pure White Walls & Recessed Dormitory Windows for All 9 Floors
+    // Rooftop Elevator Headhouse
+    const headW = Math.min((maxX - minX) * 0.3, 12.0);
+    const headD = Math.min((maxZ - minZ) * 0.35, 10.0);
+    const headhouseGeo = new THREE.BoxGeometry(headW, 3.2, headD);
+    const headhouse = new THREE.Mesh(headhouseGeo, wallMat);
+    headhouse.position.set(centerX, totalHeight + 1.6, centerZ);
+    group.add(headhouse);
+
+    // Rooftop Photovoltaic Solar Arrays (Authentic feature clearly visible in Photo 4 aerial shot!)
+    const solarMat = new THREE.MeshStandardMaterial({
+      color: COLOR_SOLAR_PANEL,
+      roughness: 0.2,
+      metalness: 0.7,
+      side: THREE.DoubleSide,
+    });
+    const solarRackMat = new THREE.MeshStandardMaterial({
+      color: COLOR_SOLAR_FRAME,
+      roughness: 0.4,
+      metalness: 0.6,
+    });
+
+    const bldgW = maxX - minX;
+    const bldgD = maxZ - minZ;
+    if (bldgW > 15 && bldgD > 12) {
+      // 2 banks of angled solar racks
+      const rackW = bldgW * 0.7;
+      const rackD = 4.2;
+      const rackZPositions = [centerZ - bldgD * 0.25, centerZ + bldgD * 0.25];
+
+      for (const rz of rackZPositions) {
+        // Solar panels
+        const panelGeo = new THREE.PlaneGeometry(rackW, rackD);
+        panelGeo.rotateX(-Math.PI / 2 + 0.25); // 15-degree tilt facing south
+        const panelMesh = new THREE.Mesh(panelGeo, solarMat);
+        panelMesh.position.set(centerX, totalHeight + 1.8, rz);
+        group.add(panelMesh);
+
+        // Rack support stilts
+        for (let rx = centerX - rackW / 2 + 3; rx <= centerX + rackW / 2 - 3; rx += 6) {
+          const stilt = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.08, 0.08, 1.6, 8),
+            solarRackMat
+          );
+          stilt.position.set(rx, totalHeight + 0.8, rz);
+          group.add(stilt);
+        }
+      }
+    }
+
+    // 3. Facade Articulation: Flush White Walls with Modular Punched Dormitory Window Matrix (Photo 4)
     for (let i = 0; i < localPts.length - 1; i++) {
       const p1 = localPts[i];
       const p2 = localPts[i + 1];
       const dx = p2.x - p1.x;
       const dz = p2.z - p1.z;
       const edgeLen = Math.hypot(dx, dz);
-      if (edgeLen < 0.4) continue;
+      if (edgeLen < 0.5) continue;
 
       const mx = (p1.x + p2.x) / 2;
       const mz = (p1.z + p2.z) / 2;
@@ -174,33 +216,45 @@ export class ModularHostelGenerator {
       const nx = -dz / edgeLen;
       const nz = dx / edgeLen;
 
-      for (let f = 0; f < floors; f++) {
-        const baseY = f * floorH;
+      // Solid baseline wall mesh spanning the entire edge from ground to roof
+      const fullWallGeo = new THREE.BoxGeometry(edgeLen, totalHeight, 0.35);
+      const fullWallMesh = new THREE.Mesh(fullWallGeo, wallMat);
+      fullWallMesh.position.set(mx, totalHeight / 2, mz);
+      fullWallMesh.rotation.y = -angle;
+      group.add(fullWallMesh);
 
-        // a) Lower solid white spandrel wall (0.9m)
-        const lowH = 0.9;
-        const lowGeo = new THREE.BoxGeometry(edgeLen, lowH, 0.4);
-        const lowMesh = new THREE.Mesh(lowGeo, wallMat);
-        lowMesh.position.set(mx, baseY + lowH / 2, mz);
-        lowMesh.rotation.y = -angle;
-        group.add(lowMesh);
+      // Check if edge is long enough for a punched window grid (residential dormitory facades)
+      if (edgeLen > 6.0) {
+        const windowSpacing = 3.6; // Modular dormitory bedroom bay spacing
+        const numWindows = Math.floor(edgeLen / windowSpacing);
 
-        // b) Recessed Dormitory Window Band (1.5m tall)
-        const winH = 1.5;
-        const winGeo = new THREE.BoxGeometry(edgeLen * 0.88, winH, 0.2);
-        const winMesh = new THREE.Mesh(winGeo, glassMat);
-        winMesh.position.set(mx - nx * 0.05, baseY + lowH + winH / 2, mz - nz * 0.05);
-        winMesh.rotation.y = -angle;
-        group.add(winMesh);
-        windows.push({ mesh: winMesh, nightColor: COLOR_NIGHT_WINDOW, dayColor: COLOR_WINDOW_GLASS });
+        const winW = 1.9; // Punched dual-sash window width
+        const winH = 1.6; // Punched window height
 
-        // c) Upper solid white lintel wall
-        const topH = floorH - lowH - winH; // ~0.87m
-        const topGeo = new THREE.BoxGeometry(edgeLen, topH, 0.4);
-        const topMesh = new THREE.Mesh(topGeo, wallMat);
-        topMesh.position.set(mx, baseY + lowH + winH + topH / 2, mz);
-        topMesh.rotation.y = -angle;
-        group.add(topMesh);
+        for (let w = 1; w <= numWindows; w++) {
+          const t = w / (numWindows + 1);
+          const wx = p1.x + dx * t + nx * 0.18;
+          const wz = p1.z + dz * t + nz * 0.18;
+
+          for (let f = 0; f < floors; f++) {
+            const winY = f * floorH + floorH / 2;
+
+            // Thin dark window reveal frame
+            const frameGeo = new THREE.BoxGeometry(winW + 0.15, winH + 0.15, 0.08);
+            const frameMesh = new THREE.Mesh(frameGeo, frameMat);
+            frameMesh.position.set(wx, winY, wz);
+            frameMesh.rotation.y = -angle;
+            group.add(frameMesh);
+
+            // Reflective punched dormitory window glass
+            const winGeo = new THREE.BoxGeometry(winW, winH, 0.1);
+            const winMesh = new THREE.Mesh(winGeo, glassMat);
+            winMesh.position.set(wx + nx * 0.02, winY, wz + nz * 0.02);
+            winMesh.rotation.y = -angle;
+            group.add(winMesh);
+            windows.push({ mesh: winMesh, nightColor: COLOR_NIGHT_WINDOW, dayColor: COLOR_WINDOW_GLASS });
+          }
+        }
       }
     }
 
