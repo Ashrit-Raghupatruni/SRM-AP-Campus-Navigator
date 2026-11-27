@@ -77,99 +77,144 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
   const walkPitchRef = useRef(0.0);
   const avatarGroupRef = useRef<THREE.Group | null>(null);
 
-  // Keep live refs for isWalkMode and walkPov to avoid stale closures in listeners & loop
+  // Keep live refs for isWalkMode, walkPov, and isAngleLocked to avoid stale closures & scene teardown
   const isWalkModeRef = useRef(isWalkMode);
   isWalkModeRef.current = isWalkMode;
   const walkPovRef = useRef(walkPov);
   walkPovRef.current = walkPov;
+  const isAngleLockedRef = useRef(isAngleLocked);
+  isAngleLockedRef.current = isAngleLocked;
 
-  // Cache road and pathway coordinate points for snapping
-  const roadWaypointsRef = useRef<THREE.Vector3[]>([]);
+  // Cache road and pathway line segments for exact street-level snapping
+  const roadSegmentsRef = useRef<{ a: THREE.Vector3; b: THREE.Vector3 }[]>([]);
 
-  // Collect road and pathway nodes whenever roadsGeoJSON or pathsGeoJSON update
+  // Collect road and pathway segments whenever roadsGeoJSON or pathsGeoJSON update
   useEffect(() => {
-    const pts: THREE.Vector3[] = [];
-    const collectFromGeoJSON = (geo: any) => {
+    const segs: { a: THREE.Vector3; b: THREE.Vector3 }[] = [];
+    const collectSegments = (geo: any) => {
       if (!geo || !geo.features) return;
       for (const feat of geo.features) {
         const coords = feat.geometry?.coordinates;
         if (!coords) continue;
-        if (feat.geometry.type === 'LineString') {
-          for (const [lng, lat] of coords) {
-            const loc = latLngToLocal(lat, lng);
-            pts.push(new THREE.Vector3(loc.x, 0, loc.z));
+        const addLine = (line: any[]) => {
+          for (let i = 0; i < line.length - 1; i++) {
+            const [lng1, lat1] = line[i];
+            const [lng2, lat2] = line[i + 1];
+            const p1 = latLngToLocal(lat1, lng1);
+            const p2 = latLngToLocal(lat2, lng2);
+            segs.push({
+              a: new THREE.Vector3(p1.x, 0, p1.z),
+              b: new THREE.Vector3(p2.x, 0, p2.z),
+            });
           }
+        };
+        if (feat.geometry.type === 'LineString') {
+          addLine(coords);
         } else if (feat.geometry.type === 'MultiLineString') {
           for (const line of coords) {
-            for (const [lng, lat] of line) {
-              const loc = latLngToLocal(lat, lng);
-              pts.push(new THREE.Vector3(loc.x, 0, loc.z));
-            }
+            addLine(line);
           }
         }
       }
     };
-    collectFromGeoJSON(roadsGeoJSON);
-    collectFromGeoJSON(pathsGeoJSON);
-    roadWaypointsRef.current = pts;
+    collectSegments(roadsGeoJSON);
+    collectSegments(pathsGeoJSON);
+    roadSegmentsRef.current = segs;
   }, [roadsGeoJSON, pathsGeoJSON]);
 
-  // When Walk Mode toggles ON: snap position directly to cursor location (or nearest walkway)
+  // Helper: find closest point on line segment AB to point P in XZ plane
+  const closestPointOnSegmentXZ = (px: number, pz: number, a: THREE.Vector3, b: THREE.Vector3) => {
+    const abx = b.x - a.x;
+    const abz = b.z - a.z;
+    const lenSq = abx * abx + abz * abz;
+    if (lenSq < 0.0001) return { x: a.x, z: a.z, dist: Math.hypot(px - a.x, pz - a.z) };
+    const t = Math.max(0, Math.min(1, ((px - a.x) * abx + (pz - a.z) * abz) / lenSq));
+    const cx = a.x + t * abx;
+    const cz = a.z + t * abz;
+    return { x: cx, z: cz, dist: Math.hypot(px - cx, pz - cz) };
+  };
+
+  // When Walk Mode toggles ON: snap position directly to nearest road/walkway near cursor or view focus
   useEffect(() => {
     if (isWalkMode) {
-      let targetX = 25.0;
-      let targetZ = 80.0;
+      let refX = panOffsetRef.current.x;
+      let refZ = panOffsetRef.current.z;
 
-      // 1. If user had their cursor hovering over the map, start from that exact point
+      // Use cursor location if it was hovering within campus view (< 160m from view center)
       if (lastCursorWorldPosRef.current) {
-        targetX = lastCursorWorldPosRef.current.x;
-        targetZ = lastCursorWorldPosRef.current.z;
-      } else {
-        // Fallback to center of current view
-        targetX = panOffsetRef.current.x;
-        targetZ = panOffsetRef.current.z;
+        const dFromCenter = Math.hypot(
+          lastCursorWorldPosRef.current.x - panOffsetRef.current.x,
+          lastCursorWorldPosRef.current.z - panOffsetRef.current.z
+        );
+        if (dFromCenter < 160) {
+          refX = lastCursorWorldPosRef.current.x;
+          refZ = lastCursorWorldPosRef.current.z;
+        }
       }
 
-      // 2. Snap to nearest road or pedestrian pathway if one is within 45m
-      const waypoints = roadWaypointsRef.current;
-      if (waypoints && waypoints.length > 0) {
+      let targetX = refX;
+      let targetZ = refZ;
+      let roadHeading = Math.atan2(-targetZ, -targetX);
+
+      // Always snap to the closest point on ANY road or pedestrian path segment
+      const segs = roadSegmentsRef.current;
+      if (segs && segs.length > 0) {
         let bestDist = Infinity;
-        let bestPt: THREE.Vector3 | null = null;
-        for (const pt of waypoints) {
-          const d = Math.hypot(pt.x - targetX, pt.z - targetZ);
-          if (d < bestDist) {
-            bestDist = d;
-            bestPt = pt;
+        let bestPt = { x: targetX, z: targetZ };
+        let bestSeg = segs[0];
+
+        for (const seg of segs) {
+          const res = closestPointOnSegmentXZ(refX, refZ, seg.a, seg.b);
+          if (res.dist < bestDist) {
+            bestDist = res.dist;
+            bestPt = { x: res.x, z: res.z };
+            bestSeg = seg;
           }
         }
-        if (bestPt && bestDist < 45.0) {
-          targetX = bestPt.x;
-          targetZ = bestPt.z;
-        }
+
+        targetX = bestPt.x;
+        targetZ = bestPt.z;
+
+        // Orient camera straight down the road segment towards central campus
+        const dx = bestSeg.b.x - bestSeg.a.x;
+        const dz = bestSeg.b.z - bestSeg.a.z;
+        const h1 = Math.atan2(dz, dx);
+        const h2 = Math.atan2(-dz, -dx);
+        const toCenterAngle = Math.atan2(-targetZ, -targetX);
+        const diff1 = Math.abs(Math.atan2(Math.sin(h1 - toCenterAngle), Math.cos(h1 - toCenterAngle)));
+        const diff2 = Math.abs(Math.atan2(Math.sin(h2 - toCenterAngle), Math.cos(h2 - toCenterAngle)));
+        roadHeading = diff1 <= diff2 ? h1 : h2;
       }
 
-      // Position pedestrian avatar right at street level
+      // Position pedestrian avatar right at street level on the road
       walkPosRef.current.set(targetX, 0, targetZ);
-      walkPitchRef.current = -0.05; // Level eye glance ahead
+      walkPitchRef.current = 0.0;
+      walkHeadingRef.current = roadHeading;
 
-      // Orient heading towards central campus
-      walkHeadingRef.current = Math.atan2(0 - targetZ, 0 - targetX);
-
-      // Immediately synchronize currentCamPos to avoid camera starting miles away in black void
+      // Immediately synchronize currentCamPos so camera lands on the road without flying through void
       if (walkPovRef.current === '1st') {
         currentCamPosRef.current.set(targetX, 1.8, targetZ);
         currentCamLookRef.current.set(
-          targetX + Math.cos(walkHeadingRef.current) * 20,
+          targetX + Math.cos(roadHeading) * 20,
           1.8,
-          targetZ + Math.sin(walkHeadingRef.current) * 20
+          targetZ + Math.sin(roadHeading) * 20
         );
       } else {
-        const chaseDist = 7.5;
-        const chaseH = 3.6;
-        const wh = walkHeadingRef.current;
-        currentCamPosRef.current.set(targetX - Math.cos(wh) * chaseDist, chaseH, targetZ - Math.sin(wh) * chaseDist);
-        currentCamLookRef.current.set(targetX + Math.cos(wh) * 5, 1.6, targetZ + Math.sin(wh) * 5);
+        const chaseDist = 6.5;
+        const chaseH = 3.5;
+        currentCamPosRef.current.set(
+          targetX - Math.cos(roadHeading) * chaseDist,
+          chaseH,
+          targetZ - Math.sin(roadHeading) * chaseDist
+        );
+        currentCamLookRef.current.set(
+          targetX + Math.cos(roadHeading) * 6,
+          1.8,
+          targetZ + Math.sin(roadHeading) * 6
+        );
       }
+    } else if (onLabelsUpdate) {
+      // Clear stale walk-mode state; labels will update in aerial loop
     }
   }, [isWalkMode]);
 
@@ -286,18 +331,24 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
 
     const onContextMenu = (e: MouseEvent) => e.preventDefault();
 
+    const hoverGroundPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+    const hoverMouseVec = new THREE.Vector2();
+    const hoverHitVec = new THREE.Vector3();
+
     const onMouseMove = (e: MouseEvent) => {
-      // Continuously record world cursor position over ground or campus
-      if (cameraRef.current && mountRef.current) {
+      // Only update hover raycast when pointer is directly over the 3D canvas (not over UI buttons)
+      if (!isDraggingRef.current && e.target === dom && cameraRef.current && mountRef.current) {
         const rect = mountRef.current.getBoundingClientRect();
-        const mx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-        const my = -((e.clientY - rect.top) / rect.height) * 2 + 1;
-        const raycaster = new THREE.Raycaster();
-        raycaster.setFromCamera(new THREE.Vector2(mx, my), cameraRef.current);
-        const groundPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
-        const hit = new THREE.Vector3();
-        if (raycaster.ray.intersectPlane(groundPlane, hit)) {
-          lastCursorWorldPosRef.current = hit;
+        hoverMouseVec.set(
+          ((e.clientX - rect.left) / rect.width) * 2 - 1,
+          -((e.clientY - rect.top) / rect.height) * 2 + 1
+        );
+        raycasterRef.current.setFromCamera(hoverMouseVec, cameraRef.current);
+        if (raycasterRef.current.ray.intersectPlane(hoverGroundPlane, hoverHitVec)) {
+          if (!lastCursorWorldPosRef.current) {
+            lastCursorWorldPosRef.current = new THREE.Vector3();
+          }
+          lastCursorWorldPosRef.current.copy(hoverHitVec);
         }
       }
 
@@ -305,7 +356,7 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
       const deltaX = e.clientX - previousMousePositionRef.current.x;
       const deltaY = e.clientY - previousMousePositionRef.current.y;
 
-      if (isWalkMode) {
+      if (isWalkModeRef.current) {
         // First/Third Person Look Controls
         walkHeadingRef.current -= deltaX * 0.005;
         walkPitchRef.current = Math.max(-0.6, Math.min(0.6, walkPitchRef.current - deltaY * 0.005));
@@ -316,7 +367,7 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
         const right = new THREE.Vector3(Math.cos(aerialAngleRef.current.theta), 0, -Math.sin(aerialAngleRef.current.theta));
         panOffsetRef.current.x += (-right.x * deltaX + forward.x * deltaY) * factor;
         panOffsetRef.current.z += (-right.z * deltaX + forward.z * deltaY) * factor;
-      } else if (!isAngleLocked) {
+      } else if (!isAngleLockedRef.current) {
         // Aerial Orbit Rotation
         aerialAngleRef.current.theta -= deltaX * 0.006;
         aerialAngleRef.current.phi = Math.max(0.15, Math.min(Math.PI / 2.05, aerialAngleRef.current.phi + deltaY * 0.006));
@@ -439,10 +490,12 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
     // Animation & Smooth Camera Interpolation Loop with Page Visibility pause
     let animId: number;
     let isTabVisible = !document.hidden;
+    let lastLabelUpdateTime = 0;
 
     const onVisibilityChange = () => {
       isTabVisible = !document.hidden;
       if (isTabVisible) {
+        cancelAnimationFrame(animId);
         animate();
       }
     };
@@ -542,8 +595,15 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
 
       renderer.render(scene, camera);
 
-      // Project 3D building coordinates to screen label pills
-      if (onLabelsUpdate && mountRef.current && !isWalkMode) {
+      // Throttle 3D -> 2D screen label projections (~10fps) to prevent React re-render storms
+      const now = performance.now();
+      if (
+        onLabelsUpdate &&
+        mountRef.current &&
+        !isWalkModeRef.current &&
+        now - lastLabelUpdateTime > 100
+      ) {
+        lastLabelUpdateTime = now;
         const w = mountRef.current.clientWidth;
         const h = mountRef.current.clientHeight;
         const halfW = w / 2;
@@ -599,7 +659,7 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
         mountRef.current.innerHTML = '';
       }
     };
-  }, [isWalkMode, walkPov, isAngleLocked]);
+  }, []);
 
   // Day & Night Solar lighting updates
   useEffect(() => {

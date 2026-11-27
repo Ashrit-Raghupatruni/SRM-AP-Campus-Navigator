@@ -201,7 +201,13 @@ export class ModularHostelGenerator {
       }
     }
 
-    // 3. Facade Articulation: Flush White Walls with Modular Punched Dormitory Window Matrix (Photo 4)
+    // 3. Facade Articulation: Flush White Walls with Modular Punched Dormitory Window Matrix (InstancedMesh)
+    const winW = 1.9;
+    const winH = 1.6;
+    const windowTransforms: THREE.Matrix4[] = [];
+    const frameTransforms: THREE.Matrix4[] = [];
+    const dummy = new THREE.Object3D();
+
     for (let i = 0; i < localPts.length - 1; i++) {
       const p1 = localPts[i];
       const p2 = localPts[i + 1];
@@ -217,8 +223,6 @@ export class ModularHostelGenerator {
       // Determine correct outward normal vector pointing away from building center
       let nx = -dz / edgeLen;
       let nz = dx / edgeLen;
-      // Dot product test with vector from center to edge midpoint:
-      // if normal points inward towards center, flip it outward
       const toMidX = mx - centerX;
       const toMidZ = mz - centerZ;
       if (nx * toMidX + nz * toMidZ < 0) {
@@ -233,40 +237,47 @@ export class ModularHostelGenerator {
       fullWallMesh.rotation.y = -angle;
       group.add(fullWallMesh);
 
-      // Check if edge is long enough for a punched window grid (residential dormitory facades)
+      // Collect punched window instance matrices
       if (edgeLen > 5.0) {
-        const windowSpacing = 3.2; // Modular dormitory bedroom bay spacing
+        const windowSpacing = 3.2;
         const numWindows = Math.max(1, Math.floor((edgeLen - 2.0) / windowSpacing));
-
-        const winW = 1.9; // Punched dual-sash window width
-        const winH = 1.6; // Punched window height
 
         for (let w = 1; w <= numWindows; w++) {
           const t = w / (numWindows + 1);
-          // Position cleanly on the outer surface (wall thickness is 0.4, half is 0.2, offset by 0.22)
           const wx = p1.x + dx * t + nx * 0.22;
           const wz = p1.z + dz * t + nz * 0.22;
 
           for (let f = 0; f < floors; f++) {
             const winY = f * floorH + floorH / 2;
 
-            // Thin dark window reveal surround frame
-            const frameGeo = new THREE.BoxGeometry(winW + 0.16, winH + 0.16, 0.12);
-            const frameMesh = new THREE.Mesh(frameGeo, frameMat);
-            frameMesh.position.set(wx, winY, wz);
-            frameMesh.rotation.y = -angle;
-            group.add(frameMesh);
+            dummy.position.set(wx, winY, wz);
+            dummy.rotation.set(0, -angle, 0);
+            dummy.updateMatrix();
+            frameTransforms.push(dummy.matrix.clone());
 
-            // Reflective punched dormitory window glass protruding outward so it is prominently visible
-            const winGeo = new THREE.BoxGeometry(winW, winH, 0.14);
-            const winMesh = new THREE.Mesh(winGeo, glassMat);
-            winMesh.position.set(wx + nx * 0.04, winY, wz + nz * 0.04);
-            winMesh.rotation.y = -angle;
-            group.add(winMesh);
-            windows.push({ mesh: winMesh, nightColor: COLOR_NIGHT_WINDOW, dayColor: COLOR_WINDOW_GLASS });
+            dummy.position.set(wx + nx * 0.04, winY, wz + nz * 0.04);
+            dummy.updateMatrix();
+            windowTransforms.push(dummy.matrix.clone());
           }
         }
       }
+    }
+
+    if (frameTransforms.length > 0) {
+      const frameGeo = new THREE.BoxGeometry(winW + 0.16, winH + 0.16, 0.12);
+      const frameInstanced = new THREE.InstancedMesh(frameGeo, frameMat, frameTransforms.length);
+      frameTransforms.forEach((mat, idx) => frameInstanced.setMatrixAt(idx, mat));
+      frameInstanced.instanceMatrix.needsUpdate = true;
+      group.add(frameInstanced);
+    }
+
+    if (windowTransforms.length > 0) {
+      const winGeo = new THREE.BoxGeometry(winW, winH, 0.14);
+      const winInstanced = new THREE.InstancedMesh(winGeo, glassMat, windowTransforms.length);
+      windowTransforms.forEach((mat, idx) => winInstanced.setMatrixAt(idx, mat));
+      winInstanced.instanceMatrix.needsUpdate = true;
+      group.add(winInstanced);
+      windows.push({ mesh: winInstanced, nightColor: COLOR_NIGHT_WINDOW, dayColor: COLOR_WINDOW_GLASS });
     }
 
     group.userData = { name, feature, floors };

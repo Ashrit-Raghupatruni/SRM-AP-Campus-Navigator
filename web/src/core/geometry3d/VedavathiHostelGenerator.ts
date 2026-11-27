@@ -169,7 +169,14 @@ export class VedavathiHostelGenerator {
       group.add(paraMesh);
     }
 
-    // 2. Build Facade Walls & Window Arrays along every polygon edge
+    // 2. Build Facade Walls & Instanced Window Arrays along every polygon edge
+    const winW = 2.4;
+    const winH = 1.8;
+    const windowTransforms: THREE.Matrix4[] = [];
+    const finTransforms: THREE.Matrix4[] = [];
+    const colTransforms: THREE.Matrix4[] = [];
+    const dummy = new THREE.Object3D();
+
     for (let i = 0; i < localPts.length - 1; i++) {
       const p1 = localPts[i];
       const p2 = localPts[i + 1];
@@ -206,49 +213,62 @@ export class VedavathiHostelGenerator {
           const ct = c / (numCols + 1);
           const cx = p1.x + dx * ct + nx * 0.26;
           const cz = p1.z + dz * ct + nz * 0.26;
-          const colMesh = new THREE.Mesh(
-            new THREE.CylinderGeometry(0.35, 0.35, floorH * 1.5, 8),
-            pilotisMat
-          );
-          colMesh.position.set(cx, (floorH * 1.5) / 2, cz);
-          group.add(colMesh);
+          dummy.position.set(cx, (floorH * 1.5) / 2, cz);
+          dummy.rotation.set(0, 0, 0);
+          dummy.updateMatrix();
+          colTransforms.push(dummy.matrix.clone());
         }
       }
 
       // Windows and Terracotta Fins matching Ganga architecture exactly
       if (edgeLen > 5.0) {
-        const windowSpacing = 5.5; // Ganga bay spacing
+        const windowSpacing = 5.5;
         const numWindows = Math.max(1, Math.floor((edgeLen - 2.0) / windowSpacing));
-
-        const winW = 2.4; // Identical Ganga window width
-        const winH = 1.8; // Identical Ganga window height
 
         for (let w = 1; w <= numWindows; w++) {
           const t = w / (numWindows + 1);
           const wx = p1.x + dx * t;
           const wz = p1.z + dz * t;
 
-          // Vertical Terracotta Fin spanning from ground to roof (identical to Ganga's fins)
-          const finGeo = new THREE.BoxGeometry(0.3, totalHeight, 0.6);
-          const finMesh = new THREE.Mesh(finGeo, finMat);
-          finMesh.position.set(wx + nx * 0.3, totalHeight / 2, wz + nz * 0.3);
-          finMesh.rotation.y = -angle;
-          group.add(finMesh);
+          dummy.position.set(wx + nx * 0.3, totalHeight / 2, wz + nz * 0.3);
+          dummy.rotation.set(0, -angle, 0);
+          dummy.updateMatrix();
+          finTransforms.push(dummy.matrix.clone());
 
-          // Floor by floor windows
           for (let f = 1; f < floors; f++) {
             const winY = f * floorH + floorH / 2;
-
-            // Reflective glazed window pane (identical Ganga dimension 2.4m x 1.8m x 0.3m)
-            const winGeo = new THREE.BoxGeometry(winW, winH, 0.3);
-            const winMesh = new THREE.Mesh(winGeo, winMat);
-            winMesh.position.set(wx + nx * 0.18, winY, wz + nz * 0.18);
-            winMesh.rotation.y = -angle;
-            group.add(winMesh);
-            windows.push({ mesh: winMesh, nightColor: COLOR_NIGHT_WINDOW, dayColor: COLOR_WINDOW_GLASS });
+            dummy.position.set(wx + nx * 0.18, winY, wz + nz * 0.18);
+            dummy.rotation.set(0, -angle, 0);
+            dummy.updateMatrix();
+            windowTransforms.push(dummy.matrix.clone());
           }
         }
       }
+    }
+
+    if (colTransforms.length > 0) {
+      const colGeo = new THREE.CylinderGeometry(0.35, 0.35, floorH * 1.5, 8);
+      const colInstanced = new THREE.InstancedMesh(colGeo, pilotisMat, colTransforms.length);
+      colTransforms.forEach((m, idx) => colInstanced.setMatrixAt(idx, m));
+      colInstanced.instanceMatrix.needsUpdate = true;
+      group.add(colInstanced);
+    }
+
+    if (finTransforms.length > 0) {
+      const finGeo = new THREE.BoxGeometry(0.3, totalHeight, 0.6);
+      const finInstanced = new THREE.InstancedMesh(finGeo, finMat, finTransforms.length);
+      finTransforms.forEach((m, idx) => finInstanced.setMatrixAt(idx, m));
+      finInstanced.instanceMatrix.needsUpdate = true;
+      group.add(finInstanced);
+    }
+
+    if (windowTransforms.length > 0) {
+      const winGeo = new THREE.BoxGeometry(winW, winH, 0.3);
+      const winInstanced = new THREE.InstancedMesh(winGeo, winMat, windowTransforms.length);
+      windowTransforms.forEach((m, idx) => winInstanced.setMatrixAt(idx, m));
+      winInstanced.instanceMatrix.needsUpdate = true;
+      group.add(winInstanced);
+      windows.push({ mesh: winInstanced, nightColor: COLOR_NIGHT_WINDOW, dayColor: COLOR_WINDOW_GLASS });
     }
 
     // 3. Rooftop Elevator Headhouse & Service Tower
