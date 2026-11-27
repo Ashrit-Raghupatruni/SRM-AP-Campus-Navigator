@@ -1,139 +1,267 @@
 import * as THREE from 'three';
-import { ArchitecturalMeshResult, createBoxMesh } from './MeshUtils';
+import { ArchitecturalMeshResult } from './MeshUtils';
 import { latLngToLocal } from '../geo';
 
 /**
  * Procedural 3D Architectural Reconstruction for Vedavathi Boys' Hostel (srmap_bldg_14).
- * - 15-story residential mid-rise arranged in a U-shape wrapping around an open courtyard
- * - Height: 46.5m (48.5m headhouse)
- * - Built directly on top of verified GeoJSON polygon footprint
- * - Authentic Indian Terracotta Ochre (#966A55) with crisp white floor slab eyebrows (#F8FAFC)
- * - Ground floor double-height pilotis and central courtyard garden
- * - 360-degree punched dormitory bedroom windows across North, South, East, and West wings
- * - Rooftop stepped elevator headhouse
+ * Built DIRECTLY from the exact verified 2D GeoJSON polygon footprint to match 2D map:
+ * - Real 15-story residential mid-rise
+ * - Height: 46.5m (roof parapet: 47.4m, headhouse: 49.5m)
+ * - Exact polygon boundary, courtyard recess, and orientation matching 2D map
+ * - Authentic Indian Terracotta Ochre (#966A55) walls with crisp white floor slab eyebrows (#F8FAFC)
+ * - Ground floor double-height pilotis and colonnade
+ * - 360-degree punched dormitory bedroom window matrices across all exterior faces with night window glow
+ * - Rooftop elevator headhouse and gravel terrace deck
  */
 export class VedavathiHostelGenerator {
   static generate(feature: any, isNight: boolean): ArchitecturalMeshResult {
     const group = new THREE.Group();
     const windows: { mesh: THREE.Mesh; nightColor: number; dayColor: number }[] = [];
 
-    const COLOR_TERRACOTTA_OCHRE = 0x966a55;
-    const COLOR_WHITE_SLAB = 0xf8fafc;
-    const COLOR_PILOTIS = 0xe2e8f0;
-    const COLOR_CURTAIN_GLASS = 0x38bdf8;
-    const COLOR_WINDOW_GLASS = 0x64748b;
-    const COLOR_NIGHT_WINDOW = 0xfbbf24;
-    const COLOR_ROOF_GRAVEL = 0xcbd5e1;
+    const COLOR_TERRACOTTA_OCHRE = 0x966a55; // Warm terracotta ochre panels
+    const COLOR_ACCENT_TERRACOTTA = 0x7c5543; // Window surround fins
+    const COLOR_WHITE_SLAB = 0xf8fafc;        // Crisp white cantilevered floor slab eyebrows
+    const COLOR_PILOTIS = 0xe2e8f0;           // Crisp white ground pilotis columns
+    const COLOR_WINDOW_FRAME = 0x334155;      // Dark window frames
+    const COLOR_WINDOW_GLASS = 0x2b394a;      // Deep solar window glass
+    const COLOR_NIGHT_WINDOW = 0xfbbf24;      // Incandescent golden night glow
+    const COLOR_ROOF_GRAVEL = 0xcbd5e1;       // Waterproof terrace deck
+    const COLOR_PARAPET = 0xf1f5f9;           // White parapet coping
 
-    // Derive bounding envelope directly from GeoJSON polygon
-    const coords = feature.geometry?.coordinates?.[0] || [];
-    let bldgMinX = Infinity, bldgMaxX = -Infinity, bldgMinZ = Infinity, bldgMaxZ = -Infinity;
-    for (const [lng, lat] of coords) {
-      const p = latLngToLocal(lat, lng);
-      bldgMinX = Math.min(bldgMinX, p.x);
-      bldgMaxX = Math.max(bldgMaxX, p.x);
-      bldgMinZ = Math.min(bldgMinZ, p.z);
-      bldgMaxZ = Math.max(bldgMaxZ, p.z);
+    const coords: [number, number][] = feature.geometry?.coordinates?.[0] || [];
+    const name = feature.properties?.name || "Vedavathi Boys' Hostel";
+
+    if (coords.length < 3) {
+      return {
+        group,
+        windows,
+        labelPos: new THREE.Vector3(0, 50, 0),
+        name: "Vedavathi Boys' Hostel",
+        category: 'Hostel',
+        color: '#f43f5e',
+        floors: 15,
+      };
     }
 
-    const MIN_X = bldgMinX;
-    const MAX_X = bldgMaxX;
-    const MIN_Z = bldgMinZ;
-    const MAX_Z = bldgMaxZ;
-    const WIDTH = MAX_X - MIN_X;
-    const DEPTH = MAX_Z - MIN_Z;
+    const localPts: { x: number; z: number }[] = [];
+    let minX = Infinity, maxX = -Infinity, minZ = Infinity, maxZ = -Infinity;
+    let sumX = 0;
+    let sumZ = 0;
 
-    const PILOTIS_H = 5.5;
-    const TOTAL_H = 46.5; // 15 floors
-    const HEADHOUSE_H = 48.5;
-
-    // 1. Ground Pilotis Colonnade (Elevated 5.5m ground floor)
-    for (let x = MIN_X + 3.0; x <= MAX_X - 3.0; x += 6.5) {
-      const pNorth = createBoxMesh(x - 0.45, x + 0.45, 0, PILOTIS_H, MIN_Z, MIN_Z + 0.9, COLOR_PILOTIS);
-      const pSouth = createBoxMesh(x - 0.45, x + 0.45, 0, PILOTIS_H, MAX_Z - 0.9, MAX_Z, COLOR_PILOTIS);
-      group.add(pNorth, pSouth);
+    for (let i = 0; i < coords.length; i++) {
+      const [lng, lat] = coords[i];
+      const local = latLngToLocal(lat, lng);
+      localPts.push(local);
+      minX = Math.min(minX, local.x);
+      maxX = Math.max(maxX, local.x);
+      minZ = Math.min(minZ, local.z);
+      maxZ = Math.max(maxZ, local.z);
+      sumX += local.x;
+      sumZ += local.z;
     }
 
-    // 2. Main 15-Story U-Shape Building Mass
-    // North Wing
-    const northWing = createBoxMesh(MIN_X, MAX_X, PILOTIS_H, TOTAL_H, MIN_Z, MIN_Z + DEPTH * 0.38, COLOR_TERRACOTTA_OCHRE, 0.4, 0.1);
-    // West Spine
-    const westSpine = createBoxMesh(MIN_X, MIN_X + WIDTH * 0.35, PILOTIS_H, TOTAL_H, MIN_Z, MAX_Z, COLOR_TERRACOTTA_OCHRE, 0.4, 0.1);
-    // East Spine
-    const eastSpine = createBoxMesh(MAX_X - WIDTH * 0.35, MAX_X, PILOTIS_H, TOTAL_H, MIN_Z, MAX_Z, COLOR_TERRACOTTA_OCHRE, 0.4, 0.1);
-    group.add(northWing, westSpine, eastSpine);
+    const centerX = sumX / localPts.length;
+    const centerZ = sumZ / localPts.length;
+    const floors = 15;
+    const totalHeight = 46.5;
+    const floorH = totalHeight / floors; // 3.1m per floor
 
-    // 3. Horizontal White Slab Eyebrows across all 15 floors
-    const floorH = (TOTAL_H - PILOTIS_H) / 14;
-    for (let f = 1; f <= 14; f++) {
-      const y = PILOTIS_H + f * floorH;
-      const slabN = createBoxMesh(MIN_X - 0.4, MAX_X + 0.4, y - 0.25, y, MIN_Z - 0.4, MIN_Z + DEPTH * 0.38 + 0.4, COLOR_WHITE_SLAB, 0.3, 0.1);
-      const slabW = createBoxMesh(MIN_X - 0.4, MIN_X + WIDTH * 0.35 + 0.4, y - 0.25, y, MIN_Z - 0.4, MAX_Z + 0.4, COLOR_WHITE_SLAB, 0.3, 0.1);
-      const slabE = createBoxMesh(MAX_X - WIDTH * 0.35 - 0.4, MAX_X + 0.4, y - 0.25, y, MIN_Z - 0.4, MAX_Z + 0.4, COLOR_WHITE_SLAB, 0.3, 0.1);
-      group.add(slabN, slabW, slabE);
+    // Materials
+    const wallMat = new THREE.MeshStandardMaterial({
+      color: COLOR_TERRACOTTA_OCHRE,
+      roughness: 0.5,
+      metalness: 0.1,
+      side: THREE.DoubleSide,
+    });
 
-      // East Facade Windows (Facing central campus promenade)
-      for (let z = MIN_Z + 3.0; z <= MAX_Z - 3.0; z += 5.5) {
-        const winGeo = new THREE.BoxGeometry(0.3, 1.6, 2.2);
-        const winMat = new THREE.MeshStandardMaterial({
-          color: isNight ? COLOR_NIGHT_WINDOW : COLOR_WINDOW_GLASS,
-          roughness: 0.2,
-          metalness: 0.8,
-          emissive: isNight ? COLOR_NIGHT_WINDOW : 0x000000,
-          emissiveIntensity: isNight ? 0.95 : 0.0,
-          side: THREE.DoubleSide,
-        });
-        const winMesh = new THREE.Mesh(winGeo, winMat);
-        winMesh.position.set(MAX_X + 0.1, y - 1.0, z);
-        group.add(winMesh);
-        windows.push({ mesh: winMesh, nightColor: COLOR_NIGHT_WINDOW, dayColor: COLOR_WINDOW_GLASS });
+    const slabMat = new THREE.MeshStandardMaterial({
+      color: COLOR_WHITE_SLAB,
+      roughness: 0.35,
+      metalness: 0.15,
+      side: THREE.DoubleSide,
+    });
+
+    const pilotisMat = new THREE.MeshStandardMaterial({
+      color: COLOR_PILOTIS,
+      roughness: 0.4,
+      metalness: 0.1,
+    });
+
+    const frameMat = new THREE.MeshStandardMaterial({
+      color: COLOR_WINDOW_FRAME,
+      roughness: 0.4,
+      metalness: 0.2,
+      side: THREE.DoubleSide,
+    });
+
+    const glassMat = new THREE.MeshStandardMaterial({
+      color: isNight ? COLOR_NIGHT_WINDOW : COLOR_WINDOW_GLASS,
+      roughness: 0.2,
+      metalness: 0.8,
+      emissive: isNight ? COLOR_NIGHT_WINDOW : 0x000000,
+      emissiveIntensity: isNight ? 0.95 : 0.0,
+      side: THREE.DoubleSide,
+    });
+
+    const roofMat = new THREE.MeshStandardMaterial({
+      color: COLOR_ROOF_GRAVEL,
+      roughness: 0.7,
+      metalness: 0.1,
+      side: THREE.DoubleSide,
+    });
+
+    const parapetMat = new THREE.MeshStandardMaterial({
+      color: COLOR_PARAPET,
+      roughness: 0.4,
+      metalness: 0.1,
+      side: THREE.DoubleSide,
+    });
+
+    // 1. Build EXACT Horizontal Slabs matching 2D Polygon Boundary
+    const shape = new THREE.Shape();
+    localPts.forEach((p, i) => {
+      if (i === 0) shape.moveTo(p.x, p.z);
+      else shape.lineTo(p.x, p.z);
+    });
+
+    // Base slab
+    const baseGeo = new THREE.ShapeGeometry(shape);
+    baseGeo.rotateX(Math.PI / 2);
+    const baseMesh = new THREE.Mesh(baseGeo, slabMat);
+    baseMesh.position.y = 0.05;
+    baseMesh.receiveShadow = true;
+    group.add(baseMesh);
+
+    // Cantilever Floor Eyebrow Slabs every floor (levels 1 through 15)
+    for (let f = 1; f <= floors; f++) {
+      const slabGeo = new THREE.ShapeGeometry(shape);
+      slabGeo.rotateX(Math.PI / 2);
+      const slabMesh = new THREE.Mesh(slabGeo, slabMat);
+      slabMesh.position.y = f * floorH;
+      slabMesh.receiveShadow = true;
+      group.add(slabMesh);
+    }
+
+    // Rooftop Terrace Deck & Parapet Wall
+    const roofGeo = new THREE.ShapeGeometry(shape);
+    roofGeo.rotateX(Math.PI / 2);
+    const roofMesh = new THREE.Mesh(roofGeo, roofMat);
+    roofMesh.position.y = totalHeight + 0.05;
+    roofMesh.receiveShadow = true;
+    group.add(roofMesh);
+
+    // Parapet along all polygon edges
+    for (let i = 0; i < localPts.length - 1; i++) {
+      const p1 = localPts[i];
+      const p2 = localPts[i + 1];
+      const dx = p2.x - p1.x;
+      const dz = p2.z - p1.z;
+      const len = Math.hypot(dx, dz);
+      if (len < 0.2) continue;
+
+      const angle = Math.atan2(dz, dx);
+      const paraGeo = new THREE.BoxGeometry(len, 0.9, 0.4);
+      const paraMesh = new THREE.Mesh(paraGeo, parapetMat);
+      paraMesh.position.set((p1.x + p2.x) / 2, totalHeight + 0.45, (p1.z + p2.z) / 2);
+      paraMesh.rotation.y = -angle;
+      group.add(paraMesh);
+    }
+
+    // 2. Build Facade Walls & Window Arrays along every polygon edge
+    for (let i = 0; i < localPts.length - 1; i++) {
+      const p1 = localPts[i];
+      const p2 = localPts[i + 1];
+      const dx = p2.x - p1.x;
+      const dz = p2.z - p1.z;
+      const edgeLen = Math.hypot(dx, dz);
+      if (edgeLen < 0.3) continue;
+
+      const mx = (p1.x + p2.x) / 2;
+      const mz = (p1.z + p2.z) / 2;
+      const angle = Math.atan2(dz, dx);
+
+      // Determine correct outward normal vector pointing away from building center
+      let nx = -dz / edgeLen;
+      let nz = dx / edgeLen;
+      const toMidX = mx - centerX;
+      const toMidZ = mz - centerZ;
+      if (nx * toMidX + nz * toMidZ < 0) {
+        nx = -nx;
+        nz = -nz;
       }
 
-      // South Facade Windows on West and East wings (Facing toward Ganga & SR Block)
-      const southWestWinGeo = new THREE.BoxGeometry(2.2, 1.6, 0.3);
-      const southEastWinGeo = new THREE.BoxGeometry(2.2, 1.6, 0.3);
-      const winMatS = new THREE.MeshStandardMaterial({
-        color: isNight ? COLOR_NIGHT_WINDOW : COLOR_WINDOW_GLASS,
-        roughness: 0.2,
-        metalness: 0.8,
-        emissive: isNight ? COLOR_NIGHT_WINDOW : 0x000000,
-        emissiveIntensity: isNight ? 0.95 : 0.0,
-        side: THREE.DoubleSide,
-      });
-      const winMeshSW = new THREE.Mesh(southWestWinGeo, winMatS);
-      winMeshSW.position.set(MIN_X + WIDTH * 0.17, y - 1.0, MAX_Z + 0.1);
-      const winMeshSE = new THREE.Mesh(southEastWinGeo, winMatS);
-      winMeshSE.position.set(MAX_X - WIDTH * 0.17, y - 1.0, MAX_Z + 0.1);
-      group.add(winMeshSW, winMeshSE);
-      windows.push(
-        { mesh: winMeshSW, nightColor: COLOR_NIGHT_WINDOW, dayColor: COLOR_WINDOW_GLASS },
-        { mesh: winMeshSE, nightColor: COLOR_NIGHT_WINDOW, dayColor: COLOR_WINDOW_GLASS }
-      );
+      // Solid baseline terracotta wall spanning ground to roof
+      const wallGeo = new THREE.BoxGeometry(edgeLen, totalHeight, 0.45);
+      const wallMesh = new THREE.Mesh(wallGeo, wallMat);
+      wallMesh.position.set(mx, totalHeight / 2, mz);
+      wallMesh.rotation.y = -angle;
+      group.add(wallMesh);
+
+      // Ground floor pilotis columns along longer exterior edges
+      if (edgeLen > 8.0) {
+        const numCols = Math.floor(edgeLen / 5.5);
+        for (let c = 1; c <= numCols; c++) {
+          const ct = c / (numCols + 1);
+          const cx = p1.x + dx * ct + nx * 0.26;
+          const cz = p1.z + dz * ct + nz * 0.26;
+          const colMesh = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.35, 0.35, floorH * 1.5, 8),
+            pilotisMat
+          );
+          colMesh.position.set(cx, (floorH * 1.5) / 2, cz);
+          group.add(colMesh);
+        }
+      }
+
+      // Punched dormitory windows across all floors (levels 1 through 14)
+      if (edgeLen > 5.0) {
+        const windowSpacing = 3.4; // Authentic bedroom spacing
+        const numWindows = Math.max(1, Math.floor((edgeLen - 2.0) / windowSpacing));
+
+        const winW = 1.9; // Window width
+        const winH = 1.6; // Window height
+
+        for (let w = 1; w <= numWindows; w++) {
+          const t = w / (numWindows + 1);
+          const wx = p1.x + dx * t + nx * 0.25;
+          const wz = p1.z + dz * t + nz * 0.25;
+
+          for (let f = 1; f < floors; f++) {
+            const winY = f * floorH + floorH / 2;
+
+            // Architectural terracotta window surround fin
+            const frameGeo = new THREE.BoxGeometry(winW + 0.16, winH + 0.16, 0.12);
+            const frameMesh = new THREE.Mesh(frameGeo, frameMat);
+            frameMesh.position.set(wx, winY, wz);
+            frameMesh.rotation.y = -angle;
+            group.add(frameMesh);
+
+            // Reflective glazed window pane
+            const winGeo = new THREE.BoxGeometry(winW, winH, 0.14);
+            const winMesh = new THREE.Mesh(winGeo, glassMat);
+            winMesh.position.set(wx + nx * 0.03, winY, wz + nz * 0.03);
+            winMesh.rotation.y = -angle;
+            group.add(winMesh);
+            windows.push({ mesh: winMesh, nightColor: COLOR_NIGHT_WINDOW, dayColor: COLOR_WINDOW_GLASS });
+          }
+        }
+      }
     }
 
-    // 4. Glazed Ground Entrance Lobby
-    const lobby = createBoxMesh(MIN_X + WIDTH * 0.2, MAX_X - WIDTH * 0.2, 0.2, PILOTIS_H, MIN_Z + 1.0, MIN_Z + DEPTH * 0.35, COLOR_CURTAIN_GLASS, 0.1, 0.7);
-    group.add(lobby);
-
-    // 5. Rooftop Elevator Headhouse & Parapet
-    const headhouse = createBoxMesh(
-      MIN_X + WIDTH * 0.1, MIN_X + WIDTH * 0.45,
-      TOTAL_H, HEADHOUSE_H,
-      MIN_Z + 2.0, MIN_Z + DEPTH * 0.3,
-      COLOR_ROOF_GRAVEL,
-      0.4, 0.1
-    );
+    // 3. Rooftop Elevator Headhouse & Service Tower
+    const headW = Math.min((maxX - minX) * 0.25, 12.0);
+    const headD = Math.min((maxZ - minZ) * 0.25, 10.0);
+    const headhouseGeo = new THREE.BoxGeometry(headW, 3.5, headD);
+    const headhouse = new THREE.Mesh(headhouseGeo, wallMat);
+    headhouse.position.set(centerX, totalHeight + 1.75, centerZ);
     group.add(headhouse);
-
-    const centerX = (MIN_X + MAX_X) / 2;
-    const centerZ = (MIN_Z + MAX_Z) / 2;
 
     group.userData = { name: "Vedavathi Boys' Hostel", feature, floors: 15 };
 
     return {
       group,
       windows,
-      labelPos: new THREE.Vector3(centerX, TOTAL_H + 6, centerZ),
+      labelPos: new THREE.Vector3(centerX, totalHeight + 6, centerZ),
       name: "Vedavathi Boys' Hostel",
       category: 'Hostel',
       color: '#f43f5e',
