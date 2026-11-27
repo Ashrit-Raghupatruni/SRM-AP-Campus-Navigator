@@ -51,6 +51,18 @@ export interface RouteResult {
   steps: RouteStep[];
 }
 
+export interface CampusLabel {
+  id: string;
+  name: string;
+  category: string;
+  color: string;
+  x: number;
+  z: number;
+  screenX: number;
+  screenY: number;
+  visible: boolean;
+}
+
 export interface SolarInfo {
   sunrise: Date;
   sunset: Date;

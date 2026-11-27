@@ -3,114 +3,11 @@ import * as THREE from 'three';
 import { latLngToLocal } from '../../core/geo';
 import { ArchitecturalBuildingBuilder } from '../../core/geometry3d/ArchitecturalBuildingBuilder';
 import { ProceduralRoadBuilder } from '../../core/geometry3d/ProceduralRoadBuilder';
-import { SolarInfo } from '../../types/campus';
-import { RouteResult } from '../../types/campus';
+import { SolarInfo, RouteResult, CampusLabel } from '../../types/campus';
+export type { CampusLabel };
 
-export interface CampusLabel {
-  id: string;
-  name: string;
-  category: string;
-  color: string;
-  x: number;
-  z: number;
-  screenX: number;
-  screenY: number;
-  visible: boolean;
-}
-
-// Verified real-world floor counts for SRM University-AP buildings (from srmap_blocks.db)
-export const BUILDING_FLOOR_COUNTS: Record<string, number> = {
-  'ganga': 26,                    // 26-storey iconic landmark high-rise residence for male students
-  'vedavathi': 15,                // 15-storey modern mid-rise boys' residence
-  'cv raman block': 12,           // 12-storey landmark tower (Central Library F12)
-  'krishna hostel': 9,            // 9-storey girls' residence tower
-  'godavari hostel': 9,           // 9-storey girls' residence tower
-  'narmada hostel': 9,            // 9-storey girls' residence tower
-  'yamuna hostel': 9,             // 9-storey girls' residence tower
-  'kaveri faculty residence': 9,  // 9-storey faculty apartment residence
-  'sr block': 9,                  // SR Block across 9 stories
-  'x-lab': 7,                     // X-Lab multidisciplinary engineering complex across 7 levels
-  'homi j bhabha block': 7,       // Administrative & Advanced Science Block across 7 levels
-  'homi j. bhabha block': 7,
-  'v block': 7,                   // Vikram Sarabhai Academic Block I across 7 levels
-  'jc bose block': 5,             // 5-storey research and laboratory facility
-  'annapurna mess': 2,            // 2-storey central dining facility
-  'office': 2,
-};
-
-export function getBuildingFloors(name: string): number {
-  const lower = (name || '').toLowerCase().trim();
-  for (const [key, floors] of Object.entries(BUILDING_FLOOR_COUNTS)) {
-    if (lower.includes(key) || key.includes(lower)) {
-      return floors;
-    }
-  }
-  return 4;
-}
-
-// Authentic real-world architectural colors sampled directly from Android app specifications
-export function getBuildingPalette(name: string) {
-  const lower = (name || '').toLowerCase();
-  if (lower.includes('ganga') || lower.includes('vedavathi')) {
-    return {
-      wallColor: 0x966a55,      // Warm terracotta ochre panels
-      accentColor: 0x7c5543,    // Dark terracotta window surround fins
-      slabColor: 0xf8fafc,      // Crisp white cantilevered floor slab eyebrows
-      roofColor: 0xcbd5e1,      // Rooftop terrace gravel
-      windowColor: 0x334155,    // Residential window frames
-      nightWindow: 0xfbbf24,
-    };
-  }
-  if (lower.includes('cv raman')) {
-    return {
-      wallColor: 0xf1f5f9,      // Precast architectural concrete white
-      accentColor: 0x475569,    // Dark concrete atrium frame
-      slabColor: 0x38bdf8,      // Sky-blue vertical glass curtain spines
-      roofColor: 0x94a3b8,      // Mechanical penthouse gravel
-      windowColor: 0x1e293b,    // Solar glass
-      nightWindow: 0xfde047,    // Warm golden atrium glow
-    };
-  }
-  if (lower.includes('sr block') || lower.includes('radhakrishnan')) {
-    return {
-      wallColor: 0xd3cbbe,      // Warm precast sandstone vertical core towers
-      accentColor: 0x1e293b,    // Dark charcoal horizontal spandrel bands
-      slabColor: 0xe2e8f0,      // Perkins+Will white slab eyebrows
-      roofColor: 0x94a3b8,      // Waterproof roof deck
-      windowColor: 0x3b5971,    // Wrap-around ribbon solar glazing
-      nightWindow: 0xfbbf24,
-    };
-  }
-  if (lower.includes('hostel') || lower.includes('kaveri')) {
-    return {
-      wallColor: 0x8c624e,      // Terracotta residential tone
-      accentColor: 0x5c4033,    // Darker accent
-      slabColor: 0xf8fafc,      // White slab eyebrows
-      roofColor: 0xcbd5e1,
-      windowColor: 0x475569,
-      nightWindow: 0xfbbf24,
-    };
-  }
-  if (lower.includes('annapurna') || lower.includes('mess')) {
-    return {
-      wallColor: 0xfef3c7,      // Warm dining hall tone
-      accentColor: 0xd97706,
-      slabColor: 0xfef9c3,
-      roofColor: 0x15803d,      // Stepped green pavilion roof
-      windowColor: 0x1e293b,
-      nightWindow: 0xf59e0b,
-    };
-  }
-  // V Block, X-Lab, JC Bose, Homi J Bhabha, Academic complex palette
-  return {
-    wallColor: 0xf8fafc,        // Crisp monolithic white precast panels
-    accentColor: 0xd9d2c5,      // Warm sandstone brise-soleil louvers
-    slabColor: 0xffffff,        // Pure white cantilevered floor slabs
-    roofColor: 0x94a3b8,        // Weatherproof flat gravel roof terrace
-    windowColor: 0x2b5876,      // Deep solar-reflective blue-grey ribbon glazing
-    nightWindow: 0x38bdf8,      // Incandescent sky-blue night illumination
-  };
-}
+import { getBuildingFloors, getBuildingPalette, BUILDING_FLOOR_COUNTS } from '../../core/geometry3d/BuildingSpecs';
+export { getBuildingFloors, getBuildingPalette, BUILDING_FLOOR_COUNTS };
 
 interface CampusMap3DProps {
   buildingsGeoJSON: any;

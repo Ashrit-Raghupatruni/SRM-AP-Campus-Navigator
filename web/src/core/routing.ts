@@ -133,23 +133,61 @@ export class PedestrianGraph {
 
         const estimatedMinutes = Math.max(1, Math.round(totalDistance / 75)); // ~4.5 km/h walking speed
 
-        // Formulate readable steps
+        // Formulate real turn-by-turn guidance based on trajectory angles
+        const calculateBearing = (lat1: number, lon1: number, lat2: number, lon2: number) => {
+          const y = Math.sin((lon2 - lon1) * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180));
+          const x =
+            Math.cos(lat1 * (Math.PI / 180)) * Math.sin(lat2 * (Math.PI / 180)) -
+            Math.sin(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.cos((lon2 - lon1) * (Math.PI / 180));
+          return ((Math.atan2(y, x) * 180) / Math.PI + 360) % 360;
+        };
+
         steps.push({
-          instruction: 'Start walking along designated pedestrian walkway',
-          distanceMeters: Math.round(totalDistance * 0.3),
+          instruction: 'Head towards the nearest campus walkway',
+          distanceMeters: Math.round(haversineDistanceMeters(startLat, startLng, startNode.lat, startNode.lng)),
           lat: startLat,
           lng: startLng,
         });
-        if (totalDistance > 50) {
-          steps.push({
-            instruction: 'Continue straight towards block gateway',
-            distanceMeters: Math.round(totalDistance * 0.5),
-            lat: pathCoords[Math.floor(pathCoords.length / 2)][0],
-            lng: pathCoords[Math.floor(pathCoords.length / 2)][1],
-          });
+
+        for (let i = 1; i < pathCoords.length - 2; i++) {
+          const [p1Lat, p1Lng] = pathCoords[i - 1];
+          const [p2Lat, p2Lng] = pathCoords[i];
+          const [p3Lat, p3Lng] = pathCoords[i + 1];
+
+          const b1 = calculateBearing(p1Lat, p1Lng, p2Lat, p2Lng);
+          const b2 = calculateBearing(p2Lat, p2Lng, p3Lat, p3Lng);
+          let diff = (b2 - b1 + 360) % 360;
+          if (diff > 180) diff -= 360;
+
+          const dist = Math.round(haversineDistanceMeters(p2Lat, p2Lng, p3Lat, p3Lng));
+          if (dist > 15) {
+            if (diff > 40) {
+              steps.push({
+                instruction: `Turn right onto concourse path (${dist}m)`,
+                distanceMeters: dist,
+                lat: p2Lat,
+                lng: p2Lng,
+              });
+            } else if (diff < -40) {
+              steps.push({
+                instruction: `Turn left onto walkway (${dist}m)`,
+                distanceMeters: dist,
+                lat: p2Lat,
+                lng: p2Lng,
+              });
+            } else if (i === Math.floor(pathCoords.length / 2)) {
+              steps.push({
+                instruction: `Continue straight towards block destination (${dist}m)`,
+                distanceMeters: dist,
+                lat: p2Lat,
+                lng: p2Lng,
+              });
+            }
+          }
         }
+
         steps.push({
-          instruction: 'Arrive at destination entrance / doorway',
+          instruction: 'Arrive at destination building entrance / gateway',
           distanceMeters: 0,
           lat: endLat,
           lng: endLng,

@@ -121,10 +121,11 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                       onNavigateTo(item);
                       onClose();
                     }}
-                    className="p-2 rounded-xl bg-teal-600 text-white hover:bg-teal-700 transition-colors shadow-sm"
-                    title="Navigate Here"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-xs transition-colors shadow-sm"
+                    title="Direct Navigation"
                   >
-                    <Navigation className="w-3.5 h-3.5" />
+                    <Navigation className="w-3.5 h-3.5 fill-current" />
+                    <span>Navigate</span>
                   </button>
                 </div>
               </div>

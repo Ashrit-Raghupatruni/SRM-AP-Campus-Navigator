@@ -10,7 +10,7 @@ import { Gate1EntranceGenerator } from './Gate1EntranceGenerator';
 import { ModularHostelGenerator } from './ModularHostelGenerator';
 import { AcademicPavilionGenerator } from './AcademicPavilionGenerator';
 import { latLngToLocal } from '../geo';
-import { getBuildingFloors, getBuildingPalette } from '../../components/map3d/CampusMap3D';
+import { getBuildingFloors, getBuildingPalette } from './BuildingSpecs';
 
 export class ArchitecturalBuildingBuilder {
   static buildCampus(

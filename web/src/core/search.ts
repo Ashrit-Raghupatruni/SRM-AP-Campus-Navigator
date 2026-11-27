@@ -15,12 +15,31 @@ export interface SearchResultItem {
 export class CampusSearchIndex {
   items: SearchResultItem[] = [];
 
+  private cachedRooms: any = null;
+  private cachedFaculty: any[] = [];
+
+  loadRooms(roomsGeoJSON: any) {
+    this.cachedRooms = roomsGeoJSON;
+    this.rebuildIndex();
+  }
+
+  loadFaculty(facultyList: any[]) {
+    this.cachedFaculty = facultyList || [];
+    this.rebuildIndex();
+  }
+
   loadData(roomsGeoJSON: any, facultyList: any[]) {
+    this.cachedRooms = roomsGeoJSON;
+    this.cachedFaculty = facultyList || [];
+    this.rebuildIndex();
+  }
+
+  private rebuildIndex() {
     this.items = [];
 
     // Ingest rooms & labs
-    if (roomsGeoJSON && roomsGeoJSON.features) {
-      for (const feat of roomsGeoJSON.features) {
+    if (this.cachedRooms && this.cachedRooms.features) {
+      for (const feat of this.cachedRooms.features) {
         const props = feat.properties || {};
         const coords = feat.geometry?.coordinates;
         if (!coords) continue;
@@ -52,8 +71,8 @@ export class CampusSearchIndex {
     }
 
     // Ingest faculty members
-    if (Array.isArray(facultyList)) {
-      for (const f of facultyList) {
+    if (Array.isArray(this.cachedFaculty)) {
+      for (const f of this.cachedFaculty) {
         const name = f.name || 'Faculty Member';
         const designation = f.designation || 'Faculty';
         const dept = f.department || 'SRM AP';

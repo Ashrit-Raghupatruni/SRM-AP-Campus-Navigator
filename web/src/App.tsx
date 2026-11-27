@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, Suspense } from 'react';
 import {
   Search,
   Compass,
@@ -11,21 +11,30 @@ import {
   Eye,
   User,
   Clock,
+  MapPin,
 } from 'lucide-react';
 import { CampusMap2D } from './components/map/CampusMap2D';
-import { CampusMap3D, CampusLabel, getBuildingFloors } from './components/map3d/CampusMap3D';
+import { CampusLabel } from './types/campus';
+import { getBuildingFloors } from './core/geometry3d/BuildingSpecs';
 import { FloorSelector } from './components/map/FloorSelector';
 import { TimeControlBar } from './components/solar/TimeControlBar';
 import { SearchModal } from './components/directory/SearchModal';
 import { NavigationSheet } from './components/navigation/NavigationSheet';
 import { BlockInspectionSheet } from './components/directory/BlockInspectionSheet';
+import { CampusLoadingScreen, LoadingTaskStatus } from './components/loading/CampusLoadingScreen';
 import { getSolarTimes, formatTime } from './core/solar';
 import { PedestrianGraph } from './core/routing';
 import { CampusSearchIndex } from './core/search';
 import { RouteResult } from './types/campus';
+import { GeolocationService, UserLocation } from './core/geolocation';
 
-export function App() {
-  // GeoJSON Data
+// Lazy load Three.js 3D Viewport for instantaneous initial bundle loading
+const LazyCampusMap3D = React.lazy(() =>
+  import('./components/map3d/CampusMap3D').then((m) => ({ default: m.CampusMap3D }))
+);
+
+export default function App() {
+  // GeoJSON Data (Progressively Loaded in Stages)
   const [buildingsData, setBuildingsData] = useState<any>(null);
   const [pathsData, setPathsData] = useState<any>(null);
   const [roadsData, setRoadsData] = useState<any>(null);
@@ -33,6 +42,16 @@ export function App() {
   const [sportsData, setSportsData] = useState<any>(null);
   const [roomsData, setRoomsData] = useState<any>(null);
   const [facultyData, setFacultyData] = useState<any[]>([]);
+
+  // Progressive Loading State
+  const [loadingStatus, setLoadingStatus] = useState<LoadingTaskStatus>({
+    mapOverview: false,
+    academicBlocks: false,
+    navigationGraph: false,
+    facultyDirectory: false,
+    roomDetails: false,
+  });
+  const [isIntroDismissed, setIsIntroDismissed] = useState(false);
 
   // Navigation & View Mode
   const [viewMode, setViewMode] = useState<'3D' | '2D'>('3D');
@@ -47,7 +66,8 @@ export function App() {
   // Projected 3D building labels
   const [campusLabels, setCampusLabels] = useState<CampusLabel[]>([]);
 
-  // Active navigation & selected building
+  // Active navigation & user location
+  const [currentUserLocation, setCurrentUserLocation] = useState<UserLocation | null>(null);
   const [activeRoute, setActiveRoute] = useState<RouteResult | null>(null);
   const [navigationTargetName, setNavigationTargetName] = useState<string>('');
   const [selectedBuilding, setSelectedBuilding] = useState<{ name: string; feature: any } | null>(null);
@@ -60,6 +80,16 @@ export function App() {
   const routingGraph = useMemo(() => new PedestrianGraph(), []);
   const searchIndex = useMemo(() => new CampusSearchIndex(), []);
 
+  // Initialize Geolocation Tracking
+  useEffect(() => {
+    const stopTracking = GeolocationService.startTracking((loc: UserLocation) => {
+      setCurrentUserLocation(loc);
+    });
+    return () => {
+      stopTracking();
+    };
+  }, []);
+
   // Update clock every second in live mode
   useEffect(() => {
     if (!isLiveTime) return;
@@ -71,40 +101,75 @@ export function App() {
 
   const solarInfo = useMemo(() => getSolarTimes(simulatedTime), [simulatedTime]);
 
-  // Load campus GIS assets
+  // Progressive Campus Data Loading Pipeline (Stages 1-4)
   useEffect(() => {
-    async function loadCampusAssets() {
+    let isMounted = true;
+
+    async function loadProgressiveCampus() {
       try {
-        const [bRes, pRes, rRes, gRes, sRes, rmRes, facRes] = await Promise.all([
+        // Stage 1 & 2: Instant Core Overview Data (< 45 KB total)
+        const [bRes, pRes, rRes, gRes, sRes] = await Promise.all([
           fetch('/data/buildings.geojson').then((r) => r.json()).catch(() => null),
           fetch('/data/paths.geojson').then((r) => r.json()).catch(() => null),
           fetch('/data/roads.geojson').then((r) => r.json()).catch(() => null),
           fetch('/data/grounds.geojson').then((r) => r.json()).catch(() => null),
           fetch('/data/sports.geojson').then((r) => r.json()).catch(() => null),
-          fetch('/data/srmap_rooms_all.geojson').then((r) => r.json()).catch(() => null),
-          fetch('/data/srmap_faculty_directory_verified.json').then((r) => r.json()).catch(() => []),
         ]);
 
+        if (!isMounted) return;
         setBuildingsData(bRes);
         setPathsData(pRes);
         setRoadsData(rRes);
         setGroundsData(gRes);
         setSportsData(sRes);
-        setRoomsData(rmRes);
-        setFacultyData(facRes);
 
-        if (pRes) routingGraph.loadFromGeoJSON(pRes, rRes);
-        searchIndex.loadData(rmRes, facRes);
+        setLoadingStatus((prev) => ({
+          ...prev,
+          mapOverview: true,
+          academicBlocks: true,
+        }));
+
+        // Stage 2: Ingest Pedestrian Routing Graph
+        if (pRes) {
+          routingGraph.loadFromGeoJSON(pRes, rRes);
+          setLoadingStatus((prev) => ({ ...prev, navigationGraph: true }));
+        }
+
+        // Stage 3 & 4: Background Data Enrichment (Rooms & Faculty Directory)
+        fetch('/data/srmap_faculty_directory_verified.json')
+          .then((r) => r.json())
+          .then((facRes) => {
+            if (!isMounted) return;
+            setFacultyData(facRes || []);
+            searchIndex.loadFaculty(facRes || []);
+            setLoadingStatus((prev) => ({ ...prev, facultyDirectory: true }));
+          })
+          .catch((e) => console.warn('Faculty background load failed:', e));
+
+        fetch('/data/srmap_rooms_all.geojson')
+          .then((r) => r.json())
+          .then((rmRes) => {
+            if (!isMounted) return;
+            setRoomsData(rmRes);
+            searchIndex.loadRooms(rmRes);
+            setLoadingStatus((prev) => ({ ...prev, roomDetails: true }));
+          })
+          .catch((e) => console.warn('Rooms background load failed:', e));
       } catch (err) {
         console.error('Failed to load campus GIS assets:', err);
       }
     }
-    loadCampusAssets();
+
+    loadProgressiveCampus();
+    return () => {
+      isMounted = false;
+    };
   }, [routingGraph, searchIndex]);
 
   const navigateToLocation = (targetLat: number, targetLng: number, targetName: string) => {
-    const originLat = 16.4635;
-    const originLng = 80.5065;
+    // Dynamic GPS Origin or Campus Landmark fallback
+    const originLat = currentUserLocation ? currentUserLocation.lat : 16.4635;
+    const originLng = currentUserLocation ? currentUserLocation.lng : 80.5065;
     const route = routingGraph.findRoute(originLat, originLng, targetLat, targetLng);
     if (route) {
       setActiveRoute(route);
@@ -128,21 +193,30 @@ export function App() {
       {/* 2D or 3D Map Viewport */}
       <div className="absolute inset-0">
         {viewMode === '3D' ? (
-          <CampusMap3D
-            buildingsGeoJSON={buildingsData}
-            pathsGeoJSON={pathsData}
-            roadsGeoJSON={roadsData}
-            groundsGeoJSON={groundsData}
-            sportsGeoJSON={sportsData}
-            solarInfo={solarInfo}
-            activeRoute={activeRoute}
-            activeFilter={activeFilter}
-            isWalkMode={isWalkMode}
-            walkPov={walkPov}
-            isAngleLocked={isAngleLocked}
-            onSelectBuilding={(name, feature) => setSelectedBuilding({ name, feature })}
-            onLabelsUpdate={setCampusLabels}
-          />
+          <Suspense
+            fallback={
+              <div className="w-full h-full flex flex-col items-center justify-center bg-slate-950 text-slate-400">
+                <div className="w-10 h-10 border-4 border-amber-500/20 border-t-amber-500 rounded-full animate-spin mb-4" />
+                <p className="text-sm font-semibold tracking-wide text-slate-300">Loading 3D Campus Engine...</p>
+              </div>
+            }
+          >
+            <LazyCampusMap3D
+              buildingsGeoJSON={buildingsData}
+              pathsGeoJSON={pathsData}
+              roadsGeoJSON={roadsData}
+              groundsGeoJSON={groundsData}
+              sportsGeoJSON={sportsData}
+              solarInfo={solarInfo}
+              activeRoute={activeRoute}
+              activeFilter={activeFilter}
+              isWalkMode={isWalkMode}
+              walkPov={walkPov}
+              isAngleLocked={isAngleLocked}
+              onSelectBuilding={(name, feature) => setSelectedBuilding({ name, feature })}
+              onLabelsUpdate={setCampusLabels}
+            />
+          </Suspense>
         ) : (
           <CampusMap2D
             buildingsGeoJSON={buildingsData}
@@ -393,8 +467,15 @@ export function App() {
         onSelectItem={(item) => navigateToLocation(item.lat, item.lng, item.title)}
         onNavigateTo={(item) => navigateToLocation(item.lat, item.lng, item.title)}
       />
+
+      {/* Progressive Loading & Experience Card */}
+      {!isIntroDismissed && (
+        <CampusLoadingScreen
+          status={loadingStatus}
+          onDismiss={() => setIsIntroDismissed(true)}
+        />
+      )}
     </div>
   );
 }
 
-export default App;

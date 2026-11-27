@@ -5,16 +5,20 @@ import { RouteResult } from '../../types/campus';
 interface NavigationSheetProps {
   route: RouteResult;
   destinationTitle: string;
+  originLabel?: string;
   onCancel: () => void;
+  onRecenter?: () => void;
 }
 
 export const NavigationSheet: React.FC<NavigationSheetProps> = ({
   route,
   destinationTitle,
+  originLabel = 'Current Location',
   onCancel,
+  onRecenter,
 }) => {
   return (
-    <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border border-slate-200/80 dark:border-slate-800 rounded-3xl shadow-2xl p-4 sm:p-5 flex flex-col gap-3 max-w-md w-full">
+    <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border border-slate-200/80 dark:border-slate-800 rounded-3xl shadow-2xl p-4 sm:p-5 flex flex-col gap-3 max-w-md w-full animate-in fade-in slide-in-from-bottom-3 duration-200">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2.5">
@@ -22,16 +26,30 @@ export const NavigationSheet: React.FC<NavigationSheetProps> = ({
             <Navigation className="w-5 h-5 fill-current" />
           </div>
           <div>
-            <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Navigating to</div>
-            <div className="font-bold text-slate-800 dark:text-slate-100 text-base">{destinationTitle}</div>
+            <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1">
+              <MapPin className="w-3 h-3 text-teal-500" />
+              <span>From: {originLabel}</span>
+            </div>
+            <div className="font-extrabold text-slate-800 dark:text-slate-100 text-base">{destinationTitle}</div>
           </div>
         </div>
-        <button
-          onClick={onCancel}
-          className="p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
-        >
-          <X className="w-5 h-5" />
-        </button>
+        <div className="flex items-center gap-1">
+          {onRecenter && (
+            <button
+              onClick={onRecenter}
+              className="p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+              title="Recenter Route"
+            >
+              <Navigation className="w-4 h-4" />
+            </button>
+          )}
+          <button
+            onClick={onCancel}
+            className="p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
       </div>
 
       {/* Metrics Row */}
