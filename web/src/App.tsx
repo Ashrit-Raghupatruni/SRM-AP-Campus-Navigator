@@ -22,6 +22,7 @@ import { SearchModal } from './components/directory/SearchModal';
 import { NavigationSheet } from './components/navigation/NavigationSheet';
 import { BlockInspectionSheet } from './components/directory/BlockInspectionSheet';
 import { CampusEngineLoading, LoadingTaskStatus } from './components/loading/CampusEngineLoading';
+import { IDBCacheStorage } from './core/cache/idbStorage';
 import { getSolarTimes, formatTime } from './core/solar';
 import { PedestrianGraph } from './core/routing';
 import { CampusSearchIndex } from './core/search';
@@ -106,7 +107,22 @@ export default function App() {
 
     async function loadProgressiveCampus() {
       try {
-        // Stage 1 & 2: Instant Core Overview Data (< 45 KB total)
+        // Check IndexedDB first for instant instant return
+        const cachedOverview = await IDBCacheStorage.get<any>('srmap_core_overview');
+        if (cachedOverview && isMounted) {
+          setBuildingsData(cachedOverview.buildings);
+          setPathsData(cachedOverview.paths);
+          setRoadsData(cachedOverview.roads);
+          setGroundsData(cachedOverview.grounds);
+          setSportsData(cachedOverview.sports);
+          setLoadingStatus((prev) => ({ ...prev, mapOverview: true, academicBlocks: true }));
+          if (cachedOverview.paths) {
+            routingGraph.loadFromGeoJSON(cachedOverview.paths, cachedOverview.roads);
+            setLoadingStatus((prev) => ({ ...prev, navigationGraph: true }));
+          }
+        }
+
+        // Fetch fresh GIS overview assets
         const [bRes, pRes, rRes, gRes, sRes] = await Promise.all([
           fetch('/data/buildings.geojson').then((r) => r.json()).catch(() => null),
           fetch('/data/paths.geojson').then((r) => r.json()).catch(() => null),
@@ -121,6 +137,15 @@ export default function App() {
         setRoadsData(rRes);
         setGroundsData(gRes);
         setSportsData(sRes);
+
+        // Cache in IDB for instant subsequent visits
+        IDBCacheStorage.set('srmap_core_overview', {
+          buildings: bRes,
+          paths: pRes,
+          roads: rRes,
+          grounds: gRes,
+          sports: sRes,
+        });
 
         setLoadingStatus((prev) => ({
           ...prev,

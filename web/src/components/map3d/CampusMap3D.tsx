@@ -192,9 +192,15 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
     const camera = new THREE.PerspectiveCamera(42, width / height, 0.5, 3500);
     cameraRef.current = camera;
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+    // Game-style conservative device profile: smooth 60fps without GPU thermal throttling
+    const renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      powerPreference: 'high-performance',
+      stencil: false,
+      depth: true,
+    });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -430,9 +436,20 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
     window.addEventListener('keydown', onKeyDown);
     window.addEventListener('keyup', onKeyUp);
 
-    // Animation & Smooth Camera Interpolation Loop
+    // Animation & Smooth Camera Interpolation Loop with Page Visibility pause
     let animId: number;
+    let isTabVisible = !document.hidden;
+
+    const onVisibilityChange = () => {
+      isTabVisible = !document.hidden;
+      if (isTabVisible) {
+        animate();
+      }
+    };
+    document.addEventListener('visibilitychange', onVisibilityChange);
+
     const animate = () => {
+      if (!isTabVisible) return;
       animId = requestAnimationFrame(animate);
 
       // Handle continuous smooth walking movement when keys are held
@@ -576,6 +593,7 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
       window.removeEventListener('keydown', onKeyDown);
       window.removeEventListener('keyup', onKeyUp);
       window.removeEventListener('resize', handleResize);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
       renderer.dispose();
       if (mountRef.current) {
         mountRef.current.innerHTML = '';
