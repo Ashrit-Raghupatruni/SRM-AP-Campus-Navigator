@@ -66,18 +66,20 @@ export class VedavathiHostelGenerator {
     const totalHeight = 46.5;
     const floorH = totalHeight / floors; // 3.1m per floor
 
-    // Materials
+    // Materials matching Ganga Hostel exactly
+    const COLOR_TERRACOTTA_DARK = 0x7c5543; // Dark terracotta vertical architectural fins
+
     const wallMat = new THREE.MeshStandardMaterial({
       color: COLOR_TERRACOTTA_OCHRE,
-      roughness: 0.5,
+      roughness: 0.4,
       metalness: 0.1,
       side: THREE.DoubleSide,
     });
 
     const slabMat = new THREE.MeshStandardMaterial({
       color: COLOR_WHITE_SLAB,
-      roughness: 0.35,
-      metalness: 0.15,
+      roughness: 0.3,
+      metalness: 0.1,
       side: THREE.DoubleSide,
     });
 
@@ -87,14 +89,14 @@ export class VedavathiHostelGenerator {
       metalness: 0.1,
     });
 
-    const frameMat = new THREE.MeshStandardMaterial({
-      color: COLOR_WINDOW_FRAME,
-      roughness: 0.4,
-      metalness: 0.2,
+    const finMat = new THREE.MeshStandardMaterial({
+      color: COLOR_TERRACOTTA_DARK,
+      roughness: 0.35,
+      metalness: 0.1,
       side: THREE.DoubleSide,
     });
 
-    const glassMat = new THREE.MeshStandardMaterial({
+    const winMat = new THREE.MeshStandardMaterial({
       color: isNight ? COLOR_NIGHT_WINDOW : COLOR_WINDOW_GLASS,
       roughness: 0.2,
       metalness: 0.8,
@@ -213,33 +215,34 @@ export class VedavathiHostelGenerator {
         }
       }
 
-      // Punched dormitory windows across all floors (levels 1 through 14)
+      // Windows and Terracotta Fins matching Ganga architecture exactly
       if (edgeLen > 5.0) {
-        const windowSpacing = 3.4; // Authentic bedroom spacing
+        const windowSpacing = 5.5; // Ganga bay spacing
         const numWindows = Math.max(1, Math.floor((edgeLen - 2.0) / windowSpacing));
 
-        const winW = 1.9; // Window width
-        const winH = 1.6; // Window height
+        const winW = 2.4; // Identical Ganga window width
+        const winH = 1.8; // Identical Ganga window height
 
         for (let w = 1; w <= numWindows; w++) {
           const t = w / (numWindows + 1);
-          const wx = p1.x + dx * t + nx * 0.25;
-          const wz = p1.z + dz * t + nz * 0.25;
+          const wx = p1.x + dx * t;
+          const wz = p1.z + dz * t;
 
+          // Vertical Terracotta Fin spanning from ground to roof (identical to Ganga's fins)
+          const finGeo = new THREE.BoxGeometry(0.3, totalHeight, 0.6);
+          const finMesh = new THREE.Mesh(finGeo, finMat);
+          finMesh.position.set(wx + nx * 0.3, totalHeight / 2, wz + nz * 0.3);
+          finMesh.rotation.y = -angle;
+          group.add(finMesh);
+
+          // Floor by floor windows
           for (let f = 1; f < floors; f++) {
             const winY = f * floorH + floorH / 2;
 
-            // Architectural terracotta window surround fin
-            const frameGeo = new THREE.BoxGeometry(winW + 0.16, winH + 0.16, 0.12);
-            const frameMesh = new THREE.Mesh(frameGeo, frameMat);
-            frameMesh.position.set(wx, winY, wz);
-            frameMesh.rotation.y = -angle;
-            group.add(frameMesh);
-
-            // Reflective glazed window pane
-            const winGeo = new THREE.BoxGeometry(winW, winH, 0.14);
-            const winMesh = new THREE.Mesh(winGeo, glassMat);
-            winMesh.position.set(wx + nx * 0.03, winY, wz + nz * 0.03);
+            // Reflective glazed window pane (identical Ganga dimension 2.4m x 1.8m x 0.3m)
+            const winGeo = new THREE.BoxGeometry(winW, winH, 0.3);
+            const winMesh = new THREE.Mesh(winGeo, winMat);
+            winMesh.position.set(wx + nx * 0.18, winY, wz + nz * 0.18);
             winMesh.rotation.y = -angle;
             group.add(winMesh);
             windows.push({ mesh: winMesh, nightColor: COLOR_NIGHT_WINDOW, dayColor: COLOR_WINDOW_GLASS });
