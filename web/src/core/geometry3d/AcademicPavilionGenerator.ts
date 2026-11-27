@@ -220,14 +220,15 @@ export class AcademicPavilionGenerator {
     const headhouseD = Math.min((maxZ - minZ) * 0.35, 12.0);
     if (headhouseW > 3 && headhouseD > 3) {
       const headhouse = createBoxMesh(
-        headhouseW,
-        3.2,
-        headhouseD,
+        centerX - headhouseW / 2,
+        centerX + headhouseW / 2,
+        totalHeight,
+        totalHeight + 3.2,
+        centerZ - headhouseD / 2,
+        centerZ + headhouseD / 2,
         COLOR_MONOLITHIC_WALL,
-        centerX,
-        totalHeight + 1.6,
-        centerZ,
-        0.5
+        0.5,
+        0.1
       );
       group.add(headhouse);
     }
