@@ -67,6 +67,9 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
   const aerialAngleRef = useRef({ theta: Math.PI / 3.8, phi: Math.PI / 3.4, radius: 260 });
   const panOffsetRef = useRef({ x: 0, z: 0 });
 
+  // Track live mouse position over viewport for cursor-aware features (zoom, walk mode entry)
+  const lastCursorWorldPosRef = useRef<THREE.Vector3 | null>(null);
+
   // Walk Mode camera states
   // Campus central walkway origin (near Central Plaza / SR Block entrance)
   const walkPosRef = useRef(new THREE.Vector3(25.0, 1.8, 80.0));
@@ -79,6 +82,96 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
   isWalkModeRef.current = isWalkMode;
   const walkPovRef = useRef(walkPov);
   walkPovRef.current = walkPov;
+
+  // Cache road and pathway coordinate points for snapping
+  const roadWaypointsRef = useRef<THREE.Vector3[]>([]);
+
+  // Collect road and pathway nodes whenever roadsGeoJSON or pathsGeoJSON update
+  useEffect(() => {
+    const pts: THREE.Vector3[] = [];
+    const collectFromGeoJSON = (geo: any) => {
+      if (!geo || !geo.features) return;
+      for (const feat of geo.features) {
+        const coords = feat.geometry?.coordinates;
+        if (!coords) continue;
+        if (feat.geometry.type === 'LineString') {
+          for (const [lng, lat] of coords) {
+            const loc = latLngToLocal(lat, lng);
+            pts.push(new THREE.Vector3(loc.x, 0, loc.z));
+          }
+        } else if (feat.geometry.type === 'MultiLineString') {
+          for (const line of coords) {
+            for (const [lng, lat] of line) {
+              const loc = latLngToLocal(lat, lng);
+              pts.push(new THREE.Vector3(loc.x, 0, loc.z));
+            }
+          }
+        }
+      }
+    };
+    collectFromGeoJSON(roadsGeoJSON);
+    collectFromGeoJSON(pathsGeoJSON);
+    roadWaypointsRef.current = pts;
+  }, [roadsGeoJSON, pathsGeoJSON]);
+
+  // When Walk Mode toggles ON: snap position directly to cursor location (or nearest walkway)
+  useEffect(() => {
+    if (isWalkMode) {
+      let targetX = 25.0;
+      let targetZ = 80.0;
+
+      // 1. If user had their cursor hovering over the map, start from that exact point
+      if (lastCursorWorldPosRef.current) {
+        targetX = lastCursorWorldPosRef.current.x;
+        targetZ = lastCursorWorldPosRef.current.z;
+      } else {
+        // Fallback to center of current view
+        targetX = panOffsetRef.current.x;
+        targetZ = panOffsetRef.current.z;
+      }
+
+      // 2. Snap to nearest road or pedestrian pathway if one is within 45m
+      const waypoints = roadWaypointsRef.current;
+      if (waypoints && waypoints.length > 0) {
+        let bestDist = Infinity;
+        let bestPt: THREE.Vector3 | null = null;
+        for (const pt of waypoints) {
+          const d = Math.hypot(pt.x - targetX, pt.z - targetZ);
+          if (d < bestDist) {
+            bestDist = d;
+            bestPt = pt;
+          }
+        }
+        if (bestPt && bestDist < 45.0) {
+          targetX = bestPt.x;
+          targetZ = bestPt.z;
+        }
+      }
+
+      // Position pedestrian avatar right at street level
+      walkPosRef.current.set(targetX, 0, targetZ);
+      walkPitchRef.current = -0.05; // Level eye glance ahead
+
+      // Orient heading towards central campus
+      walkHeadingRef.current = Math.atan2(0 - targetZ, 0 - targetX);
+
+      // Immediately synchronize currentCamPos to avoid camera starting miles away in black void
+      if (walkPovRef.current === '1st') {
+        currentCamPosRef.current.set(targetX, 1.8, targetZ);
+        currentCamLookRef.current.set(
+          targetX + Math.cos(walkHeadingRef.current) * 20,
+          1.8,
+          targetZ + Math.sin(walkHeadingRef.current) * 20
+        );
+      } else {
+        const chaseDist = 7.5;
+        const chaseH = 3.6;
+        const wh = walkHeadingRef.current;
+        currentCamPosRef.current.set(targetX - Math.cos(wh) * chaseDist, chaseH, targetZ - Math.sin(wh) * chaseDist);
+        currentCamLookRef.current.set(targetX + Math.cos(wh) * 5, 1.6, targetZ + Math.sin(wh) * 5);
+      }
+    }
+  }, [isWalkMode]);
 
   // Track currently pressed keys for smooth real-time walking
   const keysPressedRef = useRef<{ [key: string]: boolean }>({});
@@ -188,6 +281,20 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
     const onContextMenu = (e: MouseEvent) => e.preventDefault();
 
     const onMouseMove = (e: MouseEvent) => {
+      // Continuously record world cursor position over ground or campus
+      if (cameraRef.current && mountRef.current) {
+        const rect = mountRef.current.getBoundingClientRect();
+        const mx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+        const my = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+        const raycaster = new THREE.Raycaster();
+        raycaster.setFromCamera(new THREE.Vector2(mx, my), cameraRef.current);
+        const groundPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+        const hit = new THREE.Vector3();
+        if (raycaster.ray.intersectPlane(groundPlane, hit)) {
+          lastCursorWorldPosRef.current = hit;
+        }
+      }
+
       if (!isDraggingRef.current) return;
       const deltaX = e.clientX - previousMousePositionRef.current.x;
       const deltaY = e.clientY - previousMousePositionRef.current.y;
