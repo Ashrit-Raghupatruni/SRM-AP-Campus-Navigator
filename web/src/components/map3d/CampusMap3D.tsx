@@ -236,9 +236,55 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
 
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
-      if (!isWalkMode) {
-        // Extended zoom limits: from close 40m up to 1000m for full birds-eye perspective
-        aerialAngleRef.current.radius = Math.max(40, Math.min(1000, aerialAngleRef.current.radius + e.deltaY * 0.45));
+      if (!isWalkModeRef.current && cameraRef.current && mountRef.current) {
+        const oldRadius = aerialAngleRef.current.radius;
+        // Determine zoom scale factor
+        const zoomFactor = e.deltaY > 0 ? 1.12 : 0.88;
+        const newRadius = Math.max(35, Math.min(1000, oldRadius * zoomFactor));
+        
+        if (newRadius === oldRadius) return;
+
+        // Raycast from cursor position to find the 3D point the cursor is hovering over
+        const rect = mountRef.current.getBoundingClientRect();
+        const mouseX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+        const mouseY = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+
+        const raycaster = new THREE.Raycaster();
+        raycaster.setFromCamera(new THREE.Vector2(mouseX, mouseY), cameraRef.current);
+
+        // Find intersection with buildings first, or fall back to ground plane (y = 0 or y = 18 target height)
+        let hitPoint: THREE.Vector3 | null = null;
+        if (buildingMeshesRef.current && buildingMeshesRef.current.length > 0) {
+          const intersects = raycaster.intersectObjects(buildingMeshesRef.current, false);
+          if (intersects.length > 0) {
+            hitPoint = intersects[0].point;
+          }
+        }
+
+        if (!hitPoint) {
+          // Intersect with ground plane at y = 0
+          const groundPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+          const target = new THREE.Vector3();
+          if (raycaster.ray.intersectPlane(groundPlane, target)) {
+            hitPoint = target;
+          }
+        }
+
+        if (hitPoint) {
+          // Current camera look target center on horizontal plane
+          const cx = panOffsetRef.current.x;
+          const cz = panOffsetRef.current.z;
+
+          // Shift pan offset towards the cursor hit point proportionally to the zoom delta
+          // When zooming in (newRadius < oldRadius), shift center towards cursor point
+          // When zooming out (newRadius > oldRadius), pull center back slightly
+          const deltaRatio = 1 - (newRadius / oldRadius);
+          // Apply damping (0.65) to keep zoom-to-point smooth and controllable
+          panOffsetRef.current.x += (hitPoint.x - cx) * deltaRatio * 0.65;
+          panOffsetRef.current.z += (hitPoint.z - cz) * deltaRatio * 0.65;
+        }
+
+        aerialAngleRef.current.radius = newRadius;
       }
     };
 
