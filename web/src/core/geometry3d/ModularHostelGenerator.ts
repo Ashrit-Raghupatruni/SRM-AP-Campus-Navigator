@@ -213,43 +213,54 @@ export class ModularHostelGenerator {
       const mx = (p1.x + p2.x) / 2;
       const mz = (p1.z + p2.z) / 2;
       const angle = Math.atan2(dz, dx);
-      const nx = -dz / edgeLen;
-      const nz = dx / edgeLen;
+
+      // Determine correct outward normal vector pointing away from building center
+      let nx = -dz / edgeLen;
+      let nz = dx / edgeLen;
+      // Dot product test with vector from center to edge midpoint:
+      // if normal points inward towards center, flip it outward
+      const toMidX = mx - centerX;
+      const toMidZ = mz - centerZ;
+      if (nx * toMidX + nz * toMidZ < 0) {
+        nx = -nx;
+        nz = -nz;
+      }
 
       // Solid baseline wall mesh spanning the entire edge from ground to roof
-      const fullWallGeo = new THREE.BoxGeometry(edgeLen, totalHeight, 0.35);
+      const fullWallGeo = new THREE.BoxGeometry(edgeLen, totalHeight, 0.4);
       const fullWallMesh = new THREE.Mesh(fullWallGeo, wallMat);
       fullWallMesh.position.set(mx, totalHeight / 2, mz);
       fullWallMesh.rotation.y = -angle;
       group.add(fullWallMesh);
 
       // Check if edge is long enough for a punched window grid (residential dormitory facades)
-      if (edgeLen > 6.0) {
-        const windowSpacing = 3.6; // Modular dormitory bedroom bay spacing
-        const numWindows = Math.floor(edgeLen / windowSpacing);
+      if (edgeLen > 5.0) {
+        const windowSpacing = 3.2; // Modular dormitory bedroom bay spacing
+        const numWindows = Math.max(1, Math.floor((edgeLen - 2.0) / windowSpacing));
 
         const winW = 1.9; // Punched dual-sash window width
         const winH = 1.6; // Punched window height
 
         for (let w = 1; w <= numWindows; w++) {
           const t = w / (numWindows + 1);
-          const wx = p1.x + dx * t + nx * 0.18;
-          const wz = p1.z + dz * t + nz * 0.18;
+          // Position cleanly on the outer surface (wall thickness is 0.4, half is 0.2, offset by 0.22)
+          const wx = p1.x + dx * t + nx * 0.22;
+          const wz = p1.z + dz * t + nz * 0.22;
 
           for (let f = 0; f < floors; f++) {
             const winY = f * floorH + floorH / 2;
 
-            // Thin dark window reveal frame
-            const frameGeo = new THREE.BoxGeometry(winW + 0.15, winH + 0.15, 0.08);
+            // Thin dark window reveal surround frame
+            const frameGeo = new THREE.BoxGeometry(winW + 0.16, winH + 0.16, 0.12);
             const frameMesh = new THREE.Mesh(frameGeo, frameMat);
             frameMesh.position.set(wx, winY, wz);
             frameMesh.rotation.y = -angle;
             group.add(frameMesh);
 
-            // Reflective punched dormitory window glass
-            const winGeo = new THREE.BoxGeometry(winW, winH, 0.1);
+            // Reflective punched dormitory window glass protruding outward so it is prominently visible
+            const winGeo = new THREE.BoxGeometry(winW, winH, 0.14);
             const winMesh = new THREE.Mesh(winGeo, glassMat);
-            winMesh.position.set(wx + nx * 0.02, winY, wz + nz * 0.02);
+            winMesh.position.set(wx + nx * 0.04, winY, wz + nz * 0.04);
             winMesh.rotation.y = -angle;
             group.add(winMesh);
             windows.push({ mesh: winMesh, nightColor: COLOR_NIGHT_WINDOW, dayColor: COLOR_WINDOW_GLASS });

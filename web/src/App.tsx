@@ -21,7 +21,7 @@ import { TimeControlBar } from './components/solar/TimeControlBar';
 import { SearchModal } from './components/directory/SearchModal';
 import { NavigationSheet } from './components/navigation/NavigationSheet';
 import { BlockInspectionSheet } from './components/directory/BlockInspectionSheet';
-import { CampusLoadingScreen, LoadingTaskStatus } from './components/loading/CampusLoadingScreen';
+import { CampusEngineLoading, LoadingTaskStatus } from './components/loading/CampusEngineLoading';
 import { getSolarTimes, formatTime } from './core/solar';
 import { PedestrianGraph } from './core/routing';
 import { CampusSearchIndex } from './core/search';
@@ -51,7 +51,6 @@ export default function App() {
     facultyDirectory: false,
     roomDetails: false,
   });
-  const [isIntroDismissed, setIsIntroDismissed] = useState(false);
 
   // Navigation & View Mode
   const [viewMode, setViewMode] = useState<'3D' | '2D'>('3D');
@@ -193,14 +192,7 @@ export default function App() {
       {/* 2D or 3D Map Viewport */}
       <div className="absolute inset-0">
         {viewMode === '3D' ? (
-          <Suspense
-            fallback={
-              <div className="w-full h-full flex flex-col items-center justify-center bg-slate-950 text-slate-400">
-                <div className="w-10 h-10 border-4 border-amber-500/20 border-t-amber-500 rounded-full animate-spin mb-4" />
-                <p className="text-sm font-semibold tracking-wide text-slate-300">Loading 3D Campus Engine...</p>
-              </div>
-            }
-          >
+          <Suspense fallback={<CampusEngineLoading status={loadingStatus} />}>
             <LazyCampusMap3D
               buildingsGeoJSON={buildingsData}
               pathsGeoJSON={pathsData}
@@ -467,14 +459,6 @@ export default function App() {
         onSelectItem={(item) => navigateToLocation(item.lat, item.lng, item.title)}
         onNavigateTo={(item) => navigateToLocation(item.lat, item.lng, item.title)}
       />
-
-      {/* Progressive Loading & Experience Card */}
-      {!isIntroDismissed && (
-        <CampusLoadingScreen
-          status={loadingStatus}
-          onDismiss={() => setIsIntroDismissed(true)}
-        />
-      )}
     </div>
   );
 }
