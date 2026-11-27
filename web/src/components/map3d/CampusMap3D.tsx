@@ -175,6 +175,16 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
   const walkPosRef = useRef(new THREE.Vector3(25.0, 1.8, 80.0));
   const walkHeadingRef = useRef(-Math.PI / 2); // Looking northwards along breezeway
   const walkPitchRef = useRef(0.0);
+  const avatarGroupRef = useRef<THREE.Group | null>(null);
+
+  // Keep live refs for isWalkMode and walkPov to avoid stale closures in listeners & loop
+  const isWalkModeRef = useRef(isWalkMode);
+  isWalkModeRef.current = isWalkMode;
+  const walkPovRef = useRef(walkPov);
+  walkPovRef.current = walkPov;
+
+  // Track currently pressed keys for smooth real-time walking
+  const keysPressedRef = useRef<{ [key: string]: boolean }>({});
 
   // Current animated camera position and target
   const currentCamPosRef = useRef(new THREE.Vector3(150, 180, 250));
@@ -341,54 +351,106 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
     window.addEventListener('mouseup', onMouseUp);
     dom.addEventListener('wheel', onWheel);
 
+    // Create visual 3rd person walking avatar mesh
+    const avatarGroup = new THREE.Group();
+    const avatarBody = new THREE.Mesh(
+      new THREE.CapsuleGeometry(0.35, 1.1, 8, 16),
+      new THREE.MeshStandardMaterial({ color: 0x0284c7, roughness: 0.4 })
+    );
+    avatarBody.position.y = 0.9;
+    avatarBody.castShadow = true;
+
+    const avatarHead = new THREE.Mesh(
+      new THREE.SphereGeometry(0.25, 12, 12),
+      new THREE.MeshStandardMaterial({ color: 0xfde047, roughness: 0.5 })
+    );
+    avatarHead.position.y = 1.7;
+    avatarHead.castShadow = true;
+    avatarGroup.add(avatarBody, avatarHead);
+    scene.add(avatarGroup);
+    avatarGroupRef.current = avatarGroup;
+
     // Keyboard controls in Walk mode (WASD / Arrows)
     const onKeyDown = (e: KeyboardEvent) => {
-      if (!isWalkMode) return;
-      const step = 3.5;
-      const forward = new THREE.Vector3(Math.cos(walkHeadingRef.current), 0, Math.sin(walkHeadingRef.current));
-      const right = new THREE.Vector3(-Math.sin(walkHeadingRef.current), 0, Math.cos(walkHeadingRef.current));
-
-      if (e.key === 'w' || e.key === 'ArrowUp') {
-        walkPosRef.current.addScaledVector(forward, step);
-      } else if (e.key === 's' || e.key === 'ArrowDown') {
-        walkPosRef.current.addScaledVector(forward, -step);
-      } else if (e.key === 'a' || e.key === 'ArrowLeft') {
-        walkPosRef.current.addScaledVector(right, -step);
-      } else if (e.key === 'd' || e.key === 'ArrowRight') {
-        walkPosRef.current.addScaledVector(right, step);
-      }
+      keysPressedRef.current[e.key.toLowerCase()] = true;
+    };
+    const onKeyUp = (e: KeyboardEvent) => {
+      keysPressedRef.current[e.key.toLowerCase()] = false;
     };
     window.addEventListener('keydown', onKeyDown);
+    window.addEventListener('keyup', onKeyUp);
 
     // Animation & Smooth Camera Interpolation Loop
     let animId: number;
     const animate = () => {
       animId = requestAnimationFrame(animate);
 
+      // Handle continuous smooth walking movement when keys are held
+      if (isWalkModeRef.current) {
+        const moveSpeed = 0.8;
+        const heading = walkHeadingRef.current;
+        const forward = new THREE.Vector3(Math.cos(heading), 0, Math.sin(heading));
+        const right = new THREE.Vector3(-Math.sin(heading), 0, Math.cos(heading));
+
+        const keys = keysPressedRef.current;
+        if (keys['w'] || keys['arrowup']) {
+          walkPosRef.current.addScaledVector(forward, moveSpeed);
+        }
+        if (keys['s'] || keys['arrowdown']) {
+          walkPosRef.current.addScaledVector(forward, -moveSpeed);
+        }
+        if (keys['a'] || keys['arrowleft']) {
+          walkPosRef.current.addScaledVector(right, -moveSpeed);
+        }
+        if (keys['d'] || keys['arrowright']) {
+          walkPosRef.current.addScaledVector(right, moveSpeed);
+        }
+      }
+
       // Compute Target Camera Position & LookAt
       const targetCamPos = new THREE.Vector3();
       const targetCamLook = new THREE.Vector3();
 
-      if (isWalkMode) {
-        if (walkPov === '1st') {
-          // 1st Person POV: Eye level at 1.8m looking forward
-          targetCamPos.copy(walkPosRef.current);
-          targetCamPos.y = 1.8;
-          targetCamLook.x = targetCamPos.x + Math.cos(walkHeadingRef.current) * 30;
-          targetCamLook.y = targetCamPos.y + Math.sin(walkPitchRef.current) * 30;
-          targetCamLook.z = targetCamPos.z + Math.sin(walkHeadingRef.current) * 30;
-        } else {
-          // 3rd Person POV: Elevated chase camera slightly behind avatar
-          const chaseDist = 8.0;
-          const chaseHeight = 4.0;
-          targetCamPos.x = walkPosRef.current.x - Math.cos(walkHeadingRef.current) * chaseDist;
-          targetCamPos.y = walkPosRef.current.y + chaseHeight;
-          targetCamPos.z = walkPosRef.current.z - Math.sin(walkHeadingRef.current) * chaseDist;
+      if (isWalkModeRef.current) {
+        const wp = walkPosRef.current;
+        const wh = walkHeadingRef.current;
+        const pitch = walkPitchRef.current;
 
-          targetCamLook.copy(walkPosRef.current);
-          targetCamLook.y += 1.8;
+        // Position avatar at walk position
+        if (avatarGroupRef.current) {
+          avatarGroupRef.current.position.set(wp.x, 0, wp.z);
+          avatarGroupRef.current.rotation.y = -wh + Math.PI / 2;
+          avatarGroupRef.current.visible = walkPovRef.current === '3rd';
+        }
+
+        if (walkPovRef.current === '1st') {
+          // 1st Person POV: Eye level at 1.8m looking forward
+          targetCamPos.set(wp.x, 1.8, wp.z);
+          targetCamLook.set(
+            wp.x + Math.cos(wh) * 30,
+            1.8 + Math.sin(pitch) * 30,
+            wp.z + Math.sin(wh) * 30
+          );
+        } else {
+          // 3rd Person POV: Elevated chase camera behind avatar
+          const chaseDist = 7.5;
+          const chaseHeight = 3.6;
+          targetCamPos.set(
+            wp.x - Math.cos(wh) * chaseDist,
+            chaseHeight,
+            wp.z - Math.sin(wh) * chaseDist
+          );
+          targetCamLook.set(
+            wp.x + Math.cos(wh) * 5,
+            1.6 + Math.sin(pitch) * 10,
+            wp.z + Math.sin(wh) * 5
+          );
         }
       } else {
+        if (avatarGroupRef.current) {
+          avatarGroupRef.current.visible = false;
+        }
+
         // Aerial Orbit Mode
         const { theta, phi, radius } = aerialAngleRef.current;
         const cx = panOffsetRef.current.x;
@@ -401,9 +463,10 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
         targetCamLook.set(cx, 18, cz);
       }
 
-      // Smooth Lerp Transition between camera states (0.08 interpolation factor)
-      currentCamPosRef.current.lerp(targetCamPos, 0.08);
-      currentCamLookRef.current.lerp(targetCamLook, 0.08);
+      // Smooth Lerp Transition between camera states (higher response factor in walk mode)
+      const lerpSpeed = isWalkModeRef.current ? 0.2 : 0.08;
+      currentCamPosRef.current.lerp(targetCamPos, lerpSpeed);
+      currentCamLookRef.current.lerp(targetCamLook, lerpSpeed);
 
       if (cameraRef.current) {
         cameraRef.current.position.copy(currentCamPosRef.current);
@@ -461,6 +524,7 @@ export const CampusMap3D: React.FC<CampusMap3DProps> = ({
       window.removeEventListener('mouseup', onMouseUp);
       dom.removeEventListener('wheel', onWheel);
       window.removeEventListener('keydown', onKeyDown);
+      window.removeEventListener('keyup', onKeyUp);
       window.removeEventListener('resize', handleResize);
       renderer.dispose();
       if (mountRef.current) {

@@ -420,7 +420,13 @@ export class ProceduralRoadBuilder {
     });
 
     // Regular rhythm of compact rounded ornamental trees along the green berm (Photo 1 & Photo 4)
+    // Clear entrance zones: keep V-Block main entrances (X: ~55m to 75m, X: ~90m to 125m central breezeway) completely unobstructed
     for (let x = acadRoadCX - acadRoadL / 2 + 8.0; x <= acadRoadCX + acadRoadL / 2 - 8.0; x += 11.5) {
+      // Skip trees directly in front of V-Block entrance portals and the central breezeway plaza
+      if ((x >= 52.0 && x <= 78.0) || (x >= 92.0 && x <= 126.0)) {
+        continue;
+      }
+
       // Tree trunk
       const treeTrunk = new THREE.Mesh(
         new THREE.CylinderGeometry(0.2, 0.28, 2.8, 8),
