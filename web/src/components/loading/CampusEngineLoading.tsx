@@ -22,25 +22,20 @@ export const CampusEngineLoading: React.FC<CampusEngineLoadingProps> = ({ status
     { label: 'Classrooms & Research Labs', key: 'roomDetails' as const },
   ];
 
-  // In case status is provided, determine current active step or cycle smoothly
+  // Dynamically cycle through each step smoothly from step 0 to step 4
   const [activeStepIndex, setActiveStepIndex] = useState(0);
 
   useEffect(() => {
-    if (status) {
-      if (status.roomDetails) setActiveStepIndex(4);
-      else if (status.facultyDirectory) setActiveStepIndex(4);
-      else if (status.navigationGraph) setActiveStepIndex(3);
-      else if (status.academicBlocks) setActiveStepIndex(2);
-      else if (status.mapOverview) setActiveStepIndex(1);
-      else setActiveStepIndex(0);
-    }
-  }, [status]);
-
-  // Smooth text cycling fallback while 3D engine scripts and WebGL shaders initialize
-  useEffect(() => {
+    // Progress through each stage step by step every 450ms
     const interval = setInterval(() => {
-      setActiveStepIndex((prev) => (prev < steps.length - 1 ? prev + 1 : prev));
-    }, 900);
+      setActiveStepIndex((prev) => {
+        if (prev < steps.length - 1) {
+          return prev + 1;
+        }
+        return prev;
+      });
+    }, 500);
+
     return () => clearInterval(interval);
   }, [steps.length]);
 
